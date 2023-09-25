@@ -102,7 +102,7 @@ WSGI_APPLICATION = 'CraftTrails.wsgi.application'
 #         'PORT': config("PORT"),
 #     }
 # }
-
+#database
 
 DATABASES={
    'default': {

@@ -14,10 +14,12 @@ from rest_framework.authentication import TokenAuthentication
 class SignupView(APIView):
     def post(self,request):
         serializer=RegisterSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
+        if serializer.is_valid():
             serializer.save()
             return Response({"success":"User Register Successfully","code":200},status=status.HTTP_200_OK)
-        
+        print(serializer.errors.values())
+        dynamic_key = next(iter(serializer.errors))
+        return Response({"code":400,"error":serializer.errors[dynamic_key][0]},status=status.HTTP_200_OK)
         
 """API for User Login"""
 class LoginView(APIView):
@@ -32,9 +34,13 @@ class LoginView(APIView):
                 user_token=Token.objects.create(user=user) 
             else:
                 user_token=Token.objects.filter(user_id=user.id).values_list("key",flat=True)[0]
-            return Response({'success':"Login Successfully",'token':str(user_token),"code":200,"firstname":user.first_name,"lastname":user.last_name,"email":user.email}, status=status.HTTP_200_OK)  
+                data={"firstname":user.first_name,
+                      "lastname":user.last_name,
+                      "email":user.email
+                }
+            return Response({'success':"Login Successfully",'token':str(user_token),"code":200,"data":data}, status=status.HTTP_200_OK)  
         else:
-            return Response({'error': 'Invalid credentials',"code":400}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Invalid credentials',"code":400}, status=status.HTTP_200_OK)
         
 
 """API for User Logout"""
