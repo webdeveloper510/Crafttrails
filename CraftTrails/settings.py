@@ -91,18 +91,27 @@ WSGI_APPLICATION = 'CraftTrails.wsgi.application'
 # }
 
 
+# DATABASES={
+#    'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': config("NAME"),
+#         'USER': config("USERS"),
+#         'PASSWORD': config("PASSWORD"),
+#         'HOST': config("HOST"),
+#         'PORT': config("PORT"),
+#     }
+# }
+
 DATABASES={
    'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config("NAME"),
-        'USER': config("USERS"),
-        'PASSWORD': config("PASSWORD"),
+        'NAME': config("LIVENAME"),
+        'USER': config("LIVEUSERS"),
+        'PASSWORD': config("LIVEPASSWORD"),
         'HOST': config("HOST"),
         'PORT': config("PORT"),
     }
 }
-
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
