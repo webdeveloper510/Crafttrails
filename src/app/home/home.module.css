@@ -1,0 +1,65 @@
+.blixter_icon {
+    font-size: 27px;
+    vertical-align: middle;
+    font-weight: 600;
+}
+
+.heading {
+    font-size: 41px;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.subhead {
+    font-size: 29px;
+    font-weight: 600;
+}
+
+.icon_image {
+    width: 950px;
+}
+
+.paragraph {
+    color: gray;
+    font-size: 15px;
+}
+
+.navs {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.image_line {
+    position: absolute;
+    bottom: -10px;
+    right: -25px;
+    width: 160px;
+}
+
+.color {
+    display: inline-flex;
+    position: relative;
+}
+
+.nav_row {
+    background-color: white;
+}
+
+.content_col {
+    margin-top: 80px;
+}
+
+.nav_btn {
+    margin: 0px 18px;
+}
+
+.nav_btn.active {
+    background-color: antiquewhite;
+}
+
+
+@media only  screen and (max-width: 768px) {
+    .icon_image {
+        width: -webkit-fill-available;
+    }
+  }

@@ -1,0 +1,22 @@
+const DJANGO_SERVER_DOMAIN = "http://127.0.0.1:8000"
+const PORT = "3000"
+const GET_USER_FOLDER_HIERARCHY = `${DJANGO_SERVER_DOMAIN}/api/getUserFolderHierarchy`
+const DELETE_DOC_RECORD_API_URL = `${DJANGO_SERVER_DOMAIN}/api/deleteDocRecord`
+const UPLOAD_DOC_RECORD_API_URL = `${DJANGO_SERVER_DOMAIN}/api/uploadDocument`
+// const GOOGLE_DRIVE_CLIENT_ID = "53968022915-m6cc9pok1esrdnm835op0e6div39u9vs.apps.googleusercontent.com"
+// const GOOGLE_DRIVE_DEVELOPER_KEY = "AIzaSyD3WdM_h_wAQivX_n-UAVXxW70_3zD3nCY"
+
+const GOOGLE_DRIVE_CLIENT_ID = "53968022915-m6cc9pok1esrdnm835op0e6div39u9vs.apps.googleusercontent.com"
+const GOOGLE_DRIVE_DEVELOPER_KEY = "AIzaSyD3WdM_h_wAQivX_n-UAVXxW70_3zD3nCY"
+const REACT_SERVER_URL = 'http://localhost:3000'
+
+export  {
+    GET_USER_FOLDER_HIERARCHY,
+    DELETE_DOC_RECORD_API_URL,
+    UPLOAD_DOC_RECORD_API_URL,
+    GOOGLE_DRIVE_CLIENT_ID,
+    GOOGLE_DRIVE_DEVELOPER_KEY,
+    REACT_SERVER_URL
+};
+
+
