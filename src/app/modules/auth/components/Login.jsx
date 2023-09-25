@@ -38,15 +38,15 @@ export function Login() {
         setLoading(false)
         if (res.code === 200) {
           toast.success('Login Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
-          saveAuth({ firstname: res.firstname, lastname: res.lastname, email: res.email, jwtToken: res.token })
-          setCurrentUser({ firstname: res.firstname, lastname: res.lastname, email: res.email, jwtToken: res.token })
+          saveAuth({ firstname: res.data.firstname, lastname: res.data.lastname, email: res.data.email, jwtToken: res.token })
+          setCurrentUser({ firstname: res.data.firstname, lastname: res.data.lastname, email: res.data.email, jwtToken: res.token })
           // getUserByToken(res.token).then(res => {
           //   console.log(res)
           //   setCurrentUser(res)
           //   setLoading(false)
           // })
         } else if (res.code === 400) {
-          toast.error(res.message, { position: "top-right", autoClose: 2000, theme: "colored" });
+          toast.error(res.error, { position: "top-right", autoClose: 2000, theme: "colored" });
           setLoading(false)
         }
       })

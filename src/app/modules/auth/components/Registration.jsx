@@ -65,7 +65,7 @@ export function Registration() {
           toast.success("Account created!! Please login.", { position: "top-right", autoClose: 2000, theme: "colored" });
           navigate("/login")
         } else if (res.code === 400) {
-          toast.error(res.message, { position: "top-right", autoClose: 2000, theme: "colored" });
+          toast.error(res.error, { position: "top-right", autoClose: 2000, theme: "colored" });
         }
       })
     },
