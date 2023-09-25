@@ -80,6 +80,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'CraftTrails.wsgi.application'
 
 
+
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -101,6 +102,20 @@ WSGI_APPLICATION = 'CraftTrails.wsgi.application'
 #         'PORT': config("PORT"),
 #     }
 # }
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+  
+    
+]
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+   
+]
+
+
 
 DATABASES={
    'default': {
