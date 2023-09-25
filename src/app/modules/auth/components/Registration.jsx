@@ -287,7 +287,7 @@ export function Registration() {
           type='submit'
           id='kt_sign_up_submit'
           className='btn btn-lg btn-primary w-100 mb-5'
-          disabled={formik.isSubmitting || !formik.isValid || !formik.values.acceptTerms}
+          disabled={!formik.values.acceptTerms}
         >
           {!loading && <span className='indicator-label'>Submit</span>}
           {loading && (
