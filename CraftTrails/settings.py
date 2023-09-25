@@ -108,7 +108,7 @@ DATABASES={
         'NAME': config("LIVENAME"),
         'USER': config("LIVEUSERS"),
         'PASSWORD': config("LIVEPASSWORD"),
-        'HOST': config("HOST"),
+        'HOST': config("LIVEHOST"),
         'PORT': config("PORT"),
     }
 }
