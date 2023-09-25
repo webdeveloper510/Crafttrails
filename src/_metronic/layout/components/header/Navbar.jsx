@@ -66,12 +66,7 @@ const Navbar = () => {
           data-kt-menu-attach='parent'
           data-kt-menu-placement='bottom-end'
         >
-          {
-            userProfile?.profile_image?.includes("https") ?
-              <img src={toAbsoluteUrl(`${userProfile?.profile_image}`)} alt='' />
-              :
-              <img src={toAbsoluteUrl(`${process.env.REACT_APP_API_URL}/uploads/profile/${userProfile?.profile_image}`)} alt='' />
-          }
+          <img src={toAbsoluteUrl('/media/avatars/300-1.jpg')} alt='Metronic' />
         </div>
         <HeaderUserMenu />
       </div>

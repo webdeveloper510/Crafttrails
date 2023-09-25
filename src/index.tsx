@@ -18,12 +18,10 @@ import './_metronic/assets/keenicons/solid/style.css'
 // React Notification
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { PublicClientApplication } from "@azure/msal-browser"
 import './_metronic/assets/sass/style.scss'
 import './_metronic/assets/sass/plugins.scss'
 import './_metronic/assets/sass/style.react.scss'
 import { AppRoutes } from './app/routing/AppRoutes'
-import { MsalProvider } from "@azure/msal-react"
 import {
   AuthProvider
   // , setupAxios
@@ -56,17 +54,17 @@ const container = document.getElementById('root')
 if (container) {
   createRoot(container).render(
     // <React.StrictMode>
-      // <MsalProvider instance={pca}>
-        <QueryClientProvider client={queryClient}>
-          <MetronicI18nProvider>
-            <AuthProvider>
-              <ToastContainer />
-              <AppRoutes />
-            </AuthProvider>
-          </MetronicI18nProvider>
-          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-        </QueryClientProvider >
-      // </MsalProvider>
+    // <MsalProvider instance={pca}>
+    <QueryClientProvider client={queryClient}>
+      <MetronicI18nProvider>
+        <AuthProvider>
+          <ToastContainer />
+          <AppRoutes />
+        </AuthProvider>
+      </MetronicI18nProvider>
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+    </QueryClientProvider >
+    // </MsalProvider>
     // </React.StrictMode>
   )
 }

@@ -11,13 +11,13 @@ const HeaderUserMenu = () => {
   const [userProfile, setUserProfile] = useState({})
   const { auth, logout } = useAuth()
 
-  useEffect(() => {
-    getUserData(auth.id).then(res => {
-      if (res.code == 200) {
-        setUserProfile(res.result)
-      }
-    })
-  }, [auth])
+  // useEffect(() => {
+  //   getUserData(auth.id).then(res => {
+  //     if (res.code == 200) {
+  //       setUserProfile(res.result)
+  //     }
+  //   })
+  // }, [auth])
   return (
     <div
       className='menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px'
@@ -26,21 +26,16 @@ const HeaderUserMenu = () => {
       <div className='menu-item px-3'>
         <div className='menu-content d-flex align-items-center px-3'>
           <div className='symbol symbol-50px me-5'>
-            {
-              userProfile?.profile_image?.includes("https") ?
-                <img src={toAbsoluteUrl(`${userProfile?.profile_image}`)} alt='' />
-                :
-                <img src={toAbsoluteUrl(`${process.env.REACT_APP_API_URL}/uploads/profile/${userProfile?.profile_image}`)} alt='' />
-            }
+            <img src={toAbsoluteUrl('/media/avatars/300-1.jpg')} alt='Metronic' />
           </div>
 
           <div className='d-flex flex-column'>
             <div className='fw-bolder d-flex align-items-center fs-5'>
-              {userProfile?.first_name} {userProfile?.last_name}
+              {auth?.firstname} {auth?.lastname}
               <span className='badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2'>Pro</span>
             </div>
-            <a href='#' className='fw-bold text-muted text-hover-primary fs-7' style={{overflowWrap:"anywhere"}}>
-              {userProfile?.email}
+            <a href='#' className='fw-bold text-muted text-hover-primary fs-7' style={{ overflowWrap: "anywhere" }}>
+              {auth?.email}
             </a>
           </div>
         </div>

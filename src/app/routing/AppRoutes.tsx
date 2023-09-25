@@ -11,10 +11,6 @@ import { PrivateRoutes } from './PrivateRoutes'
 import { ErrorsPage } from '../modules/errors/ErrorsPage'
 import { Logout, AuthPage, useAuth } from '../modules/auth'
 import { App } from '../App'
-import PrivacyPolicy from '../../documentation/PrivacyPolicy'
-import TermsAndServices from '../../documentation/TermsAndServices'
-import { DcumentManagerWrapper } from '../pages/dashboard/FileManager/DocumentManagerWrapper'
-import Home from '../home/Home'
 /**
  * Base URL of the website.
  *
@@ -34,7 +30,7 @@ const AppRoutes: FC = () => {
             <>
               <Route path='/*' element={<PrivateRoutes />} />
               {/* <Route index element={<Navigate to='/dashboard' />} /> */}
-              <Route index element={<Navigate to='/documentManager' />} />
+              <Route index element={<Navigate to='/dashboard' />} />
             </>
 
           ) : (
@@ -43,8 +39,8 @@ const AppRoutes: FC = () => {
               <Route path='*' element={<Navigate to='/auth' />} />
             </>
           )}
-          <Route path="privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="terms-of-services" element={<TermsAndServices />} />
+          {/* <Route path="privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="terms-of-services" element={<TermsAndServices />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,32 +1,32 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
-import {Link} from 'react-router-dom'
-import {KTIcon} from '../../../../_metronic/helpers'
-import {ChartsWidget1, ListsWidget5, TablesWidget1, TablesWidget5,} from '../../../../_metronic/partials/widgets'
+import { Link } from 'react-router-dom'
+import { KTIcon } from '../../../../_metronic/helpers'
+import { ChartsWidget1, ListsWidget5, TablesWidget1, TablesWidget5, } from '../../../../_metronic/partials/widgets'
 import { useAuth } from '../../auth'
 import { getUserData } from '../../../../utils/Api'
-type Props={
-  first_name:string,
+type Props = {
+  first_name: string,
   last_name: string,
   phone_no: number,
   profile_image: any,
-  email:string
+  email: string
 }
 
 export function Overview() {
   const { auth } = useAuth()
   const [data, setData] = React.useState<Props>()
 
-  React.useEffect(() => {
-    // const d = JSON.parse(localStorage.getItem('app-serve-key'))
-    console.log(auth.id, 'authhh')
+  // React.useEffect(() => {
+  //   // const d = JSON.parse(localStorage.getItem('app-serve-key'))
+  //   console.log(auth.id, 'authhh')
 
-    getUserData(auth.id).then(res => {
-      if (res.code == 200) {
-        setData(res.result)
-      }
-    })
-  }, [])
+  //   getUserData(auth.id).then(res => {
+  //     if (res.code == 200) {
+  //       setData(res.result)
+  //     }
+  //   })
+  // }, [])
 
   return (
     <>
@@ -46,7 +46,7 @@ export function Overview() {
             <label className='col-lg-4 fw-bold text-muted'>Full Name</label>
 
             <div className='col-lg-8'>
-              <span className='fw-bolder fs-6 text-dark'>{data?.first_name} {data?.last_name}</span>
+              <span className='fw-bolder fs-6 text-dark'>{auth?.firstname} {auth?.lastname}</span>
             </div>
           </div>
 
@@ -58,7 +58,7 @@ export function Overview() {
             </div>
           </div> */}
 
-          <div className='row mb-7'>
+          {/* <div className='row mb-7'>
             <label className='col-lg-4 fw-bold text-muted'>
               Contact Phone
               <i
@@ -69,18 +69,16 @@ export function Overview() {
             </label>
 
             <div className='col-lg-8 d-flex align-items-center'>
-              <span className='fw-bolder fs-6 me-2'>+{data?.phone_no}</span>
-
-              {/* <span className='badge badge-success'>Verified</span> */}
+              <span className='fw-bolder fs-6 me-2'>+{auth?.phone_no}</span>
             </div>
-          </div>
+          </div> */}
 
           <div className='row mb-7'>
             <label className='col-lg-4 fw-bold text-muted'>Email</label>
 
             <div className='col-lg-8'>
               <a href='#' className='fw-bold fs-6 text-dark text-hover-primary'>
-                {data?.email}
+                {auth?.email}
               </a>
             </div>
           </div>

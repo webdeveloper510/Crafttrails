@@ -5,7 +5,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import clsx from 'clsx'
 import { getUserByToken, registerUser } from '../../../../utils/Api'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { PasswordMeterComponent } from '../../../../_metronic/assets/ts/components'
 import { useAuth } from '../core/Auth'
 import { toast } from 'react-toastify';
@@ -52,7 +52,7 @@ const registrationSchema = Yup.object().shape({
 
 export function Registration() {
   const [loading, setLoading] = useState(false)
-  const { saveAuth, setCurrentUser } = useAuth()
+  const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues,
@@ -60,20 +60,12 @@ export function Registration() {
     onSubmit: (values) => {
       setLoading(true)
       registerUser({ first_name: values.first_name, last_name: values.last_name, brewery: values.brewery, email: values.email, password: values.password }).then(res => {
-        console.log(res)
+        setLoading(false)
         if (res.code === 200) {
-          toast.success(res.message, { position: "top-right", autoClose: 2000, theme: "colored" });
-
-          saveAuth(res.result)
-          getUserByToken(res.result.jwtToken).then(res => {
-            console.log(res)
-            setCurrentUser(res)
-            setLoading(false)
-          })
-        } else if (res.code === 201) {
+          toast.success("Account created!! Please login.", { position: "top-right", autoClose: 2000, theme: "colored" });
+          navigate("/login")
+        } else if (res.code === 400) {
           toast.error(res.message, { position: "top-right", autoClose: 2000, theme: "colored" });
-          setLoading(false)
-
         }
       })
     },

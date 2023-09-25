@@ -35,15 +35,17 @@ export function Login() {
     validationSchema: loginSchema,
     onSubmit: async (values) => {
       loginUser(values).then(res => {
+        setLoading(false)
         if (res.code === 200) {
           toast.success('Login Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
-          saveAuth(res.result)
-          getUserByToken(res.result.jwtToken).then(res => {
-            console.log(res)
-            setCurrentUser(res)
-            setLoading(false)
-          })
-        } else if (res.code === 201) {
+          saveAuth({ firstname: res.firstname, lastname: res.lastname, email: res.email, jwtToken: res.token })
+          setCurrentUser({ firstname: res.firstname, lastname: res.lastname, email: res.email, jwtToken: res.token })
+          // getUserByToken(res.token).then(res => {
+          //   console.log(res)
+          //   setCurrentUser(res)
+          //   setLoading(false)
+          // })
+        } else if (res.code === 400) {
           toast.error(res.message, { position: "top-right", autoClose: 2000, theme: "colored" });
           setLoading(false)
         }

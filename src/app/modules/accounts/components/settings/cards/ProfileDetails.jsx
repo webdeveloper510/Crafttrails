@@ -9,13 +9,12 @@ import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom'
 
 const profileDetailsSchema = Yup.object().shape({
-  first_name: Yup.string().required('First name is required'),
-  last_name: Yup.string().required('Last name is required'),
+  firstname: Yup.string().required('First name is required'),
+  lastname: Yup.string().required('Last name is required'),
   // company: Yup.string().required('Company name is required'),
-  phone_no: Yup.string()
-            .max(11, 'Maximun 11 numbers required')
-            .required('Contact phone is required')
-            
+  email: Yup.string()
+    .required('email is required')
+
   // companySite: Yup.string().required('Company site is required'),
   // country: Yup.string().required('Country is required'),
   // language: Yup.string().required('Language is required'),
@@ -31,20 +30,19 @@ const profileDetailsSchema = Yup.object().shape({
 // }
 
 const initialValues = {
-  first_name: "",
-  last_name: "",
-  phone_no: "",
-  profile_image: ""
-  
+  firstname: "",
+  lastname: "",
+  email: "",
+
 }
 
-const ProfileDetails = () => {  
+const ProfileDetails = () => {
 
   // const ProfileDetails: React.FC = () => {  
 
 
   const [data, setData] = useState()
-  const {auth, saveAuth, setCurrentUser} = useAuth()
+  const { auth, saveAuth, setCurrentUser } = useAuth()
   // const updateData = (fieldsToUpdate) => {
   //   const updatedData = Object.assign(data, fieldsToUpdate)
   //   setData(updatedData)
@@ -52,17 +50,17 @@ const ProfileDetails = () => {
   const navigate = useNavigate()
 
 
-  React.useEffect(() => {
-    // const d = JSON.parse(localStorage.getItem('app-serve-key'))
-    console.log(auth.id, 'authhh')
+  // React.useEffect(() => {
+  //   // const d = JSON.parse(localStorage.getItem('app-serve-key'))
+  //   console.log(auth.id, 'authhh')
 
-    getUserData(auth.id).then(res => {
-      if (res.code == 200) {
-        setData(res.result)
-        formik.setValues(res.result)
-      }
-    })
-  }, [])
+  //   getUserData(auth.id).then(res => {
+  //     if (res.code == 200) {
+  //       setData(res.result)
+  //       formik.setValues(res.result)
+  //     }
+  //   })
+  // }, [])
 
   const [loading, setLoading] = useState(false)
   const formik = useFormik({
@@ -72,10 +70,10 @@ const ProfileDetails = () => {
       // console.log('values', values)
 
       setLoading(true)
-    
+
       const formData = new FormData()
       formData.append("userId", auth.id)
-      formData.append("first_name",values.first_name)
+      formData.append("first_name", values.first_name)
       formData.append("last_name", values.last_name)
       formData.append("phone_no", values.phone_no)
       formData.append('profile_image', values.profile_image);
@@ -83,17 +81,17 @@ const ProfileDetails = () => {
       editUser(formData).then((res) => {
         // setProfilModal(false)
         console.log('resss', res)
-        if(res.code === 200){
-          toast.success('Profile Update Successfully', {position: "top-right", autoClose: 2000, theme: "colored"});
+        if (res.code === 200) {
+          toast.success('Profile Update Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
           navigate('/crafted/account/overview')
           saveAuth(res.result)
-        getUserByToken(res.result.jwtToken).then(res => {
-          console.log(res)
-          setCurrentUser(res)
-        })
+          getUserByToken(res.result.jwtToken).then(res => {
+            console.log(res)
+            setCurrentUser(res)
+          })
           // setoggle(true)
-        }else if(res.code === 201){
-          toast.error(res.message, {position: "top-right", autoClose: 2000, theme: "colored"});
+        } else if (res.code === 201) {
+          toast.error(res.message, { position: "top-right", autoClose: 2000, theme: "colored" });
 
         }
         setLoading(false)
@@ -123,7 +121,7 @@ const ProfileDetails = () => {
       <div id='kt_account_profile_details' className='collapse show'>
         <form onSubmit={formik.handleSubmit} noValidate className='form'>
           <div className='card-body border-top p-9'>
-          <div className='row mb-6'>
+            {/* <div className='row mb-6'>
               <label className='col-lg-4 col-form-label fw-bold fs-6'>Avatar</label>
               <div className='col-lg-4'>
 
@@ -173,18 +171,8 @@ const ProfileDetails = () => {
                     <div className='fv-help-block'>{formik.errors.profile_image}</div>
                   </div>
                 )}
-
-              {/* <input
-                type="file"
-                placeholder="First Name"
-                className="form-control mx-2 my-3"
-                name="first_name"
-                autoComplete="off"
-                // value={data.first_name}
-                // onChange={handleFileChange}
-              /> */}
               </div>
-            </div>
+            </div> */}
 
             <div className='row mb-6'>
               <label className='col-lg-4 col-form-label required fw-bold fs-6'>Full Name</label>
@@ -197,11 +185,11 @@ const ProfileDetails = () => {
                       className='form-control form-control-lg form-control-solid mb-3 mb-lg-0'
                       placeholder='First name'
                       // value={data?.first_name}
-                      {...formik.getFieldProps('first_name')}
+                      {...formik.getFieldProps('firstname')}
                     />
-                    {formik.touched.first_name && formik.errors.first_name && (
+                    {formik.touched.firstname && formik.errors.firstname && (
                       <div className='fv-plugins-message-container'>
-                        <div className='fv-help-block'>{formik.errors.first_name}</div>
+                        <div className='fv-help-block'>{formik.errors.firstname}</div>
                       </div>
                     )}
                   </div>
@@ -211,11 +199,11 @@ const ProfileDetails = () => {
                       type='text'
                       className='form-control form-control-lg form-control-solid'
                       placeholder='Last name'
-                      {...formik.getFieldProps('last_name')}
+                      {...formik.getFieldProps('lastname')}
                     />
-                    {formik.touched.last_name && formik.errors.last_name && (
+                    {formik.touched.lastname && formik.errors.lastname && (
                       <div className='fv-plugins-message-container'>
-                        <div className='fv-help-block'>{formik.errors.last_name}</div>
+                        <div className='fv-help-block'>{formik.errors.lastname}</div>
                       </div>
                     )}
                   </div>
@@ -225,19 +213,19 @@ const ProfileDetails = () => {
 
             <div className='row mb-6'>
               <label className='col-lg-4 col-form-label fw-bold fs-6'>
-                <span className='required'>Contact Phone</span>
+                <span className='required'>Email</span>
               </label>
 
               <div className='col-lg-8 fv-row'>
                 <input
                   type='tel'
                   className='form-control form-control-lg form-control-solid'
-                  placeholder='Phone number'
-                  {...formik.getFieldProps('phone_no')}
+                  placeholder='Email'
+                  {...formik.getFieldProps('email')}
                 />
-                {formik.touched.phone_no && formik.errors.phone_no && (
+                {formik.touched.email && formik.errors.email && (
                   <div className='fv-plugins-message-container'>
-                    <div className='fv-help-block'>{formik.errors.phone_no}</div>
+                    <div className='fv-help-block'>{formik.errors.email}</div>
                   </div>
                 )}
               </div>
@@ -858,7 +846,7 @@ const ProfileDetails = () => {
           </div>
 
           <div className='card-footer d-flex justify-content-end py-6 px-9'>
-            <button type='submit' className='btn btn-primary' disabled={loading}>
+            <button type='submit' className='btn btn-primary' disabled={true}>
               {!loading && 'Save Changes'}
               {loading && (
                 <span className='indicator-progress' style={{ display: 'block' }}>

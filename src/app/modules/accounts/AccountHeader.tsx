@@ -1,18 +1,18 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
-import {KTIcon, toAbsoluteUrl} from '../../../_metronic/helpers'
-import {Link} from 'react-router-dom'
-import {Dropdown1} from '../../../_metronic/partials'
-import {useLocation} from 'react-router'
+import { KTIcon, toAbsoluteUrl } from '../../../_metronic/helpers'
+import { Link } from 'react-router-dom'
+import { Dropdown1 } from '../../../_metronic/partials'
+import { useLocation } from 'react-router'
 import { useAuth } from '../auth'
 import { getUserData } from '../../../utils/Api'
 
-type Props={
-  first_name:string,
+type Props = {
+  first_name: string,
   last_name: string,
   phone_no: number,
   profile_image: any,
-  email:string
+  email: string
 }
 const AccountHeader: React.FC = () => {
 
@@ -41,14 +41,14 @@ const AccountHeader: React.FC = () => {
         <div className='d-flex flex-wrap flex-sm-nowrap mb-3'>
           <div className='me-7 mb-4'>
             <div className='symbol symbol-100px symbol-lg-160px symbol-fixed position-relative'>
-              {/* <img src={toAbsoluteUrl('/media/avatars/300-1.jpg')} alt='Metronic' /> */}
-              {
+              <img src={toAbsoluteUrl('/media/avatars/300-1.jpg')} alt='Metronic' />
+              {/* {
                 data?.profile_image?.includes("https") ?
                   <img src={toAbsoluteUrl(`${data?.profile_image}`)} alt='' />
-              :
-              <img src={toAbsoluteUrl(`${process.env.REACT_APP_API_URL}/uploads/profile/${data?.profile_image}`)} alt='' />
-            }
-             
+                  :
+                  <img src={toAbsoluteUrl(`${process.env.REACT_APP_API_URL}/uploads/profile/${data?.profile_image}`)} alt='' />
+              } */}
+
               {/* <img src={`${process.env.REACT_APP_API_URL}/uploads/profile/${data?.profile_image}`} alt='Metornic' /> */}
 
               <div className='position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px'></div>
@@ -60,7 +60,7 @@ const AccountHeader: React.FC = () => {
               <div className='d-flex flex-column'>
                 <div className='d-flex align-items-center mb-2'>
                   <a href='#' className='text-gray-800 text-hover-primary fs-2 fw-bolder me-1'>
-                   {data?.first_name}
+                    {auth?.firstname}
                   </a>
                   <a href='#'>
                     <KTIcon iconName='verify' className='fs-1 text-primary' />
@@ -95,7 +95,7 @@ const AccountHeader: React.FC = () => {
                     className='d-flex align-items-center text-gray-400 text-hover-primary mb-2'
                   >
                     <KTIcon iconName='sms' className='fs-4 me-1' />
-                    {data?.email}
+                    {auth?.email}
                   </a>
                 </div>
               </div>
@@ -213,4 +213,4 @@ const AccountHeader: React.FC = () => {
   )
 }
 
-export {AccountHeader}
+export { AccountHeader }
