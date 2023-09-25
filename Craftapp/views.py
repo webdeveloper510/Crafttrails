@@ -16,7 +16,7 @@ class SignupView(APIView):
         serializer=RegisterSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response({"success":"User Register Successfully"},status=status.HTTP_200_OK)
+            return Response({"success":"User Register Successfully","code":200},status=status.HTTP_200_OK)
         
         
 """API for User Login"""
@@ -32,9 +32,9 @@ class LoginView(APIView):
                 user_token=Token.objects.create(user=user) 
             else:
                 user_token=Token.objects.filter(user_id=user.id).values_list("key",flat=True)[0]
-            return Response({'Success':"Login Successfully",'Token':str(user_token)}, status=status.HTTP_200_OK)  
+            return Response({'success':"Login Successfully",'token':str(user_token),"code":200,"firstname":user.first_name,"lastname":user.last_name,"email":user.email}, status=status.HTTP_200_OK)  
         else:
-            return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Invalid credentials',"code":400}, status=status.HTTP_400_BAD_REQUEST)
         
 
 """API for User Logout"""
