@@ -76,7 +76,11 @@ export const getTrailList = () => {
 }
 
 export const getParticipantList = () => {
-  const response = Axios.get("/craft/participants/list/", axiosConfig).then(res => {
+  const response = Axios.get("/craft/participants/list/", {
+    headers: {
+      "Authorization": `Token ${local?.jwtToken}`
+    }
+  }).then(res => {
     return res.data
   }).catch(err => {
     return err
