@@ -4,11 +4,11 @@ const API_URL = process.env.REACT_APP_API_URL
 console.log(API_URL)
 
 Axios.defaults.baseURL = API_URL
-const local = JSON.stringify(localStorage.getItem("app-serve-key"))
+const local = JSON.parse(localStorage.getItem("app-serve-key"))
 
 const axiosConfig = {
   headers: {
-    "x-access-token": local.jwtToken
+    "Authorization": `Token ${local.jwtToken}`
   }
 }
 
@@ -48,9 +48,30 @@ export const deleteUser = (id) => {
   })
   return response
 }
-export const getUserList = () => {
-  const response = Axios.get("/admins/get_users").then(res => {
+
+export const getBreweriesList = () => {
+  const response = Axios.get("/craft/breweries/list/", axiosConfig).then(res => {
     return res.data
+  }).catch(err => {
+    return err
+  })
+  return response
+}
+
+export const getTrailList = () => {
+  const response = Axios.get("/craft/trail/list/", axiosConfig).then(res => {
+    return res.data
+  }).catch(err => {
+    return err
+  })
+  return response
+}
+
+export const getParticipantList = () => {
+  const response = Axios.get("/craft/participants/list/", axiosConfig).then(res => {
+    return res.data
+  }).catch(err => {
+    return err
   })
   return response
 }

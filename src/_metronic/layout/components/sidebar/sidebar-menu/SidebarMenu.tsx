@@ -1,10 +1,10 @@
-import {SidebarMenuMain} from './SidebarMenuMain'
-import {SidebarMenuAdmin} from './SidebarMenuAdmin'
+import { SidebarMenuMain } from './SidebarMenuMain'
+import { SidebarMenuAdmin } from './SidebarMenuAdmin'
 import { useAuth } from '../../../../../app/modules/auth'
 
 
 const SidebarMenu = () => {
-  const {auth} = useAuth()
+  const { auth } = useAuth()
   return (
     <div className='app-sidebar-menu overflow-hidden flex-column-fluid'>
       <div
@@ -24,12 +24,13 @@ const SidebarMenu = () => {
           data-kt-menu='true'
           data-kt-menu-expand='false'
         >
-          {auth.role !== 0 ? <SidebarMenuAdmin />  : <SidebarMenuMain /> }
-         
+          {/* {auth.role !== 0 ? <SidebarMenuAdmin />  : <SidebarMenuMain /> } */}
+          <SidebarMenuMain />
+
         </div>
       </div>
     </div>
   )
 }
- 
-export {SidebarMenu}
+
+export { SidebarMenu }

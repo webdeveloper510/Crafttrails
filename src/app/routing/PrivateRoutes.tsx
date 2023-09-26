@@ -9,8 +9,10 @@ import { MenuTestPage } from '../pages/MenuTestPage'
 import { getCSSVariableValue } from '../../_metronic/assets/ts/_utils'
 import { WithChildren } from '../../_metronic/helpers'
 import BuilderPageWrapper from '../pages/layout-builder/BuilderPageWrapper'
-import Table from '../admin/userlist/Table'
-import Edit from '../admin/userlist/edit'
+import BreweriesTable from '../lists/breweries/Table'
+import Edit from '../lists/breweries/edit'
+import TrailsTable from '../lists/trails/Table'
+import ParticipantTable from "../lists/participants/Table"
 
 const PrivateRoutes = () => {
   const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
@@ -31,7 +33,9 @@ const PrivateRoutes = () => {
         <Route path='documentManager' element={<DcumentManagerWrapper />} />
         <Route path='builder' element={<BuilderPageWrapper />} />
         <Route path='menu-test' element={<MenuTestPage />} />
-        <Route path="user-list" element={<Table />} />
+        <Route path="lists/breweries" element={<BreweriesTable />} />
+        <Route path="lists/trails" element={<TrailsTable />} />
+        <Route path="lists/participants" element={<ParticipantTable />} />
         <Route path="edit-user/:id" element={<Edit />} />
         {/* Lazy Modules */}
         <Route

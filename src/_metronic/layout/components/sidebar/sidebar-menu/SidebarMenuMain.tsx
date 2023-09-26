@@ -1,66 +1,69 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React from 'react'
-import {useIntl} from 'react-intl'
+import { useIntl } from 'react-intl'
 // import {KTIcon} from '../../../../helpers'
 // import {SidebarMenuItemWithSub} from './SidebarMenuItemWithSub'
-import {SidebarMenuItem} from './SidebarMenuItem'
+import { SidebarMenuItem } from './SidebarMenuItem'
+import { SidebarMenuItemWithSub } from './SidebarMenuItemWithSub'
+import { KTIcon } from '../../../../helpers'
 
 const SidebarMenuMain = () => {
   const intl = useIntl()
 
   return (
     <>
-      {/* <SidebarMenuItem
+      <SidebarMenuItem
         to='/dashboard'
         icon='element-11'
-        title={intl.formatMessage({id: 'MENU.DASHBOARD'})}
-        fontIcon='bi-app-indicator'
-      /> */}
-      <SidebarMenuItem
-        to='/documentManager'
-        icon='file'
-        title={intl.formatMessage({id: 'Doc Manager'})}
+        title={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
         fontIcon='bi-app-indicator'
       />
+      {/* <SidebarMenuItem
+        to='/documentManager'
+        icon='file'
+        title={intl.formatMessage({ id: 'Doc Manager' })}
+        fontIcon='bi-app-indicator'
+      /> */}
       {/* <SidebarMenuItem
       to="/user-list"
       icon='profile-circle'
       title='Account'
       fontIcon='bi-person'
       /> */}
-      {/* <SidebarMenuItem to='/builder' icon='switch' title='Layout Builder' fontIcon='bi-layers' />
-      <div className='menu-item'>
+      {/* <SidebarMenuItem to='/builder' icon='switch' title='Layout Builder' fontIcon='bi-layers' /> */}
+      {/* <div className='menu-item'>
         <div className='menu-content pt-8 pb-2'>
-          <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Crafted</span>
+          <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Lists</span>
         </div>
-      </div>
-      <SidebarMenuItemWithSub
+      </div> */}
+      {/* <SidebarMenuItemWithSub
         to='/crafted/pages'
         title='Pages'
         fontIcon='bi-archive'
         icon='element-plus'
-      >
-        <SidebarMenuItemWithSub to='/crafted/pages/profile' title='Profile' hasBullet={true}>
-          <SidebarMenuItem to='/crafted/pages/profile/overview' title='Overview' hasBullet={true} />
-          <SidebarMenuItem to='/crafted/pages/profile/projects' title='Projects' hasBullet={true} />
-          <SidebarMenuItem
-            to='/crafted/pages/profile/campaigns'
-            title='Campaigns'
-            hasBullet={true}
-          />
-          <SidebarMenuItem
-            to='/crafted/pages/profile/documents'
-            title='Documents'
-            hasBullet={true}
-          />
-          <SidebarMenuItem
-            to='/crafted/pages/profile/connections'
-            title='Connections'
-            hasBullet={true}
-          />
-        </SidebarMenuItemWithSub>
+      > */}
+      <SidebarMenuItemWithSub to='/lists' title='Lists' fontIcon='bi-archive' icon='element-plus'>
+        <SidebarMenuItem to='/lists/breweries' title='Breweries' hasBullet={true} />
+        <SidebarMenuItem to='/lists/trails' title='Trails' hasBullet={true} />
+        <SidebarMenuItem to='/lists/participants' title='Participants' hasBullet={true} />
+        {/* <SidebarMenuItem
+          to='/crafted/pages/profile/campaigns'
+          title='Campaigns'
+          hasBullet={true}
+        />
+        <SidebarMenuItem
+          to='/crafted/pages/profile/documents'
+          title='Documents'
+          hasBullet={true}
+        />
+        <SidebarMenuItem
+          to='/crafted/pages/profile/connections'
+          title='Connections'
+          hasBullet={true}
+        /> */}
+      </SidebarMenuItemWithSub>
 
-        <SidebarMenuItemWithSub to='/crafted/pages/wizards' title='Wizards' hasBullet={true}>
+      {/* <SidebarMenuItemWithSub to='/crafted/pages/wizards' title='Wizards' hasBullet={true}>
           <SidebarMenuItem
             to='/crafted/pages/wizards/horizontal'
             title='Horizontal'
@@ -68,8 +71,8 @@ const SidebarMenuMain = () => {
           />
           <SidebarMenuItem to='/crafted/pages/wizards/vertical' title='Vertical' hasBullet={true} />
         </SidebarMenuItemWithSub>
-      </SidebarMenuItemWithSub>
-      <SidebarMenuItemWithSub
+      </SidebarMenuItemWithSub> */}
+      {/* <SidebarMenuItemWithSub
         to='/crafted/accounts'
         title='Accounts'
         icon='profile-circle'
@@ -132,4 +135,4 @@ const SidebarMenuMain = () => {
   )
 }
 
-export {SidebarMenuMain}
+export { SidebarMenuMain }
