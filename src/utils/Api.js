@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const API_URL = process.env.REACT_APP_API_URL
-console.log(API_URL)
+// console.log(API_URL)
 
 Axios.defaults.baseURL = API_URL
 const local = JSON.parse(localStorage.getItem("app-serve-key"))
@@ -52,7 +52,7 @@ export const deleteUser = (id) => {
 export const getBreweriesList = () => {
   const response = Axios.get("/craft/breweries/list/", {
     headers: {
-      "Authorization": `Token ${local?.jwtToken}`
+      "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
     return res.data
@@ -65,7 +65,7 @@ export const getBreweriesList = () => {
 export const getTrailList = () => {
   const response = Axios.get("/craft/trail/list/", {
     headers: {
-      "Authorization": `Token ${local?.jwtToken}`
+      "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
     return res.data
@@ -78,7 +78,7 @@ export const getTrailList = () => {
 export const getParticipantList = () => {
   const response = Axios.get("/craft/participants/list/", {
     headers: {
-      "Authorization": `Token ${local?.jwtToken}`
+      "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
     return res.data

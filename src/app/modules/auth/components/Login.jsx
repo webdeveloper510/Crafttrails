@@ -39,6 +39,7 @@ export function Login() {
         if (res.code === 200) {
           toast.success('Login Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
           saveAuth({ firstname: res.data.firstname, lastname: res.data.lastname, email: res.data.email, jwtToken: res.token })
+          localStorage.setItem("token", res.token)
           setCurrentUser({ firstname: res.data.firstname, lastname: res.data.lastname, email: res.data.email, jwtToken: res.token })
           // getUserByToken(res.token).then(res => {
           //   console.log(res)
