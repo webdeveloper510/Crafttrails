@@ -8,7 +8,7 @@ const local = JSON.parse(localStorage.getItem("app-serve-key"))
 
 const axiosConfig = {
   headers: {
-    "Authorization": `Token ${local.jwtToken}`
+    "Authorization": `Token ${local?.jwtToken}`
   }
 }
 
