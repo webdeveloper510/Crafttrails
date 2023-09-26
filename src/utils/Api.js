@@ -50,7 +50,11 @@ export const deleteUser = (id) => {
 }
 
 export const getBreweriesList = () => {
-  const response = Axios.get("/craft/breweries/list/", axiosConfig).then(res => {
+  const response = Axios.get("/craft/breweries/list/", {
+    headers: {
+      "Authorization": `Token ${local?.jwtToken}`
+    }
+  }).then(res => {
     return res.data
   }).catch(err => {
     return err
@@ -59,7 +63,11 @@ export const getBreweriesList = () => {
 }
 
 export const getTrailList = () => {
-  const response = Axios.get("/craft/trail/list/", axiosConfig).then(res => {
+  const response = Axios.get("/craft/trail/list/", {
+    headers: {
+      "Authorization": `Token ${local?.jwtToken}`
+    }
+  }).then(res => {
     return res.data
   }).catch(err => {
     return err
