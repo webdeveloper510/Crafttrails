@@ -119,3 +119,52 @@ class TrailView(APIView):
         except Exception as e:
        
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+
+class ParticipantsView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+
+    def get(self,request):
+        try:
+            participant_list=[]
+            base_url = settings.base_url
+            headers = {
+                "Authorization": "Token 58a900e8fbcbe3c8cc6ffc8e360f8db7d5066a37",
+                "Account-Id": "sj8qvf6p",
+                "Content-Type": "application/json"
+            }
+            app_ids = settings.participants_id 
+            response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+            
+            for i in response.json()["items"]:
+                if i["s37e762ac3"]:
+                    data={
+                        "title":i["title"],
+                        "rfid_tag":i["sbb8fea034"],
+                        "full_name":i["s37af43f83"]["sys_root"],
+                        "email":i["sac950cfcc"][0],
+                        "date_of_birth":i["sac87d276d"]["date"],
+                        "master_id":i["sd48be64b7"], 
+                        "phone_number":i["s37e762ac3"][0]["sys_title"],  
+                        "address":i["sb91047f0b"]["location_address"]
+                    }
+
+                else:
+                    data={
+                        "title":i["title"],
+                        "rfid_tag":i["sbb8fea034"],
+                        "full_name":i["s37af43f83"]["sys_root"],
+                        "email":i["sac950cfcc"][0],
+                        "date_of_birth":i["sac87d276d"]["date"],
+                        "master_id":i["sd48be64b7"], 
+                        "phone_number":"",  
+                        "address":i["sb91047f0b"]["location_address"]
+                    }
+
+                participant_list.append(data)  
+            data=participant_list     
+            return Response({"code":200,"data":participant_list},status=status.HTTP_200_OK)
+        except Exception as e:
+            
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)

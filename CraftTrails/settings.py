@@ -102,6 +102,7 @@ WSGI_APPLICATION = 'CraftTrails.wsgi.application'
 #         'PORT': config("PORT"),
 #     }
 # }
+
 #database
 
 DATABASES={
@@ -180,4 +181,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 breweries_id=config("BREWERIES")
 trailmaster_id=config("TRAILMASTER")
+participants_id=config("PARTICIPANTS")
 base_url=config("BASE_URL")
