@@ -7,6 +7,8 @@ from django.contrib.auth import authenticate, login,logout
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
+import requests
+from CraftTrails import settings
 
 
 # Create your views here.
@@ -51,3 +53,69 @@ class LogoutView(APIView):
         request.user.auth_token.delete()
         logout(request)
         return Response({"success":'User Logged out successfully'},status=status.HTTP_200_OK)
+    
+
+class BreweriesView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+
+    def get(self,request):
+        try:
+            breweries_list=[]
+            base_url = settings.base_url
+            headers = {
+                "Authorization": "Token 58a900e8fbcbe3c8cc6ffc8e360f8db7d5066a37",
+                "Account-Id": "sj8qvf6p",
+                "Content-Type": "application/json"
+            }
+            app_ids = settings.breweries_id 
+            response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+            for i in response.json()["items"]:
+                data={
+                    "application_id":i["id"],
+                    "title":i["title"],
+                    "home_city":i["scc71d5fd5"],
+                    "home_name":i["sb1594021e"],
+                    "bar_name":i["s8a95871e9"]
+                }
+                breweries_list.append(data)  
+            data=breweries_list
+            return Response({"code":200,"data":data},status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+
+
+class TrailView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+
+    def get(self,request):
+        try:
+            trail_list=[]
+            base_url = settings.base_url
+            headers = {
+                "Authorization": "Token 58a900e8fbcbe3c8cc6ffc8e360f8db7d5066a37",
+                "Account-Id": "sj8qvf6p",
+                "Content-Type": "application/json"
+            }
+            app_ids = settings.trailmaster_id 
+            response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+            print(response.json())
+            for i in response.json()["items"]:
+                data={
+                    "application_id":i["id"],
+                    "title":i["title"],
+                    "participant_id":i["s99187d139"],
+                    "trail_name":i["sc270d76da"],
+                    "trail_year":i["scef57f448"],
+                    "trail_season":i["sd25a89828"],
+                    "mini_tour":i["s56b038ef3"], 
+                    "master_id":i["s0d1c07938"],   
+                }
+                trail_list.append(data)  
+            data=trail_list     
+            return Response({"code":200,"data":trail_list},status=status.HTTP_200_OK)
+        except Exception as e:
+       
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
