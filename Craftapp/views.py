@@ -19,7 +19,7 @@ class SignupView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response({"success":"User Register Successfully","code":200},status=status.HTTP_200_OK)
-        print(serializer.errors.values())
+       
         dynamic_key = next(iter(serializer.errors))
         return Response({"code":400,"error":serializer.errors[dynamic_key][0]},status=status.HTTP_200_OK)
         
@@ -101,7 +101,7 @@ class TrailView(APIView):
             }
             app_ids = settings.trailmaster_id 
             response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-            print(response.json())
+           
             for i in response.json()["items"]:
                 data={
                     "application_id":i["id"],
