@@ -34,10 +34,10 @@ class LoginView(APIView):
                 user_token=Token.objects.create(user=user) 
             else:
                 user_token=Token.objects.filter(user_id=user.id).values_list("key",flat=True)[0]
-                data={"firstname":user.first_name,
-                      "lastname":user.last_name,
-                      "email":user.email
-                }
+            data={"firstname":user.first_name,
+                    "lastname":user.last_name,
+                    "email":user.email
+            }
             return Response({'success':"Login Successfully",'token':str(user_token),"code":200,"data":data}, status=status.HTTP_200_OK)  
         else:
             return Response({'error': 'Invalid credentials',"code":400}, status=status.HTTP_200_OK)
