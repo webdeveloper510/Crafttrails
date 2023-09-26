@@ -230,10 +230,10 @@ export function Registration() {
         )}
       </div>
       <div className='fv-row mb-5'>
-        <label className='form-label fw-bolder text-dark fs-6'>Brewery</label>
+        <label className='form-label fw-bolder text-dark fs-6'>Distillery ID</label>
         <input
           type='text'
-          placeholder='Enter brewery'
+          placeholder='Enter Distillery ID'
           autoComplete='off'
           {...formik.getFieldProps('brewery')}
           className={clsx(

@@ -1,13 +1,13 @@
-import {lazy, FC, Suspense} from 'react'
-import {Route, Routes, Navigate} from 'react-router-dom'
-import {MasterLayout} from '../../_metronic/layout/MasterLayout'
+import { lazy, FC, Suspense } from 'react'
+import { Route, Routes, Navigate } from 'react-router-dom'
+import { MasterLayout } from '../../_metronic/layout/MasterLayout'
 import TopBarProgress from 'react-topbar-progress-indicator'
-import {DashboardWrapper} from '../pages/dashboard/DashboardWrapper'
+import { DashboardWrapper } from '../pages/dashboard/DashboardWrapper'
 // import {DcumentManagerWrapper} from '../pages/dashboard/DcumentManagerWrapper'
-import {DcumentManagerWrapper} from '../pages/dashboard/FileManager/DocumentManagerWrapper'
-import {MenuTestPage} from '../pages/MenuTestPage'
-import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
-import {WithChildren} from '../../_metronic/helpers'
+import { DcumentManagerWrapper } from '../pages/dashboard/FileManager/DocumentManagerWrapper'
+import { MenuTestPage } from '../pages/MenuTestPage'
+import { getCSSVariableValue } from '../../_metronic/assets/ts/_utils'
+import { WithChildren } from '../../_metronic/helpers'
 import BuilderPageWrapper from '../pages/layout-builder/BuilderPageWrapper'
 import Table from '../admin/userlist/Table'
 import Edit from '../admin/userlist/edit'
@@ -25,14 +25,14 @@ const PrivateRoutes = () => {
       <Route element={<MasterLayout />}>
         {/* Redirect to Dashboard after success login/registartion */}
         {/* <Route path='auth/*' element={<Navigate to='/dashboard' />} /> */}
-        <Route path='auth/*' element={<Navigate to='/documentManager' />} />
+        <Route path='auth/*' element={<Navigate to='/dashboard' />} />
         {/* Pages */}
         <Route path='dashboard' element={<DashboardWrapper />} />
         <Route path='documentManager' element={<DcumentManagerWrapper />} />
         <Route path='builder' element={<BuilderPageWrapper />} />
         <Route path='menu-test' element={<MenuTestPage />} />
-        <Route path="user-list" element={<Table/>} />
-        <Route path="edit-user/:id" element={<Edit/>} />
+        <Route path="user-list" element={<Table />} />
+        <Route path="edit-user/:id" element={<Edit />} />
         {/* Lazy Modules */}
         <Route
           path='crafted/pages/profile/*'
@@ -89,7 +89,7 @@ const PrivateRoutes = () => {
   )
 }
 
-const SuspensedView: FC<WithChildren> = ({children}) => {
+const SuspensedView: FC<WithChildren> = ({ children }) => {
   const baseColor = getCSSVariableValue('--bs-primary')
   TopBarProgress.config({
     barColors: {
@@ -101,4 +101,4 @@ const SuspensedView: FC<WithChildren> = ({children}) => {
   return <Suspense fallback={<TopBarProgress />}>{children}</Suspense>
 }
 
-export {PrivateRoutes}
+export { PrivateRoutes }
