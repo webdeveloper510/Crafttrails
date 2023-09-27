@@ -7,5 +7,7 @@ urlpatterns = [
     path("logout/",LogoutView.as_view(),name="logout"),
     path("breweries/list/",BreweriesView.as_view(),name="breweries"),
     path("trail/list/",TrailView.as_view(),name="trail"),
-    path("participants/list/",ParticipantsView.as_view(),name="participants")
+    path("participants/list/",ParticipantsView.as_view(),name="participants"),
+    path("participants/points/list/",ParticipantsPointsView.as_view(),name="participantspoints"),
+    path("visit/list/",VisitView.as_view(),name="visit")
 ]

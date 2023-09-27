@@ -64,8 +64,8 @@ class BreweriesView(APIView):
             breweries_list=[]
             base_url = settings.base_url
             headers = {
-                "Authorization": "Token 58a900e8fbcbe3c8cc6ffc8e360f8db7d5066a37",
-                "Account-Id": "sj8qvf6p",
+                "Authorization": settings.authorization,
+                "Account-Id":  settings.account_id,
                 "Content-Type": "application/json"
             }
             app_ids = settings.breweries_id 
@@ -95,8 +95,8 @@ class TrailView(APIView):
             trail_list=[]
             base_url = settings.base_url
             headers = {
-                "Authorization": "Token 58a900e8fbcbe3c8cc6ffc8e360f8db7d5066a37",
-                "Account-Id": "sj8qvf6p",
+                "Authorization": settings.authorization,
+                "Account-Id":  settings.account_id,
                 "Content-Type": "application/json"
             }
             app_ids = settings.trailmaster_id 
@@ -130,8 +130,8 @@ class ParticipantsView(APIView):
             participant_list=[]
             base_url = settings.base_url
             headers = {
-                "Authorization": "Token 58a900e8fbcbe3c8cc6ffc8e360f8db7d5066a37",
-                "Account-Id": "sj8qvf6p",
+                "Authorization": settings.authorization,
+                "Account-Id": settings.account_id,
                 "Content-Type": "application/json"
             }
             app_ids = settings.participants_id 
@@ -167,4 +167,72 @@ class ParticipantsView(APIView):
             return Response({"code":200,"data":participant_list},status=status.HTTP_200_OK)
         except Exception as e:
             
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+        
+
+
+class ParticipantsPointsView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+
+    def get(self,request):
+        try:
+            participant_points=[]
+            base_url = settings.base_url
+            headers = {
+                "Authorization": settings.authorization,
+                "Account-Id":  settings.account_id,
+                "Content-Type": "application/json"
+            }
+            app_ids = settings.participants_points
+            response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+            
+            for i in response.json()["items"]:
+              
+                data={
+                    "master_id":i["title"],
+                    "name_of_participants":i["s332210fbb"],
+                    "points_earned":i["s1255e267e"]["count"],
+                }
+
+                participant_points.append(data)  
+            data=participant_points     
+            return Response({"code":200,"data":participant_points},status=status.HTTP_200_OK)
+        except Exception as e:
+            
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+        
+
+
+
+class VisitView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+
+    def get(self,request):
+        try:
+            visit_list=[]
+            base_url = settings.base_url
+            headers = {
+                "Authorization": settings.authorization,
+                "Account-Id": settings.account_id,
+                "Content-Type": "application/json"
+            }
+            app_ids = settings.visit
+            response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+            
+            for i in response.json()["items"]:
+              
+                data={
+                    "title":i["title"],
+                    "master_participants_id":i["s211c64472"],
+                    "visit_date":i["s7bed21761"]["date"],
+                    "location_id":i["s9d5037e2f"],
+                    "rfid":i["sea475d5e4"]
+                }
+
+                visit_list.append(data)  
+            data=visit_list     
+            return Response({"code":200,"data":visit_list},status=status.HTTP_200_OK)
+        except Exception as e:
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
