@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 import requests
 from CraftTrails import settings
+from Craftapp.utils import *
 
 
 # Create your views here.
@@ -61,62 +62,9 @@ class BreweriesView(APIView):
 
     def get(self,request):
         try:
-            breweries_list=[]
-            base_url = settings.base_url
-            headers = {
-                "Authorization": settings.authorization,
-                "Account-Id":  settings.account_id,
-                "Content-Type": "application/json"
-            }
-            app_ids = settings.breweries_id 
-            response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-         
-            for i in response.json()["items"]:
-                data={
-                    "application_id":i["id"],
-                    "title":i["title"],
-                    "home_city":i["scc71d5fd5"],
-                    "home_name":i["sb1594021e"],
-                    "bar_name":i["s8a95871e9"],
-                    "max_capacity":i["s954ab521d"],
-                    "title_submenu":{
-                        "title":i["title"],
-                        "trail_link":i["sf6l341b"],
-                        "indore_seating":i["s143e1cdf6"],
-                        "outdoor_seting":i["s99c9760cf"],
-                        "kid_friendly":i["sc43d290a1"],
-                        "dog_friendly":i["sbfdbacabe"],
-                        "brewery_name":i["s4092fdc16"],
-                        "contact_name":i["s1bf5c94ab"],
-                        "contact_email":i["s621deff9c"],
-                        "reach_number":i["s0941b34fd"],
-                        "customer_face_phone":i["s4f68aacef"],
-                        "address":i["s6bc0e1667"],
-                        "have_live_music":i["sbb661fe53"],
-                        "food_available":i["s827ace380"],
-                        "public_tour":i["s57a08fb4b"],
-                        "untappd_url":i["s9yt9ss7"],
-                        "twitter_url":i["s8ykzlvc"],
-                        "instagram_url":i["szm9u2od"],
-                        "facebook_url":i["s586c43040"],
-                        "formula":i["s809a2b9cb"],
-                        "event_calender":i["s8e5b5d9d9"],
-                        "food_photos":i["s44be84238"],
-                        "photo_of_drink":i["s12dd86f04"],
-                        "drink_option":i["s6a53b58cb"],
-                        "website":i["s4a2531de8"],
-                        "establishment":i["sfb39beff9"],
-                        "logo":i["sa24832ad2"],
-                        
-                    
-                     
-                    }
-                }
-                breweries_list.append(data)  
-            data=breweries_list
-            return Response({"code":200,"data":breweries_list},status=status.HTTP_200_OK)
+            brewery_data=breweries(request)
+            return Response({"code":200,"data":brewery_data},status=status.HTTP_200_OK)
         except Exception as e:
-            print(e)
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
 
@@ -127,31 +75,10 @@ class TrailView(APIView):
 
     def get(self,request):
         try:
-            trail_list=[]
-            base_url = settings.base_url
-            headers = {
-                "Authorization": settings.authorization,
-                "Account-Id":  settings.account_id,
-                "Content-Type": "application/json"
-            }
-            app_ids = settings.trailmaster_id 
-            response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-           
-            for i in response.json()["items"]:
-                data={
-                    "application_id":i["id"],
-                    "title":i["title"],
-                    "participant_id":i["s99187d139"],
-                    "trail_name":i["sc270d76da"],
-                    "trail_year":i["scef57f448"],
-                    "trail_season":i["sd25a89828"],
-                    "mini_tour":i["s56b038ef3"], 
-                    "master_id":i["s0d1c07938"],   
-                }
-                trail_list.append(data)  
-            data=trail_list     
-            return Response({"code":200,"data":trail_list},status=status.HTTP_200_OK)
+            trails_data=trails(request)   
+            return Response({"code":200,"data":trails_data},status=status.HTTP_200_OK)
         except Exception as e:
+            print(e)
        
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
@@ -162,44 +89,8 @@ class ParticipantsView(APIView):
 
     def get(self,request):
         try:
-            participant_list=[]
-            base_url = settings.base_url
-            headers = {
-                "Authorization": settings.authorization,
-                "Account-Id": settings.account_id,
-                "Content-Type": "application/json"
-            }
-            app_ids = settings.participants_id 
-            response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-            
-            for i in response.json()["items"]:
-                if i["s37e762ac3"]:
-                    data={
-                        "title":i["title"],
-                        "rfid_tag":i["sbb8fea034"],
-                        "full_name":i["s37af43f83"]["sys_root"],
-                        "email":i["sac950cfcc"][0],
-                        "date_of_birth":i["sac87d276d"]["date"],
-                        "master_id":i["sd48be64b7"], 
-                        "phone_number":i["s37e762ac3"][0]["sys_title"],  
-                        "address":i["sb91047f0b"]["location_address"]
-                    }
-
-                else:
-                    data={
-                        "title":i["title"],
-                        "rfid_tag":i["sbb8fea034"],
-                        "full_name":i["s37af43f83"]["sys_root"],
-                        "email":i["sac950cfcc"][0],
-                        "date_of_birth":i["sac87d276d"]["date"],
-                        "master_id":i["sd48be64b7"], 
-                        "phone_number":"",  
-                        "address":i["sb91047f0b"]["location_address"]
-                    }
-
-                participant_list.append(data)  
-            data=participant_list     
-            return Response({"code":200,"data":participant_list},status=status.HTTP_200_OK)
+            participants_data=participants(request)
+            return Response({"code":200,"data":participants_data},status=status.HTTP_200_OK)
         except Exception as e:
             
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
@@ -212,27 +103,8 @@ class ParticipantsPointsView(APIView):
 
     def get(self,request):
         try:
-            participant_points=[]
-            base_url = settings.base_url
-            headers = {
-                "Authorization": settings.authorization,
-                "Account-Id":  settings.account_id,
-                "Content-Type": "application/json"
-            }
-            app_ids = settings.participants_points
-            response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-            
-            for i in response.json()["items"]:
-              
-                data={
-                    "master_id":i["title"],
-                    "name_of_participants":i["s332210fbb"],
-                    "points_earned":i["s1255e267e"]["count"],
-                }
-
-                participant_points.append(data)  
-            data=participant_points     
-            return Response({"code":200,"data":participant_points},status=status.HTTP_200_OK)
+            partic_data=participantspoints(request)
+            return Response({"code":200,"data":partic_data},status=status.HTTP_200_OK)
         except Exception as e:
             
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
@@ -246,28 +118,7 @@ class VisitView(APIView):
 
     def get(self,request):
         try:
-            visit_list=[]
-            base_url = settings.base_url
-            headers = {
-                "Authorization": settings.authorization,
-                "Account-Id": settings.account_id,
-                "Content-Type": "application/json"
-            }
-            app_ids = settings.visit
-            response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-            
-            for i in response.json()["items"]:
-              
-                data={
-                    "title":i["title"],
-                    "master_participants_id":i["s211c64472"],
-                    "visit_date":i["s7bed21761"]["date"],
-                    "location_id":i["s9d5037e2f"],
-                    "rfid":i["sea475d5e4"]
-                }
-
-                visit_list.append(data)  
-            data=visit_list     
-            return Response({"code":200,"data":visit_list},status=status.HTTP_200_OK)
+            visit_data=visit(request)    
+            return Response({"code":200,"data":visit_data},status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
