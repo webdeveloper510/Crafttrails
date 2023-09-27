@@ -80,13 +80,11 @@ const ProfileDetails = () => {
 
       editUser(formData).then((res) => {
         // setProfilModal(false)
-        console.log('resss', res)
         if (res.code === 200) {
           toast.success('Profile Update Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
           navigate('/crafted/account/overview')
           saveAuth(res.result)
           getUserByToken(res.result.jwtToken).then(res => {
-            console.log(res)
             setCurrentUser(res)
           })
           // setoggle(true)
@@ -97,7 +95,6 @@ const ProfileDetails = () => {
         setLoading(false)
 
       }).catch((err) => {
-        console.log('catch-err', err)
       })
 
     },

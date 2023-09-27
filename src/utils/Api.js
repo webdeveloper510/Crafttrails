@@ -49,8 +49,8 @@ export const deleteUser = (id) => {
   return response
 }
 
-export const getBreweriesList = () => {
-  const response = Axios.get("/craft/breweries/list/", {
+export const getBreweriesList = async () => {
+  const response = await Axios.get("/craft/breweries/list/", {
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
@@ -62,8 +62,8 @@ export const getBreweriesList = () => {
   return response
 }
 
-export const getTrailList = () => {
-  const response = Axios.get("/craft/trail/list/", {
+export const getTrailList = async () => {
+  const response = await Axios.get("/craft/trail/list/", {
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
@@ -75,8 +75,34 @@ export const getTrailList = () => {
   return response
 }
 
-export const getParticipantList = () => {
-  const response = Axios.get("/craft/participants/list/", {
+export const getParticipantList = async () => {
+  const response = await Axios.get("/craft/participants/list/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  }).catch(err => {
+    return err
+  })
+  return response
+}
+
+export const getVisitList = async () => {
+  const response = await Axios.get("/craft/visit/list/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  }).catch(err => {
+    return err
+  })
+  return response
+}
+
+export const getPointList = async () => {
+  const response = await Axios.get("/craft/participants/points/list/", {
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
@@ -101,7 +127,6 @@ export const getUserByToken = async (token) => {
       "x-access-token": token
     }
   }).then(res => {
-    console.log(res)
     if (res.data.code == 200) {
       return res.data.result
     }
@@ -162,13 +187,11 @@ export const getprofileImage = async (token) => {
     var reader = new FileReader();
     reader.onload = function () {
       var b64 = reader.result
-      console.log("This is base64", b64)
       // window.open(b64)
 
       return b64
     }
     reader.readAsDataURL(data)
-    console.log(data)
   })
   return response
 }

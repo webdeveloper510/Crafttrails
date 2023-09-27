@@ -18,7 +18,6 @@ const Table = () => {
   const [editMode, setEditMode] = useState(false)
   useEffect(() => {
     getTrailList().then(res => {
-      console.log(res)
       if (res.code === 200) {
         setList(res?.data)
       }
@@ -47,9 +46,7 @@ const Table = () => {
   };
 
   const handleEdit = (id) => {
-    console.log('id', id)
     getUserData(id).then(res => {
-      console.log(res)
       if (res.code === 200) {
         // setData(res.result)
         setData({ ...data, first_name: res.result.first_name, last_name: res.result.last_name, email: res.result.email, userId: res.result.id });
@@ -72,7 +69,6 @@ const Table = () => {
 
   const UpdateUser = () => {
     editUser(data).then(res => {
-      console.log(res)
       if (res.code === 200) {
         setEditMode(false)
         setModalClose()
@@ -91,9 +87,7 @@ const Table = () => {
 
   }
   const handleDelete = () => {
-    console.log('handleDelete', delId)
     deleteUser(delId).then(res => {
-      console.log(res)
       if (res.code === 200) {
         toast.success('User Delete Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
         setToggle(true)
@@ -236,7 +230,6 @@ const Table = () => {
               <th>Trail Name</th>
               <th>Trail Season</th>
               <th>Trail Year</th>
-              <th colSpan="2">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -252,23 +245,6 @@ const Table = () => {
                     <td>{item.trail_name ? item.trail_name : "N/A"}</td>
                     <td>{item.trail_season ? item.trail_season : "N/A"}</td>
                     <td>{item.trail_year ? item.trail_year : "N/A"}</td>
-                    <td className="text-end">
-                      <button
-                        type="button"
-                        className="btn btn-primary fs-6 bi bi-pen py-2 px-3"
-                      // onClick={()=>handleEdit(item.id)}
-                      >
-
-                      </button>
-                    </td>
-                    <td className="text-start">
-                      <button
-                        type="button"
-                        // onClick={()=> {setDelModal(true); setDelID(item.id)}}
-                        className="btn btn-danger bi bi-trash fs-6 py-2 px-3"
-                      >
-                      </button>
-                    </td>
                   </tr>
                 );
               })

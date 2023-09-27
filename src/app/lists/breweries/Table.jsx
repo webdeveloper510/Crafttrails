@@ -47,9 +47,7 @@ const Table = () => {
   };
 
   const handleEdit = (id) => {
-    console.log('id', id)
     getUserData(id).then(res => {
-      console.log(res)
       if (res.code === 200) {
         // setData(res.result)
         setData({ ...data, first_name: res.result.first_name, last_name: res.result.last_name, email: res.result.email, userId: res.result.id });
@@ -72,7 +70,6 @@ const Table = () => {
 
   const UpdateUser = () => {
     editUser(data).then(res => {
-      console.log(res)
       if (res.code === 200) {
         setEditMode(false)
         setModalClose()
@@ -90,9 +87,7 @@ const Table = () => {
     setData({ first_name: "", last_name: "", email: "" });
   }
   const handleDelete = () => {
-    console.log('handleDelete', delId)
     deleteUser(delId).then(res => {
-      console.log(res)
       if (res.code === 200) {
         toast.success('User Delete Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
         setToggle(true)
@@ -233,7 +228,6 @@ const Table = () => {
               <th>Home Name</th>
               <th>Home City</th>
               <th>Bar Name</th>
-              <th colSpan="2">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -246,23 +240,6 @@ const Table = () => {
                     <td>{item.home_name ? item.home_name : "N/A"}</td>
                     <td>{item.home_city ? item.home_city : "N/A"}</td>
                     <td>{item.bar_name ? item.bar_name : "N/A"}</td>
-                    <td className="text-end">
-                      <button
-                        type="button"
-                        className="btn btn-primary fs-6 bi bi-pen py-2 px-3"
-                      // onClick={()=>handleEdit(item.id)}
-                      >
-
-                      </button>
-                    </td>
-                    <td className="text-start">
-                      <button
-                        type="button"
-                        // onClick={()=> {setDelModal(true); setDelID(item.id)}}
-                        className="btn btn-danger bi bi-trash fs-6 py-2 px-3"
-                      >
-                      </button>
-                    </td>
                   </tr>
                 );
               })

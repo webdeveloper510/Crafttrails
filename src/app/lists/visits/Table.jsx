@@ -3,11 +3,11 @@
 
 import React, { useState, useEffect } from "react";
 // import { createUser } from "../../modules/apps/user-management/users-list/core/_requests";
-import { Modal, Table } from "react-bootstrap";
-import { createUser, deleteUser, getUserData, editUser, getTrailList, getParticipantList } from "../../../utils/Api";
+import { Modal } from "react-bootstrap";
+import { createUser, deleteUser, getUserData, editUser, getVisitList } from "../../../utils/Api";
 import { toast } from 'react-toastify';
 
-const ParticipantTable = () => {
+const VisitsTable = () => {
 
   const [data, setData] = useState({ first_name: "", last_name: "", email: "" });
   const [list, setList] = useState([]);
@@ -17,7 +17,7 @@ const ParticipantTable = () => {
   const [toggle, setToggle] = useState(false)
   const [editMode, setEditMode] = useState(false)
   useEffect(() => {
-    getParticipantList().then(res => {
+    getVisitList().then(res => {
       if (res.code === 200) {
         setList(res?.data)
       }
@@ -224,19 +224,16 @@ const ParticipantTable = () => {
 
         </div>
       </Modal>
-      <div className="table-responsive">
-        <Table className="table text-center">
+      <div>
+        <table className="table text-center">
           <thead className="table-dark ">
             <tr>
               <th>Sno.</th>
               <th>Title</th>
+              <th>Master Participant ID</th>
+              <th>Visit Date</th>
+              <th>Location ID</th>
               <th>RFID Tag</th>
-              <th>Full Name</th>
-              <th>Email ID</th>
-              <th style={{ width: '100px' }}>Date Of Birth </th>
-              <th style={{ width: '80px' }}>Master ID</th>
-              <th>Phone Number</th>
-              <th>Address</th>
             </tr>
           </thead>
           <tbody>
@@ -246,23 +243,20 @@ const ParticipantTable = () => {
                   <tr key={i}>
                     <td>{i + 1}</td>
                     <td>{item.title}</td>
-                    <td>{item.rfid_tag ? item.rfid_tag : "N/A"}</td>
-                    <td>{item.full_name ? item.full_name : "N/A"}</td>
-                    <td>{item.email ? item.email : "N/A"}</td>
-                    <td>{item.date_of_birth ? FormatedDate(item.date_of_birth) : "N/A"}</td>
-                    <td>{item.master_id ? item.master_id : "N/A"}</td>
-                    <td>{item.phone_number ? item.phone_number : "N/A"}</td>
-                    <td>{item.address ? item.address : "N/A"}</td>
+                    <td>{item.master_participants_id ? item.master_participants_id : "N/A"}</td>
+                    <td>{item.visit_date ? FormatedDate(item.visit_date) : "N/A"}</td>
+                    <td>{item.location_id ? item.location_id : "N/A"}</td>
+                    <td>{item.rfid ? item.rfid : "N/A"}</td>
                   </tr>
                 );
               })
               : ""}
           </tbody>
-        </Table>
+        </table>
       </div>
     </div>
   );
 };
 
-export default ParticipantTable;
+export default VisitsTable;
 

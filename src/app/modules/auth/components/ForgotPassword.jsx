@@ -65,8 +65,6 @@ export function ForgotPassword() {
 
         }
       })
-
-      console.log(values.email)
     },
   })
   const otpFormik = useFormik({

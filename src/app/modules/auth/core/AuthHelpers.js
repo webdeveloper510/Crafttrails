@@ -13,14 +13,10 @@ const getAuth = () => {
 
   try {
     const auth = JSON.parse(lsValue)
-    console.log("getAuth==============>",auth)
     if (auth) {
-      // You can easily check auth_token expiration also
-      console.log("yes, verified")
       return auth
     }
   } catch (error) {
-    console.error('AUTH LOCAL STORAGE PARSE ERROR', error)
   }
 }
 
@@ -33,7 +29,6 @@ const setAuth = (auth) => {
     const lsValue = JSON.stringify(auth)
     localStorage.setItem(AUTH_LOCAL_STORAGE_KEY, lsValue)
   } catch (error) {
-    console.error('AUTH LOCAL STORAGE SAVE ERROR', error)
   }
 }
 
@@ -45,7 +40,6 @@ const removeAuth = () => {
   try {
     localStorage.removeItem(AUTH_LOCAL_STORAGE_KEY)
   } catch (error) {
-    console.error('AUTH LOCAL STORAGE REMOVE ERROR', error)
   }
 }
 

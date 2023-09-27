@@ -13,6 +13,9 @@ import BreweriesTable from '../lists/breweries/Table'
 import Edit from '../lists/breweries/edit'
 import TrailsTable from '../lists/trails/Table'
 import ParticipantTable from "../lists/participants/Table"
+import PointsTable from "../lists/points/Table"
+import VisitsTable from "../lists/visits/Table"
+
 
 const PrivateRoutes = () => {
   const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
@@ -36,6 +39,8 @@ const PrivateRoutes = () => {
         <Route path="lists/breweries" element={<BreweriesTable />} />
         <Route path="lists/trails" element={<TrailsTable />} />
         <Route path="lists/participants" element={<ParticipantTable />} />
+        <Route path="lists/points" element={<PointsTable />} />
+        <Route path="lists/visits" element={<VisitsTable />} />
         <Route path="edit-user/:id" element={<Edit />} />
         {/* Lazy Modules */}
         <Route

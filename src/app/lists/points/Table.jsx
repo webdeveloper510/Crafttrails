@@ -3,11 +3,11 @@
 
 import React, { useState, useEffect } from "react";
 // import { createUser } from "../../modules/apps/user-management/users-list/core/_requests";
-import { Modal, Table } from "react-bootstrap";
-import { createUser, deleteUser, getUserData, editUser, getTrailList, getParticipantList } from "../../../utils/Api";
+import { Modal } from "react-bootstrap";
+import { createUser, deleteUser, getUserData, editUser, getPointList } from "../../../utils/Api";
 import { toast } from 'react-toastify';
 
-const ParticipantTable = () => {
+const PointsTable = () => {
 
   const [data, setData] = useState({ first_name: "", last_name: "", email: "" });
   const [list, setList] = useState([]);
@@ -16,8 +16,9 @@ const ParticipantTable = () => {
   const [delId, setDelID] = useState('')
   const [toggle, setToggle] = useState(false)
   const [editMode, setEditMode] = useState(false)
+
   useEffect(() => {
-    getParticipantList().then(res => {
+    getPointList().then(res => {
       if (res.code === 200) {
         setList(res?.data)
       }
@@ -99,12 +100,6 @@ const ParticipantTable = () => {
       }
     })
 
-  }
-
-  const FormatedDate = (val) => {
-    let d = new Date(val)
-    let date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear()
-    return date
   }
 
   return (
@@ -224,19 +219,14 @@ const ParticipantTable = () => {
 
         </div>
       </Modal>
-      <div className="table-responsive">
-        <Table className="table text-center">
+      <div>
+        <table className="table text-center">
           <thead className="table-dark ">
             <tr>
               <th>Sno.</th>
-              <th>Title</th>
-              <th>RFID Tag</th>
-              <th>Full Name</th>
-              <th>Email ID</th>
-              <th style={{ width: '100px' }}>Date Of Birth </th>
-              <th style={{ width: '80px' }}>Master ID</th>
-              <th>Phone Number</th>
-              <th>Address</th>
+              <th>Master ID</th>
+              <th>Name Of Participant</th>
+              <th>Points Earned</th>
             </tr>
           </thead>
           <tbody>
@@ -245,24 +235,19 @@ const ParticipantTable = () => {
                 return (
                   <tr key={i}>
                     <td>{i + 1}</td>
-                    <td>{item.title}</td>
-                    <td>{item.rfid_tag ? item.rfid_tag : "N/A"}</td>
-                    <td>{item.full_name ? item.full_name : "N/A"}</td>
-                    <td>{item.email ? item.email : "N/A"}</td>
-                    <td>{item.date_of_birth ? FormatedDate(item.date_of_birth) : "N/A"}</td>
                     <td>{item.master_id ? item.master_id : "N/A"}</td>
-                    <td>{item.phone_number ? item.phone_number : "N/A"}</td>
-                    <td>{item.address ? item.address : "N/A"}</td>
+                    <td>{item.name_of_participants ? item.name_of_participants : "N/A"}</td>
+                    <td>{item.points_earned ? item.points_earned : "N/A"}</td>
                   </tr>
                 );
               })
               : ""}
           </tbody>
-        </Table>
+        </table>
       </div>
     </div>
   );
 };
 
-export default ParticipantTable;
+export default PointsTable;
 

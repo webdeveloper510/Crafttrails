@@ -30,14 +30,11 @@ const ProfileHeader = () => {
 
       editUser(formData).then((res) => {
         setProfilModal(false)
-        console.log('resss', res)
         saveAuth(res.result)
         getUserByToken(res.result.jwtToken).then(res => {
-          console.log(res)
           setCurrentUser(res)
         })
       }).catch((err) => {
-        console.log('catch-err', err)
       })
 
     }
@@ -45,10 +42,8 @@ const ProfileHeader = () => {
   React.useEffect(() => {
     if (auth) {
       getUserData(auth.id).then((res) => {
-        console.log('ress', res)
         setProfile(res.result)
       }).catch((err) => {
-        console.log('catch-errr', err)
       })
     }
 

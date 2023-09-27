@@ -46,6 +46,9 @@ const SidebarMenuMain = () => {
         <SidebarMenuItem to='/lists/breweries' title='Breweries' hasBullet={true} />
         <SidebarMenuItem to='/lists/trails' title='Trails' hasBullet={true} />
         <SidebarMenuItem to='/lists/participants' title='Participants' hasBullet={true} />
+        <SidebarMenuItem to='/lists/points' title='Participants Points' hasBullet={true} />
+        <SidebarMenuItem to='/lists/visits' title='Visits' hasBullet={true} />
+
         {/* <SidebarMenuItem
           to='/crafted/pages/profile/campaigns'
           title='Campaigns'
