@@ -10,6 +10,7 @@ import './_metronic/assets/fonticon/fonticon.css'
 import './_metronic/assets/keenicons/duotone/style.css'
 import './_metronic/assets/keenicons/outline/style.css'
 import './_metronic/assets/keenicons/solid/style.css'
+import "./styles.css"
 /**
  * TIP: Replace this style import with rtl styles to enable rtl mode
  *
