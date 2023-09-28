@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {useIntl} from 'react-intl'
-import {toAbsoluteUrl} from '../../../_metronic/helpers'
-import {PageTitle} from '../../../_metronic/layout/core'
+import { useIntl } from 'react-intl'
+import { toAbsoluteUrl } from '../../../_metronic/helpers'
+import { PageTitle } from '../../../_metronic/layout/core'
 import {
   ListsWidget2,
   ListsWidget3,
@@ -16,19 +16,21 @@ import {
   ListsWidget26,
   EngageWidget10,
 } from '../../../_metronic/partials/widgets'
+import ActiveUserCount from './ActiveUserCount'
 
-const DashboardPage= () => (
-  <> 
+const DashboardPage = () => (
+  <>
     {/* begin::Row */}
     <div className='row g-5 g-xl-10 mb-5 mb-xl-10'>
       {/* begin::Col */}
       <div className='col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10'>
-        <CardsWidget20
+        {/* <CardsWidget20
           className='h-md-50 mb-5 mb-xl-10'
           description='Active Projects'
           color='#F1416C'
           img={toAbsoluteUrl('/media/patterns/vector-1.png')}
-        />
+        /> */}
+        <ActiveUserCount />
         <CardsWidget7
           className='h-md-50 mb-5 mb-xl-10'
           description='Professionals'
@@ -115,11 +117,17 @@ const DashboardPage= () => (
 const DashboardWrapper = () => {
   const intl = useIntl()
   return (
-    <>
-      <PageTitle breadcrumbs={[]}>{intl.formatMessage({id: 'MENU.DASHBOARD'})}</PageTitle>
+    <div className='wrapper'>
+      {/* <div className='row'>
+        <div className='col-md-5 col-lg-5 col-sm-12 text-center'>
+          <ActiveUserCount />
+        </div>
+
+      </div> */}
+      {/* <PageTitle breadcrumbs={[]}>{intl.formatMessage({ id: 'MENU.DASHBOARD' })}</PageTitle> */}
       <DashboardPage />
-    </>
+    </div>
   )
 }
 
-export {DashboardWrapper}
+export { DashboardWrapper }

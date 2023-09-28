@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
-import { ArrowDown, ArrowUp } from 'react-bootstrap-icons';
+import { ArrowDown, ArrowUp, ArrowsAngleExpand } from 'react-bootstrap-icons';
 import { Card } from 'react-bootstrap';
 
-const DynamicTable = ({ data }) => {
+const DynamicTable = ({ data, moreView }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
     const [sortedData, setSortedData] = useState(data.slice());
@@ -147,11 +147,18 @@ const DynamicTable = ({ data }) => {
                             {currentItems.map((item, index) => (
                                 <tr key={index}>
                                     {Object.keys(item).map((key) => {
-                                        console.log(typeof (item[key]))
+                                        // console.log(typeof (item[key]))
                                         if (key !== "title_submenu") {
                                             if (key.includes("date")) {
                                                 return (
                                                     <td key={key}>{item[key] !== "" ? dateFormater(item[key]) : "N/A"}</td>
+                                                )
+                                            } else if (key === "title") {
+                                                return (
+                                                    <td key={key} className='d-flex' style={{ width: "70px" }}>
+                                                        {item[key] !== "" ? item[key] : "N/A"}
+                                                        <span className='iconss' onClick={() => moreView({ toggle: true, data: item["title_submenu"] })}><ArrowsAngleExpand /></span>
+                                                    </td>
                                                 )
                                             } else {
                                                 return (

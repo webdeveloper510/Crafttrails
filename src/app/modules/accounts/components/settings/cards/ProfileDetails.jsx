@@ -84,9 +84,9 @@ const ProfileDetails = () => {
           toast.success('Profile Update Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
           navigate('/crafted/account/overview')
           saveAuth(res.result)
-          getUserByToken(res.result.jwtToken).then(res => {
-            setCurrentUser(res)
-          })
+          // getUserByToken(res.result.jwtToken).then(res => {
+          //   setCurrentUser(res)
+          // })
           // setoggle(true)
         } else if (res.code === 201) {
           toast.error(res.message, { position: "top-right", autoClose: 2000, theme: "colored" });

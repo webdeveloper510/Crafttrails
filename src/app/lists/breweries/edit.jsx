@@ -10,7 +10,7 @@ const Edit = () => {
 
   React.useEffect(() => {
     getUserData(id).then(res => {
-      console.log(res)
+      // console.log(res)
       if (res.code == 200) {
         setData(res.result)
       }
@@ -24,7 +24,7 @@ const Edit = () => {
 
   const EditValue = () => {
     editUser({...data, userId:id}).then(res => {
-      console.log(res)
+      // console.log(res)
       if (res.code == 200) {
         navigate("/user-list")
       }

@@ -39,10 +39,10 @@ function FilePickerPopup() {
     }
     const onSelectGoogleDriveFile = (data) => {
         if (data.action === 'cancel') {
-            console.log('User clicked cancel/close button')
+            // console.log('User clicked cancel/close button')
         }
         else {
-            console.log("data == ", data);
+            // console.log("data == ", data);
             if (data.docs != undefined && Array.isArray(data.docs)) {
 
                 var file = data.docs[0];
@@ -62,7 +62,7 @@ function FilePickerPopup() {
                                 lastModified: new Date().getTime(),
                             });
  
-                            console.log("--file.blob.size = ", blob.size); 
+                            // console.log("--file.blob.size = ", blob.size); 
                             setUploadedFile(newFile)
                             if(newFile && blob.size){
                                 postDocumentToServer(true)
@@ -103,7 +103,7 @@ function FilePickerPopup() {
         const formData = new FormData();
         formData.append('user_id', extractUserId());
         if (is_file) {
-            console.log("---> uploadedFile ", uploadedFile)
+            // console.log("---> uploadedFile ", uploadedFile)
             formData.append('file', uploadedFile);
             formData.append('name', fileName);
         } else {

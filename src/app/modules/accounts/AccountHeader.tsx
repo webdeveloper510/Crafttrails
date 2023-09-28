@@ -24,14 +24,14 @@ const AccountHeader: React.FC = () => {
 
   React.useEffect(() => {
     // const d = JSON.parse(localStorage.getItem('app-serve-key'))
-    console.log(auth.id, 'acc header')
+    // console.log(auth.id, 'acc header')
 
-    getUserData(auth.id).then(res => {
-      if (res.code == 200) {
-        setData(res.result)
+    // getUserData(auth.id).then(res => {
+    //   if (res.code == 200) {
+    //     setData(res.result)
 
-      }
-    })
+    //   }
+    // })
   }, [auth])
 
 

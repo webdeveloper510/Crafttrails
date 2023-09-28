@@ -8,7 +8,7 @@ import {
   // Dispatch,
   // SetStateAction,
 } from 'react'
-import {LayoutSplashScreen} from '../../../../_metronic/layout/core'
+import { LayoutSplashScreen } from '../../../../_metronic/layout/core'
 // import {AuthModel, UserModel} from './_models'
 import * as authHelper from './AuthHelpers'
 import { getUserByToken } from '../../../../utils/Api'
@@ -25,10 +25,10 @@ import { getUserByToken } from '../../../../utils/Api'
 
 const initAuthContextPropsState = {
   auth: authHelper.getAuth(),
-  saveAuth: () => {},
+  saveAuth: () => { },
   currentUser: undefined,
-  setCurrentUser: () => {},
-  logout: () => {},
+  setCurrentUser: () => { },
+  logout: () => { },
 }
 
 const AuthContext = createContext(initAuthContextPropsState)
@@ -37,7 +37,7 @@ const useAuth = () => {
   return useContext(AuthContext)
 }
 
-const AuthProvider = ({children}) => {
+const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(authHelper.getAuth())
   const [currentUser, setCurrentUser] = useState()
   const saveAuth = (auth) => {
@@ -57,14 +57,14 @@ const AuthProvider = ({children}) => {
   }
 
   return (
-    <AuthContext.Provider value={{auth, saveAuth, currentUser, setCurrentUser, logout}}>
+    <AuthContext.Provider value={{ auth, saveAuth, currentUser, setCurrentUser, logout }}>
       {children}
     </AuthContext.Provider>
   )
 }
 
-const AuthInit = ({children}) => {
-  const {auth, logout, setCurrentUser} = useAuth()
+const AuthInit = ({ children }) => {
+  const { auth, logout, setCurrentUser } = useAuth()
   // console.log("Auth Init================>",auth, logout )
   const didRequest = useRef(false)
   const [showSplashScreen, setShowSplashScreen] = useState(true)
@@ -73,7 +73,7 @@ const AuthInit = ({children}) => {
     const requestUser = (apiToken) => {
       try {
         if (!didRequest.current) {
-          const {data} = getUserByToken(apiToken)
+          const { data } = getUserByToken(apiToken)
           if (data) {
             setCurrentUser(data)
           }
@@ -101,4 +101,4 @@ const AuthInit = ({children}) => {
   return showSplashScreen ? <LayoutSplashScreen /> : <>{children}</>
 }
 
-export {AuthProvider, AuthInit, useAuth}
+export { AuthProvider, AuthInit, useAuth }

@@ -50,7 +50,7 @@ Chart.register(...registerables)
 // })
 
 const queryClient = new QueryClient()
-console.log(queryClient)
+// console.log(queryClient)
 const container = document.getElementById('root')
 if (container) {
   createRoot(container).render(

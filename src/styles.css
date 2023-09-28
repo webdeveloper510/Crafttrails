@@ -44,3 +44,40 @@
         transform: rotate(360deg);
     }
 }
+
+.active-count-box {
+    background-image: url("/public/media/products/brewery.png");
+    background-size: cover;
+    background-position: center;
+    box-shadow: 1px 1px 3px 1px #e1e1e1 !important;
+}
+
+span.show-more-title {
+    visibility: hidden;
+}
+
+span.show-more-title:hover {
+    visibility: visible !important;
+}
+
+button.button-close span {
+    font-size: 39px !important;
+}
+
+button.button-close {
+    background: transparent;
+    border-width: 0px;
+    color: white;
+}
+
+span.iconss {
+    display: none;
+    margin-left: 14px
+}
+
+tr:hover .iconss {
+    display: block !important;
+    font-weight: bolder;
+    cursor: pointer;
+    padding: 2px 3px 2px 3px;
+}

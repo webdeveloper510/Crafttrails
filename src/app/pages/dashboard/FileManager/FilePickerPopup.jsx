@@ -33,12 +33,12 @@ function FilePickerPopup() {
             multiselect: false,
             callbackFunction: (data) => {
                 if (data.action === 'cancel') {
-                    console.log('User clicked cancel/close button')
+                    // console.log('User clicked cancel/close button')
                 }
                 else {
-                    console.log("Array = ",Array.isArray(data.docs));
-                    console.log(data.docs);
-                    console.log(data.authResponse);
+                    // console.log("Array = ",Array.isArray(data.docs));
+                    // console.log(data.docs);
+                    // console.log(data.authResponse);
                     if (data.docs != undefined && Array.isArray(data.docs)) {
                         var file = data.docs[0];
                         setFileName(file.name)
@@ -115,7 +115,7 @@ function FilePickerPopup() {
         const formData = new FormData();
         formData.append('user_id', extractUserId());
         if (is_file) {
-            console.log("---> uploadedFile ", uploadedFile)
+            // console.log("---> uploadedFile ", uploadedFile)
             formData.append('file', uploadedFile);
             formData.append('name', fileName);
         } else {

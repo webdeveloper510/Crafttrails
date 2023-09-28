@@ -31,9 +31,9 @@ const ProfileHeader = () => {
       editUser(formData).then((res) => {
         setProfilModal(false)
         saveAuth(res.result)
-        getUserByToken(res.result.jwtToken).then(res => {
-          setCurrentUser(res)
-        })
+        // getUserByToken(res.result.jwtToken).then(res => {
+        //   setCurrentUser(res)
+        // })
       }).catch((err) => {
       })
 

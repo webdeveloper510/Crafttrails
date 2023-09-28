@@ -18,11 +18,11 @@ const Navbar = () => {
   const [userProfile, setUserProfile] = useState();
 
   useEffect(() => {
-    getUserData(auth?.id).then(res => {
-      if (res.code == 200) {
-        setUserProfile(res.result)
-      }
-    })
+    // getUserData(auth?.id).then(res => {
+    //   if (res.code == 200) {
+    //     setUserProfile(res.result)
+    //   }
+    // })
   }, [auth])
   return (
     <div className='app-navbar flex-shrink-0'>
