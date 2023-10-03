@@ -83,12 +83,13 @@ def trails(request):
                 "title":i["title"],
                 "application_id":i["id"],
                 "participant_id":i["s99187d139"],
+                "breweries_completed":i["sb7210e570"]["count"],
                 "trail_name":i["sc270d76da"],
                 "trail_year":i["scef57f448"],
                 "trail_season":i["sd25a89828"],
                 "mini_tour":i["s56b038ef3"], 
                 "master_id":i["s0d1c07938"],  
-                "breweries_completed":i["sb7210e570"]["count"],
+              
                 "title_submenu":{
                     "title":i["title"],
                     "participant_id":i["s99187d139"],
