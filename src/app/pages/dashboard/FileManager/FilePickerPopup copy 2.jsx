@@ -68,7 +68,9 @@ function FilePickerPopup() {
                                 postDocumentToServer(true)
                             }
 
-                        }).catch((error) => console.error(error));
+                        }).catch((error) =>{} 
+                        // console.error(error)
+                        );
                 }
             }
         }

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
-import { ArrowDown, ArrowUp, ArrowsAngleExpand } from 'react-bootstrap-icons';
+import { ArrowDown, ArrowUp } from 'react-bootstrap-icons';
 import { Card } from 'react-bootstrap';
 
-const DynamicTable = ({ data, moreView }) => {
+const DynamicTable = ({ data, moreView, display }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
     const [sortedData, setSortedData] = useState(data.slice());
@@ -147,23 +147,33 @@ const DynamicTable = ({ data, moreView }) => {
                             {currentItems.map((item, index) => (
                                 <tr key={index}>
                                     {Object.keys(item).map((key) => {
-                                        // console.log(typeof (item[key]))
                                         if (key !== "title_submenu") {
-                                            if (key.includes("date")) {
-                                                return (
-                                                    <td key={key}>{item[key] !== "" ? dateFormater(item[key]) : "N/A"}</td>
-                                                )
-                                            } else if (key === "title") {
-                                                return (
-                                                    <td key={key} className='d-flex' style={{ width: "70px" }}>
-                                                        {item[key] !== "" ? item[key] : "N/A"}
-                                                        <span className='iconss' onClick={() => moreView({ toggle: true, data: item["title_submenu"] })}><ArrowsAngleExpand /></span>
-                                                    </td>
-                                                )
+                                            if (typeof (item[key]) !== "object") {
+                                                if (key.includes("date") || key === "first_created" || key === "last_updated") {
+                                                    return (
+                                                        <td key={key}>{item[key] !== "" ? dateFormater(item[key]) : "N/A"}</td>
+                                                    )
+                                                } else if (display?.value && key === display?.key) {
+                                                    return (
+                                                        <td key={key} >
+                                                            <span className='rounded_cover' onClick={() => moreView({ toggle: true, data: item["title_submenu"] })}>{item[key] !== "" ? item[key] : "N/A"}</span>
+                                                        </td>
+                                                    )
+                                                } else {
+                                                    return (
+                                                        <td key={key}>{item[key] !== "" ? item[key] : "N/A"}</td>
+                                                    )
+                                                }
                                             } else {
-                                                return (
-                                                    <td key={key}>{item[key] !== "" ? item[key] : "N/A"}</td>
-                                                )
+                                                if (key === "phone_number") {
+                                                    return (
+                                                        <td key={key}>{item[key] !== "" ? item[key][0]["sys_title"] : "N/A"}</td>
+                                                    )
+                                                } else {
+                                                    return (
+                                                        <td key={key}>{item[key] !== "" ? item[key][0] : "N/A"}</td>
+                                                    )
+                                                }
                                             }
                                         }
                                     })}

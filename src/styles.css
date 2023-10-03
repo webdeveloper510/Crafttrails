@@ -81,3 +81,11 @@ tr:hover .iconss {
     cursor: pointer;
     padding: 2px 3px 2px 3px;
 }
+
+.rounded_cover {
+    border-radius: 50%;
+    background-color: #f1416ca8;
+    padding: 2px 7px 2px 7px;
+    border: 1px solid #f1416c;
+    cursor: pointer;
+}
