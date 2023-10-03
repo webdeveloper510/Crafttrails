@@ -88,12 +88,12 @@ class ParticipantsView(APIView):
     authentication_classes=[TokenAuthentication]
 
     def get(self,request):
-        try:
-            participants_data=participants(request)
-            return Response({"code":200,"data":participants_data},status=status.HTTP_200_OK)
-        except Exception as e:
-            print(e)
-            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+        # try:
+        participants_data=participants(request)
+        return Response({"code":200,"data":participants_data},status=status.HTTP_200_OK)
+        # except Exception as e:
+        #     print(e)
+        #     return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
 
