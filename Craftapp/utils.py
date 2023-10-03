@@ -210,6 +210,7 @@ def participants(request):
 
 def participantspoints(request):
     participant_points=[]
+    points_earned=[]
     base_url = settings.base_url
     headers = {
         "Authorization": settings.authorization,
@@ -220,7 +221,7 @@ def participantspoints(request):
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     
 
-   
+    
     for i in response.json()["items"]:
         
        
@@ -229,16 +230,21 @@ def participantspoints(request):
                 "master_id":i["title"],
                 "name_of_participants":i["s332210fbb"],
                 "points_earned":i["s1255e267e"]["count"],
-                "title_submenu":[]
+
+                "title_submenu":{
+                    "master_id":i["title"],
+                    "count":i["s1255e267e"]["count"],
+                    "points_earned":[]
+                }
                 
             }
      
             for k in  range(i["s1255e267e"]["count"]):
+                
+     
                 data1={
-                        
-                        "master_id":i["title"],
-                        "points_earned":{
-                        "count":i["s1255e267e"]["count"],
+                      
+                      
                         "name":i["s1255e267e"]["items"][k]["name"],
                         "first_created":i["s1255e267e"]["items"][k]["first_created"]["on"],
                         "last_updated":i["s1255e267e"]["items"][k]["last_updated"]["on"],
@@ -246,8 +252,13 @@ def participantspoints(request):
                         "points_earned":i["s1255e267e"]["items"][k]["s5dd95e7c3"]
 
                 }
-                }
-                data["title_submenu"].append(data1)    
+                
+               
+                
+                points_earned.append(data1)
+
+                data["title_submenu"]["points_earned"].append(data1)    
+           
             participant_points.append(data)  
           
         else:
@@ -258,14 +269,14 @@ def participantspoints(request):
                 "points_earned":i["s1255e267e"]["count"],
                 "title_submenu":{
                     "master_id":i["title"],
-                    "points_earned":{
+                    "points_earned":[{
                     "count":i["s1255e267e"]["count"],
-                }
+                }]
             }
 
             }
             participant_points.append(data)  
-  
+    print(points_earned)
     data= participant_points
   
 
