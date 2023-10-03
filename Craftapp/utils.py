@@ -73,10 +73,10 @@ def trails(request):
     }
     app_ids = settings.trailmaster_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-    count=0
+ 
     for i in response.json()["items"]:
 
-        count+=1
+        
         if i["sb7210e570"]["count"]>0:
             data={
                 
@@ -88,6 +88,7 @@ def trails(request):
                 "trail_season":i["sd25a89828"],
                 "mini_tour":i["s56b038ef3"], 
                 "master_id":i["s0d1c07938"],  
+                "breweries_completed":i["sb7210e570"]["count"],
                 "title_submenu":{
                     "title":i["title"],
                     "participant_id":i["s99187d139"],
@@ -204,6 +205,8 @@ def participants(request):
 
     return data
 
+
+
 def participantspoints(request):
     participant_points=[]
     base_url = settings.base_url
@@ -215,17 +218,57 @@ def participantspoints(request):
     app_ids = settings.participants_points
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     
+
+   
     for i in response.json()["items"]:
         
-        data={
-            "master_id":i["title"],
-            "name_of_participants":i["s332210fbb"],
-            "points_earned":i["s1255e267e"]["count"],
-        }
+       
+        if i["s1255e267e"]["count"]>0:
+            data={
+                "master_id":i["title"],
+                "name_of_participants":i["s332210fbb"],
+                "points_earned":i["s1255e267e"]["count"],
+                "title_submenu":[]
+                
+            }
+     
+            for k in  range(i["s1255e267e"]["count"]):
+                data1={
+                        
+                        "master_id":i["title"],
+                        "points_earned":{
+                        "count":i["s1255e267e"]["count"],
+                        "name":i["s1255e267e"]["items"][k]["name"],
+                        "first_created":i["s1255e267e"]["items"][k]["first_created"]["on"],
+                        "last_updated":i["s1255e267e"]["items"][k]["last_updated"]["on"],
+                        "total_points":i["s1255e267e"]["items"][k]["s9e25e9aba"],
+                        "points_earned":i["s1255e267e"]["items"][k]["s5dd95e7c3"]
 
-        participant_points.append(data)  
-    data=participant_points     
+                }
+                }
+                data["title_submenu"].append(data1)    
+            participant_points.append(data)  
+          
+        else:
+            
+            data={
+                "master_id":i["title"],
+                "name_of_participants":i["s332210fbb"],
+                "points_earned":i["s1255e267e"]["count"],
+                "title_submenu":{
+                    "master_id":i["title"],
+                    "points_earned":{
+                    "count":i["s1255e267e"]["count"],
+                }
+            }
 
+            }
+            participant_points.append(data)  
+  
+    data= participant_points
+  
+
+   
     return data
 
 
@@ -247,10 +290,19 @@ def visit(request):
             "master_participants_id":i["s211c64472"],
             "visit_date":i["s7bed21761"]["date"],
             "location_id":i["s9d5037e2f"],
-            "rfid":i["sea475d5e4"]
+            "rfid":i["sea475d5e4"],
+            "title_submenu":{
+                "title":i["title"],
+                "master_participant_id":i["s211c64472"],
+                "visit_date":i["s7bed21761"]["date"],
+                "brewery_id":i["s63e787f85"],
+                "location_id":i["s9d5037e2f"],
+                "rfid":i["sea475d5e4"]
+
+            }
         }
 
         visit_list.append(data)  
-    data=visit_list     
+    data=visit_list  
 
     return data

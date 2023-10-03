@@ -92,7 +92,7 @@ class ParticipantsView(APIView):
             participants_data=participants(request)
             return Response({"code":200,"data":participants_data},status=status.HTTP_200_OK)
         except Exception as e:
-            
+            print(e)
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
@@ -106,7 +106,7 @@ class ParticipantsPointsView(APIView):
             partic_data=participantspoints(request)
             return Response({"code":200,"data":partic_data},status=status.HTTP_200_OK)
         except Exception as e:
-            
+            print("Ssssssss",e)
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
@@ -121,4 +121,5 @@ class VisitView(APIView):
             visit_data=visit(request)    
             return Response({"code":200,"data":visit_data},status=status.HTTP_200_OK)
         except Exception as e:
+        
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
