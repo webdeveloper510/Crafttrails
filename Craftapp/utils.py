@@ -2,7 +2,7 @@ from CraftTrails import settings
 import requests
 
 
-def breweries(request):
+def breweries(request,brewery_id):
     breweries_list=[]
     base_url = settings.base_url
     headers = {
@@ -137,6 +137,8 @@ def trails(request):
         
     data=trail_list     
     return data
+
+
 
 def participants(request):
     participant_list=[]

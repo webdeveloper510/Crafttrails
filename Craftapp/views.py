@@ -1,4 +1,3 @@
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from Craftapp.serializers import *
@@ -7,9 +6,8 @@ from django.contrib.auth import authenticate, login,logout
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
-import requests
-from CraftTrails import settings
 from Craftapp.utils import *
+from rest_framework.throttling import UserRateThrottle, ScopedRateThrottle
 
 
 
@@ -43,7 +41,8 @@ class LoginView(APIView):
                 user_token=Token.objects.filter(user_id=user.id).values_list("key",flat=True)[0]
             data={"firstname":user.first_name,
                     "lastname":user.last_name,
-                    "email":user.email
+                    "email":user.email,
+                    "breweries_id":user.brewery
             }
             return Response({'success':"Login Successfully",'token':str(user_token),"code":200,"data":data}, status=status.HTTP_200_OK)  
         else:
@@ -55,28 +54,36 @@ class LoginView(APIView):
 class LogoutView(APIView):
     permission_classes=[IsAuthenticated]
     authentication_classes=[TokenAuthentication]
+    
     def post(self,request):
         request.user.auth_token.delete()
         logout(request)
         return Response({"success":'User Logged out successfully'},status=status.HTTP_200_OK)
     
 
+
+"""API TO GET BREWERIES DATA"""
 class BreweriesView(APIView):
     permission_classes=[IsAuthenticated]
     authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
 
     def get(self,request):
         try:
-            brewery_data=breweries(request)
+            brewery_id=request.user.brewery
+            brewery_data=breweries(request,brewery_id)
             return Response({"code":200,"data":brewery_data},status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
 
-
+"""API TO GET TRAIL DATA"""
 class TrailView(APIView):
     permission_classes=[IsAuthenticated]
     authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
 
     def get(self,request):
         try:
@@ -88,9 +95,12 @@ class TrailView(APIView):
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
 
+"""API TO GET PARTICIPANTS DATA"""
 class ParticipantsView(APIView):
     permission_classes=[IsAuthenticated]
     authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
 
     def get(self,request):
         try:
@@ -101,10 +111,12 @@ class ParticipantsView(APIView):
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
-
+"""API TO GET PARTICIPANTS POINTS DATA"""
 class ParticipantsPointsView(APIView):
     permission_classes=[IsAuthenticated]
     authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
 
     def get(self,request):
         try:
@@ -116,10 +128,12 @@ class ParticipantsPointsView(APIView):
         
 
 
-
+"""API TO GET VISIT DATA"""
 class VisitView(APIView):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
 
     def get(self,request):
         try:
@@ -129,10 +143,13 @@ class VisitView(APIView):
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
-
+"""API TO CHANGE PASSWORD"""
 class ChangePassword(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
     def post(self,request):
         serializer = ChangePasswordSerializer(data=request.data)
         if serializer.is_valid():
@@ -145,9 +162,12 @@ class ChangePassword(APIView):
         return Response({"error":"Unable to change password","code":400}, status=status.HTTP_400_BAD_REQUEST)
     
 
+"""API TO SHOW COUNT OF ACTIVE USER"""
 class ActiveUser(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
 
     def get(self,request):
         try:
@@ -165,9 +185,13 @@ class ActiveUser(APIView):
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
-
+"""API TO GET TRAILS ANALYTICS DATA"""
 class TrailsAnalytics(APIView):
-     def get(self,request):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+    def get(self,request):
         try:
             trails_data=trails(request)   
             val=[i["title_submenu"]["breweries_completed"]["count"]*10 for i in trails_data if i["mini_tour"]]
@@ -177,4 +201,3 @@ class TrailsAnalytics(APIView):
             return Response({"code":200,"data":breweries_analytics},status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
-            
