@@ -114,6 +114,67 @@ export const getPointList = async () => {
   return response
 }
 
+export const getActiveUserCount = async () => {
+  const response = await Axios.get("/craft/active_user/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
+
+export const getTrailAnalytics = async () => {
+  const response = await Axios.get("/craft/trail_analytics/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const getUserData = (id) => {
   const response = Axios.get(`/admins/get_user_detail/${id}`).then(res => {
     return res.data
@@ -195,8 +256,3 @@ export const getprofileImage = async (token) => {
   })
   return response
 }
-
-
-
-
-

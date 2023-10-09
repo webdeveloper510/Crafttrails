@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react';
+import { getActiveUserCount } from '../../../utils/Api';
 
 function ActiveUserCountBox() {
-    const [activeUserCount, setActiveUserCount] = useState(5);
+    const [activeUserCount, setActiveUserCount] = useState(0);
 
     useEffect(() => {
-
+        getActiveUserCount().then(res => {
+            if (res.code === 200) {
+                setActiveUserCount(res?.data?.active_count);
+            }
+        })
     }, []);
 
     return (
