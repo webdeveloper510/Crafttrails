@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',     
     'Craftapp',
-  
+    'django_rest_passwordreset',  
 ]
 
 MIDDLEWARE = [
@@ -64,7 +64,7 @@ AUTH_USER_MODEL = 'Craftapp.user'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR, 'templates/',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -187,3 +187,10 @@ visit=config("VISIT")
 base_url=config("BASE_URL")
 authorization=config("AUTHORIZATION")
 account_id=config("ACCOUNTID")
+
+EMAIL_BACKEND = config("EMAIL_BACKEND")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")

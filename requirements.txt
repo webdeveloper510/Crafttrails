@@ -4,3 +4,4 @@ python-decouple==3.8
 djangorestframework
 requests
 django-cors-headers
+django-rest-passwordreset

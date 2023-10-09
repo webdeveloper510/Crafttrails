@@ -9,5 +9,8 @@ urlpatterns = [
     path("trail/list/",TrailView.as_view(),name="trail"),
     path("participants/list/",ParticipantsView.as_view(),name="participants"),
     path("participants/points/list/",ParticipantsPointsView.as_view(),name="participantspoints"),
-    path("visit/list/",VisitView.as_view(),name="visit")
+    path("visit/list/",VisitView.as_view(),name="visit"),
+    path('change_password/', ChangePassword.as_view(), name='change_password'),
+    path('active_user/', ActiveUser.as_view(), name='active_user'),
+    path('trail_analytics/', TrailsAnalytics.as_view(), name='trail_analytics'),
 ]

@@ -3,11 +3,7 @@ from Craftapp.models import *
 from django.contrib.auth.hashers import make_password
 
 class RegisterSerializer(serializers.ModelSerializer):
-
-
-
     def create(self, validated_data):
-        
         password = validated_data.pop('password')
         validated_data['password'] = make_password(password)       
         return super(RegisterSerializer, self).create(validated_data) 
@@ -30,3 +26,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         if not any(char.isdigit() for char in password):
             raise serializers.ValidationError('Password must contain at least one digit.')
         return password
+
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+class ResetPasswordEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)

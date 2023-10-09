@@ -1,4 +1,4 @@
-from django.shortcuts import render
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from Craftapp.serializers import *
@@ -12,6 +12,8 @@ from CraftTrails import settings
 from Craftapp.utils import *
 
 
+
+
 # Create your views here.
 """API for User Signup"""
 class SignupView(APIView):
@@ -23,7 +25,9 @@ class SignupView(APIView):
        
         dynamic_key = next(iter(serializer.errors))
         return Response({"code":400,"error":serializer.errors[dynamic_key][0]},status=status.HTTP_200_OK)
-        
+
+
+
 """API for User Login"""
 class LoginView(APIView):
     def post(self,request):
@@ -45,6 +49,7 @@ class LoginView(APIView):
         else:
             return Response({'error': 'Invalid credentials',"code":400}, status=status.HTTP_200_OK)
         
+
 
 """API for User Logout"""
 class LogoutView(APIView):
@@ -88,12 +93,12 @@ class ParticipantsView(APIView):
     authentication_classes=[TokenAuthentication]
 
     def get(self,request):
-        # try:
-        participants_data=participants(request)
-        return Response({"code":200,"data":participants_data},status=status.HTTP_200_OK)
-        # except Exception as e:
-        #     print(e)
-        #     return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+        try:
+            participants_data=participants(request)
+            return Response({"code":200,"data":participants_data},status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
 
@@ -106,14 +111,14 @@ class ParticipantsPointsView(APIView):
             partic_data=participantspoints(request)
             return Response({"code":200,"data":partic_data},status=status.HTTP_200_OK)
         except Exception as e:
-            print("Ssssssss",e)
+           
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
 
 
-class VisitView(APIView):
-    permission_classes=[IsAuthenticated]
+class VisitView(APIView):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
 
     def get(self,request):
@@ -121,5 +126,55 @@ class VisitView(APIView):
             visit_data=visit(request)    
             return Response({"code":200,"data":visit_data},status=status.HTTP_200_OK)
         except Exception as e:
-        
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+        
+
+
+class ChangePassword(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    def post(self,request):
+        serializer = ChangePasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            user = request.user
+            if user.check_password(serializer.data.get('old_password')):
+                user.set_password(serializer.data.get('new_password'))
+                user.save()
+                return Response({'message': 'Password changed successfully',"code":200}, status=status.HTTP_200_OK)
+            return Response({'error': 'Incorrect old password.',"code":200}, status=status.HTTP_200_BAD_REQUEST)
+        return Response({"error":"Unable to change password","code":400}, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class ActiveUser(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+
+    def get(self,request):
+        try:
+            trails_data=trails(request)   
+            count=0
+            for i in trails_data:
+                if i["mini_tour"]:
+                    count=count+1
+         
+            active_user={
+                "active_count":count
+            }
+            return Response({"code":200,"data":active_user},status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+        
+
+
+class TrailsAnalytics(APIView):
+     def get(self,request):
+        try:
+            trails_data=trails(request)   
+            val=[i["title_submenu"]["breweries_completed"]["count"]*10 for i in trails_data if i["mini_tour"]]
+            breweries_analytics={
+                "breweries_percentage":val
+            }
+            return Response({"code":200,"data":breweries_analytics},status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+            

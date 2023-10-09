@@ -2,8 +2,6 @@ from CraftTrails import settings
 import requests
 
 
-
-
 def breweries(request):
     breweries_list=[]
     base_url = settings.base_url
@@ -76,7 +74,6 @@ def trails(request):
  
     for i in response.json()["items"]:
 
-        
         if i["sb7210e570"]["count"]>0:
             data={
                 
@@ -159,7 +156,7 @@ def participants(request):
                 "rfid_tag":i["sbb8fea034"],
                 "full_name":i["s37af43f83"]["sys_root"],
                 "email":i["sac950cfcc"],
-              #  "date_of_birth":i["sac87d276d"]["date"],
+              # "date_of_birth":i["sac87d276d"]["date"],
                 "master_id":i["sd48be64b7"], 
                 "phone_number":i["s37e762ac3"],  
                 "address":i["sb91047f0b"]["location_address"],
@@ -183,7 +180,7 @@ def participants(request):
                 "rfid_tag":i["sbb8fea034"],
                 "full_name":i["s37af43f83"]["sys_root"],
                 "email":i["sac950cfcc"],
-                # "date_of_birth":i["sac87d276d"]["date"],
+                #"date_of_birth":i["sac87d276d"]["date"],
                 "master_id":i["sd48be64b7"], 
                 "phone_number":"",  
                 "address":i["sb91047f0b"]["location_address"],
@@ -193,7 +190,7 @@ def participants(request):
                     "rfid_tag":i["sbb8fea034"],
                     "email":i["sac950cfcc"],
                     "full_name":i["s37af43f83"]["sys_root"],
-                    # "date_of_birth":i["sac87d276d"]["date"],
+                    #"date_of_birth":i["sac87d276d"]["date"],
                     "master_id":i["sd48be64b7"],
                     "phone_number":i["s37e762ac3"],
                     "address":i["sb91047f0b"]["location_address"],
