@@ -89,3 +89,14 @@ tr:hover .iconss {
     border: 1px solid #f1416c;
     cursor: pointer;
 }
+
+.user_active{
+    height: 330px !important;
+}
+
+
+.charts_pie{
+    height: 330px !important;
+    width: 330px !important;
+    text-align: center;
+}

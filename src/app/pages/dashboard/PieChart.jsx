@@ -15,7 +15,7 @@ const PieChart = ({ className }) => {
             if (res.code === 200) {
                 let data = res?.data?.breweries_percentage
                 let obj = {
-                    labels: ["Breweries completed"],
+                    labels: ["Breweries completed" , "Breweries incompleted"],
                     datasets: [
                         {
                             label: 'completion',
@@ -37,6 +37,7 @@ const PieChart = ({ className }) => {
                                 "rgba(153, 102, 255, 1)",
                                 "rgba(255, 159, 64, 1)"
                             ],
+                            
                         },
 
                     ],
@@ -46,13 +47,15 @@ const PieChart = ({ className }) => {
         })
     }, [])
 
+   
     return (
-        <div className={`card card-flush ${className}`}>
+        <div className={`card card-flush align-items-center ${className}`} >
             {
                 list !== null ? (
                     <>
                         <Pie
                             data={list}
+                            className="charts_pie"
                         />
                     </>
                 ) : ""
