@@ -137,6 +137,18 @@ export const getTrailAnalytics = async () => {
 }
 
 
+export const getBreweryName = async () => {
+  const response = await Axios.get("/craft/breweries_name/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
+
+
 
 
 
