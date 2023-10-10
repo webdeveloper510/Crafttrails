@@ -2,7 +2,7 @@ from CraftTrails import settings
 import requests
 
 
-def breweries(request,brewery_id):
+def breweries(request):
     breweries_list=[]
     base_url = settings.base_url
     headers = {
@@ -12,10 +12,14 @@ def breweries(request,brewery_id):
     }
     app_ids = settings.breweries_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-    
+    bar_name=""
     for i in response.json()["items"]:
+        if i["title"]==request.user.brewery:
+        
+           
+            bar_name=i["s8a95871e9"]
+        
         data={
-            
             "title":i["title"],
             "application_id":i["id"],
             "home_city":i["scc71d5fd5"],
@@ -50,14 +54,12 @@ def breweries(request,brewery_id):
                 "website":i["s4a2531de8"],
                 "establishment":i["sfb39beff9"],
                 "logo":i["sa24832ad2"],
-                
-            
-                
+                    
             }
         }
         breweries_list.append(data)  
     data=breweries_list
-    return breweries_list
+    return breweries_list,bar_name
 
 
 
@@ -73,7 +75,7 @@ def trails(request):
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
  
     for i in response.json()["items"]:
-
+    
         if i["sb7210e570"]["count"]>0:
             data={
                 
@@ -86,6 +88,7 @@ def trails(request):
                 "trail_season":i["sd25a89828"],
                 "mini_tour":i["s56b038ef3"], 
                 "master_id":i["s0d1c07938"],  
+                "location_to_complete":i["s2f8f93c23"],
               
                 "title_submenu":{
                     "title":i["title"],
@@ -317,3 +320,25 @@ def visit(request):
     data=visit_list  
 
     return data
+
+
+def active_trails(request):
+    base_url = settings.base_url
+    headers = {
+        "Authorization": settings.authorization,
+        "Account-Id": settings.account_id,
+        "Content-Type": "application/json"
+    }
+    app_ids = settings.active_trails
+
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    
+    return response
+
+
+
+
+
+
+
+

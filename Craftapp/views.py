@@ -71,9 +71,8 @@ class BreweriesView(APIView):
 
     def get(self,request):
         try:
-            brewery_id=request.user.brewery
-            brewery_data=breweries(request,brewery_id)
-            return Response({"code":200,"data":brewery_data},status=status.HTTP_200_OK)
+            brewery_data=breweries(request)
+            return Response({"code":200,"data":brewery_data[0]},status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
@@ -168,20 +167,21 @@ class ActiveUser(APIView):
     authentication_classes=[TokenAuthentication]
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'custom'
-
     def get(self,request):
         try:
             trails_data=trails(request)   
+            active_trails_data=active_trails(request)   
             count=0
             for i in trails_data:
-                if i["mini_tour"]:
+                val=[k for k in active_trails_data.json()["items"] if i["mini_tour"]==k["sd82de27d5"]]
+                if val: 
                     count=count+1
-         
+
             active_user={
                 "active_count":count
             }
             return Response({"code":200,"data":active_user},status=status.HTTP_200_OK)
-        except Exception as e:
+        except Exception as e: 
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
@@ -194,10 +194,37 @@ class TrailsAnalytics(APIView):
     def get(self,request):
         try:
             trails_data=trails(request)   
-            val=[i["title_submenu"]["breweries_completed"]["count"]*10 for i in trails_data if i["mini_tour"]]
+            active_trails_data=active_trails(request)   
+            for k in active_trails_data.json()["items"]:
+                val=[round(i["title_submenu"]["breweries_completed"]["count"]/int(i["location_to_complete"])*100,2) for i in trails_data if i["mini_tour"]==k["sd82de27d5"]]
+        
             breweries_analytics={
                 "breweries_percentage":val
             }
             return Response({"code":200,"data":breweries_analytics},status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+        
+
+
+class BreweriesName(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+    def get(self,request):
+        try:
+            breweriesname=breweries(request)
+            bar_name={"bar_name":breweriesname[1]}
+            return Response({"code":200,"data":bar_name},status=status.HTTP_200_OK)
+
+        except Exception as e:
+            print(e)
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+            
+            
+
+
+
+

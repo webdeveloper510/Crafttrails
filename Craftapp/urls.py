@@ -13,4 +13,5 @@ urlpatterns = [
     path('change_password/', ChangePassword.as_view(), name='change_password'),
     path('active_user/', ActiveUser.as_view(), name='active_user'),
     path('trail_analytics/', TrailsAnalytics.as_view(), name='trail_analytics'),
+    path('breweries_name/', BreweriesName.as_view(), name='breweries_name'),
 ]
