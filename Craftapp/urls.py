@@ -14,4 +14,5 @@ urlpatterns = [
     path('active_user/', ActiveUser.as_view(), name='active_user'),
     path('trail_analytics/', TrailsAnalytics.as_view(), name='trail_analytics'),
     path('breweries_name/', BreweriesName.as_view(), name='breweries_name'),
+    path('participant_age/', ParticipantAge.as_view(), name='participant_age'),
 ]

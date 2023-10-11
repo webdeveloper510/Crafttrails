@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from Craftapp.utils import *
 from rest_framework.throttling import UserRateThrottle, ScopedRateThrottle
+from datetime import date 
 
 
 
@@ -192,33 +193,33 @@ class TrailsAnalytics(APIView):
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'custom'
     def get(self,request):
-        # try:
-        trails_data=trails(request)   
-      
-        active_trails_data=active_trails(request)   
-        for k in active_trails_data.json()["items"]:
+        try:
+            trails_data=trails(request)   
+        
+            active_trails_data=active_trails(request)   
+            for k in active_trails_data.json()["items"]:
+                
+                val=[round(i["title_submenu"]["breweries_completed"]["count"]/ int(i["location_to_complete"])*100,2) for i in trails_data if  i["location_to_complete"] and i["trail_year"]==k["s157fa6cfb"]]
             
-            val=[round(i["title_submenu"]["breweries_completed"]["count"]/ int(i["location_to_complete"])*100,2) for i in trails_data if  i["location_to_complete"] and i["trail_year"]==k["s157fa6cfb"]]
-          
 
-        print("oooooo",val)
-        main_count=counts(request,val)
-        
-        breweries_analytics={
-            "breweries_percentage":val,
-            "0-16.67":main_count[0],
-            "16.67-33.33":main_count[1],
-            "33.33-50":main_count[2],
-            "50-66.67":main_count[3],
-            "66.67-83.33":main_count[4],
-            "83.33-100":main_count[5]
-        }
-        
+            
+            main_count=counts(request,val)
+            
+            breweries_analytics={
+                "breweries_percentage":val,
+                "0-16.67":main_count[0],
+                "16.67-33.33":main_count[1],
+                "33.33-50":main_count[2],
+                "50-66.67":main_count[3],
+                "66.67-83.33":main_count[4],
+                "83.33-100":main_count[5]
+            }
+            
 
-        return Response({"code":200,"data":breweries_analytics},status=status.HTTP_200_OK)
-        # except Exception as e:
-        #     print(e)
-        #     return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+            return Response({"code":200,"data":breweries_analytics},status=status.HTTP_200_OK)
+        except Exception as e:
+           
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
 
@@ -240,6 +241,57 @@ class BreweriesName(APIView):
             
             
 
+class ParticipantAge(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+    def get(self,request):
+        # try:
+            user_age=[]
+            todays_date = date.today() 
+            trails_data=trails(request)   
+            active_trails_data=active_trails(request)   
+            participant_data=participants(request)
+
+            for k in active_trails_data.json()["items"]:
+                
+                val=[int(i["master_id"]) for i in trails_data if i["master_id"] and i["location_to_complete"] and int(i["trail_year"])==int(k["s157fa6cfb"])]
+           
+            for paticipate in participant_data:
+                print(paticipate["master_id"])
+                if int(paticipate["master_id"]) in val:
+                    dateofbirth=paticipate["date_of_birth"].split("T")[0]
+                    yearofbirth=dateofbirth.split("-")[0]
+                    age_calculate=todays_date.year - int(yearofbirth)
+                    user_age.append(age_calculate)
+
+            main_count=age_counts(request,user_age)
+            
+            breweries_analytics={
+                "age":user_age,
+                "21-25":main_count[0],
+                "26-35":main_count[1],
+                "36-45":main_count[2],
+                "46-55":main_count[3],
+                "56-65":main_count[4],
+                "66 and older":main_count[5]
+            }
+                    
+                    
+
+    
+           
+
+           
+            
+            return Response({"code":200,"data":breweries_analytics},status=status.HTTP_200_OK)
+
+
+        # except Exception as e:
+        #     print(e)
+        #     return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
 
 

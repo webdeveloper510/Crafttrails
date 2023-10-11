@@ -153,15 +153,18 @@ def participants(request):
     }
     app_ids = settings.participants_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    print((response.json().get("sac87d276d")))
     
-    for i in response.json()["items"]:
-        if i["s37e762ac3"]:
+    count=0
+    for i in response.json()["items"] :
+      
+        if i["s37e762ac3"] and i.get("sac87d276d") :
             data={
                 "title":i["title"],
                 "rfid_tag":i["sbb8fea034"],
                 "full_name":i["s37af43f83"]["sys_root"],
                 "email":i["sac950cfcc"],
-              # "date_of_birth":i["sac87d276d"]["date"],
+                "date_of_birth":i["sac87d276d"]["date"],
                 "master_id":i["sd48be64b7"], 
                 "phone_number":i["s37e762ac3"],  
                 "address":i["sb91047f0b"]["location_address"],
@@ -171,7 +174,7 @@ def participants(request):
                     "rfid_tag":i["sbb8fea034"],
                     "email":i["sac950cfcc"],
                     "full_name":i["s37af43f83"]["sys_root"],
-                    #"date_of_birth":i["sac87d276d"]["date"],
+                    "date_of_birth":i["sac87d276d"]["date"],
                     "master_id":i["sd48be64b7"],
                     "phone_number":i["s37e762ac3"],
                     "address":i["sb91047f0b"]["location_address"],
@@ -179,13 +182,13 @@ def participants(request):
                 }
             }
 
-        else:
+        elif i.get("sac87d276d")    :
             data={
                 "title":i["title"],
                 "rfid_tag":i["sbb8fea034"],
                 "full_name":i["s37af43f83"]["sys_root"],
                 "email":i["sac950cfcc"],
-                #"date_of_birth":i["sac87d276d"]["date"],
+                "date_of_birth":i["sac87d276d"]["date"],
                 "master_id":i["sd48be64b7"], 
                 "phone_number":"",  
                 "address":i["sb91047f0b"]["location_address"],
@@ -195,7 +198,7 @@ def participants(request):
                     "rfid_tag":i["sbb8fea034"],
                     "email":i["sac950cfcc"],
                     "full_name":i["s37af43f83"]["sys_root"],
-                    #"date_of_birth":i["sac87d276d"]["date"],
+                    "date_of_birth":i["sac87d276d"]["date"],
                     "master_id":i["sd48be64b7"],
                     "phone_number":i["s37e762ac3"],
                     "address":i["sb91047f0b"]["location_address"],
@@ -204,7 +207,8 @@ def participants(request):
             }
 
         participant_list.append(data)  
-    data=participant_list     
+    data=participant_list   
+ 
 
     return data
 
@@ -360,5 +364,32 @@ def counts(request,val):
             count4=count4+1 
         if i>83.33 and i<=100:
             count5=count5+1 
+
+    return count,count1,count2,count3,count4,count5
+
+
+def age_counts(request,user_age):
+    
+    count=0
+    count1=0
+    count2=0
+    count3=0
+    count4=0
+    count5=0
+
+    for i in user_age:
+        if i<=21 and i<=25:
+            count=count+1
+        if i>26 and i<=35:
+            count1=count1+1 
+        if i>36 and i<=45:
+            count2=count2+1 
+        if i>45 and i<=55:
+            count3=count3+1 
+        if i>55  and i<=65:
+            count4=count4+1
+        if i>65:
+            count5=count5+1
+      
 
     return count,count1,count2,count3,count4,count5
