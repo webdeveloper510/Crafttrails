@@ -24,7 +24,7 @@ useEffect(()=>{
         <Col className={`col-md-10 col-sm-11 m-auto `} style={{overflow:'hidden'}}>
           <Navbar  variant="light" collapseOnSelect expand="sm">
             <Navbar.Brand href="#home">
-              <Image src={toAbsoluteUrl('/media/logos/default-small.svg')}
+              <Image src={toAbsoluteUrl('/media/logos/cctlogo.png')}
                 width="60"
                 height="60"></Image>  <span className={`${styles.blixter_icon}`}>Blixter</span></Navbar.Brand>
             <Navbar.Toggle aria-controls='navbarScroll' data-bs-target="#navbarScroll" />

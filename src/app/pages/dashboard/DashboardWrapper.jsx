@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useIntl } from 'react-intl'
-import { toAbsoluteUrl } from '../../../_metronic/helpers'
-import { PageTitle } from '../../../_metronic/layout/core'
+// import { useIntl } from 'react-intl'
+// import { toAbsoluteUrl } from '../../../_metronic/helpers'
+// import { PageTitle } from '../../../_metronic/layout/core'
 import {
   ListsWidget2,
   ListsWidget3,
@@ -10,16 +10,17 @@ import {
   TablesWidget5,
   TablesWidget10,
   MixedWidget8,
-  CardsWidget7,
-  CardsWidget17,
-  CardsWidget20,
-  ListsWidget26,
+  // CardsWidget7,
+  // CardsWidget17,
+  // CardsWidget20,
+  // ListsWidget26,
   EngageWidget10,
 } from '../../../_metronic/partials/widgets'
 import ActiveUserCount from './ActiveUserCount'
 import PieChart from './PieChart'
 import { useEffect, useState } from 'react'
 import { getBreweryName } from '../../../utils/Api'
+import Piechart2 from './piechart2'
 
 const DashboardPage = () => {
 
@@ -37,18 +38,21 @@ const DashboardPage = () => {
   return (
     <>
       <div className='row'>
-        <span className='display-6 mb-5 pb-4'>{name}</span>
+        <span className='display-6 mb-5 pb-4 text-center'>{name}</span>
       </div>
       <div className='row g-5 g-xl-10 mb-5 mb-xl-10'>
-        <div className='col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10'>
+        <div className='col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10'>
           <ActiveUserCount />
         </div>
-        <div className='col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10'>
-          <PieChart className={' mb-5 mb-xl-10'} />
+        <div className='col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10' >
+          <PieChart  />
         </div>
-        <div className='col-xxl-6'>
+        <div className='col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10' >
+          <Piechart2  />
+        </div>
+        {/* <div className='col-xxl-6'>
           <EngageWidget10 className='h-md-100' />
-        </div>
+        </div> */}
       </div>
       <div className='row gx-5 gx-xl-10'>
         <div className='col-xxl-6 mb-5 mb-xl-10'>
@@ -92,7 +96,7 @@ const DashboardPage = () => {
 }
 
 const DashboardWrapper = () => {
-  const intl = useIntl()
+  // const intl = useIntl()
   return (
     <div className='wrapper'>
       <DashboardPage />

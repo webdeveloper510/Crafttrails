@@ -53,7 +53,7 @@ export function HeaderWrapper() {
               {config.layoutType !== 'dark-header' ? (
                 <img
                   alt='Logo'
-                  src={toAbsoluteUrl('/media/logos/default.svg')}
+                  src={toAbsoluteUrl('/media/logos/cctlogo.png')}
                   className='h-20px h-lg-30px app-sidebar-logo-default'
                 />
               ) : (

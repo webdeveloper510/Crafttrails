@@ -148,6 +148,16 @@ export const getBreweryName = async () => {
   return response
 }
 
+export const getParticipantAge = async () => {
+  const response = await Axios.get("/craft/participant_age/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
 
 
 
