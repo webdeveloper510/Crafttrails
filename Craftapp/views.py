@@ -173,7 +173,7 @@ class ActiveUser(APIView):
             active_trails_data=active_trails(request)   
             count=0
             for i in trails_data:
-                val=[k for k in active_trails_data.json()["items"] if i["mini_tour"]==k["sd82de27d5"]]
+                val=[k for k in active_trails_data.json()["items"] if  i["location_to_complete"] and int(i["title_submenu"]["breweries_completed"]["name"])==int(k["title"])]
                 if val: 
                     count=count+1
 
