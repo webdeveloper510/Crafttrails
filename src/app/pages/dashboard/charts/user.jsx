@@ -1,10 +1,10 @@
 import React from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { getTrailAnalytics } from "../../../../utils/Api";
 
-import { getTrailAnalytics } from "../../../utils/Api";
 
-const PieChart = ({ className }) => {
+const PieChart3 = ({ className }) => {
 
     ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -115,4 +115,4 @@ const PieChart = ({ className }) => {
     )
 }
 
-export default PieChart
+export default PieChart3
