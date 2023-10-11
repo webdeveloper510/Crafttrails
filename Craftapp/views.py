@@ -192,18 +192,33 @@ class TrailsAnalytics(APIView):
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'custom'
     def get(self,request):
-        try:
-            trails_data=trails(request)   
-            active_trails_data=active_trails(request)   
-            for k in active_trails_data.json()["items"]:
-                val=[round(i["title_submenu"]["breweries_completed"]["count"]/int(i["location_to_complete"])*100,2) for i in trails_data if i["mini_tour"]==k["sd82de27d5"]]
+        # try:
+        trails_data=trails(request)   
+      
+        active_trails_data=active_trails(request)   
+        for k in active_trails_data.json()["items"]:
+            
+            val=[round(i["title_submenu"]["breweries_completed"]["count"]/ int(i["location_to_complete"])*100,2) for i in trails_data if  i["location_to_complete"] and i["trail_year"]==k["s157fa6cfb"]]
+          
+
+        print("oooooo",val)
+        main_count=counts(request,val)
         
-            breweries_analytics={
-                "breweries_percentage":val
-            }
-            return Response({"code":200,"data":breweries_analytics},status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+        breweries_analytics={
+            "breweries_percentage":val,
+            "0-16.67":main_count[0],
+            "16.67-33.33":main_count[1],
+            "33.33-50":main_count[2],
+            "50-66.67":main_count[3],
+            "66.67-83.33":main_count[4],
+            "83.33-100":main_count[5]
+        }
+        
+
+        return Response({"code":200,"data":breweries_analytics},status=status.HTTP_200_OK)
+        # except Exception as e:
+        #     print(e)
+        #     return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
 

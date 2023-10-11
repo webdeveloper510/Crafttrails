@@ -338,7 +338,27 @@ def active_trails(request):
 
 
 
+def counts(request,val):
+    
+    count=0
+    count1=0
+    count2=0
+    count3=0
+    count4=0
+    count5=0
 
+    for i in val:
+        if i<=16.67:
+            count=count+1
+        if i>16.67 and i<=33.33:
+            count1=count1+1 
+        if i>33.33 and i<=50:
+            count2=count2+1 
+        if i>50 and i<=66.67:
+            count3=count3+1 
+        if i>66.67 and i<=83.33:
+            count4=count4+1 
+        if i>83.33 and i<=100:
+            count5=count5+1 
 
-
-
+    return count,count1,count2,count3,count4,count5
