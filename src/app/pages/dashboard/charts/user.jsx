@@ -53,12 +53,12 @@ const PieChart3 = ({ className }) => {
                             data: [ result1.length, result2.length , result3.length,  result4.length , result5.length ,  result6.length ],
                             borderWidth: 1,
                             backgroundColor: [
-                                "rgba(255, 99, 132, 0.2)",
-                                "rgba(54, 162, 235, 0.2)",
-                                "rgba(255, 206, 86, 0.2)",
-                                "rgba(75, 192, 192, 0.2)",
-                                "rgba(153, 102, 255, 0.2)",
-                                "rgba(255, 159, 64, 0.2)"
+                                "rgba(255, 99, 132, 0.6)",
+                                "rgba(54, 162, 235, 0.6)",
+                                "rgba(255, 206, 86, 0.6)",
+                                "rgba(75, 192, 192, 0.6)",
+                                "rgba(153, 102, 255, 0.6)",
+                                "rgba(255, 159, 64, 0.6)"
                             ],
                             borderColor: [
                                 "rgba(255, 99, 132, 1)",
@@ -98,7 +98,7 @@ const PieChart3 = ({ className }) => {
 
    
     return (
-        <div className={`card card-flush align-items-center  ${className}`} style={{boxShadow: "rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset"}}>
+        <div className={`card card-flush  align-items-center  ${className}`} style={{boxShadow: "1px 1px 3px 1px #e1e1e1"}}>
             <h1 className="mt-4">User Completion</h1>
             {
                 list !== null ? (

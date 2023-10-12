@@ -100,3 +100,13 @@ tr:hover .iconss {
     width: 330px !important;
     text-align: center;
 }
+.charts_bar{
+    height: 330px !important;
+    width: 80% !important;
+    text-align: center;
+}
+.charts_doughnut{
+    height: 250px !important;
+    width: 250px !important;
+    text-align: center;
+}

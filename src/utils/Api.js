@@ -159,6 +159,17 @@ export const getParticipantAge = async () => {
   return response
 }
 
+export const getUserCount = async () => {
+  const response = await Axios.get("/craft/usercount/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
+
 
 
 
