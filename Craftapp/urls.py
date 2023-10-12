@@ -1,4 +1,4 @@
-from django.urls import path,include
+from django.urls import path
 from Craftapp.views import *
 
 urlpatterns = [
@@ -15,4 +15,5 @@ urlpatterns = [
     path('trail_analytics/', TrailsAnalytics.as_view(), name='trail_analytics'),
     path('breweries_name/', BreweriesName.as_view(), name='breweries_name'),
     path('participant_age/', ParticipantAge.as_view(), name='participant_age'),
+    path('usercount/', RegisterUnRegister.as_view(), name='usercount'),
 ]

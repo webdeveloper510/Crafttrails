@@ -248,7 +248,7 @@ class ParticipantAge(APIView):
     throttle_scope = 'custom'
 
     def get(self,request):
-        # try:
+        try:
             user_age=[]
             todays_date = date.today() 
             trails_data=trails(request)   
@@ -260,7 +260,7 @@ class ParticipantAge(APIView):
                 val=[int(i["master_id"]) for i in trails_data if i["master_id"] and i["location_to_complete"] and int(i["trail_year"])==int(k["s157fa6cfb"])]
            
             for paticipate in participant_data:
-                print(paticipate["master_id"])
+                
                 if int(paticipate["master_id"]) in val:
                     dateofbirth=paticipate["date_of_birth"].split("T")[0]
                     yearofbirth=dateofbirth.split("-")[0]
@@ -279,19 +279,34 @@ class ParticipantAge(APIView):
                 "66 and older":main_count[5]
             }
                     
-                    
-
-    
-           
-
-           
             
             return Response({"code":200,"data":breweries_analytics},status=status.HTTP_200_OK)
+        except Exception as e:
+     
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
 
-        # except Exception as e:
-        #     print(e)
-        #     return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+class RegisterUnRegister(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
 
+    def get(self,request):
+        try:
+            active_trails_data=active_trails(request)
+            trails_data=trails(request)
 
+            for i in active_trails_data.json()["items"]:
+                
+                register_user=[k["master_id"] for k in trails_data if k["master_id"] and k["location_to_complete"]]
+                unregister_user=[k["master_id"] for k in trails_data if k["master_id"]=="" and k["location_to_complete"]]
+            
+            user_count={
+                "register_user":len(register_user),
+                "unregister_user":len(unregister_user)
+            }
+            return Response({"code":200,"data":user_count},status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
