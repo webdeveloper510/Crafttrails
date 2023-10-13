@@ -17,4 +17,6 @@ urlpatterns = [
     path('participant_age/', ParticipantAge.as_view(), name='participant_age'),
     path('usercount/', RegisterUnRegister.as_view(), name='usercount'),
     path('weekly/', WeeklyParticipants.as_view(), name='weekly'),
+    path('weeklygrowth/', WeeklyGrowth.as_view(), name='weeklygrowth'),
+    path('netchanges/', NetChanges.as_view(), name='netchanges'),
 ]

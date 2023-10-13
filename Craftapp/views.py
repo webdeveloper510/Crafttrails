@@ -310,6 +310,7 @@ class RegisterUnRegister(APIView):
             return Response({"code":200,"data":user_count},status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+        
 
 class WeeklyParticipants(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
@@ -339,7 +340,6 @@ class WeeklyParticipants(APIView):
 
             week_data=WeekParticipants.objects.filter(user_id=request.user.id)
           
-
             for i in week_data:
                 week_count={
                         i.weekname:i.participant
@@ -351,6 +351,64 @@ class WeeklyParticipants(APIView):
 
             return Response({"code":200,"data":actve_participants},status=status.HTTP_200_OK)
         except Exception as e:
-         
+            print(e)
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+
+class WeeklyGrowth(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+    def get(self,request):
+        try:
+            current_date = datetime.datetime.now()
+            week_number = current_date.strftime("%U")
+            growth=calculate_growth(request,week_number)
+            
+            
+            return Response({"code":200,"data":growth},status=status.HTTP_200_OK)
+        except Exception as e:
+            
+            return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
+
+
+class WeeklyGrowth(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+    def get(self,request):
+        try:
+            current_date = datetime.datetime.now()
+            week_number = current_date.strftime("%U")
+            growth=calculate_growth(request,week_number)
+            
+            
+            return Response({"code":200,"data":growth},status=status.HTTP_200_OK)
+        except Exception as e:
+            
+            return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
+        
+
+
+class NetChanges(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+    def get(self,request):
+        try:
+            current_date = datetime.datetime.now()
+            week_number = current_date.strftime("%U")
+            growth=calculate_netchange(request,week_number)
+            
+            
+            return Response({"code":200,"data":growth},status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
 
