@@ -385,9 +385,11 @@ class WeeklyGrowth(APIView):
             current_date = datetime.datetime.now()
             week_number = current_date.strftime("%U")
             growth=calculate_growth(request,week_number)
+            weekly_growth={
+                "growth":growth
+            }
             
-            
-            return Response({"code":200,"data":growth},status=status.HTTP_200_OK)
+            return Response({"code":200,"data":weekly_growth},status=status.HTTP_200_OK)
         except Exception as e:
             
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
@@ -405,9 +407,12 @@ class NetChanges(APIView):
             current_date = datetime.datetime.now()
             week_number = current_date.strftime("%U")
             growth=calculate_netchange(request,week_number)
+            net_changes={
+                "netchanges":growth
+            }
             
             
-            return Response({"code":200,"data":growth},status=status.HTTP_200_OK)
+            return Response({"code":200,"data":net_changes},status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
