@@ -7,8 +7,9 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from Craftapp.utils import *
-from rest_framework.throttling import UserRateThrottle, ScopedRateThrottle
+from rest_framework.throttling import ScopedRateThrottle
 from datetime import date 
+import datetime
 
 
 
@@ -308,5 +309,48 @@ class RegisterUnRegister(APIView):
             }
             return Response({"code":200,"data":user_count},status=status.HTTP_200_OK)
         except Exception as e:
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+class WeeklyParticipants(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+
+    def get(self,request):
+        try:
+            actve_participants=[]
+            current_date = datetime.datetime.now()
+            week_number = current_date.strftime("%U")
+            
+            sub_items=get_all_sub_items(request)
+          
+            parcount=WeekParticipants.objects.filter(user_id=request.user.id).exists()
+           
+            if parcount ==False:
+                WeekParticipants.objects.filter(user_id=request.user.id).create(user_id=request.user.id,weeknumber=week_number,participant=sub_items,weekname="week" + str(week_number))
+            else:
+                already=WeekParticipants.objects.filter(user_id=request.user.id,weekname="week"+str(week_number)).exists()
+                if already == True:
+                    WeekParticipants.objects.filter(user_id=request.user.id,weekname="week" + str(week_number)).update(participant=sub_items)
+                else:
+                    WeekParticipants.objects.filter(user_id=request.user.id).create(user_id=request.user.id,weeknumber=week_number,participant=sub_items,weekname="week" + str(week_number))
+
+            week_data=WeekParticipants.objects.filter(user_id=request.user.id)
+          
+
+            for i in week_data:
+                week_count={
+                        i.weekname:i.participant
+            }
+                actve_participants.append(week_count)
+               
+
+                
+
+            return Response({"code":200,"data":actve_participants},status=status.HTTP_200_OK)
+        except Exception as e:
+         
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 

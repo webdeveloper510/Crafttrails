@@ -16,4 +16,5 @@ urlpatterns = [
     path('breweries_name/', BreweriesName.as_view(), name='breweries_name'),
     path('participant_age/', ParticipantAge.as_view(), name='participant_age'),
     path('usercount/', RegisterUnRegister.as_view(), name='usercount'),
+    path('weekly/', WeeklyParticipants.as_view(), name='weekly'),
 ]

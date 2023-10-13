@@ -35,3 +35,10 @@ class User(AbstractBaseUser,PermissionsMixin,AbstractTimestampedModel):
 
     def __str__(self):
         return self.email
+    
+
+class WeekParticipants(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
+    weeknumber=models.CharField(blank=True,null=True,max_length=20)
+    participant=models.IntegerField(blank=True,null=True)
+    weekname=models.CharField(blank=True,null=True,max_length=20)

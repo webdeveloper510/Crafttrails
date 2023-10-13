@@ -393,3 +393,31 @@ def age_counts(request,user_age):
       
 
     return count,count1,count2,count3,count4,count5
+
+
+
+def get_all_sub_items(request):
+
+    active_participants=[]
+    base_url = settings.base_url
+    headers = {
+        "Authorization": settings.authorization,
+        "Account-Id":  settings.account_id,
+        "Content-Type": "application/json"
+    }
+    app_ids = settings.trailmaster_id 
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    
+   
+    if response.status_code == 200:
+        json_response = response.json()
+        items = json_response.get('items', [])
+ 
+        for item in items:
+            sub_items = item.get("sb7210e570", {})
+            active_participants.append(sub_items["count"])
+            
+    else:
+        raise Exception(f"Failed to fetch data from SmartSuite: {response.content}")
+
+    return sum(active_participants)
