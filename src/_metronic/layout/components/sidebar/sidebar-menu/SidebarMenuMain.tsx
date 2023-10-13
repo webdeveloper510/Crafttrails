@@ -66,15 +66,7 @@ const SidebarMenuMain = () => {
         /> */}
       </SidebarMenuItemWithSub>
 
-      {/* <SidebarMenuItemWithSub to='/crafted/pages/wizards' title='Wizards' hasBullet={true}>
-          <SidebarMenuItem
-            to='/crafted/pages/wizards/horizontal'
-            title='Horizontal'
-            hasBullet={true}
-          />
-          <SidebarMenuItem to='/crafted/pages/wizards/vertical' title='Vertical' hasBullet={true} />
-        </SidebarMenuItemWithSub>
-      </SidebarMenuItemWithSub> */}
+      {/* </SidebarMenuItemWithSub>  */}
       {/* <SidebarMenuItemWithSub
         to='/crafted/accounts'
         title='Accounts'

@@ -65,7 +65,7 @@ const RegisterUser = ({ className }) => {
 
   return (
     <div
-      className={`card card-flush align-items-center  ${className}`}
+      className={`card card-flush user_active align-items-center  ${className}`}
       style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
     >
       <h1 className="mt-4"> Register/Unregister User</h1>

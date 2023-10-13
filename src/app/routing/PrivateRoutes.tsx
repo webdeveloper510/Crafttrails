@@ -17,6 +17,7 @@ import PointsTable from "../lists/points/Table"
 import VisitsTable from "../lists/visits/Table"
 
 
+
 const PrivateRoutes = () => {
   const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
   const WizardsPage = lazy(() => import('../modules/wizards/WizardsPage'))
@@ -41,7 +42,7 @@ const PrivateRoutes = () => {
         <Route path="lists/participants" element={<ParticipantTable />} />
         <Route path="lists/points" element={<PointsTable />} />
         <Route path="lists/visits" element={<VisitsTable />} />
-        <Route path="edit-user/:id" element={<Edit />} />
+
         {/* Lazy Modules */}
         <Route
           path='crafted/pages/profile/*'

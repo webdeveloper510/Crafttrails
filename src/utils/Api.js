@@ -170,11 +170,38 @@ export const getUserCount = async () => {
   return response
 }
 
+export const getWeeklyGrowth = async () => {
+  const response = await Axios.get("/craft/weeklygrowth/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
 
-
-
-
-
+export const getNetChanges = async () => {
+  const response = await Axios.get("/craft/netchanges/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
+// weekly
+export const getWeeklyData = async () => {
+  const response = await Axios.get("/craft/weekly/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
 
 
 

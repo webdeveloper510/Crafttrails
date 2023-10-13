@@ -98,7 +98,7 @@ const PieChart = ({ className }) => {
 
    
     return (
-        <div className={`card card-flush  align-items-center  ${className}`} style={{boxShadow: "1px 1px 3px 1px #e1e1e1"}}>
+        <div className={`card card-flush  align-items-center user_active  ${className}`} style={{boxShadow: "1px 1px 3px 1px #e1e1e1"}}>
             <h1 className="mt-4">User Completion</h1>
             {
                 list !== null ? (
