@@ -19,4 +19,5 @@ urlpatterns = [
     path('weekly/', WeeklyParticipants.as_view(), name='weekly'),
     path('weeklygrowth/', WeeklyGrowth.as_view(), name='weeklygrowth'),
     path('netchanges/', NetChanges.as_view(), name='netchanges'),
+    path('participants/count/', ParticipantsCount.as_view(), name='participants'),
 ]
