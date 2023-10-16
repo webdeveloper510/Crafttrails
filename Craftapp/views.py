@@ -427,16 +427,11 @@ class ParticipantsCount(APIView):
 
     def get(self,request):
         try:
-            count=0
+            
             trails_data=trails(request)
-            for trail in trails_data:
-                if int(trail["title_submenu"]["breweries_completed"]["name"])==int(request.user.brewery):
-                    count=count+1
-                participant={
-                    "paricipant_count":count
-                }
+            data=trail_participant(request,trails_data)
 
-            return Response({"code":200,"data":participant},status=status.HTTP_200_OK)
+            return Response({"code":200,"data":data},status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)

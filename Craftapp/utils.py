@@ -445,3 +445,20 @@ def calculate_netchange(request,week_number):
         net_percentage=int(current_week[0]["participant"])-int(previous_week[0]["participant"])
 
     return net_percentage
+
+def trail_participant(request,trails_data):
+    count=0
+    for trail in trails_data:
+        if trail["title_submenu"]["breweries_completed"]["name"] and request.user.brewery:
+            if int(trail["title_submenu"]["breweries_completed"]["name"])==int(request.user.brewery):
+                count=count+1
+            participant={
+                
+                "paricipant_count":count
+            }
+        else:
+            participant={
+                
+                "paricipant_count":count
+            }
+    return participant
