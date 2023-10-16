@@ -20,7 +20,7 @@ const NetChanges = ({ className }) => {
 
   React.useEffect(() => {
     getNetChanges().then((res) => {
-      console.log("response+++++++++++", res);
+      // console.log("response+++++++++++", res);
       if (res.code === 200) {
         let data = res?.data?.netchanges;
         let obj = {

@@ -19,7 +19,7 @@ const WeeklyGrowth = ({ className }) => {
 
   React.useEffect(() => {
     getWeeklyGrowth().then((res) => {
-      console.log("response+++++++++++", res);
+      // console.log("response+++++++++++", res);
       if (res.code === 200) {
         let data = res?.data?.growth;
         let obj = {

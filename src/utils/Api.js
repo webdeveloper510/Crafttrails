@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const API_URL = process.env.REACT_APP_API_URL
-// console.log(API_URL)
+
 
 Axios.defaults.baseURL = API_URL
 const local = JSON.parse(localStorage.getItem("app-serve-key"))
@@ -191,7 +191,7 @@ export const getNetChanges = async () => {
   })
   return response
 }
-// weekly
+
 export const getWeeklyData = async () => {
   const response = await Axios.get("/craft/weekly/", {
     headers: {
@@ -203,6 +203,16 @@ export const getWeeklyData = async () => {
   return response
 }
 
+export const participantCount = async () => {
+  const response = await Axios.get("/craft/participants/count/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
 
 
 

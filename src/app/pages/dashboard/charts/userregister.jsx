@@ -10,7 +10,7 @@ const RegisterUser = ({ className }) => {
 
   React.useEffect(() => {
     getUserCount().then((res) => {
-      console.log("response------------------", res);
+      // console.log("response------------------", res);
       if (res.code === 200) {
         let register = res?.data?.register_user;
         let unregister = res?.data.unregister_user;

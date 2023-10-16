@@ -141,7 +141,7 @@ export function Login() {
         </button>
       </div>
       <div className='text-gray-500 text-center fw-semibold fs-6'>
-        Not a Member yet?{' '}
+        Not a Member yet?
         <Link to='/auth/registration' className='link-primary'>
           Sign up
         </Link>

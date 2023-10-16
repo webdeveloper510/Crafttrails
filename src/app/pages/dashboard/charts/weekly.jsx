@@ -20,24 +20,25 @@ const WeeklyData = ({ className }) => {
 
   React.useEffect(() => {
     getWeeklyData().then((res) => {
-      console.log("response+++++++++++", res);
+      // console.log("response+++++++++++", res);
       if (res.code === 200) {
         // let data = res?.data[0].week41;
         let newdata = res?.data
+        const resultArray = [];
+        const resultvalue = [];
         for (let i = 0; i < newdata.length; i++) {
             const object = newdata[i];
             const key = Object.keys(object)[0]; // Get the key
             const value = object[key]; // Get the value
+            resultArray.push(key);
+            resultvalue.push(value);
+             console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",resultArray, "+++++++++++++++++++",resultvalue)
             let obj = {
-                labels: [
-                  key
-                ],
+                labels: resultArray,
                 datasets: [
                   {
                     label: "Net Changes",
-                    data: [
-                        value
-                    ],
+                    data: resultvalue,
                     borderWidth: 1,
                     backgroundColor: [
                       "rgba(255, 99, 132, 0.8)",
@@ -70,46 +71,6 @@ const WeeklyData = ({ className }) => {
         setList(obj);
             console.log(`Key: ${key}, Value: ${value}`);
         }
-        // let obj = {
-        //   labels: [
-        //     [ "Net Changes", "a", "b"],
-        //   ],
-        //   datasets: [
-        //     {
-        //       label: "Net Changes",
-        //       data: [
-        //         data, "45", "33"
-        //       ],
-        //       borderWidth: 1,
-        //       backgroundColor: [
-        //         "rgba(255, 99, 132, 0.6)",
-        //         "rgba(54, 162, 235, 0.6)",
-        //         "rgba(255, 206, 86, 0.6)",
-        //         "rgba(75, 192, 192, 0.6)",
-        //         "rgba(153, 102, 255, 0.6)",
-        //         "rgba(255, 159, 64, 0.6)",
-        //       ],
-        //       borderColor: [
-        //         "rgba(255, 99, 132, 1)",
-        //         "rgba(54, 162, 235, 1)",
-        //         "rgba(255, 206, 86, 1)",
-        //         "rgba(75, 192, 192, 1)",
-        //         "rgba(153, 102, 255, 1)",
-        //         "rgba(255, 159, 64, 1)",
-        //       ],
-        //     },
-        //   ],
-        // };
-        // setLableData([
-        //     {
-        //       label: obj.labels,
-        //       bgcolor: obj.datasets[0].backgroundColor,
-        //       borderclr: obj.datasets[0].borderColor,
-        //       borderwidth: obj.datasets[0].borderWidth,
-        //       changes: obj.datasets[0].data,
-        //     },
-        //   ]);
-        // setList(obj);
       }
     });
   }, []);
@@ -137,7 +98,7 @@ const WeeklyData = ({ className }) => {
       style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
     >
       <h1 className="mt-4">Weekly</h1>
-      <div className="row pe-5 p-5 mt-5">
+      <div className="row py-5 mt-5 line_chart">
         <div className="col-md-4 mt-5">
           {labelData[0].label.length > 0
             ? labelData[0].label.map((label, index) => (
@@ -164,13 +125,13 @@ const WeeklyData = ({ className }) => {
               ))
             : ""}
         </div>
-        <div className="col-md-8">
+        <div className="col-md-8 mt-5" style={{display:"flex", justifyContent:"end"}}>
           {list !== null ? (
             <>
               <Line
                 options={options}
                 data={list}
-                className="charts_doughnut"
+                className="charts_line"
               />
             </>
           ) : (

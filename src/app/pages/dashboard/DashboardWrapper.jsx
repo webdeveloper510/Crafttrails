@@ -25,15 +25,19 @@ import RegisterUser from "./charts/userregister";
 import WeeklyGrowth from "./charts/weeklyGrowth";
 import NetChanges from "./charts/netchange";
 import WeeklyData from "./charts/weekly";
+import ParticipantCount from "./charts/participant";
 
 const DashboardPage = () => {
-  const [name, setName] = useState("N/A");
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     getBreweryName().then((res) => {
       console.log(res);
       if (res.code === 200) {
         setName(res?.data?.bar_name);
+        setLoading(false);
       }
     });
   }, []);
@@ -47,38 +51,49 @@ const DashboardPage = () => {
 
   return (
     <>
-      <div className="row">
-        <span className="display-6 mb-5 pb-4 text-center">{name}</span>
-      </div>
-      <div className="row g-5 g-xl-10 mb-5 mb-xl-10">
-        
-        <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
-          <ActiveUserCount />
+      {loading ? (
+        <div className="loader-overly">
+          <div className="loader"></div>
         </div>
-        <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
-          <PieChart />
-        </div>
-        <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
-          <Piechart2 />
-        </div>
-        
-        <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
-          <RegisterUser />
-        </div>
-        <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
-          <WeeklyData />
-        </div>
-        <div className='col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10' >
-          <WeeklyGrowth  />
-        </div>
-        <div className='col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10' >
-          <NetChanges  />
-        </div>
+      ) : (
+        <>
+          <div className="row">
+            <span className="display-6 mb-5 pb-4 text-center">{name}</span>
+          </div>
+          <div className="row g-5 g-xl-10 mb-5 mb-xl-10">
+            <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
+              <ActiveUserCount />
+            </div>
+            <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
+              <PieChart />
+            </div>
+            <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
+              <Piechart2 />
+            </div>
 
-        {/* <div className='col-xxl-6'>
+            <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
+              <RegisterUser />
+            </div>
+            <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
+              <WeeklyData />
+            </div>
+            <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
+              <WeeklyGrowth />
+            </div>
+            <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
+              <NetChanges />
+            </div>
+            <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
+              <ParticipantCount />
+            </div>
+
+            {/* <div className='col-xxl-6'>
           <EngageWidget10 className='h-md-100' />
         </div> */}
-      </div>
+          </div>
+        </>
+      )}
+
       {/* <div className="row gx-5 gx-xl-10">
         <div className="col-xxl-6 mb-5 mb-xl-10"></div>
         <div className="col-xxl-6 mb-5 mb-xl-10"></div>

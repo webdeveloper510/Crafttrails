@@ -12,7 +12,7 @@ const PieChart = ({ className }) => {
 
     React.useEffect(() => {
         getTrailAnalytics().then(res => {
-            console.log("response+++++++++++", res)
+            // console.log("response+++++++++++", res)
             if (res.code === 200) {
                 let data = res?.data?.breweries_percentage
                 // console.log("Lets Shows" , data)

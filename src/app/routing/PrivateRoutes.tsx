@@ -15,6 +15,9 @@ import TrailsTable from '../lists/trails/Table'
 import ParticipantTable from "../lists/participants/Table"
 import PointsTable from "../lists/points/Table"
 import VisitsTable from "../lists/visits/Table"
+import Form1 from '../pages/form/form1'
+import Form2 from '../pages/form/form2'
+import Form3 from '../pages/form/form3'
 
 
 
@@ -42,7 +45,9 @@ const PrivateRoutes = () => {
         <Route path="lists/participants" element={<ParticipantTable />} />
         <Route path="lists/points" element={<PointsTable />} />
         <Route path="lists/visits" element={<VisitsTable />} />
-
+        <Route path="form/form1" element={<Form1 />} />
+        <Route path="form/form2" element={<Form2 />} />
+        <Route path="form/form3" element={<Form3 />} />
         {/* Lazy Modules */}
         <Route
           path='crafted/pages/profile/*'

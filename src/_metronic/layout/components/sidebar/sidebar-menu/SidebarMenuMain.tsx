@@ -65,6 +65,11 @@ const SidebarMenuMain = () => {
           hasBullet={true}
         /> */}
       </SidebarMenuItemWithSub>
+      <SidebarMenuItemWithSub to='/form' title='Form' fontIcon='bi-archive' icon='element-plus'>
+        <SidebarMenuItem to='/form/form1' title='Form 1' hasBullet={true} />
+        <SidebarMenuItem to='/form/form2' title='Form 2' hasBullet={true} />
+        <SidebarMenuItem to='/form/form3' title='Form 3' hasBullet={true} />
+      </SidebarMenuItemWithSub>
 
       {/* </SidebarMenuItemWithSub>  */}
       {/* <SidebarMenuItemWithSub
