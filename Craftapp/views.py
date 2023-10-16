@@ -438,6 +438,6 @@ class ParticipantsCount(APIView):
 
             return Response({"code":200,"data":participant},status=status.HTTP_200_OK)
         except Exception as e:
-            
+            print(e)
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
 
