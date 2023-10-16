@@ -23,10 +23,10 @@ const ParticipantCount = ({ className }) => {
       if (res.code === 200) {
         let data = res?.data?.paricipant_count;
         let obj = {
-          labels: ["Participant Count"],
+          labels: ["Participant"],
           datasets: [
             {
-              label: "Participant Count",
+              label: "Participant",
               data: [data],
               borderWidth: 1,
               backgroundColor: [
@@ -92,13 +92,13 @@ const ParticipantCount = ({ className }) => {
                       textAlign: "center",
                     }}
                   ></div>
-                  <h1
+                  <h3
                     style={{ margin: "5px 10px 5px 0px", whiteSpace: "nowrap" }}
                   >
                     {label}-
-                  </h1>
+                  </h3>
                   <div style={{ margin: "8px 10px 8px 20px" }}>
-                    <h1> {labelData[0].growth[index]}</h1>
+                    <h3> {labelData[0].growth[index]}</h3>
                   </div>
                 </div>
               ))
