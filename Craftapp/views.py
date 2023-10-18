@@ -436,3 +436,20 @@ class ParticipantsCount(APIView):
             print(e)
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
 
+
+
+class FetchLink(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+    def get(self,request):
+        try:
+            urls_data=urls_link(request)
+            
+            return Response({"code":200,"data":urls_data},status=status.HTTP_200_OK)
+        except Exception as e:
+            print("ssssssss",e)
+            return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
+

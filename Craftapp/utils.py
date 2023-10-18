@@ -462,3 +462,19 @@ def trail_participant(request,trails_data):
                 "paricipant_count":count
             }
     return participant
+
+
+
+def urls_link(request):
+  
+    base_url = settings.base_url
+    headers = {
+        "Authorization": settings.authorization,
+        "Account-Id":  settings.account_id,
+        "Content-Type": "application/json"
+    }
+    app_ids = settings.event 
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    active_urls_linlk=[urls["s0576c7c42"] for urls in response.json()["items"] if urls["safb5bb2e0"] and int(urls["safb5bb2e0"])==int(request.user.brewery)  ]
+       
+    return active_urls_linlk 
