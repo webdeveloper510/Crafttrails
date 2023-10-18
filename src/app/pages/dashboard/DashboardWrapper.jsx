@@ -19,7 +19,7 @@
 import ActiveUserCount from "./ActiveUserCount";
 import PieChart from "./userCompletion";
 import { useEffect, useState } from "react";
-import { getBreweryName } from "../../../utils/Api";
+import { getBreweryName, getUserLinks } from "../../../utils/Api";
 import Piechart2 from "./userAge";
 import RegisterUser from "./charts/userregister";
 import WeeklyGrowth from "./charts/weeklyGrowth";
@@ -40,14 +40,23 @@ const DashboardPage = () => {
         setLoading(false);
       }
     });
+    getlinkuser()
   }, []);
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://server.fillout.com/embed/v1/";
-    script.async = true;
-    document.body.appendChild(script);
-  }, []);
+  const getlinkuser =()=>{
+    getUserLinks().then((res)=>{
+      console.log("user link--------------",res)
+    }).catch((error)=>{
+      console.log(error)
+    })
+  }
+
+  // useEffect(() => {
+  //   const script = document.createElement("script");
+  //   script.src = "https://server.fillout.com/embed/v1/";
+  //   script.async = true;
+  //   document.body.appendChild(script);
+  // }, []);
 
   return (
     <>

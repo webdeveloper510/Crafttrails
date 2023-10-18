@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-const Form3 = () => {
+const ReportBug = () => {
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://server.fillout.com/embed/v1/";
@@ -21,4 +21,4 @@ const Form3 = () => {
   );
 };
 
-export default Form3;
+export default ReportBug;

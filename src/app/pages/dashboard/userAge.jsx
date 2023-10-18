@@ -29,12 +29,12 @@ const Piechart2 = ({ className }) => {
           return data <= 25 && data >= 21;
         });
 
-        console.log(result1);
+        // console.log(result1);
 
         const result2 = data.filter((data) => {
           return data <= 35 && data > 26;
         });
-        console.log(result2);
+        // console.log(result2);
 
         const result3 = data.filter((data) => {
           return data <= 45 && data > 36;

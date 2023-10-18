@@ -10,14 +10,16 @@ import { getCSSVariableValue } from '../../_metronic/assets/ts/_utils'
 import { WithChildren } from '../../_metronic/helpers'
 import BuilderPageWrapper from '../pages/layout-builder/BuilderPageWrapper'
 import BreweriesTable from '../lists/breweries/Table'
-import Edit from '../lists/breweries/edit'
 import TrailsTable from '../lists/trails/Table'
 import ParticipantTable from "../lists/participants/Table"
 import PointsTable from "../lists/points/Table"
 import VisitsTable from "../lists/visits/Table"
-import Form1 from '../pages/form/form1'
-import Form2 from '../pages/form/form2'
-import Form3 from '../pages/form/form3'
+import SpecialEvent from '../pages/form/specialEvent'
+import FeatureRequest from '../pages/form/featureRequest'
+import ReportBug from '../pages/form/reportBug'
+import AdminDashboard from '../../admin/dashboard/dashboard'
+import EventsForm from '../pages/Events/event'
+
 
 
 
@@ -36,6 +38,7 @@ const PrivateRoutes = () => {
         {/* <Route path='auth/*' element={<Navigate to='/dashboard' />} /> */}
         <Route path='auth/*' element={<Navigate to='/dashboard' />} />
         {/* Pages */}
+        <Route path='admin-dashboard' element={<AdminDashboard />} />
         <Route path='dashboard' element={<DashboardWrapper />} />
         <Route path='documentManager' element={<DcumentManagerWrapper />} />
         <Route path='builder' element={<BuilderPageWrapper />} />
@@ -45,9 +48,10 @@ const PrivateRoutes = () => {
         <Route path="lists/participants" element={<ParticipantTable />} />
         <Route path="lists/points" element={<PointsTable />} />
         <Route path="lists/visits" element={<VisitsTable />} />
-        <Route path="form/form1" element={<Form1 />} />
-        <Route path="form/form2" element={<Form2 />} />
-        <Route path="form/form3" element={<Form3 />} />
+        <Route path="brewery-event/special-event" element={<SpecialEvent />} />
+        <Route path="brewery-event/feature-request" element={<FeatureRequest />} />
+        <Route path="brewery-event/report-bug" element={<ReportBug />} />
+        <Route path="events/events-iframe" element={<EventsForm />} />
         {/* Lazy Modules */}
         <Route
           path='crafted/pages/profile/*'

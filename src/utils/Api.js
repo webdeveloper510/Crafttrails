@@ -213,8 +213,17 @@ export const participantCount = async () => {
   })
   return response
 }
-
-
+// craft/user/links/
+export const getUserLinks = async () => {
+  const response = await Axios.get("/craft/user/links/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
 
 
 

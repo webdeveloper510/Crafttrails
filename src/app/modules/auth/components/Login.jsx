@@ -32,12 +32,13 @@ export function Login() {
 
   const formik = useFormik({
     initialValues,
-    validationSchema: loginSchema,
+    validationSchema: loginSchema,  
     onSubmit: async (values) => {
       loginUser(values).then(res => {
         setLoading(false)
+        console.log("login dataaaaaaaaaaa", res)
         if (res.code === 200) {
-          toast.success('Login Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
+          toast.success(res.success , { position: "top-right", autoClose: 2000, theme: "colored" });
           saveAuth({ firstname: res.data.firstname, lastname: res.data.lastname, email: res.data.email, jwtToken: res.token })
           localStorage.setItem("token", res.token)
           setCurrentUser({ firstname: res.data.firstname, lastname: res.data.lastname, email: res.data.email, jwtToken: res.token })

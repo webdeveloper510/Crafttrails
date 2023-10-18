@@ -22,12 +22,12 @@ const PieChart = ({ className }) => {
                 return data <= 16.67 && data >= 0
              })
 
-             console.log(result1)
+            //  console.log(result1)
                 
              const result2  = data.filter((data)=> {
                 return data <=  33.33 && data > 16.67
              })
-             console.log(result2)
+            //  console.log(result2)
 
              const result3  = data.filter((data)=> {
                 return data <= 50 && data > 33.33

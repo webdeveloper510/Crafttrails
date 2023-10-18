@@ -32,7 +32,7 @@ const WeeklyData = ({ className }) => {
             const value = object[key]; // Get the value
             resultArray.push(key);
             resultvalue.push(value);
-             console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",resultArray, "+++++++++++++++++++",resultvalue)
+            //  console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",resultArray, "+++++++++++++++++++",resultvalue)
             let obj = {
                 labels: resultArray,
                 datasets: [
@@ -69,7 +69,7 @@ const WeeklyData = ({ className }) => {
             },
           ]);
         setList(obj);
-            console.log(`Key: ${key}, Value: ${value}`);
+            // console.log(`Key: ${key}, Value: ${value}`);
         }
       }
     });
@@ -98,7 +98,8 @@ const WeeklyData = ({ className }) => {
       style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
     >
       <h1 className="mt-4">Weekly</h1>
-      <div className="row py-5 mt-5 line_chart">
+      <p className="explaination">Week to week participants Growth</p>
+      <div className="row py-5 line_chart">
         <div className="col-md-4 mt-5">
           {labelData[0].label.length > 0
             ? labelData[0].label.map((label, index) => (

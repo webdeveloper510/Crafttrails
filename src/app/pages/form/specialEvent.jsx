@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-const Form1 = () => {
+const SpecialEvent = () => {
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -24,4 +24,4 @@ const Form1 = () => {
   )
 }
 
-export default Form1
+export default SpecialEvent

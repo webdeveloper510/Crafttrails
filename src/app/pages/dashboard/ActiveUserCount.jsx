@@ -13,7 +13,8 @@ function ActiveUserCountBox() {
     }, []);
 
     return (
-        <div className="card card-flush active-count-box py-5 d-flex justify-content-center  mb-5 mb-xl-10 user_active">
+        <div style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }} 
+        className="card card-flush user_active py-5 d-flex justify-content-center  mb-5 mb-xl-10 user_active">
             <div className=" display-2 d-flex justify-content-center">
                 {/* <div className='border border-3 border-dark  rounded-circle d-flex justify-content-center align-items-center ' style={{ width: '70px', height: '70px' }} > */}
                 <p className='mb-0 text-danger'> {activeUserCount} </p>

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-const Form2 = () => {
+const FeatureRequest = () => {
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://server.fillout.com/embed/v1/";
@@ -22,4 +22,4 @@ const Form2 = () => {
   );
 };
 
-export default Form2;
+export default FeatureRequest;

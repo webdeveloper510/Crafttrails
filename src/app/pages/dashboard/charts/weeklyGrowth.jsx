@@ -83,7 +83,8 @@ const WeeklyGrowth = ({ className }) => {
       style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
     >
       <h1 className="mt-4">Weekly Growth</h1>
-      <div className="row  py-5 mt-5">
+      <p className="explaination">Growth percentage of new participant</p>
+      <div className="row  py-5 ">
       <div className="col-md-4 mt-5">
           {labelData[0].label.length > 0
             ? labelData[0].label.map((label, index) => (

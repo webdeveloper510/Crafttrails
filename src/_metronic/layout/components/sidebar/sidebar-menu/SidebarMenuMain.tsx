@@ -65,10 +65,14 @@ const SidebarMenuMain = () => {
           hasBullet={true}
         /> */}
       </SidebarMenuItemWithSub>
-      <SidebarMenuItemWithSub to='/form' title='Form' fontIcon='bi-archive' icon='element-plus'>
-        <SidebarMenuItem to='/form/form1' title='Form 1' hasBullet={true} />
-        <SidebarMenuItem to='/form/form2' title='Form 2' hasBullet={true} />
-        <SidebarMenuItem to='/form/form3' title='Form 3' hasBullet={true} />
+      <SidebarMenuItemWithSub to='/brewery-event' title='Brewery Event Submission & Support Hub' fontIcon='bi-archive' icon='element-plus'>
+        <SidebarMenuItem to='/brewery-event/special-event' title='Special Event Submission' hasBullet={true} />
+        <SidebarMenuItem to='/brewery-event/feature-request' title='Feature Requests' hasBullet={true} />
+        <SidebarMenuItem to='/brewery-event/report-bug' title='Report a Bug' hasBullet={true} />
+      </SidebarMenuItemWithSub>
+
+      <SidebarMenuItemWithSub to='/events' title='Events' fontIcon='bi-archive' icon='element-plus'>
+        <SidebarMenuItem to='/events/events-iframe' title='Event' hasBullet={true} />
       </SidebarMenuItemWithSub>
 
       {/* </SidebarMenuItemWithSub>  */}
