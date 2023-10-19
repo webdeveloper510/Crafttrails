@@ -450,6 +450,35 @@ class FetchLink(APIView):
             
             return Response({"code":200,"data":urls_data},status=status.HTTP_200_OK)
         except Exception as e:
-            print("ssssssss",e)
+            return Response({"code":200,"error":"unable to fetch data"},status=status.HTTP_200_OK)
+        
+
+class HottestDay(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+    def get(self,request):
+        try:
+            hottest_data=hottest_day(request)
+            format_change=change_format(request,hottest_data)
+            res = {}
+            for dic in format_change:
+                for key, val in dic.items():
+                    if key in res:
+                        res[key] = max(res[key], val)
+                    else:
+                        res[key] = val
+           
+            return Response({"code":200,"data":res})
+        except Exception as e:
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
+
+
+
+
+        
+    
+
 

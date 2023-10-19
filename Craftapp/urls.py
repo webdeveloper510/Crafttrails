@@ -5,7 +5,7 @@ urlpatterns = [
     path("register/",SignupView.as_view(),name="register"),
     path("login/",LoginView.as_view(),name="login"),
     path("logout/",LogoutView.as_view(),name="logout"),
-    path("breweries/list/",BreweriesView.as_view(),name="breweries"),
+    path("breweries/list/",BreweriesView.as_view(),name="breweries"),   
     path("trail/list/",TrailView.as_view(),name="trail"),
     path("participants/list/",ParticipantsView.as_view(),name="participants"),
     path("participants/points/list/",ParticipantsPointsView.as_view(),name="participantspoints"),
@@ -21,4 +21,5 @@ urlpatterns = [
     path('netchanges/', NetChanges.as_view(), name='netchanges'),
     path('participants/count/', ParticipantsCount.as_view(), name='participants'),
     path('user/links/', FetchLink.as_view(), name='user_links'),
+    path('hottest/days/', HottestDay.as_view(), name='hottest_day'),
 ]

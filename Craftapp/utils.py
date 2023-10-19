@@ -1,6 +1,7 @@
 from CraftTrails import settings
 import requests
 from .models import *
+import datetime
 
 
 def breweries(request):
@@ -478,3 +479,33 @@ def urls_link(request):
     active_urls_linlk=[urls["s0576c7c42"] for urls in response.json()["items"] if urls["safb5bb2e0"] and int(urls["safb5bb2e0"])==int(request.user.brewery)  ]
        
     return active_urls_linlk 
+
+
+def hottest_day(request):
+    hottest_date=trails(request)
+
+    return hottest_date
+
+
+def change_format(request,hottest_data):
+    date_list=[]
+    breweries_dict={}
+    for date in hottest_data:
+        if date["title_submenu"]["breweries_completed"]["date"]:
+
+            input_string = date["title_submenu"]["breweries_completed"]["date"]
+
+            datetime_object = datetime.datetime.fromisoformat(input_string.replace("Z", "+00:00"))
+            formatted_datetime = datetime_object.strftime("%A,%Y-%m-%d %H:%M:%S")
+
+    
+            breweries_dict={
+                "breweries_completed":int(date["breweries_completed"]),
+                "hottest_day":formatted_datetime
+            }
+
+            date_list.append(breweries_dict)
+
+
+    return date_list
+

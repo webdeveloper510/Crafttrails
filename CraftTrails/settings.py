@@ -103,7 +103,7 @@ WSGI_APPLICATION = 'CraftTrails.wsgi.application'
 #     }
 # }
 
-#database
+
 
 DATABASES={
    'default': {
