@@ -51,7 +51,7 @@ const PrivateRoutes = () => {
         <Route path="brewery-event/special-event" element={<SpecialEvent />} />
         <Route path="brewery-event/feature-request" element={<FeatureRequest />} />
         <Route path="brewery-event/report-bug" element={<ReportBug />} />
-        <Route path="events/events-iframe" element={<EventsForm />} />
+        <Route path="events/events-iframe/:id" element={<EventsForm />} />
         {/* Lazy Modules */}
         <Route
           path='crafted/pages/profile/*'

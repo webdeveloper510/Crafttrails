@@ -1,14 +1,41 @@
 /* eslint-disable react/jsx-no-target-blank */
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import { useIntl } from 'react-intl'
 // import {KTIcon} from '../../../../helpers'
 // import {SidebarMenuItemWithSub} from './SidebarMenuItemWithSub'
 import { SidebarMenuItem } from './SidebarMenuItem'
 import { SidebarMenuItemWithSub } from './SidebarMenuItemWithSub'
 import { KTIcon } from '../../../../helpers'
+import { getUserLinks } from "../../../../../utils/Api";
 
 const SidebarMenuMain = () => {
   const intl = useIntl()
+
+  const [iframe, setIframe] = useState([]);
+
+  const ids = iframe.map((url: string) => {
+      const match = url.match(/id=([\w\d]+)/);
+      return match ? match[1] : null;
+  });
+
+console.log("get id onlyyyyyyyyyyyyyy==================",ids);
+
+  useEffect(() => {
+    getlinkuser();
+  }, []);
+
+  const getlinkuser = () => {
+    getUserLinks()
+      .then((res) => {
+        console.log("user link--------------", res);
+        if (res.code == 200) {
+          setIframe(res.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <>
@@ -49,21 +76,7 @@ const SidebarMenuMain = () => {
         <SidebarMenuItem to='/lists/points' title='Participants Points' hasBullet={true} />
         <SidebarMenuItem to='/lists/visits' title='Visits' hasBullet={true} />
 
-        {/* <SidebarMenuItem
-          to='/crafted/pages/profile/campaigns'
-          title='Campaigns'
-          hasBullet={true}
-        />
-        <SidebarMenuItem
-          to='/crafted/pages/profile/documents'
-          title='Documents'
-          hasBullet={true}
-        />
-        <SidebarMenuItem
-          to='/crafted/pages/profile/connections'
-          title='Connections'
-          hasBullet={true}
-        /> */}
+        
       </SidebarMenuItemWithSub>
       <SidebarMenuItemWithSub to='/brewery-event' title='Brewery Event Submission & Support Hub' fontIcon='bi-archive' icon='element-plus'>
         <SidebarMenuItem to='/brewery-event/special-event' title='Special Event Submission' hasBullet={true} />
@@ -72,7 +85,14 @@ const SidebarMenuMain = () => {
       </SidebarMenuItemWithSub>
 
       <SidebarMenuItemWithSub to='/events' title='Events' fontIcon='bi-archive' icon='element-plus'>
-        <SidebarMenuItem to='/events/events-iframe' title='Event' hasBullet={true} />
+        {
+          ids?.length > 0 ?
+          ids?.map((item,i)=>{
+            return(
+              <SidebarMenuItem to={`/events/events-iframe/${item}`} title={`Event ${i+1}`} hasBullet={true} />
+            )
+          }):""
+        }
       </SidebarMenuItemWithSub>
 
       {/* </SidebarMenuItemWithSub>  */}
