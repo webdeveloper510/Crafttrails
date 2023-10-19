@@ -496,7 +496,7 @@ def change_format(request,hottest_data):
             input_string = date["title_submenu"]["breweries_completed"]["date"]
 
             datetime_object = datetime.datetime.fromisoformat(input_string.replace("Z", "+00:00"))
-            formatted_datetime = datetime_object.strftime("%A,%Y-%m-%d %H:%M:%S")
+            formatted_datetime = datetime_object.strftime("%A")
 
     
             breweries_dict={
