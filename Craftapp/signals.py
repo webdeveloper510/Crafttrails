@@ -13,13 +13,14 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
    
     val=reset_password_token.key
     main_value="http://localhost:3000/#/auth/reset-password/?token="+reset_password_token.key
+    print(main_value)
     context = {
         'current_user': reset_password_token.user,
         'username': reset_password_token.user.first_name,
         'email': reset_password_token.user.email,
         'reset_password_url':main_value,
     }
-
+    print(context)
     email_html_message = render_to_string('emails/password_reset_email.html', context)
     email_plaintext_message = render_to_string('emails/password_reset_email.txt', context)
 
