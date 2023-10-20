@@ -84,7 +84,7 @@ const WeeklyGrowth = ({ className }) => {
     >
       <h1 className="mt-4">Weekly Growth</h1>
       <p className="explaination">Growth percentage of new participant</p>
-      <div className="row  py-5 ">
+      <div className="row  py-5 px-5">
       <div className="col-md-4 mt-5">
           {labelData[0].label.length > 0
             ? labelData[0].label.map((label, index) => (
@@ -99,13 +99,13 @@ const WeeklyGrowth = ({ className }) => {
                       textAlign: "center",
                     }}
                   ></div>
-                  <h1
+                  <h3
                     style={{ margin: "5px 10px 5px 0px", whiteSpace: "nowrap" }}
                   >
                     {label}-
-                  </h1>
-                  <div  style={{ margin: "8px 10px 8px 20px" }}>
-                   <h1> {labelData[0].growth[index]}</h1>
+                  </h3>
+                  <div  style={{ margin: "5px 10px 8px 0px" }}>
+                   <h3> {labelData[0].growth[index]}</h3>
                   </div>
                 </div>
               ))

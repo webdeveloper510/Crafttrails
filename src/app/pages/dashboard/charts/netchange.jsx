@@ -35,20 +35,20 @@ const NetChanges = ({ className }) => {
               ],
               borderWidth: 1,
               backgroundColor: [
+                "rgba(255, 159, 64, 0.6)",
                 "rgba(255, 99, 132, 0.6)",
                 "rgba(54, 162, 235, 0.6)",
                 "rgba(255, 206, 86, 0.6)",
                 "rgba(75, 192, 192, 0.6)",
                 "rgba(153, 102, 255, 0.6)",
-                "rgba(255, 159, 64, 0.6)",
               ],
               borderColor: [
+                "rgba(255, 159, 64, 1)",
                 "rgba(255, 99, 132, 1)",
                 "rgba(54, 162, 235, 1)",
                 "rgba(255, 206, 86, 1)",
                 "rgba(75, 192, 192, 1)",
                 "rgba(153, 102, 255, 1)",
-                "rgba(255, 159, 64, 1)",
               ],
             },
           ],
@@ -106,13 +106,13 @@ const NetChanges = ({ className }) => {
                       textAlign: "center",
                     }}
                   ></div>
-                  <h1   
+                  <h3   
                     style={{ margin: "8px 10px 8px 0px", whiteSpace: "nowrap" }}
                   >
-                    {label}
-                  </h1>
-                  <div style={{ margin: "8px 10px 8px 20px" }}>
-                    <h1>{labelData[0].changes[index]}</h1>
+                    {label}-
+                  </h3>
+                  <div style={{ margin: "8px 10px 8px 0px" }}>
+                    <h3>{labelData[0].changes[index]}</h3>
                   </div>
                 </div>
               ))

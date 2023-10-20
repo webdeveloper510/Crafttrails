@@ -26,11 +26,11 @@ const Hottestday = ({ className }) => {
       className="card card-flush user_active py-5 d-flex justify-content-center text-center mb-5 mb-xl-10 user_active"
     >
      <div>
-         <div className=" display-4 d-flex justify-content-center">
+         <div className=" display-5 d-flex justify-content-center">
         <p className="mb-0 text-danger"> {data} </p>
       </div>
       <div className="label mt-2 text-center">
-        <h2>Hottest day of the week</h2>
+        <h3>Hottest day of the week</h3>
       </div>
      </div>
     </div>

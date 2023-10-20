@@ -4,8 +4,11 @@ import clsx from 'clsx'
 import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import validate from '../../../pages/validations/FormValidations'
-import { sendOTP, verifyOtp, forgotPassword } from '../../../../utils/Api'
+import { sendOTP, verifyOtp, forgotPassword, userForgotPassword } from '../../../../utils/Api'
 import { toast } from 'react-toastify';
+import Modal from 'react-bootstrap/Modal';
+import { Button } from 'react-bootstrap'
+
 
 const initialValues = {
   email: '',
@@ -42,26 +45,31 @@ const passwordSchema = Yup.object().shape({
 })
 
 export function ForgotPassword() {
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  
   const [loading, setLoading] = useState(false)
   const [hasErrors, setHasErrors] = useState(undefined)
-  const [otpStatus, setOtpStatus] = useState(false)
-  const [verifyOtpStatus, setVerifyOtpStatus] = useState(false)
-  const [passwordStatus, setPasswordStatus] = useState(false)
+  // const [otpStatus, setOtpStatus] = useState(false)
+  // const [verifyOtpStatus, setVerifyOtpStatus] = useState(false)
+  // const [passwordStatus, setPasswordStatus] = useState(false)
   const [id, setId] = useState(0)
   const [process, setProcess] = useState(0)
   const navigate = useNavigate()
+
   const formik = useFormik({
     initialValues,
     validationSchema: emailSchema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
       setLoading(true)
       setHasErrors(undefined)
-      sendOTP({ email: values.email }).then(res => {
-        if (res.code == 200) {
-          setId(res.result.id)
-          setProcess(1)
-        }else if(res.code === 201){
-          toast.error('Email id does not exist please check', { position: "top-right", autoClose: 2000, theme: "colored" });
+      userForgotPassword({ email: values.email }).then(res => {
+        if (res?.status?.toLowerCase() === "ok")  {
+          setShow(true)
+        }else if(res?.email){
+          toast.error("User with this email doesn't exist.", { position: "top-right", autoClose: 2000, theme: "colored" });
 
         }
       })
@@ -74,7 +82,7 @@ export function ForgotPassword() {
       setLoading(true)
       setHasErrors(undefined)
       verifyOtp({ userId: id, otp: values.otp }).then(res => {
-        if (res.code == 200) {
+        if (res.code === 200) {
           setProcess(2)
         }else if(res.code === 201){
           toast.error(res.message, { position: "top-right", autoClose: 2000, theme: "colored" });
@@ -90,7 +98,7 @@ export function ForgotPassword() {
       setLoading(true)
       setHasErrors(undefined)
       forgotPassword({ userId: id, password: values.newPassword }).then(res => {
-        if (res.code == 200) {
+        if (res.code === 200) {
           navigate("/auth")
         }
       })
@@ -384,6 +392,27 @@ export function ForgotPassword() {
           {/* end::Form group */}
         </form>
       )}
+
+<Modal className='text-center' centered show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          
+          <div className='text-center'><h2>Forgot Password</h2></div>
+        </Modal.Header>
+        <Modal.Body>
+        <span className="bi bi-envelope-open-fill display-2 fs-1 h-1"></span>
+        <h3 className='mt-3'>Your Email Successfully Send</h3>
+        <p>Please Check Your Email</p>
+         </Modal.Body>
+        <Modal.Footer>
+        {/* <Button variant="secondary" onClick={handleClose}>
+            Ok
+          </Button> */}
+          {/*
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button> */}
+        </Modal.Footer>
+      </Modal>
     </div>
   )
 }

@@ -30,16 +30,16 @@ const ParticipantCount = ({ className }) => {
               data: [data],
               borderWidth: 1,
               backgroundColor: [
-                "rgba(255, 99, 132, 0.6)",
                 "rgba(54, 162, 235, 0.6)",
+                "rgba(255, 99, 132, 0.6)",
                 "rgba(255, 206, 86, 0.6)",
                 "rgba(75, 192, 192, 0.6)",
                 "rgba(153, 102, 255, 0.6)",
                 "rgba(255, 159, 64, 0.6)",
               ],
               borderColor: [
-                "rgba(255, 99, 132, 1)",
                 "rgba(54, 162, 235, 1)",
+                "rgba(255, 99, 132, 1)",
                 "rgba(255, 206, 86, 1)",
                 "rgba(75, 192, 192, 1)",
                 "rgba(153, 102, 255, 1)",
@@ -78,7 +78,7 @@ const ParticipantCount = ({ className }) => {
     >
       <h1 className="mt-4">Participant Count</h1>
       <p className="explaination">Count of Participants Starting the Trail at Your Brewery</p>
-      <div className="row  py-5 ">
+      <div className="row  py-5 px-5">
         <div className="col-md-4 mt-5">
           {labelData[0].label.length > 0
             ? labelData[0].label.map((label, index) => (
@@ -98,7 +98,7 @@ const ParticipantCount = ({ className }) => {
                   >
                     {label}-
                   </h3>
-                  <div style={{ margin: "8px 10px 8px 20px" }}>
+                  <div style={{ margin: "5px 10px 8px 0px" }}>
                     <h3> {labelData[0].growth[index]}</h3>
                   </div>
                 </div>

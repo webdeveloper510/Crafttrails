@@ -19,6 +19,7 @@ import FeatureRequest from '../pages/form/featureRequest'
 import ReportBug from '../pages/form/reportBug'
 import AdminDashboard from '../../admin/dashboard/dashboard'
 import EventsForm from '../pages/Events/event'
+import { NewPassword } from '../modules/auth/components/ResetPassword'
 
 
 
@@ -52,6 +53,8 @@ const PrivateRoutes = () => {
         <Route path="brewery-event/feature-request" element={<FeatureRequest />} />
         <Route path="brewery-event/report-bug" element={<ReportBug />} />
         <Route path="events/events-iframe/:id" element={<EventsForm />} />
+       
+
         {/* Lazy Modules */}
         <Route
           path='crafted/pages/profile/*'

@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
-import { getUserByToken, loginUser } from '../../../../utils/Api'
+import { loginUser } from '../../../../utils/Api'
 import { useAuth } from '../core/Auth'
 import { toast } from 'react-toastify';
 
@@ -143,7 +143,7 @@ export function Login() {
       </div>
       <div className='text-gray-500 text-center fw-semibold fs-6'>
         Not a Member yet?
-        <Link to='/auth/registration' className='link-primary'>
+        <Link to='/auth/registration' className='ms-2 link-primary'>
           Sign up
         </Link>
       </div>

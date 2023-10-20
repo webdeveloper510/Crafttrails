@@ -102,22 +102,22 @@ tr:hover .iconss {
 }
 .charts_bar{
     height: 330px !important;
-    width: 90% !important;
+    width: 80% !important;
     text-align: center;
 }
 .charts_doughnut{
-    height: 250px !important;
-    width: 250px !important;
+    height: 220px !important;
+    width: 220px !important;
     text-align: center;
 }
 .charts_line{
-    height: 220px !important;
-    width: 350px !important;
+    height: 210px !important;
+    width: 300px !important;
     text-align: center;
 }
 .line_chart{
     margin-top: 60px;
 }
 .explaination{
-    font-size: 16px;
+    font-size: 15px;
 }

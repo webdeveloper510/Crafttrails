@@ -69,7 +69,7 @@ console.log("get id onlyyyyyyyyyyyyyy==================",ids);
         fontIcon='bi-archive'
         icon='element-plus'
       > */}
-      <SidebarMenuItemWithSub to='/lists' title='Lists' fontIcon='bi-archive' icon='element-plus'>
+      <SidebarMenuItemWithSub to='/lists' title='Lists' fontIcon='bi-archive' icon='bi bi-list-columns-reverse'>
         <SidebarMenuItem to='/lists/breweries' title='Breweries' hasBullet={true} />
         <SidebarMenuItem to='/lists/trails' title='Trails' hasBullet={true} />
         <SidebarMenuItem to='/lists/participants' title='Participants' hasBullet={true} />
@@ -78,13 +78,13 @@ console.log("get id onlyyyyyyyyyyyyyy==================",ids);
 
         
       </SidebarMenuItemWithSub>
-      <SidebarMenuItemWithSub to='/brewery-event' title='Brewery Event Submission & Support Hub' fontIcon='bi-archive' icon='element-plus'>
+      <SidebarMenuItemWithSub to='/brewery-event' title='Brewery Event Submission & Support Hub' fontIcon='bi-archive' icon='bi bi-headset'>
         <SidebarMenuItem to='/brewery-event/special-event' title='Special Event Submission' hasBullet={true} />
         <SidebarMenuItem to='/brewery-event/feature-request' title='Feature Requests' hasBullet={true} />
         <SidebarMenuItem to='/brewery-event/report-bug' title='Report a Bug' hasBullet={true} />
       </SidebarMenuItemWithSub>
 
-      <SidebarMenuItemWithSub to='/events' title='Events' fontIcon='bi-archive' icon='element-plus'>
+      <SidebarMenuItemWithSub to='/events' title='Events' fontIcon='bi-archive' icon='bi bi-calendar3'>
         {
           ids?.length > 0 ?
           ids?.map((item,i)=>{
