@@ -31,7 +31,7 @@ class User(AbstractBaseUser,PermissionsMixin,AbstractTimestampedModel):
     USERNAME_FIELD 	='email'
     
     objects 		= CustomUserManager()
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['first_name']
 
     def __str__(self):
         return self.email

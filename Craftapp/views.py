@@ -44,7 +44,8 @@ class LoginView(APIView):
             data={"firstname":user.first_name,
                     "lastname":user.last_name,
                     "email":user.email,
-                    "breweries_id":user.brewery
+                    "breweries_id":user.brewery,
+                   "status":user.is_superuser
             }
             return Response({'success':"Login Successfully",'token':str(user_token),"code":200,"data":data}, status=status.HTTP_200_OK)  
         else:
