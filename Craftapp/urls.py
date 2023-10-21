@@ -22,4 +22,5 @@ urlpatterns = [
     path('participants/count/', ParticipantsCount.as_view(), name='participants'),
     path('user/links/', FetchLink.as_view(), name='user_links'),
     path('hottest/days/', HottestDay.as_view(), name='hottest_day'),
+    path('membership/data/', Membership.as_view(), name='membership'),
 ]

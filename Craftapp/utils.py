@@ -155,7 +155,7 @@ def participants(request):
     }
     app_ids = settings.participants_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-    print((response.json().get("sac87d276d")))
+    
     
     count=0
     for i in response.json()["items"] :
@@ -284,7 +284,7 @@ def participantspoints(request):
 
             }
             participant_points.append(data)  
-    print(points_earned)
+   
     data= participant_points
   
 
@@ -447,6 +447,7 @@ def calculate_netchange(request,week_number):
 
     return net_percentage
 
+
 def trail_participant(request,trails_data):
     count=0
     for trail in trails_data:
@@ -509,3 +510,47 @@ def change_format(request,hottest_data):
 
     return date_list
 
+
+
+def list_user(request):
+    total_points={}
+    points_earned={}
+    points_data=participantspoints(request)
+    participants_data=participants(request)
+    master_data=[master["master_id"] for master in participants_data]
+    master_name=[master["full_name"] for master in participants_data]
+    
+    for points in points_data:
+    
+        if points["master_id"] in master_data and points["name_of_participants"] in master_name:
+        
+            for data in points["title_submenu"]["points_earned"]:
+                if int(data["name"])==int(request.user.brewery):                        
+                    total_points[points["name_of_participants"]]=int(data["total_points"])  
+                    points_earned[points["name_of_participants"]]=int(data["points_earned"])                    
+    
+    top_user_overall = max(zip(total_points.values(), total_points.keys()))
+    
+    bottom_user_overall = min(zip(total_points.values(), total_points.keys()))
+    
+    top_points_earned=max(zip(points_earned.values(), points_earned.keys())) 
+  
+    bottom_points_earned=min(zip(points_earned.values(), points_earned.keys()))
+    
+    data=[{
+        "top_user_overall":{
+            "participant":top_user_overall[1],"points":top_user_overall[0]
+            },
+        "bottom_user_overall":{
+            "participant":bottom_user_overall[1],"points":bottom_user_overall[0]
+            },
+        "top_points_earned":{
+            "participant":top_points_earned[1],"points":top_points_earned[0]
+            },
+        "bottom_points_earned":{
+            "participant":bottom_points_earned[1],"points":bottom_points_earned[0]
+            }
+
+    }]
+
+    return data
