@@ -15,10 +15,10 @@ def breweries(request):
     app_ids = settings.breweries_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     bar_name=""
+    
     for i in response.json()["items"]:
-        if i["title"]==request.user.brewery:
-        
-           
+       
+        if int(i["title"])==int(request.user.brewery):
             bar_name=i["s8a95871e9"]
         
         data={
@@ -77,7 +77,8 @@ def trails(request):
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
  
     for i in response.json()["items"]:
-    
+        
+        
         if i["sb7210e570"]["count"]>0:
             data={
                 
@@ -103,7 +104,7 @@ def trails(request):
                     "breweries_completed":{
                         "count":i["sb7210e570"]["count"],
                         "name":i["sb7210e570"]["items"][0]["name"],
-                        "date":i["sb7210e570"]["items"][0]["date"]["date"]
+                        "date":i["sb7210e570"]["items"][0]["first_created"]["on"]
                     
                     }
 
@@ -452,7 +453,8 @@ def trail_participant(request,trails_data):
     count=0
     for trail in trails_data:
         if trail["title_submenu"]["breweries_completed"]["name"] and request.user.brewery:
-            if int(trail["title_submenu"]["breweries_completed"]["name"])==int(request.user.brewery):
+            print(trail["title_submenu"]["breweries_completed"]["name"])
+            if str(trail["title_submenu"]["breweries_completed"]["name"])==str(request.user.brewery):
                 count=count+1
             participant={
                 

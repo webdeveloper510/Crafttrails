@@ -92,8 +92,7 @@ class TrailView(APIView):
             trails_data=trails(request)   
             return Response({"code":200,"data":trails_data},status=status.HTTP_200_OK)
         except Exception as e:
-            print(e)
-       
+            
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
 
@@ -200,8 +199,7 @@ class TrailsAnalytics(APIView):
         
             active_trails_data=active_trails(request)   
             for k in active_trails_data.json()["items"]:
-                
-                val=[round(i["title_submenu"]["breweries_completed"]["count"]/ int(i["location_to_complete"])*100,2) for i in trails_data if  i["location_to_complete"] and i["trail_year"]==k["s157fa6cfb"]]
+                val=[round(i["title_submenu"]["breweries_completed"]["count"]/ int(i["location_to_complete"])*100,2) for i in trails_data if  i["location_to_complete"] and i["trail_year"]==k["s157fa6cfb"] ]
             
 
             
@@ -250,7 +248,7 @@ class ParticipantAge(APIView):
     throttle_scope = 'custom'
 
     def get(self,request):
-        try:
+        # try:
             user_age=[]
             todays_date = date.today() 
             trails_data=trails(request)   
@@ -258,7 +256,8 @@ class ParticipantAge(APIView):
             participant_data=participants(request)
 
             for k in active_trails_data.json()["items"]:
-                
+             
+
                 val=[int(i["master_id"]) for i in trails_data if i["master_id"] and i["location_to_complete"] and int(i["trail_year"])==int(k["s157fa6cfb"])]
            
             for paticipate in participant_data:
@@ -283,9 +282,9 @@ class ParticipantAge(APIView):
                     
             
             return Response({"code":200,"data":breweries_analytics},status=status.HTTP_200_OK)
-        except Exception as e:
+        # except Exception as e:
      
-            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+        #     return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
 
 class RegisterUnRegister(APIView):
@@ -310,6 +309,7 @@ class RegisterUnRegister(APIView):
             }
             return Response({"code":200,"data":user_count},status=status.HTTP_200_OK)
         except Exception as e:
+            print(e)
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
@@ -427,15 +427,15 @@ class ParticipantsCount(APIView):
     throttle_scope = 'custom'
 
     def get(self,request):
-        try:
+        # try:
             
             trails_data=trails(request)
             data=trail_participant(request,trails_data)
 
             return Response({"code":200,"data":data},status=status.HTTP_200_OK)
-        except Exception as e:
-            print(e)
-            return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
+        # except Exception as e:
+        #     print(e)
+        #     return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
 
 
 
