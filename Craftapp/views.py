@@ -479,6 +479,10 @@ class HottestDay(APIView):
 
 
 class Membership(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
     def get(self,request):
         try:
             filter_data=list_user(request)
