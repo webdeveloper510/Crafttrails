@@ -37,7 +37,8 @@ class ActIactView(APIView):
     def post(self,request,id):
         try:
             user_status=request.data.get("status")
-            User.objects.filter(id=id).update(status=1)
+            
+            User.objects.filter(id=id).update(status=user_status)
             return Response({"code":200,"data":"User Active"},status=status.HTTP_200_OK)
         
         except Exception as e:
