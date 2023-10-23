@@ -15,8 +15,11 @@ import datetime
 
 
 # Create your views here.
+
+
 """API for User Signup"""
 class SignupView(APIView):
+
     def post(self,request):
         serializer=RegisterSerializer(data=request.data)
         if serializer.is_valid():
@@ -25,7 +28,7 @@ class SignupView(APIView):
        
         dynamic_key = next(iter(serializer.errors))
         return Response({"code":400,"error":serializer.errors[dynamic_key][0]},status=status.HTTP_200_OK)
-
+    
 
 
 """API for User Login"""
@@ -45,14 +48,15 @@ class LoginView(APIView):
                     "lastname":user.last_name,
                     "email":user.email,
                     "breweries_id":user.brewery,
-                   "status":user.is_superuser
+                   "status":user.is_superuser,
+                   "approved":user.status
             }
             return Response({'success':"Login Successfully",'token':str(user_token),"code":200,"data":data}, status=status.HTTP_200_OK)  
         else:
             return Response({'error': 'Invalid credentials',"code":400}, status=status.HTTP_200_OK)
         
-
-
+        
+        
 """API for User Logout"""
 class LogoutView(APIView):
     permission_classes=[IsAuthenticated]
@@ -80,6 +84,7 @@ class BreweriesView(APIView):
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
 
+
 """API TO GET TRAIL DATA"""
 class TrailView(APIView):
     permission_classes=[IsAuthenticated]
@@ -94,6 +99,7 @@ class TrailView(APIView):
         except Exception as e:
             
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
 
 
 """API TO GET PARTICIPANTS DATA"""
@@ -111,6 +117,7 @@ class ParticipantsView(APIView):
             print(e)
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
+
 
 """API TO GET PARTICIPANTS POINTS DATA"""
 class ParticipantsPointsView(APIView):
@@ -144,6 +151,7 @@ class VisitView(APIView):
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
+
 """API TO CHANGE PASSWORD"""
 class ChangePassword(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
@@ -163,12 +171,14 @@ class ChangePassword(APIView):
         return Response({"error":"Unable to change password","code":400}, status=status.HTTP_400_BAD_REQUEST)
     
 
+
 """API TO SHOW COUNT OF ACTIVE USER"""
 class ActiveUser(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'custom'
+
     def get(self,request):
         try:
             trails_data=trails(request)   
@@ -185,7 +195,8 @@ class ActiveUser(APIView):
             return Response({"code":200,"data":active_user},status=status.HTTP_200_OK)
         except Exception as e: 
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
-        
+
+
 
 """API TO GET TRAILS ANALYTICS DATA"""
 class TrailsAnalytics(APIView):
@@ -193,6 +204,7 @@ class TrailsAnalytics(APIView):
     authentication_classes=[TokenAuthentication]
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'custom'
+
     def get(self,request):
         try:
             trails_data=trails(request)   
@@ -223,6 +235,7 @@ class TrailsAnalytics(APIView):
         
 
 
+"""API TO GET LOGIN BREWERIES NAME"""
 class BreweriesName(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
@@ -236,11 +249,12 @@ class BreweriesName(APIView):
             return Response({"code":200,"data":bar_name},status=status.HTTP_200_OK)
 
         except Exception as e:
-            print(e)
+           
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
             
             
 
+"""API TO GET PARTICIPANT AGE"""
 class ParticipantAge(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
@@ -248,7 +262,7 @@ class ParticipantAge(APIView):
     throttle_scope = 'custom'
 
     def get(self,request):
-        # try:
+        try:
             user_age=[]
             todays_date = date.today() 
             trails_data=trails(request)   
@@ -282,11 +296,13 @@ class ParticipantAge(APIView):
                     
             
             return Response({"code":200,"data":breweries_analytics},status=status.HTTP_200_OK)
-        # except Exception as e:
+        except Exception as e:
      
-        #     return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
 
+
+"""API TO GET REGISTER AND UNREGISTER USER"""
 class RegisterUnRegister(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
@@ -313,6 +329,8 @@ class RegisterUnRegister(APIView):
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
+
+"""API TO GET  COUNT OF WEEKLY PARTICIPANT"""
 class WeeklyParticipants(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
@@ -352,10 +370,13 @@ class WeeklyParticipants(APIView):
 
             return Response({"code":200,"data":actve_participants},status=status.HTTP_200_OK)
         except Exception as e:
-            print(e)
+           
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
 
+
+
+"""API TO GET COUNT OF WEEKLY GROWTH OF PARTICIPANT"""
 class WeeklyGrowth(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
@@ -375,6 +396,8 @@ class WeeklyGrowth(APIView):
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
 
 
+
+"""API TO GET COUNT OF WEEKLY GROWTH OF PARTICIPANT"""
 class WeeklyGrowth(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
@@ -397,6 +420,7 @@ class WeeklyGrowth(APIView):
         
 
 
+"""API TO CALCULATE NET CHANGE IN NUMBER OF PARTICIPANT"""
 class NetChanges(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
@@ -420,6 +444,7 @@ class NetChanges(APIView):
 
 
 
+"""API TO COUNT PARTICIPANTS COUNTS"""
 class ParticipantsCount(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
@@ -427,18 +452,19 @@ class ParticipantsCount(APIView):
     throttle_scope = 'custom'
 
     def get(self,request):
-        # try:
+        try:
             
             trails_data=trails(request)
             data=trail_participant(request,trails_data)
 
             return Response({"code":200,"data":data},status=status.HTTP_200_OK)
-        # except Exception as e:
-        #     print(e)
-        #     return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
+        except Exception as e:
+            
+            return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
 
 
 
+"""API TO GETCH LINK OF PARTICIPANTS"""
 class FetchLink(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
@@ -452,8 +478,9 @@ class FetchLink(APIView):
             return Response({"code":200,"data":urls_data},status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"code":200,"error":"unable to fetch data"},status=status.HTTP_200_OK)
-        
 
+
+"""API TO CALCULATE HOTTEST DAY OF THE WEEK"""
 class HottestDay(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
@@ -478,17 +505,19 @@ class HottestDay(APIView):
         
 
 
+
+"""API TO CALCULATE TOP AND BOTTOM POINTS EARNER"""
 class Membership(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'custom'
+
     def get(self,request):
         try:
             filter_data=list_user(request)
             return Response({"code":200,"data":filter_data},status=status.HTTP_200_OK)
-        except Exception as e:
-            print(e)
+        except Exception as e:   
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
 
 
