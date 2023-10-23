@@ -9,6 +9,7 @@ from rest_framework.throttling import ScopedRateThrottle
 
 
 
+
 # Create your views here.
 
 """API TO FETCH USER LIST DATA"""
@@ -20,10 +21,12 @@ class UserList(APIView):
 
     def get(self,request):
         try:
+            
             userlst=user_list(request)
-            return Response({"code":200,"data":userlst},status=status.HTTP_200_OK)
+            return Response({"code":200,"data":userlst.data},status=status.HTTP_200_OK)
 
         except Exception as e:
+            
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
         
 

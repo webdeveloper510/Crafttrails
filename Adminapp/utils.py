@@ -1,11 +1,13 @@
 from Craftapp.models import *
+from Adminapp.serializers import *
 
 
 
 
 def user_list(request):
     user_data=User.objects.filter(is_superuser=0).values().order_by("id")
-    return user_data
+    serializers=UserListSerializers(user_data,many=True)
+    return serializers
 
 
 def change_status(request):
