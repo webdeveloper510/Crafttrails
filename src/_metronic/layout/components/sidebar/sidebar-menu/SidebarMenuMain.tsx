@@ -13,12 +13,12 @@ const SidebarMenuMain = () => {
 
   const [iframe, setIframe] = useState([]);
 
-  const ids = iframe.map((url: string) => {
+  const ids = iframe?.map((url: string) => {
       const match = url.match(/id=([\w\d]+)/);
       return match ? match[1] : null;
   });
 
-console.log("get id onlyyyyyyyyyyyyyy==================",ids);
+// console.log("get id onlyyyyyyyyyyyyyy==================",ids);
 
   useEffect(() => {
     getlinkuser();
@@ -27,7 +27,7 @@ console.log("get id onlyyyyyyyyyyyyyy==================",ids);
   const getlinkuser = () => {
     getUserLinks()
       .then((res) => {
-        console.log("user link--------------", res);
+        // console.log("user link--------------", res);
         if (res.code == 200) {
           setIframe(res.data);
         }
@@ -37,14 +37,68 @@ console.log("get id onlyyyyyyyyyyyyyy==================",ids);
       });
   };
 
+  const status = localStorage.getItem("status")
+  console.log("statussssss", typeof(status))
+
   return (
     <>
+    {
+      status == "true" ?
+      <>
       <SidebarMenuItem
+      to='/admin-dashboard'
+      icon='element-11'
+      title={intl.formatMessage({ id: 'Admin Dashboard' })}
+      fontIcon='bi-app-indicator'
+      />
+      <SidebarMenuItem
+      to='/user-list'
+      icon='bi bi-list-columns-reverse'
+      title={intl.formatMessage({ id: 'User List' })}
+      fontIcon='bi-archive'
+      />
+      </>
+      :
+    <>
+     <SidebarMenuItem
         to='/dashboard'
         icon='element-11'
-        title={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
+        title={intl.formatMessage({ id: 'Trail Dashboard' })}
         fontIcon='bi-app-indicator'
       />
+       <SidebarMenuItem
+        to='/membership-dashboard'
+        icon='element-11'
+        title={intl.formatMessage({ id: 'Membership Dashboard' })}
+        fontIcon='bi-app-indicator'
+      />
+      <SidebarMenuItemWithSub to='/lists' title='Lists' fontIcon='bi-archive' icon='bi bi-list-columns-reverse'>
+        <SidebarMenuItem to='/lists/breweries' title='Breweries' hasBullet={true} />
+        <SidebarMenuItem to='/lists/trails' title='Trails' hasBullet={true} />
+        <SidebarMenuItem to='/lists/participants' title='Participants' hasBullet={true} />
+        <SidebarMenuItem to='/lists/points' title='Participants Points' hasBullet={true} />
+        <SidebarMenuItem to='/lists/visits' title='Visits' hasBullet={true} />
+      </SidebarMenuItemWithSub>
+
+      <SidebarMenuItemWithSub to='/brewery-event' title='Brewery Event Submission & Support Hub' fontIcon='bi-archive' icon='bi bi-headset'>
+        <SidebarMenuItem to='/brewery-event/special-event' title='Special Event Submission' hasBullet={true} />
+        <SidebarMenuItem to='/brewery-event/feature-request' title='Feature Requests' hasBullet={true} />
+        <SidebarMenuItem to='/brewery-event/report-bug' title='Report a Bug' hasBullet={true} />
+      </SidebarMenuItemWithSub>
+
+      <SidebarMenuItemWithSub to='/events' title='Events' fontIcon='bi-archive' icon='bi bi-calendar3'>
+        {
+          ids?.length > 0 ?
+          ids?.map((item,i)=>{
+            return(
+              <SidebarMenuItem to={`/events/events-iframe/${item}`} title="Event" hasBullet={true} />
+            )
+          }):""
+        }
+      </SidebarMenuItemWithSub>
+    </>
+    }
+     
       {/* <SidebarMenuItem
         to='/documentManager'
         icon='file'
@@ -69,31 +123,7 @@ console.log("get id onlyyyyyyyyyyyyyy==================",ids);
         fontIcon='bi-archive'
         icon='element-plus'
       > */}
-      <SidebarMenuItemWithSub to='/lists' title='Lists' fontIcon='bi-archive' icon='bi bi-list-columns-reverse'>
-        <SidebarMenuItem to='/lists/breweries' title='Breweries' hasBullet={true} />
-        <SidebarMenuItem to='/lists/trails' title='Trails' hasBullet={true} />
-        <SidebarMenuItem to='/lists/participants' title='Participants' hasBullet={true} />
-        <SidebarMenuItem to='/lists/points' title='Participants Points' hasBullet={true} />
-        <SidebarMenuItem to='/lists/visits' title='Visits' hasBullet={true} />
-
-        
-      </SidebarMenuItemWithSub>
-      <SidebarMenuItemWithSub to='/brewery-event' title='Brewery Event Submission & Support Hub' fontIcon='bi-archive' icon='bi bi-headset'>
-        <SidebarMenuItem to='/brewery-event/special-event' title='Special Event Submission' hasBullet={true} />
-        <SidebarMenuItem to='/brewery-event/feature-request' title='Feature Requests' hasBullet={true} />
-        <SidebarMenuItem to='/brewery-event/report-bug' title='Report a Bug' hasBullet={true} />
-      </SidebarMenuItemWithSub>
-
-      <SidebarMenuItemWithSub to='/events' title='Events' fontIcon='bi-archive' icon='bi bi-calendar3'>
-        {
-          ids?.length > 0 ?
-          ids?.map((item,i)=>{
-            return(
-              <SidebarMenuItem to={`/events/events-iframe/${item}`} title={`Event ${i+1}`} hasBullet={true} />
-            )
-          }):""
-        }
-      </SidebarMenuItemWithSub>
+      
 
       {/* </SidebarMenuItemWithSub>  */}
       {/* <SidebarMenuItemWithSub

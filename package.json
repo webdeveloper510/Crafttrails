@@ -30,6 +30,8 @@
     "react-bootstrap-icons": "^1.10.3",
     "react-chartjs-2": "^5.2.0",
     "react-copy-to-clipboard": "5.1.0",
+    "react-data-table-component": "^7.5.4",
+    "react-data-table-component-extensions": "^1.6.0",
     "react-dom": "18.0.0",
     "react-google-drive-picker": "^1.2.2",
     "react-inlinesvg": "3.0.0",

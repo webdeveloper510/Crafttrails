@@ -35,12 +35,13 @@ const DashboardPage = () => {
   useEffect(() => {
     setLoading(true);
     getBreweryName().then((res) => {
-      console.log(res);
+      setLoading(false)
       if (res.code === 200) {
         setName(res?.data?.bar_name);
-        setLoading(false);
       }
-    });
+    }).catch((error)=>{
+      
+    })
     getlinkuser()
   }, []);
 

@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import * as Yup from 'yup'
 import clsx from 'clsx'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { loginUser } from '../../../../utils/Api'
 import { useAuth } from '../core/Auth'
@@ -26,9 +26,10 @@ const initialValues = {
 }
 
 export function Login() {
+
   const [loading, setLoading] = useState(false)
   const { saveAuth, setCurrentUser } = useAuth()
-
+  const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues,
@@ -38,9 +39,15 @@ export function Login() {
         setLoading(false)
         console.log("login dataaaaaaaaaaa", res)
         if (res.code === 200) {
+          
           toast.success(res.success , { position: "top-right", autoClose: 2000, theme: "colored" });
           saveAuth({ firstname: res.data.firstname, lastname: res.data.lastname, email: res.data.email, jwtToken: res.token })
           localStorage.setItem("token", res.token)
+          const status = res.data.status
+          localStorage.setItem("status", status)
+          if(status == true){
+            navigate("/admin-dashboard")
+          }
           setCurrentUser({ firstname: res.data.firstname, lastname: res.data.lastname, email: res.data.email, jwtToken: res.token })
           // getUserByToken(res.token).then(res => {
           //   console.log(res)

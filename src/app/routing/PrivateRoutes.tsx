@@ -17,9 +17,11 @@ import VisitsTable from "../lists/visits/Table"
 import SpecialEvent from '../pages/form/specialEvent'
 import FeatureRequest from '../pages/form/featureRequest'
 import ReportBug from '../pages/form/reportBug'
-import AdminDashboard from '../../admin/dashboard/dashboard'
+import AdminDashboard from '../../admin/dashboard/Dashboard'
 import EventsForm from '../pages/Events/event'
 import { NewPassword } from '../modules/auth/components/ResetPassword'
+import Membershipdash from '../pages/membershipDashboard/Membershipdash'
+import UserList from '../../admin/dashboard/Userlist'
 
 
 
@@ -40,7 +42,9 @@ const PrivateRoutes = () => {
         <Route path='auth/*' element={<Navigate to='/dashboard' />} />
         {/* Pages */}
         <Route path='admin-dashboard' element={<AdminDashboard />} />
+        <Route path='user-list' element={<UserList />} />
         <Route path='dashboard' element={<DashboardWrapper />} />
+        <Route path='membership-dashboard' element={<Membershipdash />} />
         <Route path='documentManager' element={<DcumentManagerWrapper />} />
         <Route path='builder' element={<BuilderPageWrapper />} />
         <Route path='menu-test' element={<MenuTestPage />} />

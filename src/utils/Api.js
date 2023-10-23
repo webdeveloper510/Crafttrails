@@ -256,9 +256,39 @@ export const getHottestDays = async () => {
   return response
 }
 
+export const adminUserList = async () => {
+  const response = await Axios.get("/Admin/user/list/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
+
+export const adminMembershipData = async () => {
+  const response = await Axios.get("/craft/membership/data/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
 
 
-
+export const AdminUserStatus = (id,data) => {
+  const response = Axios.post(`/Admin/user/status/${id}`, data,{
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
 
 
 
