@@ -12,5 +12,5 @@ def user_list(request):
 
 def change_status(request,id):
     user_status=request.data.get("status")
-    User.objects.filter(id=id).update(status=1)
+    User.objects.filter(id=id).update(status=user_status)
     return "Status Changed"
