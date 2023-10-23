@@ -39,10 +39,10 @@ class ActIactView(APIView):
             user_status=request.data.get("status")
             
             User.objects.filter(id=id).update(status=user_status)
-            return Response({"code":200,"data":"User Active"},status=status.HTTP_200_OK)
+            return Response({"code":200,"data":"User status changed"},status=status.HTTP_200_OK)
         
         except Exception as e:
-            return Response({"code":400,"error":"unable to active user"},status=status.HTTP_200_OK)
+            return Response({"code":400,"error":"unable to change status of user"},status=status.HTTP_200_OK)
 
 
 
