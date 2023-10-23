@@ -10,7 +10,7 @@ def user_list(request):
     return serializers
 
 
-def change_status(request):
+def change_status(request,id):
     user_status=request.data.get("status")
     User.objects.filter(id=id).update(status=1)
     return "Status Changed"

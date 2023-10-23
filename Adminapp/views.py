@@ -39,11 +39,8 @@ class ActIactView(APIView):
 
     def post(self,request,id):
         try:
-            user_status=request.data.get("status")
-            
-            User.objects.filter(id=id).update(status=user_status)
+            status_changed=change_status(request,id)
             return Response({"code":200,"data":"User status changed"},status=status.HTTP_200_OK)
-        
         except Exception as e:
             return Response({"code":400,"error":"unable to change status of user"},status=status.HTTP_200_OK)
 
