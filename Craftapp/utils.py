@@ -517,6 +517,7 @@ def change_format(request,hottest_data):
 def list_user(request):
     total_points={}
     points_earned={}
+    master_ids={}
     points_data=participantspoints(request)
     participants_data=participants(request)
     master_data=[master["master_id"] for master in participants_data]
@@ -529,28 +530,30 @@ def list_user(request):
             for data in points["title_submenu"]["points_earned"]:
                 if int(data["name"])==int(request.user.brewery):                        
                     total_points[points["name_of_participants"]]=int(data["total_points"])  
-                    points_earned[points["name_of_participants"]]=int(data["points_earned"])                    
+                    points_earned[points["name_of_participants"]]=int(data["points_earned"])   
+                    master_ids[points["name_of_participants"]] = int(points["master_id"])
+                            
+    top_user_overall = max(zip(total_points.values(), total_points.keys(),master_ids.values()))
     
-    top_user_overall = max(zip(total_points.values(), total_points.keys()))
-    
-    bottom_user_overall = min(zip(total_points.values(), total_points.keys()))
-    
-    top_points_earned=max(zip(points_earned.values(), points_earned.keys())) 
+    bottom_user_overall = min(zip(total_points.values(), total_points.keys(),master_ids.values()))
+
+    top_points_earned=max(zip(points_earned.values(), points_earned.keys(),master_ids.values())) 
   
-    bottom_points_earned=min(zip(points_earned.values(), points_earned.keys()))
+    bottom_points_earned=min(zip(points_earned.values(), points_earned.keys(),master_ids.values()))
     
     data=[{
         "top_user_overall":{
-            "participant":top_user_overall[1],"points":top_user_overall[0]
+            
+            "master_id":top_user_overall[2],"participant":top_user_overall[1],"points":top_user_overall[0]
             },
         "bottom_user_overall":{
-            "participant":bottom_user_overall[1],"points":bottom_user_overall[0]
+            "master_id":bottom_user_overall[2],"participant":bottom_user_overall[1],"points":bottom_user_overall[0]
             },
         "top_points_earned":{
-            "participant":top_points_earned[1],"points":top_points_earned[0]
+            "master_id":top_points_earned[2],"participant":top_points_earned[1],"points":top_points_earned[0]
             },
         "bottom_points_earned":{
-            "participant":bottom_points_earned[1],"points":bottom_points_earned[0]
+            "master_id":bottom_points_earned[2],"participant":bottom_points_earned[1],"points":bottom_points_earned[0]
             }
 
     }]
