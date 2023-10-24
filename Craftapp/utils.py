@@ -470,7 +470,8 @@ def trail_participant(request,trails_data):
 
 
 def urls_link(request):
-  
+    url_dict={}
+    url_list=[]
     base_url = settings.base_url
     headers = {
         "Authorization": settings.authorization,
@@ -479,9 +480,16 @@ def urls_link(request):
     }
     app_ids = settings.event 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-    active_urls_linlk=[urls["s0576c7c42"] for urls in response.json()["items"] if urls["safb5bb2e0"] and int(urls["safb5bb2e0"])==int(request.user.brewery)  ]
-       
-    return active_urls_linlk 
+    active_urls_linlk={urls["title"]:urls["s0576c7c42"] for urls in response.json()["items"] if urls["safb5bb2e0"] and int(urls["safb5bb2e0"])==int(request.user.brewery)}
+    for i in active_urls_linlk:   
+        url_dict={
+            "event_name":i,
+            "event_url":active_urls_linlk[i]
+        }
+
+        url_list.append(url_dict)
+
+    return url_list 
 
 
 def hottest_day(request):
@@ -534,12 +542,10 @@ def list_user(request):
                     master_ids[points["name_of_participants"]] = int(points["master_id"])
                             
     top_user_overall = max(zip(total_points.values(), total_points.keys(),master_ids.values()))
-    
     bottom_user_overall = min(zip(total_points.values(), total_points.keys(),master_ids.values()))
-
     top_points_earned=max(zip(points_earned.values(), points_earned.keys(),master_ids.values())) 
-  
     bottom_points_earned=min(zip(points_earned.values(), points_earned.keys(),master_ids.values()))
+    
     
     data=[{
         "top_user_overall":{
