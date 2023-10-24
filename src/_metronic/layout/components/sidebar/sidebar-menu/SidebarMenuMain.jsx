@@ -5,20 +5,13 @@ import { useIntl } from 'react-intl'
 // import {SidebarMenuItemWithSub} from './SidebarMenuItemWithSub'
 import { SidebarMenuItem } from './SidebarMenuItem'
 import { SidebarMenuItemWithSub } from './SidebarMenuItemWithSub'
-import { KTIcon } from '../../../../helpers'
+// import { KTIcon } from '../../../../helpers'
 import { getUserLinks } from "../../../../../utils/Api";
 
 const SidebarMenuMain = () => {
   const intl = useIntl()
 
-  const [iframe, setIframe] = useState([]);
-
-  const ids = iframe?.map((url: string) => {
-      const match = url.match(/id=([\w\d]+)/);
-      return match ? match[1] : null;
-  });
-
-// console.log("get id onlyyyyyyyyyyyyyy==================",ids);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     getlinkuser();
@@ -27,9 +20,10 @@ const SidebarMenuMain = () => {
   const getlinkuser = () => {
     getUserLinks()
       .then((res) => {
-        // console.log("user link--------------", res);
+        // console.log("user link--------------", res.data);
         if (res.code == 200) {
-          setIframe(res.data);
+          const val = res.data
+          setData(val);
         }
       })
       .catch((error) => {
@@ -38,7 +32,6 @@ const SidebarMenuMain = () => {
   };
 
   const status = localStorage.getItem("status")
-  console.log("statussssss", typeof(status))
 
   return (
     <>
@@ -85,14 +78,15 @@ const SidebarMenuMain = () => {
         <SidebarMenuItem to='/brewery-event/feature-request' title='Feature Requests' hasBullet={true} />
         <SidebarMenuItem to='/brewery-event/report-bug' title='Report a Bug' hasBullet={true} />
       </SidebarMenuItemWithSub>
-
       <SidebarMenuItemWithSub to='/events' title='Events' fontIcon='bi-archive' icon='bi bi-calendar3'>
         {
-          ids?.length > 0 ?
-          ids?.map((item,i)=>{
+          data?.length > 0 ?
+          data?.map((event) => {
+            const eventId = event.event_url.match(/id=(\w+)/)[1]
             return(
-              <SidebarMenuItem to={`/events/events-iframe/${item}`} title="Event" hasBullet={true} />
+              <SidebarMenuItem to={`/events/events-iframe/${eventId}`} title={event.event_name} hasBullet={true} />
             )
+           
           }):""
         }
       </SidebarMenuItemWithSub>

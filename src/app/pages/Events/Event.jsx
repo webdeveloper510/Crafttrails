@@ -8,25 +8,8 @@ const EventsForm = () => {
   const params = useParams()
   console.log("paramssssssssssssssssssss", params.id)
   
-
-  // useEffect(() => {
-  //   getlinkuser();
-  // }, []);
-
-  // const getlinkuser = () => {
-  //   getUserLinks()
-  //     .then((res) => {
-  //       console.log("user link--------------", res);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
-
   return (
     <div className="px-5">
-      <h1>Events</h1>
       <iframe
                   src={`https://forms.fillout.com/t/gUSmhKpWZgus?id=${params.id}`}
                   style={{ width: "100%", height: "500px", border: "none" }}

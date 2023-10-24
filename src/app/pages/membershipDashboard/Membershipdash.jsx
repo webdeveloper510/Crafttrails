@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { adminMembershipData } from "../../../utils/Api";
+import Table from "react-bootstrap/Table";
 
 const Membershipdash = () => {
+
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const getlinkuser = () => {
+    setLoading(true);
     adminMembershipData()
       .then((res) => {
+        setLoading(false)
         console.log("user link--------------", res);
-        setData(res.data);
+        if(res.code == 200){
+          setData(res.data);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -21,32 +28,182 @@ const Membershipdash = () => {
 
   return (
     <div>
-      <h1>Membership Dashboard</h1>
-      <div>
-        {/* <table className="table">
-          <thead>
-            <tr className="border-bottom">
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
-            </tr>
-          </thead>
-          {data?.length > 0
-            ? data?.map((item, i) => {
-                return (
-                  <tbody>
-                    <tr className="border-bottom" key={i}>
-                      <th scope="row">{item.bottom_points_earned.participant}</th>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                    </tr>
-                  </tbody>
-                );
-              })
-            : ""}
-        </table> */}
+      <div style={{ marginTop: "40px" }}>
+      {loading ? (
+        <div className="loader-overly">
+          <div className="loader"></div>
+        </div>
+      ) : (
+        <>
+           <div className="row">
+          <div className="col-md-6 px-5 py-5">
+            <Table striped bordered hover>
+              <thead>
+                <th
+                  colSpan={3}
+                  style={{
+                    border: "1px solid gray",
+                    textAlign: "center",
+                    padding: "15px 0px",
+                    fontSize: "20px",
+                  }}
+                >
+                  Top User Overall
+                </th>
+                <tr style={{ border: "1px solid gray", textAlign: "center" }}>
+                  <th>Master Id</th>
+                  <th>Participant</th>
+                  <th>Point</th>
+                </tr>
+              </thead>
+              {data?.length > 0
+                ? data?.map((item, i) => {
+                    return (
+                      <tbody>
+                        <tr
+                          key={i}
+                          style={{
+                            border: "1px solid gray",
+                            textAlign: "center",
+                          }}
+                        >
+                          <td>{item.top_user_overall.master_id}</td>
+                          <td>{item.top_user_overall.participant}</td>
+                          <td>{item.top_user_overall.points}</td>
+                        </tr>
+                      </tbody>
+                    );
+                  })
+                : ""}
+            </Table>
+          </div>
+          <div className="col-md-6 px-5 py-5">
+            <Table striped bordered hover>
+              <thead>
+                <th
+                  colSpan={3}
+                  style={{
+                    border: "1px solid gray",
+                    textAlign: "center",
+                    padding: "15px 0px",
+                    fontSize: "20px",
+                  }}
+                >
+                  Bottom User Overall
+                </th>
+                <tr style={{ border: "1px solid gray", textAlign: "center" }}>
+                  <th>Master Id</th>
+                  <th>Participant</th>
+                  <th>Point</th>
+                </tr>
+              </thead>
+              {data?.length > 0
+                ? data?.map((item, i) => {
+                    return (
+                      <tbody>
+                        <tr
+                          key={i}
+                          style={{
+                            border: "1px solid gray",
+                            textAlign: "center",
+                          }}
+                        >
+                          <td>{item.bottom_user_overall.master_id}</td>
+                          <td>{item.bottom_user_overall.participant}</td>
+                          <td>{item.bottom_user_overall.points}</td>
+                        </tr>
+                      </tbody>
+                    );
+                  })
+                : ""}
+            </Table>
+          </div>
+          <div className="col-md-6 px-5 py-5">
+            <Table striped bordered hover>
+              <thead>
+                <th
+                  colSpan={3}
+                  style={{
+                    border: "1px solid gray",
+                    textAlign: "center",
+                    padding: "15px 0px",
+                    fontSize: "20px",
+                  }}
+                >
+                  Top Points Earned
+                </th>
+                <tr style={{ border: "1px solid gray", textAlign: "center" }}>
+                  <th>Master Id</th>
+                  <th>Participant</th>
+                  <th>Point</th>
+                </tr>
+              </thead>
+              {data?.length > 0
+                ? data?.map((item, i) => {
+                    return (
+                      <tbody>
+                        <tr
+                          key={i}
+                          style={{
+                            border: "1px solid gray",
+                            textAlign: "center",
+                          }}
+                        >
+                          <td>{item.top_points_earned.master_id}</td>
+                          <td>{item.top_points_earned.participant}</td>
+                          <td>{item.top_points_earned.points}</td>
+                        </tr>
+                      </tbody>
+                    );
+                  })
+                : ""}
+            </Table>
+          </div>
+          <div className="col-md-6 px-5 py-5">
+            <Table striped bordered hover>
+              <thead>
+                <th
+                  colSpan={3}
+                  style={{
+                    border: "1px solid gray",
+                    textAlign: "center",
+                    padding: "15px 0px",
+                    fontSize: "20px",
+                  }}
+                >
+                  Bottom Points Earned
+                </th>
+                <tr style={{ border: "1px solid gray", textAlign: "center" }}>
+                  <th>Master Id</th>
+                  <th>Participant</th>
+                  <th>Point</th>
+                </tr>
+              </thead>
+              {data?.length > 0
+                ? data?.map((item, i) => {
+                    return (
+                      <tbody>
+                        <tr
+                          key={i}
+                          style={{
+                            border: "1px solid gray",
+                            textAlign: "center",
+                          }}
+                        >
+                          <td>{item.bottom_points_earned.master_id}</td>
+                          <td>{item.bottom_points_earned.participant}</td>
+                          <td>{item.bottom_points_earned.points}</td>
+                        </tr>
+                      </tbody>
+                    );
+                  })
+                : ""}
+            </Table>
+          </div>
+        </div>
+        </>
+      )}
+     
       </div>
     </div>
   );
