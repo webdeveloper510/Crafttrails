@@ -105,7 +105,6 @@ export function Login() {
 
   const responseGoogle = (response) => {
     console.log(response);
-    // Handle the response, e.g., send it to your server for authentication
   };
 
   return (
@@ -197,7 +196,7 @@ export function Login() {
         </button>
        <div className="goole-sign">
        <GoogleLogin
-        clientId="235457712935-j08bua3t0nmme0jds7ukbnsrn9ftq951.apps.googleusercontent.com"
+        clientId='875997364169-5vfg6tfa6m76f0bpr1qqna7pej84jcsv.apps.googleusercontent.com'
         buttonText="Login with Google"
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
