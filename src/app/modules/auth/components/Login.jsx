@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import { loginUser } from "../../../../utils/Api";
 import { useAuth } from "../core/Auth";
 import { toast } from "react-toastify";
+import { GoogleLogin } from 'react-google-login';
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -102,6 +103,11 @@ export function Login() {
     },
   });
 
+  const responseGoogle = (response) => {
+    console.log(response);
+    // Handle the response, e.g., send it to your server for authentication
+  };
+
   return (
     <form
       className="form w-100"
@@ -189,6 +195,17 @@ export function Login() {
             </span>
           )}
         </button>
+       <div className="goole-sign">
+       <GoogleLogin
+        clientId="235457712935-j08bua3t0nmme0jds7ukbnsrn9ftq951.apps.googleusercontent.com"
+        buttonText="Login with Google"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={'single_host_origin'}
+        className="google-login"
+      />
+       </div>
+
       </div>
       <div className="text-gray-500 text-center fw-semibold fs-6">
         Not a Member yet?

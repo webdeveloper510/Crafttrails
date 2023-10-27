@@ -121,7 +121,7 @@ tr:hover .iconss {
 .explaination{
     font-size: 15px;
 }
-.active{
+.activebtn{
     background-color: green;
     color: white;
     font-weight: 600;
@@ -129,11 +129,27 @@ tr:hover .iconss {
     padding: 5px;
     border: none;
 }
-.inactive{
+.inactivebtn{
     background-color: rgb(194, 3, 3);
     color: white;
     border-radius: 5px;
     font-weight: 600;
     padding: 5px;
     border: none;
+}
+.google-login{
+    /* width: 100%; */
+    text-align: center;
+    margin-top: 10px;
+    padding: 0px 100px;
+}
+.goole-sign{
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+}
+button.google-login {
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
 }

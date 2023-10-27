@@ -37,7 +37,7 @@ const Membershipdash = () => {
         <>
            <div className="row">
           <div className="col-md-6 px-5 py-5">
-            <Table striped bordered hover>
+            <Table striped bordered hover responsive>
               <thead>
                 <th
                   colSpan={3}
@@ -46,6 +46,8 @@ const Membershipdash = () => {
                     textAlign: "center",
                     padding: "15px 0px",
                     fontSize: "20px",
+                    fontWeight:600,
+                    color:"gray"
                   }}
                 >
                   Top User Overall
@@ -65,6 +67,7 @@ const Membershipdash = () => {
                           style={{
                             border: "1px solid gray",
                             textAlign: "center",
+                            background: "#98d0fb"
                           }}
                         >
                           <td>{item.top_user_overall.master_id}</td>
@@ -87,6 +90,8 @@ const Membershipdash = () => {
                     textAlign: "center",
                     padding: "15px 0px",
                     fontSize: "20px",
+                    fontWeight:600,
+                    color:"gray"
                   }}
                 >
                   Bottom User Overall
@@ -106,6 +111,7 @@ const Membershipdash = () => {
                           style={{
                             border: "1px solid gray",
                             textAlign: "center",
+                            background: "#98d0fb"
                           }}
                         >
                           <td>{item.bottom_user_overall.master_id}</td>
@@ -128,6 +134,8 @@ const Membershipdash = () => {
                     textAlign: "center",
                     padding: "15px 0px",
                     fontSize: "20px",
+                    fontWeight:600,
+                    color:"gray"
                   }}
                 >
                   Top Points Earned
@@ -147,6 +155,7 @@ const Membershipdash = () => {
                           style={{
                             border: "1px solid gray",
                             textAlign: "center",
+                            background: "#98d0fb"
                           }}
                         >
                           <td>{item.top_points_earned.master_id}</td>
@@ -169,6 +178,8 @@ const Membershipdash = () => {
                     textAlign: "center",
                     padding: "15px 0px",
                     fontSize: "20px",
+                    fontWeight:600,
+                    color:"gray"
                   }}
                 >
                   Bottom Points Earned
@@ -188,6 +199,7 @@ const Membershipdash = () => {
                           style={{
                             border: "1px solid gray",
                             textAlign: "center",
+                            background: "#98d0fb"
                           }}
                         >
                           <td>{item.bottom_points_earned.master_id}</td>

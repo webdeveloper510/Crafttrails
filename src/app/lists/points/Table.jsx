@@ -67,11 +67,12 @@ const ModalView = ({ toggle, handler, data }) => {
           </span></button>
         </Modal.Header>
         <Modal.Body>
+          <div style={{marginLeft:"50px"}}>
           <div className="row my-5">
             <div className="col-md-3 d-grid col-lg-3 col-sm-12">
               <span className="fw-bold">MASTER ID</span>
             </div>
-            <div className="col-md-8 col-lg-8 col-sm-12 d-grid">
+            <div className="col-md-8 col-lg-8 col-sm-12 d-grid ms-5">
               <span className="bg-secondary rounded ps-3 py-2">{data?.master_id || "N/A"}</span>
             </div>
           </div>
@@ -79,7 +80,7 @@ const ModalView = ({ toggle, handler, data }) => {
             <div className="col-md-3 d-grid col-lg-3 col-sm-12">
               <span className="fw-bold">DESCRIPTION</span>
             </div>
-            <div className="col-md-8 col-lg-8 col-sm-12 d-grid">
+            <div className="col-md-8 col-lg-8 col-sm-12 d-grid ms-5">
               <span className="bg-secondary rounded ps-3 py-2">{data?.brewery_name || "N/A"}</span>
             </div>
           </div>
@@ -87,7 +88,7 @@ const ModalView = ({ toggle, handler, data }) => {
             <div className="col-md-3 col-lg-3 col-sm-12 d-grid">
               <span className="fw-bold">STATUS</span>
             </div>
-            <div className="col-md-8 col-lg-8 col-sm-12 d-grid">
+            <div className="col-md-8 col-lg-8 col-sm-12 d-grid ms-5">
               <span className="bg-secondary rounded ps-3 py-2">{data?.status || "N/A"}</span>
             </div>
           </div>
@@ -95,11 +96,12 @@ const ModalView = ({ toggle, handler, data }) => {
             <div className="col-md-3 col-lg-3 col-sm-12 d-grid">
               <span className="fw-bold">PARTICIPANT NAME</span>
             </div>
-            <div className="col-md-8 col-lg-8 col-sm-12 d-grid">
+            <div className="col-md-8 col-lg-8 col-sm-12 d-grid ms-5">
               <span className="bg-secondary rounded ps-3 py-2">{data?.name_of_participant || "N/A"}</span>
             </div>
           </div>
-          <div className="row mt-5 mb-2">
+          </div>
+          <div className="row mt-5 mb-2" style={{marginLeft:"20px"}}>
             <div className="col-md-12 col-lg-12 col-sm-12 d-grid">
               <span className="fw-bold">POINTS EARNED</span>
             </div>

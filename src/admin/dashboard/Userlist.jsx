@@ -75,9 +75,9 @@ const UserList = () => {
       sortable: true,
       cell: (d) =>
         d.status == true ? (
-          <button className="active" onClick={()=>handleStatus(false, d.id)}>Active</button>
+          <button className="activebtn" onClick={()=>handleStatus(false, d.id)}>Active</button>
         ) : (
-          <button className="inactive" onClick={()=>handleStatus(true , d.id)}>Inactive</button>
+          <button className="inactivebtn" onClick={()=>handleStatus(true , d.id)}>Inactive</button>
         ),
     },
   ];
