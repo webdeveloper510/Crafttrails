@@ -203,6 +203,7 @@ export function Login() {
         onFailure={responseGoogle}
         cookiePolicy={'single_host_origin'}
         className="google-login"
+        redirectUri="https://trailmetrics.cctrails.com/auth"
       />
        </div>
 
