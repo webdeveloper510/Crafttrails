@@ -26,7 +26,7 @@ import WeeklyGrowth from "./charts/weeklyGrowth";
 import NetChanges from "./charts/netchange";
 import WeeklyData from "./charts/weekly";
 import ParticipantCount from "./charts/participant";
-import Hottestday from "./charts/hottestday";
+// import Hottestday from "./charts/hottestday";
 
 const DashboardPage = () => {
   const [name, setName] = useState("");
@@ -92,9 +92,9 @@ const DashboardPage = () => {
             <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
               <ParticipantCount />
             </div>
-            <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
+            {/* <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
               <Hottestday />
-            </div>
+            </div> */}
 
             {/* <div className='col-xxl-6'>
           <EngageWidget10 className='h-md-100' />

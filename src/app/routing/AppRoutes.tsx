@@ -21,7 +21,8 @@ const { PUBLIC_URL } = process.env
 const AppRoutes: FC = () => {
   const { auth } = useAuth()
   return (
-    <HashRouter basename={PUBLIC_URL}>
+    // <HashRouter basename={PUBLIC_URL}>
+      <BrowserRouter basename={PUBLIC_URL}>
       <Routes>
         <Route element={<App />}>
           <Route path='error/*' element={<ErrorsPage />} />
@@ -43,7 +44,7 @@ const AppRoutes: FC = () => {
           <Route path="terms-of-services" element={<TermsAndServices />} /> */}
         </Route>
       </Routes>
-    </HashRouter>
+      </BrowserRouter>
   )
 }
 

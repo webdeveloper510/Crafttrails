@@ -154,6 +154,7 @@ export function Login() {
         </label>
         <input
           type="password"
+          placeholder="Password"
           autoComplete="new-password"
           {...formik.getFieldProps("password")}
           className={clsx(

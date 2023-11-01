@@ -1,30 +1,57 @@
-import { useEffect, useState } from 'react';
-import { getActiveUserCount } from '../../../utils/Api';
+import { useEffect, useState } from "react";
+import { getActiveUserCount, getHottestDays } from "../../../utils/Api";
 
 function ActiveUserCountBox() {
-    const [activeUserCount, setActiveUserCount] = useState(0);
+  const [activeUserCount, setActiveUserCount] = useState(0);
+  const [data, setData] = useState("");
+  useEffect(() => {
+    getActiveUserCount().then((res) => {
+      if (res.code === 200) {
+        setActiveUserCount(res?.data?.active_count);
+      }
+    });
+    getHotestdays();
+  }, []);
 
-    useEffect(() => {
-        getActiveUserCount().then(res => {
-            if (res.code === 200) {
-                setActiveUserCount(res?.data?.active_count);
-            }
-        })
-    }, []);
+  const getHotestdays = () => {
+    getHottestDays()
+      .then((res) => {
+        console.log("ressssssssssssssssssssssssss", res);
+        setData(res?.data?.hottest_day);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-    return (
-        <div style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }} 
-        className="card card-flush user_active py-5 d-flex justify-content-center  mb-5 mb-xl-10 user_active">
-            <div className=" display-2 d-flex justify-content-center">
-                {/* <div className='border border-3 border-dark  rounded-circle d-flex justify-content-center align-items-center ' style={{ width: '70px', height: '70px' }} > */}
-                <p className='mb-0 text-danger'> {activeUserCount} </p>
-                {/* </div> */}
-            </div>
-            <div className="label text-center">
-                <h3>Active User Count</h3>
-            </div>
+  return (
+    <div
+      style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
+      className="card card-flush user_active py-5 d-flex   mb-5 mb-xl-10"
+    >
+      <div className="row">
+        <div className="col-md-6">
+        <div className="label mt-5 px-5 text-center">
+        <h1 style={{fontWeight:500, marginBottom:"70px"}}>ACTIVE USERS</h1>
+      </div>
+          <div className=" display-2 d-flex justify-content-center">
+            <p className="mb-0 " style={{color:"#624df7"}}> {activeUserCount} </p>
+          </div>
+          <div className="label text-center">
+            <h1 style={{fontWeight:700}}>Users</h1>
+          </div>
         </div>
-    );
+        <div className="col-md-6 px-5">
+        <div className="label mt-5 px-5 text-center">
+        <h1 style={{fontWeight:500, marginBottom:"70px"}}>HOTTEST DAY OF THE WEEK</h1>
+      </div>
+        <div className="display-6 mt-5 d-flex justify-content-center">
+        <p className="mb-0 text-danger"> {data} </p>
+      </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default ActiveUserCountBox;

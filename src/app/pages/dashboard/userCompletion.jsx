@@ -1,5 +1,5 @@
 import React from "react";
-import { Pie } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 import { getTrailAnalytics } from "../../../utils/Api";
@@ -18,30 +18,30 @@ const PieChart = ({ className }) => {
                 // console.log("Lets Shows" , data)
                 // let data = [8.37, 21.2 , 5.55, 80.21, 100,  55.10, 30.40 , 63.24 , 16.67]
 
-            const result1  = data.filter((data)=> {
+            const result1  = data?.filter((data)=> {
                 return data <= 16.67 && data >= 0
              })
 
             //  console.log(result1)
                 
-             const result2  = data.filter((data)=> {
+             const result2  = data?.filter((data)=> {
                 return data <=  33.33 && data > 16.67
              })
             //  console.log(result2)
 
-             const result3  = data.filter((data)=> {
+             const result3  = data?.filter((data)=> {
                 return data <= 50 && data > 33.33
              })
 
-             const result4  = data.filter((data)=> {
+             const result4  = data?.filter((data)=> {
                 return data <= 66.67&& data > 50 
              })
 
-             const result5  = data.filter((data)=> {
+             const result5  = data?.filter((data)=> {
                 return data <= 83.33 && data > 66.67
              })
 
-             const result6  = data.filter((data)=> {
+             const result6  = data?.filter((data)=> {
                 return data <= 100 && data > 83.33
              })
 
@@ -50,15 +50,15 @@ const PieChart = ({ className }) => {
                     datasets: [
                         {
                             label: 'completion',
-                            data: [ result1.length, result2.length , result3.length,  result4.length , result5.length ,  result6.length ],
+                            data: [ result1?.length, result2?.length , result3?.length,  result4?.length , result5?.length ,  result6?.length ],
                             borderWidth: 1,
                             backgroundColor: [
-                                "rgba(255, 99, 132, 0.5)",
-                                "rgba(54, 162, 235, 0.5)",
-                                "rgba(255, 206, 86, 0.5)",
-                                "rgba(75, 192, 192, 0.5)",
-                                "rgba(153, 102, 255, 0.5)",
-                                "rgba(255, 159, 64, 0.5)"
+                                "rgba(255, 99, 132, 0.9)",
+                                "rgba(54, 162, 235, 0.9)",
+                                "rgba(255, 206, 86, 0.9)",
+                                "rgba(75, 192, 192, 0.9)",
+                                "rgba(153, 102, 255, 0.9)",
+                                "rgba(255, 159, 64, 0.9)"
                             ],
                             borderColor: [
                                 "rgba(255, 99, 132, 1)",
@@ -79,16 +79,16 @@ const PieChart = ({ className }) => {
     }, [])
 
     const options = {
-        
+        indexAxis: 'y',
         plugins : {
             legend: {
-                display : true,
+                display : false,
                 position: 'left',
                 
                 maxHeight : 100 ,
                 labels: {
                     font: {
-                        size: 20,
+                        size: 18,
                         textAlign : "left",
                     }
                 }   
@@ -100,17 +100,19 @@ const PieChart = ({ className }) => {
     return (
         <div className={`card card-flush  align-items-center user_active  ${className}`} style={{boxShadow: "1px 1px 3px 1px #e1e1e1"}}>
             <h1 className="mt-4">User Completion</h1>
+            <div className="mt-5">
             {
                 list !== null ? (
                     <>                    
-                        <Pie 
+                        <Bar 
                             options={options}
                             data={list}
-                            className="charts_pie"
+                            className="horizontal_bar"
                         />
                     </>
                 ) : ""
             }
+            </div>
         </div>
     )
 }

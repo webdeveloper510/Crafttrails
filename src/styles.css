@@ -153,3 +153,9 @@ button.google-login {
     display: flex;
     justify-content: center;
 }
+.horizontal_bar{
+    margin-top: 30px;
+    height: 220px !important;
+    width: 330px !important;
+    text-align: center;
+}
