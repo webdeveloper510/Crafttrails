@@ -38,7 +38,7 @@ export function Login() {
       loginUser(values).then((res) => {
         setLoading(false);
         console.log("login dataaaaaaaaaaa", res);
-        if (res.code === 200) {
+        if (res?.code === 200) {
           // toast.success(res.success , { position: "top-right", autoClose: 2000, theme: "colored" });
           // saveAuth({ firstname: res.data.firstname, lastname: res.data.lastname, email: res.data.email, jwtToken: res.token })
           localStorage.setItem("token", res.token);
@@ -91,8 +91,8 @@ export function Login() {
           //   setCurrentUser(res)
           //   setLoading(false)
           // })
-        } else if (res.code === 400) {
-          toast.error(res.error, {
+        } else if (res?.code === 400) {
+          toast.error(res?.error, {
             position: "top-right",
             autoClose: 2000,
             theme: "colored",

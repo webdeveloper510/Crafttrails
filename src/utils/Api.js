@@ -14,9 +14,9 @@ const axiosConfig = {
 
 export const loginUser = async (data) => {
   const response = await Axios.post("/craft/login/", data).then(res => {
-    return res.data
+    return res?.data
   }).catch(err => {
-    return err.response.data
+    return err?.response?.data
   })
   return response
 }
