@@ -122,6 +122,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'https://localhost:3000',
     'https://trailmetrics.cctrails.com'
+    'https://44.214.115.216:8000'
   
     
 ]
@@ -129,6 +130,7 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'https://localhost:3000',
     'https://trailmetrics.cctrails.com'
+    'https://44.214.115.216:8000'
 ]
 
 
