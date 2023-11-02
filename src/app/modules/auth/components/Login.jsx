@@ -197,7 +197,7 @@ export function Login() {
         </button>
        <div className="goole-sign">
        <GoogleLogin
-        clientId='235457712935-129v9b02c4e0a6okdhqasdm3u06sfr8j.apps.googleusercontent.com'
+        clientId='58539030741-kqmphtqku95b08pkk9i18kpbfh8go8dd.apps.googleusercontent.com'
         buttonText="Login with Google"
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
