@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*","trailmetrics.cctrails.com"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -133,7 +133,7 @@ CORS_ORIGIN_WHITELIST = [
     
 ]
 
-CSRF_TRUSTED_ORIGINS = ["https://trailmetrics.cctrails.com"]
+# CSRF_TRUSTED_ORIGINS = ["https://trailmetrics.cctrails.com"]
 
 
 
