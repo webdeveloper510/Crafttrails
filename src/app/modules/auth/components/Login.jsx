@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import clsx from "clsx";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,6 +8,9 @@ import { loginUser } from "../../../../utils/Api";
 import { useAuth } from "../core/Auth";
 import { toast } from "react-toastify";
 import { GoogleLogin } from 'react-google-login';
+import { gapi } from 'gapi-script'
+
+
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -26,7 +29,22 @@ const initialValues = {
   password: "",
 };
 
+
+
 export function Login() {
+
+  useEffect(() => {
+    const clientId="235457712935-129v9b02c4e0a6okdhqasdm3u06sfr8j.apps.googleusercontent.com"
+    function start() {
+      gapi.client.init({
+        clientId: clientId,
+        scope: "email",
+      });
+    }
+    gapi.load("client:auth2", start);
+  });
+
+
   const [loading, setLoading] = useState(false);
   const { saveAuth, setCurrentUser } = useAuth();
   const navigate = useNavigate();
@@ -105,6 +123,35 @@ export function Login() {
 
   const responseGoogle = (response) => {
     console.log(response);
+    if(response.tokenID != null){
+      localStorage.setItem("token", response.tokenId);
+      saveAuth({
+        firstname: response.wt.Ad,
+        lastname: response.wt.rV,
+        email: response.wt.cu,
+        jwtToken: response.tokenId,
+      });
+      setCurrentUser({
+        firstname: response.wt.Ad,
+        lastname: response.wt.rV,
+        email: response.wt.cu,
+        jwtToken: response.tokenId,
+      });
+    }else{
+      localStorage.setItem("token", response.tokenId);
+      saveAuth({
+        firstname: response.wt.Ad,
+        lastname: response.wt.rV,
+        email: response.wt.cu,
+        jwtToken: response.tokenId,
+      });
+      setCurrentUser({
+        firstname: response.wt.Ad,
+        lastname: response.wt.rV,
+        email: response.wt.cu,
+        jwtToken: response.tokenId,
+      });
+    }
   };
 
   return (
@@ -197,6 +244,7 @@ export function Login() {
         </button>
        <div className="goole-sign">
        <GoogleLogin
+      //  clientId="58539030741-kqmphtqku95b08pkk9i18kpbfh8go8dd.apps.googleusercontent.com"
         clientId='235457712935-129v9b02c4e0a6okdhqasdm3u06sfr8j.apps.googleusercontent.com'
         buttonText="Login with Google"
         onSuccess={responseGoogle}

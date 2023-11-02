@@ -40,7 +40,7 @@ const DashboardPage = () => {
         setName(res?.data?.bar_name);
       }
     }).catch((error)=>{
-      
+      setLoading(false)
     })
     getlinkuser()
   }, []);
