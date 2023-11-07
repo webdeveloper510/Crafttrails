@@ -234,9 +234,8 @@ export function Login() {
 
   const responseGoogle = (response) => {
     console.log(response);
-    if(response.tokenId != null){
-      localStorage.setItem("token", response.tokenId);
-      
+    if(response.tokenId != null){      
+      // const token = response.tokenId      
       const email = response.profileObj.email
       setData(response)
       getUser(email).then((res)=>{
@@ -312,8 +311,7 @@ export function Login() {
             })
           }else{
             setShow(true)
-          }
-          
+          }          
         }
       }).catch((error)=>{
         console.log(error)
