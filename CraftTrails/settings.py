@@ -92,29 +92,29 @@ WSGI_APPLICATION = 'CraftTrails.wsgi.application'
 # }
 
 
-DATABASES={
-   'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config("NAME"),
-        'USER': config("USERS"),
-        'PASSWORD': config("PASSWORD"),
-        'HOST': config("HOST"),
-        'PORT': config("PORT"),
-    }
-}
-
-
-
 # DATABASES={
 #    'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': config("LIVENAME"),
-#         'USER': config("LIVEUSERS"),
-#         'PASSWORD': config("LIVEPASSWORD"),
-#         'HOST': config("LIVEHOST"),
+#         'NAME': config("NAME"),
+#         'USER': config("USERS"),
+#         'PASSWORD': config("PASSWORD"),
+#         'HOST': config("HOST"),
 #         'PORT': config("PORT"),
 #     }
 # }
+
+
+
+DATABASES={
+   'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config("LIVENAME"),
+        'USER': config("LIVEUSERS"),
+        'PASSWORD': config("LIVEPASSWORD"),
+        'HOST': config("LIVEHOST"),
+        'PORT': config("PORT"),
+    }
+}
 
 CORS_ORIGIN_ALLOW_ALL = True
 
