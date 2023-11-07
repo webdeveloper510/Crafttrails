@@ -41,11 +41,11 @@ class GoogleSignupView(APIView):
             check_email=User.objects.get(email=data["email"])
      
             data={"firstname":check_email.first_name,
-                    "lastname":check_email.last_name,
-                    "email":check_email.email,
-                    "breweries_id":check_email.brewery,
-                   "status":check_email.is_superuser,
-                   "approved":check_email.status
+                 "lastname":check_email.last_name,
+                 "email":check_email.email,
+                 "breweries_id":check_email.brewery,
+                 "status":check_email.is_superuser,
+                 "approved":check_email.status
             }
             user_token=Token.objects.get(user_id=check_email.id)
             if user_token:
@@ -73,6 +73,21 @@ class GoogleSignupView(APIView):
         dynamic_key = next(iter(serializer.errors))
         
         return Response({"code":400,"error":serializer.errors[dynamic_key][0]},status=status.HTTP_200_OK)
+
+
+"""API for Get User  data from database"""
+class UserDataView(APIView):
+    def get(self,request):
+        email=request.data.get('email') 
+        user_val=User.objects.get(email=email)
+        data={"firstname":user_val.first_name,
+                    "lastname":user_val.last_name,
+                    "email":user_val.email,
+                    "breweries_id":user_val.brewery,
+                   "status":user_val.is_superuser,
+                   "approved":user_val.status
+            } 
+        return Response({"code":200,"data":data},status=status.HTTP_200_OK)
 
 """API for User Login"""
 class LoginView(APIView):
