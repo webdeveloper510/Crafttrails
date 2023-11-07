@@ -29,7 +29,50 @@ class SignupView(APIView):
         dynamic_key = next(iter(serializer.errors))
         return Response({"code":400,"error":serializer.errors[dynamic_key][0]},status=status.HTTP_200_OK)
     
+"""API for User  Google Signup"""
+class GoogleSignupView(APIView):
 
+    def post(self,request):
+        data_val=request.data.get("location")
+        data=request.data
+        serializer=GoogleRegisterSerializer(data=request.data)
+        check_email_val=User.objects.filter(email=data["email"])
+        if check_email_val:
+            check_email=User.objects.get(email=data["email"])
+     
+            data={"firstname":check_email.first_name,
+                    "lastname":check_email.last_name,
+                    "email":check_email.email,
+                    "breweries_id":check_email.brewery,
+                   "status":check_email.is_superuser,
+                   "approved":check_email.status
+            }
+            user_token=Token.objects.get(user_id=check_email.id)
+            if user_token:
+                user_token
+            else:
+                user_token=Token.objects.create(user=check_email) 
+  
+            return Response({"success":"User Login Successfully","token":str(user_token),"code":200,"data":data},status=status.HTTP_200_OK)
+
+
+        if serializer.is_valid():
+            serializer.save(brewery=data_val)
+            
+            user_val=User.objects.get(email=(data["email"]))
+            data={"firstname":user_val.first_name,
+                    "lastname":user_val.last_name,
+                    "email":user_val.email,
+                    "breweries_id":user_val.brewery,
+                   "status":user_val.is_superuser,
+                   "approved":user_val.status
+            }
+            user_token=Token.objects.create(user=user_val) 
+            return Response({"success":"User Login Successfully","token":str(user_token),"code":200,"data":data},status=status.HTTP_200_OK)
+       
+        dynamic_key = next(iter(serializer.errors))
+        
+        return Response({"code":400,"error":serializer.errors[dynamic_key][0]},status=status.HTTP_200_OK)
 
 """API for User Login"""
 class LoginView(APIView):
@@ -37,6 +80,7 @@ class LoginView(APIView):
         email = request.data.get('email')    
         password = request.data.get('password')
         user=authenticate(username=email, password=password)
+        print(user)
         if user:
             login(request, user)      
             usr=Token.objects.filter(user_id=user.id)

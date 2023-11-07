@@ -29,6 +29,17 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 
+class GoogleRegisterSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model=User
+        fields=["id","email","brewery"]
+        # extra_kwargs = {
+                
+        #         'location': {'required': True},
+        #         }
+
+
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
