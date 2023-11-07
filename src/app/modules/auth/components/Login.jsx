@@ -4,11 +4,13 @@ import * as Yup from "yup";
 import clsx from "clsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { loginUser } from "../../../../utils/Api";
+import { getUser, googleRegister, loginUser } from "../../../../utils/Api";
 import { useAuth } from "../core/Auth";
 import { toast } from "react-toastify";
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 
 
@@ -34,6 +36,8 @@ const initialValues = {
 export function Login() {
 
   useEffect(() => {
+    
+      //  const clientId = "58539030741-kqmphtqku95b08pkk9i18kpbfh8go8dd.apps.googleusercontent.com"
     const clientId="235457712935-129v9b02c4e0a6okdhqasdm3u06sfr8j.apps.googleusercontent.com"
     function start() {
       gapi.client.init({
@@ -48,6 +52,113 @@ export function Login() {
   const [loading, setLoading] = useState(false);
   const { saveAuth, setCurrentUser } = useAuth();
   const navigate = useNavigate();
+  const [data , setData] = useState([])
+  const [inputdata, setInputdata] = useState({
+    location_id: "",
+  });
+  const [passError, setPassError] = useState({
+    location_id: "",
+  });
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+
+  const handlePassport = (e) => {
+    console.log({
+      ...inputdata,
+      [e.target.name]: e.target.value,
+    });
+
+    setInputdata({
+      ...inputdata,
+      [e.target.name]: e.target.value,
+    });
+    setPassError({
+      ...passError,
+      [e.target.name]: "",
+    });
+  };
+
+  const handleSubmitData = () => {
+    let valid = true;
+    const newErrors = { ...passError };
+    // const regex = /^[A-PR-WY][1-9]\d\s?\d{4}[1-9]$/;
+    if (!inputdata.location_id) {
+      valid = false;
+      newErrors.location_id = "Please Enter Your Location Id";
+    } 
+    setPassError(newErrors);
+    if (valid) {
+      setPassError("");
+      console.log(inputdata);
+      googleRegister({
+        email : data.wt.cu,
+        location : inputdata.location_id
+      }).then((res)=>{
+        console.log(res)
+        if (res?.code === 200) {
+          // toast.success(res.success , { position: "top-right", autoClose: 2000, theme: "colored" });
+          // saveAuth({ firstname: res.data.firstname, lastname: res.data.lastname, email: res.data.email, jwtToken: res.token })
+          localStorage.setItem("token", res.token);
+          localStorage.setItem("approved", res.data.approved);
+          const approved = res.data.approved;
+          const status = res.data.status;
+          localStorage.setItem("status", status);
+          if (status == true) {
+            navigate("/admin-dashboard");
+            saveAuth({
+              firstname: res.data.firstname,
+              lastname: res.data.lastname,
+              email: res.data.email,
+              jwtToken: res.token,
+            });
+            setCurrentUser({
+              firstname: res.data.firstname,
+              lastname: res.data.lastname,
+              email: res.data.email,
+              jwtToken: res.token,
+            });
+            setShow(false)
+          } else if (approved == false) {
+            toast.error("ADMIN NEED TO APPROVE YOUR PROFILE", {
+              position: "top-right",
+              autoClose: 2000,
+              theme: "colored",
+            });
+            setShow(false)
+          } else {
+            toast.success(res.success, {
+              position: "top-right",
+              autoClose: 2000,
+              theme: "colored",
+            });
+            saveAuth({
+              firstname: res.data.firstname,
+              lastname: res.data.lastname,
+              email: res.data.email,
+              jwtToken: res.token,
+            });
+            setCurrentUser({
+              firstname: res.data.firstname,
+              lastname: res.data.lastname,
+              email: res.data.email,
+              jwtToken: res.token,
+            });
+            setShow(false)
+          }
+        } else if (res?.code === 400) {
+          toast.error(res?.error, {
+            position: "top-right",
+            autoClose: 2000,
+            theme: "colored",
+          });
+          setShow(false)
+          setLoading(false);
+        }
+      })
+    }
+  };
 
   const formik = useFormik({
     initialValues,
@@ -123,38 +234,97 @@ export function Login() {
 
   const responseGoogle = (response) => {
     console.log(response);
-    if(response.tokenID != null){
+    if(response.tokenId != null){
       localStorage.setItem("token", response.tokenId);
-      saveAuth({
-        firstname: response.wt.Ad,
-        lastname: response.wt.rV,
-        email: response.wt.cu,
-        jwtToken: response.tokenId,
-      });
-      setCurrentUser({
-        firstname: response.wt.Ad,
-        lastname: response.wt.rV,
-        email: response.wt.cu,
-        jwtToken: response.tokenId,
-      });
+      
+      const email = response.profileObj.email
+      setData(response)
+      getUser(email).then((res)=>{
+        console.log("get user data", res)
+        let newemail = res.data.email
+        let location_id = res.data.breweries_id
+        if(res?.code == 200){
+          if(res?.data?.email !== "Invalid email"){
+            googleRegister({
+              email : newemail,
+              location : location_id
+            }).then((res)=>{
+              console.log(res)
+              if (res?.code === 200) {
+                localStorage.setItem("token", res.token);
+                localStorage.setItem("approved", res.data.approved);
+                const approved = res.data.approved;
+                const status = res.data.status;
+                localStorage.setItem("status", status);
+                if (status == true) {
+                  navigate("/admin-dashboard");
+                  saveAuth({
+                    firstname: res.data.firstname,
+                    lastname: res.data.lastname,
+                    email: res.data.email,
+                    jwtToken: res.token,
+                  });
+                  setCurrentUser({
+                    firstname: res.data.firstname,
+                    lastname: res.data.lastname,
+                    email: res.data.email,
+                    jwtToken: res.token,
+                  });
+                  setShow(false)
+                } else if (approved == false) {
+                  toast.error("ADMIN NEED TO APPROVE YOUR PROFILE", {
+                    position: "top-right",
+                    autoClose: 2000,
+                    theme: "colored",
+                  });
+                  setShow(false)
+                } else {
+                  toast.success(res.success, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    theme: "colored",
+                  });
+                  saveAuth({
+                    firstname: res.data.firstname,
+                    lastname: res.data.lastname,
+                    email: res.data.email,
+                    jwtToken: res.token,
+                  });
+                  setCurrentUser({
+                    firstname: res.data.firstname,
+                    lastname: res.data.lastname,
+                    email: res.data.email,
+                    jwtToken: res.token,
+                  });
+                  setShow(false)
+                }
+              } else if (res?.code === 400) {
+                toast.error(res?.error, {
+                  position: "top-right",
+                  autoClose: 2000,
+                  theme: "colored",
+                });
+                setShow(false)
+                setLoading(false);
+              }
+            }).catch((error)=>{
+              console.log(error)
+            })
+          }else{
+            setShow(true)
+          }
+          
+        }
+      }).catch((error)=>{
+        console.log(error)
+      })
     }else{
-      localStorage.setItem("token", response.tokenId);
-      saveAuth({
-        firstname: response.wt.Ad,
-        lastname: response.wt.rV,
-        email: response.wt.cu,
-        jwtToken: response.tokenId,
-      });
-      setCurrentUser({
-        firstname: response.wt.Ad,
-        lastname: response.wt.rV,
-        email: response.wt.cu,
-        jwtToken: response.tokenId,
-      });
+      navigate("/auth")
     }
   };
 
   return (
+    <>
     <form
       className="form w-100"
       onSubmit={formik.handleSubmit}
@@ -263,5 +433,31 @@ export function Login() {
         </Link>
       </div>
     </form>
+    <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Enter Your Location Id</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <input
+            type="text"
+            className="form-control"
+            placeholder="Location Id"
+            name="location_id"
+            value={inputdata.location_id}
+            autoComplete="off"
+            onChange={(e) => handlePassport(e)}
+          />
+           <span className="text-danger">{passError.location_id}</span>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={() => handleSubmitData()}>
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 }

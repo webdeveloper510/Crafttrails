@@ -20,10 +20,25 @@ export const loginUser = async (data) => {
   })
   return response
 }
+export const googleRegister = (data) => {
+  const response = Axios.post(`/craft/googleregister/`, data).then(res => {
+    return res?.data
+  })
+  return response
+}
+
+export const getUser = async (data) => {
+  const response = await Axios.get(`/craft/userdata/${data}`).then(res => {
+    return res?.data
+  }).catch(err => {
+    return err.response.data
+  })
+  return response
+}
 
 export const registerUser = async (data) => {
   const response = await Axios.post("/craft/register/", data).then(res => {
-    return res.data
+    return res?.data
   }).catch(err => {
     return err.response.data
   })
@@ -33,7 +48,7 @@ export const registerUser = async (data) => {
 export const userForgotPassword = async (data) => {
   const response = await Axios.post("/api/password_reset/", data).then(res => {
     console.log(res, "try")
-    return res.data
+    return res?.data
   }).catch(err => {
     return err.response.data
   })
@@ -42,7 +57,7 @@ export const userForgotPassword = async (data) => {
 
 export const userResetPassword = async (data) => {
   const response = await Axios.post("/api/password_reset/confirm/", data).then(res => {
-    return res.data
+    return res?.data
   }).catch(err => {
     return err.response.data
   })
@@ -51,19 +66,19 @@ export const userResetPassword = async (data) => {
 
 export const createUser = (data) => {
   const response = Axios.post("/admins/create_user", data).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
 export const editUser = (data) => {
   const response = Axios.put("/admins/edit_user_detail", data).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
 export const deleteUser = (id) => {
   const response = Axios.delete(`/admins/delete_user/${id}`).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -74,7 +89,7 @@ export const getBreweriesList = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   }).catch(err => {
     return err.response.data
   })
@@ -87,7 +102,7 @@ export const getTrailList = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   }).catch(err => {
     return err.response.data
   })
@@ -100,7 +115,7 @@ export const getParticipantList = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   }).catch(err => {
     return err.response.data
   })
@@ -113,7 +128,7 @@ export const getVisitList = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   }).catch(err => {
     return err.response.data
   })
@@ -126,7 +141,7 @@ export const getPointList = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   }).catch(err => {
     return err.response.data
   })
@@ -139,7 +154,7 @@ export const getActiveUserCount = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -150,7 +165,7 @@ export const getTrailAnalytics = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -162,7 +177,7 @@ export const getBreweryName = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -173,7 +188,7 @@ export const getParticipantAge = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -184,7 +199,7 @@ export const getUserCount = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -195,7 +210,7 @@ export const getWeeklyGrowth = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -206,7 +221,7 @@ export const getNetChanges = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -217,7 +232,7 @@ export const getWeeklyData = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -228,7 +243,7 @@ export const participantCount = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -239,7 +254,7 @@ export const getUserLinks = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -251,7 +266,7 @@ export const getHottestDays = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -262,7 +277,7 @@ export const adminUserList = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -273,7 +288,7 @@ export const adminMembershipData = async () => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -285,10 +300,11 @@ export const AdminUserStatus = (id,data) => {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
   }).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
+
 
 
 
@@ -314,7 +330,7 @@ export const AdminUserStatus = (id,data) => {
 
 export const getUserData = (id) => {
   const response = Axios.get(`/admins/get_user_detail/${id}`).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -325,8 +341,8 @@ export const getUserByToken = async (token) => {
       "x-access-token": token
     }
   }).then(res => {
-    if (res.data.code == 200) {
-      return res.data.result
+    if (res?.data.code == 200) {
+      return res?.data.result
     }
   })
   return response
@@ -338,8 +354,8 @@ export const requestPassword = async (token) => {
       "x-access-token": token
     }
   }).then(res => {
-    if (res.data.code == 200) {
-      return res.data.result
+    if (res?.data.code == 200) {
+      return res?.data.result
     }
   })
   return response
@@ -348,7 +364,7 @@ export const requestPassword = async (token) => {
 // Send Otp
 export const sendOTP = (data) => {
   const response = Axios.put("/users/send_otp", data).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -356,7 +372,7 @@ export const sendOTP = (data) => {
 //Verify OTP
 export const verifyOtp = (data) => {
   const response = Axios.put("/users/verify_otp", data).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -364,7 +380,7 @@ export const verifyOtp = (data) => {
 //Forget Password
 export const forgotPassword = (data) => {
   const response = Axios.put("/users/forgot_password", data).then(res => {
-    return res.data
+    return res?.data
   })
   return response
 }
@@ -376,11 +392,11 @@ export const getprofileImage = async (token) => {
       "Authorization": `Bearer ${token}`
     }
   }).then((res) => {
-    //  window.open(`${res.data}`)
+    //  window.open(`${res?.data}`)
 
 
     // console.log(res)
-    return new Blob([res.data])
+    return new Blob([res?.data])
   }).then((data) => {
     var reader = new FileReader();
     reader.onload = function () {

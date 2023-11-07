@@ -20,6 +20,8 @@ const PointsTable = () => {
       if (res.code === 200) {
         setList(res?.data)
       }
+    }).catch((error)=>{
+      setLoading(false)
     })
   }, []);
 
