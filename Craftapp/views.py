@@ -78,16 +78,18 @@ class GoogleSignupView(APIView):
 """API for Get User  data from database"""
 class UserDataView(APIView):
     def get(self,request):
-        email=request.data.get('email') 
-        user_val=User.objects.get(email=email)
-        data={"firstname":user_val.first_name,
-                    "lastname":user_val.last_name,
-                    "email":user_val.email,
-                    "breweries_id":user_val.brewery,
-                   "status":user_val.is_superuser,
-                   "approved":user_val.status
-            } 
-        return Response({"code":200,"data":data},status=status.HTTP_200_OK)
+        email=request.data.get('email1') 
+        user_val1=User.objects.filter(email=email)
+        if user_val1:
+            user_val=User.objects.get(email=email)
+            data={"firstname":user_val.first_name,
+                "lastname":user_val.last_name,
+                "email":user_val.email,
+                "breweries_id":user_val.brewery,
+                "status":user_val.is_superuser,
+                "approved":user_val.status
+                } 
+            return Response({"code":200,"data":data},status=status.HTTP_200_OK)
 
 """API for User Login"""
 class LoginView(APIView):
