@@ -37,7 +37,7 @@ export function Login() {
 
   useEffect(() => {
     
-      //  const clientId = "58539030741-kqmphtqku95b08pkk9i18kpbfh8go8dd.apps.googleusercontent.com"
+    // const clientId = "58539030741-kqmphtqku95b08pkk9i18kpbfh8go8dd.apps.googleusercontent.com"
     const clientId="235457712935-129v9b02c4e0a6okdhqasdm3u06sfr8j.apps.googleusercontent.com"
     function start() {
       gapi.client.init({
@@ -93,14 +93,14 @@ export function Login() {
       setPassError("");
       console.log(inputdata);
       googleRegister({
-        email : data.wt.cu,
-        location : inputdata.location_id
+        email : data?.wt.cu,
+        location : inputdata?.location_id
       }).then((res)=>{
         console.log(res)
         if (res?.code === 200) {
           // toast.success(res.success , { position: "top-right", autoClose: 2000, theme: "colored" });
           // saveAuth({ firstname: res.data.firstname, lastname: res.data.lastname, email: res.data.email, jwtToken: res.token })
-          localStorage.setItem("token", res.token);
+          localStorage.setItem("token", res?.token);
           localStorage.setItem("approved", res.data.approved);
           const approved = res.data.approved;
           const status = res.data.status;
@@ -128,7 +128,7 @@ export function Login() {
             });
             setShow(false)
           } else {
-            toast.success(res.success, {
+            toast.success(res?.success, {
               position: "top-right",
               autoClose: 2000,
               theme: "colored",

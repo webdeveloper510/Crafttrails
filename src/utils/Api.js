@@ -31,7 +31,7 @@ export const getUser = async (data) => {
   const response = await Axios.get(`/craft/userdata/${data}`).then(res => {
     return res?.data
   }).catch(err => {
-    return err.response.data
+    return err.response?.data
   })
   return response
 }
