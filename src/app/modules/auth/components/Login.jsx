@@ -156,6 +156,8 @@ export function Login() {
           setShow(false)
           setLoading(false);
         }
+      }).catch((error)=>{
+        console.log(error)
       })
     }
   };

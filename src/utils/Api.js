@@ -1,9 +1,14 @@
 import Axios from "axios";
+import axios from "axios";
 
 const API_URL = process.env.REACT_APP_API_URL
 
+console.log(API_URL , "URl_______________________")
 
 Axios.defaults.baseURL = API_URL
+
+console.log(Axios.defaults.baseURL , "URl_______________________2")
+
 const local = JSON.parse(localStorage.getItem("app-serve-key"))
 
 const axiosConfig = {
@@ -13,7 +18,7 @@ const axiosConfig = {
 }
 
 export const loginUser = async (data) => {
-  const response = await Axios.post("/craft/login/", data).then(res => {
+  const response = await axios.post("craft/login/", data).then(res => {
     return res?.data
   }).catch(err => {
     return err?.response?.data
@@ -21,14 +26,14 @@ export const loginUser = async (data) => {
   return response
 }
 export const googleRegister = (data) => {
-  const response = Axios.post(`/craft/googleregister/`, data).then(res => {
+  const response = Axios.post(`/adventure/googleregister/`, data).then(res => {
     return res?.data
   })
   return response
 }
 
 export const getUser = async (data) => {
-  const response = await Axios.get(`/craft/userdata/${data}`).then(res => {
+  const response = await Axios.get(`/adventure/userdata/email/${data}`).then(res => {
     return res?.data
   }).catch(err => {
     return err.response?.data
