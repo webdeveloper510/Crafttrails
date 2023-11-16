@@ -259,6 +259,7 @@ export function Login() {
             }).then((res)=>{
               console.log(res)
               if (res?.code === 200) {
+                console.log(res)
                 localStorage.setItem("token", res.token);
                 localStorage.setItem("approved", res.data.approved);
                 const approved = res.data.approved;
@@ -419,7 +420,6 @@ export function Login() {
         </button>
        <div className="goole-sign">
        <GoogleLogin
-      //  clientId="58539030741-kqmphtqku95b08pkk9i18kpbfh8go8dd.apps.googleusercontent.com"
         clientId='235457712935-129v9b02c4e0a6okdhqasdm3u06sfr8j.apps.googleusercontent.com'
         buttonText="Login with Google"
         onSuccess={responseGoogle}
