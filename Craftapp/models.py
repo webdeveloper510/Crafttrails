@@ -25,7 +25,7 @@ class User(AbstractBaseUser,PermissionsMixin,AbstractTimestampedModel):
     is_active 	= models.BooleanField(default=True,
 		help_text='Designates whether this user should be treated as active.\
 		Unselect this instead of deleting accounts.')
-    brewery=models.CharField(max_length=30,blank=True,null=True,unique=True)
+    brewery=models.CharField(max_length=30,blank=True,null=True)
     status=models.BooleanField(default=False)
 
     USERNAME_FIELD 	='email'
