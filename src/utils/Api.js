@@ -26,14 +26,14 @@ export const loginUser = async (data) => {
   return response
 }
 export const googleRegister = (data) => {
-  const response = Axios.post(`/adventure/googleregister/`, data).then(res => {
+  const response = Axios.post(`/craft/googleregister/`, data).then(res => {
     return res?.data
   })
   return response
 }
 
 export const getUser = async (data) => {
-  const response = await Axios.get(`/adventure/userdata/email/${data}`).then(res => {
+  const response = await Axios.get(`/craft/userdata/${data}`).then(res => {
     return res?.data
   }).catch(err => {
     return err.response?.data

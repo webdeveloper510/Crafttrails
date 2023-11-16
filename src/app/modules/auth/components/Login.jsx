@@ -62,7 +62,10 @@ export function Login() {
 
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false)
+    setInputdata({location_id:""})
+  };
 
   const handlePassport = (e) => {
     console.log({
@@ -91,7 +94,7 @@ export function Login() {
     setPassError(newErrors);
     if (valid) {
       setPassError("");
-      console.log(inputdata);
+      console.log(inputdata.location_id);
       googleRegister({
         email : data?.wt.cu,
         location : inputdata?.location_id
@@ -238,14 +241,18 @@ export function Login() {
     console.log(response);
     if(response.tokenId != null){      
       // const token = response.tokenId      
-      const email = response.profileObj.email
+      const email = response?.profileObj?.email
       setData(response)
       getUser(email).then((res)=>{
         console.log("get user data", res)
-        let newemail = res.data.email
-        let location_id = res.data.breweries_id
-        if(res?.code == 200){
-          if(res?.data?.email !== "Invalid email"){
+        
+        // if(res?.code == 200){
+          
+          if(res?.error == "Invalid email"){
+            setShow(true)           
+          }else{
+            let newemail = res?.data?.email
+            let location_id = res?.data?.breweries_id
             googleRegister({
               email : newemail,
               location : location_id
@@ -271,14 +278,14 @@ export function Login() {
                     email: res.data.email,
                     jwtToken: res.token,
                   });
-                  setShow(false)
+                  // setShow(false)
                 } else if (approved == false) {
                   toast.error("ADMIN NEED TO APPROVE YOUR PROFILE", {
                     position: "top-right",
                     autoClose: 2000,
                     theme: "colored",
                   });
-                  setShow(false)
+                  // setShow(false)
                 } else {
                   toast.success(res.success, {
                     position: "top-right",
@@ -297,7 +304,7 @@ export function Login() {
                     email: res.data.email,
                     jwtToken: res.token,
                   });
-                  setShow(false)
+                  // setShow(false)
                 }
               } else if (res?.code === 400) {
                 toast.error(res?.error, {
@@ -305,16 +312,14 @@ export function Login() {
                   autoClose: 2000,
                   theme: "colored",
                 });
-                setShow(false)
+                // setShow(false)
                 setLoading(false);
               }
             }).catch((error)=>{
               console.log(error)
             })
-          }else{
-            setShow(true)
           }          
-        }
+        // }
       }).catch((error)=>{
         console.log(error)
       })

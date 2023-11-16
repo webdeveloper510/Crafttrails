@@ -110,17 +110,17 @@ const WeeklyData = ({ className }) => {
                       backgroundColor: labelData[0].bgcolor[index],
                       border: `${labelData[0].borderwidth}px solid ${labelData[0].borderclr[index]}`,
                       padding: "5px",
-                      margin: "8px 8px 20px 0px",
+                      margin: "2px 8px 15px 0px",
                       textAlign: "center",
                     }}
                   ></div>
                   <div
-                    style={{ margin: "8px 10px 8px 0px", whiteSpace: "nowrap" }}
+                    style={{ margin: "0px 10px 3px 0px", whiteSpace: "nowrap" }}
                   >
                     {label}
                   </div>
-                  <div style={{ margin: "8px 10px 8px 20px" }}>
-                    <h4>{labelData[0].changes[index]}</h4>
+                  <div style={{ margin: "0px 10px 3px 20px" }}>
+                    <h5>{labelData[0].changes[index]}</h5>
                   </div>
                 </div>
               ))
