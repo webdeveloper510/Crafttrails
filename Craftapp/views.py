@@ -39,6 +39,7 @@ class GoogleSignupView(APIView):
         check_email_val=User.objects.filter(email=data["email"])
         if check_email_val:
             check_email=User.objects.get(email=data["email"])
+            
      
             data={"firstname":check_email.first_name,
                  "lastname":check_email.last_name,
@@ -47,11 +48,12 @@ class GoogleSignupView(APIView):
                  "status":check_email.is_superuser,
                  "approved":check_email.status
             }
-            user_token=Token.objects.get(user_id=check_email.id)
-            if user_token:
-                user_token
-            else:
-                user_token=Token.objects.create(user=check_email) 
+            if check_email:
+                user_token=Token.objects.filter(user_id=check_email.id)
+                if not user_token:
+                    user_token=Token.objects.create(user=check_email) 
+                else:
+                    user_token=Token.objects.filter(user_id=check_email.id).values_list("key",flat=True)[0]
   
             return Response({"success":"User Login Successfully","token":str(user_token),"code":200,"data":data},status=status.HTTP_200_OK)
 
@@ -119,7 +121,10 @@ class LoginView(APIView):
         else:
             return Response({'error': 'Invalid credentials',"code":400}, status=status.HTTP_200_OK)
         
+ 
         
+        
+                
         
 """API for User Logout"""
 class LogoutView(APIView):
