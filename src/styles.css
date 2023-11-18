@@ -159,3 +159,8 @@ button.google-login {
     width: 330px !important;
     text-align: center;
 }
+.edit-btn{
+    color: rgb(58, 60, 61) !important;
+    font-size: 20px !important;
+    margin-right: 10px;
+}

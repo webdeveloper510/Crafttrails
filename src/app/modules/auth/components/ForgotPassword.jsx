@@ -1,127 +1,141 @@
-import { useState } from 'react'
-import * as Yup from 'yup'
-import clsx from 'clsx'
-import { Link, useNavigate } from 'react-router-dom'
-import { useFormik } from 'formik'
-import validate from '../../../pages/validations/FormValidations'
-import { sendOTP, verifyOtp, forgotPassword, userForgotPassword } from '../../../../utils/Api'
-import { toast } from 'react-toastify';
-import Modal from 'react-bootstrap/Modal';
-import { Button } from 'react-bootstrap'
-
+import { useState } from "react";
+import * as Yup from "yup";
+import clsx from "clsx";
+import { Link, useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import validate from "../../../pages/validations/FormValidations";
+import {
+  sendOTP,
+  verifyOtp,
+  forgotPassword,
+  userForgotPassword,
+} from "../../../../utils/Api";
+import { toast } from "react-toastify";
+import Modal from "react-bootstrap/Modal";
+import { Button } from "react-bootstrap";
 
 const initialValues = {
-  email: '',
-  otp: '',
-  newPassword: '',
-  confirmPassword: '',
-}
+  email: "",
+  otp: "",
+  newPassword: "",
+  confirmPassword: "",
+};
 
 const emailSchema = Yup.object().shape({
   email: Yup.string()
-    .email('Wrong email format')
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Email is required')
-})
+    .email("Wrong email format")
+    .min(3, "Minimum 3 symbols")
+    .max(50, "Maximum 50 symbols")
+    .required("Email is required"),
+});
 
 const otpSchema = Yup.object().shape({
   otp: Yup.string()
-    .min(3, 'Minimum 4 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('OTP is required')
-})
+    .min(3, "Minimum 4 symbols")
+    .max(50, "Maximum 50 symbols")
+    .required("OTP is required"),
+});
 
 const passwordSchema = Yup.object().shape({
   newPassword: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Password is required'),
+    .min(3, "Minimum 3 symbols")
+    .max(50, "Maximum 50 symbols")
+    .required("Password is required"),
   confirmPassword: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Password confirmation is required')
-    .oneOf([Yup.ref('newPassword')], "New Password and Confirm Password didn't match"),
-})
+    .min(3, "Minimum 3 symbols")
+    .max(50, "Maximum 50 symbols")
+    .required("Password confirmation is required")
+    .oneOf(
+      [Yup.ref("newPassword")],
+      "New Password and Confirm Password didn't match"
+    ),
+});
 
 export function ForgotPassword() {
-
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  
-  const [loading, setLoading] = useState(false)
-  const [hasErrors, setHasErrors] = useState(undefined)
+
+  const [loading, setLoading] = useState(false);
+  const [hasErrors, setHasErrors] = useState(undefined);
   // const [otpStatus, setOtpStatus] = useState(false)
   // const [verifyOtpStatus, setVerifyOtpStatus] = useState(false)
   // const [passwordStatus, setPasswordStatus] = useState(false)
-  const [id, setId] = useState(0)
-  const [process, setProcess] = useState(0)
-  const navigate = useNavigate()
+  const [id, setId] = useState(0);
+  const [process, setProcess] = useState(0);
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues,
     validationSchema: emailSchema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
-      setLoading(true)
-      setHasErrors(undefined)
-      userForgotPassword({ email: values.email }).then(res => {
-        if (res?.status?.toLowerCase() === "ok")  {
-          setShow(true)
-        }else if(res?.email){
-          toast.error("User with this email doesn't exist.", { position: "top-right", autoClose: 2000, theme: "colored" });
-
+      setLoading(true);
+      setHasErrors(undefined);
+      userForgotPassword({ email: values.email }).then((res) => {
+        if (res?.status?.toLowerCase() === "ok") {
+          setShow(true);
+        } else if (res?.email) {
+          toast.error("User with this email doesn't exist.", {
+            position: "top-right",
+            autoClose: 2000,
+            theme: "colored",
+          });
         }
-      })
+      });
     },
-  })
+  });
   const otpFormik = useFormik({
     initialValues,
     validationSchema: otpSchema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
-      setLoading(true)
-      setHasErrors(undefined)
-      verifyOtp({ userId: id, otp: values.otp }).then(res => {
+      setLoading(true);
+      setHasErrors(undefined);
+      verifyOtp({ userId: id, otp: values.otp }).then((res) => {
         if (res.code === 200) {
-          setProcess(2)
-        }else if(res.code === 201){
-          toast.error(res.message, { position: "top-right", autoClose: 2000, theme: "colored" });
-
+          setProcess(2);
+        } else if (res.code === 201) {
+          toast.error(res.message, {
+            position: "top-right",
+            autoClose: 2000,
+            theme: "colored",
+          });
         }
-      })
+      });
     },
-  })
+  });
   const passFormik = useFormik({
     initialValues,
     validationSchema: passwordSchema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
-      setLoading(true)
-      setHasErrors(undefined)
-      forgotPassword({ userId: id, password: values.newPassword }).then(res => {
-        if (res.code === 200) {
-          navigate("/auth")
+      setLoading(true);
+      setHasErrors(undefined);
+      forgotPassword({ userId: id, password: values.newPassword }).then(
+        (res) => {
+          if (res.code === 200) {
+            navigate("/auth");
+          }
         }
-      })
+      );
       // sendOTP({ email: values.email })
     },
-  })
+  });
 
   return (
     <div>
       {process === 0 ? (
         <form
-          className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework'
+          className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework"
           noValidate
-          id='kt_login_password_reset_form'
+          id="kt_login_password_reset_form"
           onSubmit={formik.handleSubmit}
         >
-          <div className='text-center mb-10'>
+          <div className="text-center mb-10">
             {/* begin::Title */}
-            <h1 className='text-dark fw-bolder mb-3'>Forgot Password ?</h1>
+            <h1 className="text-dark fw-bolder mb-3">Forgot Password ?</h1>
             {/* end::Title */}
 
             {/* begin::Link */}
-            <div className='text-gray-500 fw-semibold fs-6'>
+            <div className="text-gray-500 fw-semibold fs-6">
               Enter your email to reset your password.
             </div>
             {/* end::Link */}
@@ -129,40 +143,45 @@ export function ForgotPassword() {
 
           {/* begin::Title */}
           {hasErrors === true && (
-            <div className='mb-lg-15 alert alert-danger'>
-              <div className='alert-text font-weight-bold'>
-                Sorry, looks like there are some errors detected, please try again.
+            <div className="mb-lg-15 alert alert-danger">
+              <div className="alert-text font-weight-bold">
+                Sorry, looks like there are some errors detected, please try
+                again.
               </div>
             </div>
           )}
 
           {hasErrors === false && (
-            <div className='mb-10 bg-light-info p-8 rounded'>
-              <div className='text-info'>Sent password reset. Please check your email</div>
+            <div className="mb-10 bg-light-info p-8 rounded">
+              <div className="text-info">
+                Sent password reset. Please check your email
+              </div>
             </div>
           )}
           {/* end::Title */}
 
           {/* begin::Form group */}
-          <div className='fv-row mb-8'>
-            <label className='form-label fw-bolder text-gray-900 fs-6'>Email</label>
+          <div className="fv-row mb-8">
+            <label className="form-label fw-bolder text-gray-900 fs-6">
+              Email
+            </label>
             <input
-              type='email'
-              placeholder=''
-              autoComplete='off'
-              {...formik.getFieldProps('email')}
+              type="email"
+              placeholder=""
+              autoComplete="off"
+              {...formik.getFieldProps("email")}
               className={clsx(
-                'form-control bg-transparent',
-                { 'is-invalid': formik.touched.email && formik.errors.email },
+                "form-control bg-transparent",
+                { "is-invalid": formik.touched.email && formik.errors.email },
                 {
-                  'is-valid': formik.touched.email && !formik.errors.email,
+                  "is-valid": formik.touched.email && !formik.errors.email,
                 }
               )}
             />
             {formik.touched.email && formik.errors.email && (
-              <div className='fv-plugins-message-container'>
-                <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.email}</span>
+              <div className="fv-plugins-message-container">
+                <div className="fv-help-block">
+                  <span role="alert">{formik.errors.email}</span>
                 </div>
               </div>
             )}
@@ -170,43 +189,47 @@ export function ForgotPassword() {
           {/* end::Form group */}
 
           {/* begin::Form group */}
-          <div className='d-flex flex-wrap justify-content-center pb-lg-0'>
-            <button type='submit' id='kt_password_reset_submit' className='btn btn-primary me-4'>
-              <span className='indicator-label'>Submit</span>
+          <div className="d-flex flex-wrap justify-content-center pb-lg-0">
+            <button
+              type="submit"
+              id="kt_password_reset_submit"
+              className="btn btn-primary me-4"
+            >
+              <span className="indicator-label">Submit</span>
               {loading && (
-                <span className='indicator-progress'>
+                <span className="indicator-progress">
                   Please wait...
-                  <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                  <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
               )}
             </button>
-            <Link to='/auth/login'>
+            <Link to="/auth/login">
               <button
-                type='button'
-                id='kt_login_password_reset_form_cancel_button'
-                className='btn btn-light'
+                type="button"
+                id="kt_login_password_reset_form_cancel_button"
+                className="btn btn-light"
                 disabled={formik.isSubmitting || !formik.isValid}
               >
                 Cancel
               </button>
-            </Link>{' '}
+            </Link>{" "}
           </div>
           {/* end::Form group */}
         </form>
       ) : process === 1 ? (
         <form
-          className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework'
+          className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework"
           noValidate
-          id='kt_login_password_reset_form'
+          id="kt_login_password_reset_form"
           onSubmit={otpFormik.handleSubmit}
         >
-          <div className='text-center mb-10'>
+          <div className="text-center mb-10">
             {/* begin::Title */}
-            <h1 className='text-dark fw-bolder mb-3'>Forgot Password ?</h1>
+            <h1 className="text-dark fw-bolder mb-3">Forgot Password ?</h1>
             {/* end::Title */}
 
             {/* begin::Link */}
-            <div className='text-gray-500 fw-semibold fs-6'>
+            <div className="text-gray-500 fw-semibold fs-6">
               Enter verification OTP.
             </div>
             {/* end::Link */}
@@ -214,40 +237,45 @@ export function ForgotPassword() {
 
           {/* begin::Title */}
           {hasErrors === true && (
-            <div className='mb-lg-15 alert alert-danger'>
-              <div className='alert-text font-weight-bold'>
-                Sorry, looks like there are some errors detected, please try again.
+            <div className="mb-lg-15 alert alert-danger">
+              <div className="alert-text font-weight-bold">
+                Sorry, looks like there are some errors detected, please try
+                again.
               </div>
             </div>
           )}
 
           {hasErrors === false && (
-            <div className='mb-10 bg-light-info p-8 rounded'>
-              <div className='text-info'>Sent password reset. Please check your email</div>
+            <div className="mb-10 bg-light-info p-8 rounded">
+              <div className="text-info">
+                Sent password reset. Please check your email
+              </div>
             </div>
           )}
           {/* end::Title */}
 
           {/* begin::Form group */}
-          <div className='fv-row mb-8'>
-            <label className='form-label fw-bolder text-gray-900 fs-6'>Verification OTP</label>
+          <div className="fv-row mb-8">
+            <label className="form-label fw-bolder text-gray-900 fs-6">
+              Verification OTP
+            </label>
             <input
-              type='text'
-              placeholder=''
-              autoComplete='off'
-              {...otpFormik.getFieldProps('otp')}
+              type="text"
+              placeholder=""
+              autoComplete="off"
+              {...otpFormik.getFieldProps("otp")}
               className={clsx(
-                'form-control bg-transparent',
-                { 'is-invalid': otpFormik.touched.otp && otpFormik.errors.otp },
+                "form-control bg-transparent",
+                { "is-invalid": otpFormik.touched.otp && otpFormik.errors.otp },
                 {
-                  'is-valid': otpFormik.touched.otp && !otpFormik.errors.otp,
+                  "is-valid": otpFormik.touched.otp && !otpFormik.errors.otp,
                 }
               )}
             />
             {otpFormik.touched.otp && otpFormik.errors.otp && (
-              <div className='fv-plugins-message-container'>
-                <div className='fv-help-block'>
-                  <span role='alert'>{otpFormik.errors.otp}</span>
+              <div className="fv-plugins-message-container">
+                <div className="fv-help-block">
+                  <span role="alert">{otpFormik.errors.otp}</span>
                 </div>
               </div>
             )}
@@ -255,13 +283,17 @@ export function ForgotPassword() {
           {/* end::Form group */}
 
           {/* begin::Form group */}
-          <div className='d-flex flex-wrap justify-content-center pb-lg-0'>
-            <button type='submit' id='kt_password_reset_submit' className='btn btn-primary me-4'>
-              <span className='indicator-label'>Submit</span>
+          <div className="d-flex flex-wrap justify-content-center pb-lg-0">
+            <button
+              type="submit"
+              id="kt_password_reset_submit"
+              className="btn btn-primary me-4"
+            >
+              <span className="indicator-label">Submit</span>
               {loading && (
-                <span className='indicator-progress'>
+                <span className="indicator-progress">
                   Please wait...
-                  <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                  <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
               )}
             </button>
@@ -270,18 +302,18 @@ export function ForgotPassword() {
         </form>
       ) : (
         <form
-          className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework'
+          className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework"
           noValidate
-          id='kt_login_password_reset_form'
+          id="kt_login_password_reset_form"
           onSubmit={passFormik.handleSubmit}
         >
-          <div className='text-center mb-10'>
+          <div className="text-center mb-10">
             {/* begin::Title */}
-            <h1 className='text-dark fw-bolder mb-3'>Forgot Password ?</h1>
+            <h1 className="text-dark fw-bolder mb-3">Forgot Password ?</h1>
             {/* end::Title */}
 
             {/* begin::Link */}
-            <div className='text-gray-500 fw-semibold fs-6'>
+            <div className="text-gray-500 fw-semibold fs-6">
               Enter New Password
             </div>
             {/* end::Link */}
@@ -289,102 +321,127 @@ export function ForgotPassword() {
 
           {/* begin::Title */}
           {hasErrors === true && (
-            <div className='mb-lg-15 alert alert-danger'>
-              <div className='alert-text font-weight-bold'>
-                Sorry, looks like there are some errors detected, please try again.
+            <div className="mb-lg-15 alert alert-danger">
+              <div className="alert-text font-weight-bold">
+                Sorry, looks like there are some errors detected, please try
+                again.
               </div>
             </div>
           )}
 
           {hasErrors === false && (
-            <div className='mb-10 bg-light-info p-8 rounded'>
-              <div className='text-info'>Sent password reset. Please check your email</div>
+            <div className="mb-10 bg-light-info p-8 rounded">
+              <div className="text-info">
+                Sent password reset. Please check your email
+              </div>
             </div>
           )}
           {/* end::Title */}
 
           {/* begin::Form group */}
-          <div className='fv-row mb-8' data-kt-password-meter='true'>
-            <div className='mb-1'>
-              <label className='form-label fw-bolder text-dark fs-6'>New Password</label>
-              <div className='position-relative mb-3'>
+          <div className="fv-row mb-8" data-kt-password-meter="true">
+            <div className="mb-1">
+              <label className="form-label fw-bolder text-dark fs-6">
+                New Password
+              </label>
+              <div className="position-relative mb-3">
                 <input
-                  type='password'
-                  placeholder='New Password'
-                  autoComplete='off'
-                  {...passFormik.getFieldProps('newPassword')}
+                  type="password"
+                  placeholder="New Password"
+                  autoComplete="off"
+                  {...passFormik.getFieldProps("newPassword")}
                   className={clsx(
-                    'form-control bg-transparent',
+                    "form-control bg-transparent",
                     {
-                      'is-invalid': passFormik.touched.newPassword && passFormik.errors.newPassword,
+                      "is-invalid":
+                        passFormik.touched.newPassword &&
+                        passFormik.errors.newPassword,
                     },
                     {
-                      'is-valid': passFormik.touched.newPassword && !passFormik.errors.newPassword,
+                      "is-valid":
+                        passFormik.touched.newPassword &&
+                        !passFormik.errors.newPassword,
                     }
                   )}
                 />
-                {passFormik.touched.newPassword && passFormik.errors.newPassword && (
-                  <div className='fv-plugins-message-container'>
-                    <div className='fv-help-block'>
-                      <span role='alert'>{passFormik.errors.newPassword}</span>
+                {passFormik.touched.newPassword &&
+                  passFormik.errors.newPassword && (
+                    <div className="fv-plugins-message-container">
+                      <div className="fv-help-block">
+                        <span role="alert">
+                          {passFormik.errors.newPassword}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
               {/* begin::Meter */}
               <div
-                className='d-flex align-items-center mb-3'
-                data-kt-password-meter-control='highlight'
+                className="d-flex align-items-center mb-3"
+                data-kt-password-meter-control="highlight"
               >
-                <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2'></div>
-                <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2'></div>
-                <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2'></div>
-                <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px'></div>
+                <div className="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                <div className="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                <div className="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                <div className="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
               </div>
               {/* end::Meter */}
             </div>
-            <div className='text-muted'>
+            <div className="text-muted">
               Use 8 or more characters with a mix of letters, numbers & symbols.
             </div>
           </div>
           {/* end::Form group */}
 
           {/* begin::Form group Confirm password */}
-          <div className='fv-row mb-5'>
-            <label className='form-label fw-bolder text-dark fs-6'>Confirm Password</label>
+          <div className="fv-row mb-5">
+            <label className="form-label fw-bolder text-dark fs-6">
+              Confirm Password
+            </label>
             <input
-              type='password'
-              placeholder='Password confirmation'
-              autoComplete='off'
-              {...passFormik.getFieldProps('confirmPassword')}
+              type="password"
+              placeholder="Password confirmation"
+              autoComplete="off"
+              {...passFormik.getFieldProps("confirmPassword")}
               className={clsx(
-                'form-control bg-transparent',
+                "form-control bg-transparent",
                 {
-                  'is-invalid': passFormik.touched.confirmPassword && passFormik.errors.confirmPassword,
+                  "is-invalid":
+                    passFormik.touched.confirmPassword &&
+                    passFormik.errors.confirmPassword,
                 },
                 {
-                  'is-valid': passFormik.touched.confirmPassword && !passFormik.errors.confirmPassword,
+                  "is-valid":
+                    passFormik.touched.confirmPassword &&
+                    !passFormik.errors.confirmPassword,
                 }
               )}
             />
-            {passFormik.touched.confirmPassword && passFormik.errors.confirmPassword && (
-              <div className='fv-plugins-message-container'>
-                <div className='fv-help-block'>
-                  <span role='alert'>{passFormik.errors.confirmPassword}</span>
+            {passFormik.touched.confirmPassword &&
+              passFormik.errors.confirmPassword && (
+                <div className="fv-plugins-message-container">
+                  <div className="fv-help-block">
+                    <span role="alert">
+                      {passFormik.errors.confirmPassword}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
           {/* end::Form group */}
 
           {/* begin::Form group */}
-          <div className='d-flex flex-wrap justify-content-center pb-lg-0'>
-            <button type='submit' id='kt_password_reset_submit' className='btn btn-primary me-4'>
-              <span className='indicator-label'>Submit</span>
+          <div className="d-flex flex-wrap justify-content-center pb-lg-0">
+            <button
+              type="submit"
+              id="kt_password_reset_submit"
+              className="btn btn-primary me-4"
+            >
+              <span className="indicator-label">Submit</span>
               {loading && (
-                <span className='indicator-progress'>
+                <span className="indicator-progress">
                   Please wait...
-                  <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                  <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
               )}
             </button>
@@ -393,18 +450,19 @@ export function ForgotPassword() {
         </form>
       )}
 
-<Modal className='text-center' centered show={show} onHide={handleClose}>
+      <Modal className="text-center" centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          
-          <div className='text-center'><h2>Forgot Password</h2></div>
+          <div className="text-center">
+            <h2>Forgot Password</h2>
+          </div>
         </Modal.Header>
         <Modal.Body>
-        <span className="bi bi-envelope-open-fill display-2 fs-1 h-1"></span>
-        <h3 className='mt-3'>Your Email Successfully Send</h3>
-        <p>Please Check Your Email</p>
-         </Modal.Body>
+          <span className="bi bi-envelope-open-fill display-2 fs-1 h-1"></span>
+          <h3 className="mt-3">Your Email Successfully Send</h3>
+          <p>Please Check Your Email</p>
+        </Modal.Body>
         <Modal.Footer>
-        {/* <Button variant="secondary" onClick={handleClose}>
+          {/* <Button variant="secondary" onClick={handleClose}>
             Ok
           </Button> */}
           {/*
@@ -414,5 +472,5 @@ export function ForgotPassword() {
         </Modal.Footer>
       </Modal>
     </div>
-  )
+  );
 }

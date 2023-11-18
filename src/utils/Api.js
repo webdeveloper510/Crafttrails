@@ -69,6 +69,29 @@ export const userResetPassword = async (data) => {
   return response
 }
 
+
+export const getuserlist = (id) => {
+  const response = Axios.get(`/Admin/user/edit/${id}`,{
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+
+
+export const editUserLocation = (id, data) => {
+  const response = Axios.post(`/Admin/user/location/${id}`,data,{
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
 export const createUser = (data) => {
   const response = Axios.post("/admins/create_user", data).then(res => {
     return res?.data
