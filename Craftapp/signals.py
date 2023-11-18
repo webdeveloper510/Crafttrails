@@ -12,7 +12,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     val2=instance.request.build_absolute_uri(reverse('password_reset:reset-password-confirm'))
    
     val=reset_password_token.key
-    main_value="https://trailmetrics.cctrails.com/auth/forgot-password/?token="+reset_password_token.key
+    main_value="https://trailmetrics.cctrails.com/auth/reset-password/?token="+reset_password_token.key
     print(main_value)
     context = {
         'current_user': reset_password_token.user,
