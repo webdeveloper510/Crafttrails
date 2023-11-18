@@ -14,3 +14,15 @@ def change_status(request,id):
     user_status=request.data.get("status")
     User.objects.filter(id=id).update(status=user_status)
     return "Status Changed"
+
+def user_edit(request,id):    
+    user_data=User.objects.filter(id=id)
+    if user_data:
+        user_data=User.objects.get(id=id)
+        data={"location":user_data.brewery}
+    return data   
+
+def change_location(request,id):    
+    user_location=request.data.get("location")
+    User.objects.filter(id=id).update(brewery=user_location)
+    return "updated breweries"

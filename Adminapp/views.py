@@ -44,6 +44,35 @@ class ActIactView(APIView):
         except Exception as e:
             return Response({"code":400,"error":"unable to change status of user"},status=status.HTTP_200_OK)
 
+"""API TO Get User Data USER"""
+class UserEditView(APIView):
+    permission_classes=[IsAdminUser]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+    def post(self,request,id):
+        try:
+            status_changed=user_edit(request,id)
+            data=user_edit(request,id)
+            return Response({"code":200,"data":data},status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"code":400,"error":"unable to change status of user"},status=status.HTTP_200_OK)
+
+"""API TO Update Location Id of USER"""
+class ChangeLocationView(APIView):
+    permission_classes=[IsAdminUser]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+    def post(self,request,id):
+        try:
+            status_changed=change_location(request,id)
+            return Response({"code":200,"data":"User location changed"},status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"code":400,"error":"unable to change status of user"},status=status.HTTP_200_OK)
+
 
 
 

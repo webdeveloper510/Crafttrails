@@ -12,7 +12,8 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     val2=instance.request.build_absolute_uri(reverse('password_reset:reset-password-confirm'))
    
     val=reset_password_token.key
-    main_value="http://44.214.115.216/#/auth/reset-password/?token="+reset_password_token.key
+    main_value="http://localhost:3000/forgot-password?token="+reset_password_token.key
+    # main_value="http://44.214.115.216/#/auth/reset-password/?token="+reset_password_token.key
    
     context = {
         'current_user': reset_password_token.user,
