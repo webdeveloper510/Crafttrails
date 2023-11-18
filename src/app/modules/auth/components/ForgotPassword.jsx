@@ -72,6 +72,7 @@ export function ForgotPassword() {
       setLoading(true);
       setHasErrors(undefined);
       userForgotPassword({ email: values.email }).then((res) => {
+        // console.log("resssssssssssssss", res)
         if (res?.status?.toLowerCase() === "ok") {
           setShow(true);
         } else if (res?.email) {

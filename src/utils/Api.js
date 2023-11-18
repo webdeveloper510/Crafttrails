@@ -61,6 +61,7 @@ export const userForgotPassword = async (data) => {
 }
 
 export const userResetPassword = async (data) => {
+  console.log("dataaaaaaa", data)
   const response = await Axios.post("/api/password_reset/confirm/", data).then(res => {
     return res?.data
   }).catch(err => {

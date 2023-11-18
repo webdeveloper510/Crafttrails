@@ -32,8 +32,8 @@ const passwordSchema = Yup.object().shape({
 export function NewPassword() {
 
   const url = new URL(window.location.href);
-  const token = url.hash.split("?token=")[1]
-  // console.log("tokennnnnnn", token, url)
+  const token = url?.search?.split("?token=")[1]
+  console.log("tokennnnnnn", token, url)
   const [loading, setLoading] = useState(false)
   // const [hasErrors, setHasErrors] = useState(undefined)
   // const [otpStatus, setOtpStatus] = useState(false)
@@ -50,11 +50,15 @@ export function NewPassword() {
       setLoading(true)
       // setHasErrors(undefined)
       userResetPassword({ password: values.newPassword ,token : token}).then(res => {
-        if (res.status.toLowerCase() === "ok") {
+        // console.log("resssssssssssssss", res)
+        setLoading(false)
+        if (res?.status?.toLowerCase() === "ok") {
           navigate("/auth")
         }else{
           toast.error('Password does not change', { position: "top-right", autoClose: 2000, theme: "colored" });
         }
+      }).catch((error)=>{
+        console.log(error)
       })
     },
   })
