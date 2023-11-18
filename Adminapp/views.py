@@ -51,7 +51,7 @@ class UserEditView(APIView):
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'custom'
 
-    def post(self,request,id):
+    def get(self,request,id):
         try:
             status_changed=user_edit(request,id)
             data=user_edit(request,id)
