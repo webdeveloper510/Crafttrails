@@ -267,6 +267,11 @@ export function Login() {
                 localStorage.setItem("status", status);
                 if (status == true) {
                   navigate("/admin-dashboard");
+                  toast.success(res?.success, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    theme: "colored",
+                  });
                   saveAuth({
                     firstname: res.data.firstname,
                     lastname: res.data.lastname,
@@ -288,7 +293,7 @@ export function Login() {
                   });
                   // setShow(false)
                 } else {
-                  toast.success(res.success, {
+                  toast.success(res?.success, {
                     position: "top-right",
                     autoClose: 2000,
                     theme: "colored",

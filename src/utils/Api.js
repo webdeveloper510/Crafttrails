@@ -45,7 +45,7 @@ export const registerUser = async (data) => {
   const response = await Axios.post("/craft/register/", data).then(res => {
     return res?.data
   }).catch(err => {
-    return err.response.data
+    return err.response?.data
   })
   return response
 }
@@ -55,7 +55,7 @@ export const userForgotPassword = async (data) => {
     console.log(res, "try")
     return res?.data
   }).catch(err => {
-    return err.response.data
+    return err.response?.data
   })
   return response
 }
@@ -65,7 +65,7 @@ export const userResetPassword = async (data) => {
   const response = await Axios.post("/api/password_reset/confirm/", data).then(res => {
     return res?.data
   }).catch(err => {
-    return err.response.data
+    return err?.response?.data
   })
   return response
 }
@@ -120,7 +120,7 @@ export const getBreweriesList = async () => {
   }).then(res => {
     return res?.data
   }).catch(err => {
-    return err.response.data
+    return err.response?.data
   })
   return response
 }
@@ -133,7 +133,7 @@ export const getTrailList = async () => {
   }).then(res => {
     return res?.data
   }).catch(err => {
-    return err.response.data
+    return err.response?.data
   })
   return response
 }
@@ -146,7 +146,7 @@ export const getParticipantList = async () => {
   }).then(res => {
     return res?.data
   }).catch(err => {
-    return err.response.data
+    return err.response?.data
   })
   return response
 }
@@ -159,7 +159,7 @@ export const getVisitList = async () => {
   }).then(res => {
     return res?.data
   }).catch(err => {
-    return err.response.data
+    return err.response?.data
   })
   return response
 }
@@ -172,7 +172,7 @@ export const getPointList = async () => {
   }).then(res => {
     return res?.data
   }).catch(err => {
-    return err.response.data
+    return err.response?.data
   })
   return response
 }
