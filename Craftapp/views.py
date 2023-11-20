@@ -135,6 +135,22 @@ class LogoutView(APIView):
         request.user.auth_token.delete()
         logout(request)
         return Response({"success":'User Logged out successfully'},status=status.HTTP_200_OK)
+
+"""API TO GET USER PROFILE DATA """
+class Userprofile(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+    def get(self,request):
+        try:
+            data=User.objects.filter(id=self.request.user.id).values()
+            return Response({"code":200,"data":data},status=status.HTTP_200_OK)
+        except Exception as e:  
+     
+            return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
+
     
 
 

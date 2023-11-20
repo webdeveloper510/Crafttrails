@@ -7,6 +7,7 @@ urlpatterns = [
     path("userdata/<str:email>/",UserDataView.as_view(),name="userdata"),
     path("login/",LoginView.as_view(),name="login"),
     path("logout/",LogoutView.as_view(),name="logout"),
+    path("userprofile/",Userprofile.as_view(),name="userprofile"),
     path("breweries/list/",BreweriesView.as_view(),name="breweries"),   
     path("trail/list/",TrailView.as_view(),name="trail"),
     path("participants/list/",ParticipantsView.as_view(),name="participants"),
