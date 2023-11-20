@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { getUserLinks } from "../../../utils/Api";
 import { useParams } from "react-router-dom";
 
 const EventsForm = () => {
 
-  // const [iframe, setIframe] = useState([]);
   const params = useParams()
   console.log("paramssssssssssssssssssss", params.id)
   

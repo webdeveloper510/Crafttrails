@@ -19,20 +19,31 @@
 import ActiveUserCount from "./ActiveUserCount";
 import PieChart from "./userCompletion";
 import { useEffect, useState } from "react";
-import { getBreweryName, getUserLinks } from "../../../utils/Api";
+import { getBreweryName } from "../../../utils/Api";
 import Piechart2 from "./userAge";
 import RegisterUser from "./charts/userregister";
 import WeeklyGrowth from "./charts/weeklyGrowth";
 import NetChanges from "./charts/netchange";
 import WeeklyData from "./charts/weekly";
 import ParticipantCount from "./charts/participant";
+import { useNavigate } from "react-router-dom";
 // import Hottestday from "./charts/hottestday";
 
 const DashboardPage = () => {
+
+
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
+    const status = localStorage.getItem("status")
+    // console.log("statussssssssssssssssssssssssssss", status)
+    if(status == "true"){
+      navigate("/admin-dashboard") 
+      console.log("statussssssssssssssssssssssssssss", status)     
+    }
+
     setLoading(true);
     getBreweryName().then((res) => {
       setLoading(false)
@@ -42,20 +53,9 @@ const DashboardPage = () => {
     }).catch((error)=>{
       setLoading(false)
     })
-    getlinkuser()
   }, []);
 
-  const getlinkuser =()=>{
-    getUserLinks().then((res)=>{
-      console.log("user link--------------",res)
-    }).catch((error)=>{
-      console.log(error)
-    })
-  }
   
-
-  
-
   return (
     <>
       {loading ? (

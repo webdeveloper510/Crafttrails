@@ -20,8 +20,8 @@ const SidebarMenuMain = () => {
   const getlinkuser = () => {
     getUserLinks()
       .then((res) => {
-        // console.log("user link--------------", res.data);
-        if (res.code == 200) {
+        console.log("user link--------------", res.data);
+        if (res?.code == 200) {
           const val = res.data
           setData(val);
         }
