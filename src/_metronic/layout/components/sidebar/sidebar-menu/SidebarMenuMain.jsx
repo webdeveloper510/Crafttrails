@@ -14,7 +14,10 @@ const SidebarMenuMain = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    getlinkuser();
+    const status = localStorage.getItem("status")
+    if(status !== "true"){
+      getlinkuser();
+    }    
   }, []);
 
   const getlinkuser = () => {
