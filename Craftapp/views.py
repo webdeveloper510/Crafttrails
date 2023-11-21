@@ -80,7 +80,7 @@ class GoogleSignupView(APIView):
 """API for Get User  data from database"""
 class UserDataView(APIView):
     def get(self,request,email):
-        print(email)
+        
         
         user_val1=User.objects.filter(email=email)
         if user_val1:
@@ -102,7 +102,7 @@ class LoginView(APIView):
         email = request.data.get('email')    
         password = request.data.get('password')
         user=authenticate(username=email, password=password)
-        print(user)
+        
         if user:
             login(request, user)      
             usr=Token.objects.filter(user_id=user.id)
@@ -199,7 +199,6 @@ class ParticipantsView(APIView):
             participants_data=participants(request)
             return Response({"code":200,"data":participants_data},status=status.HTTP_200_OK)
         except Exception as e:
-            print(e)
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
@@ -410,7 +409,7 @@ class RegisterUnRegister(APIView):
             }
             return Response({"code":200,"data":user_count},status=status.HTTP_200_OK)
         except Exception as e:
-            print(e)
+            
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
@@ -524,7 +523,7 @@ class NetChanges(APIView):
             
             return Response({"code":200,"data":net_changes},status=status.HTTP_200_OK)
         except Exception as e:
-            print(e)
+           
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
 
 
@@ -604,7 +603,7 @@ class Membership(APIView):
             filter_data=list_user(request)
             return Response({"code":200,"data":filter_data},status=status.HTTP_200_OK)
         except Exception as e:  
-            print(e) 
+            
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
 
 

@@ -259,6 +259,7 @@ def participantspoints(request):
                         "last_updated":i["s1255e267e"]["items"][k]["last_updated"]["on"],
                         "total_points":i["s1255e267e"]["items"][k]["s9e25e9aba"],
                         "points_earned":i["s1255e267e"]["items"][k]["s5dd95e7c3"]
+                        
 
                 }
                 
@@ -453,7 +454,6 @@ def trail_participant(request,trails_data):
     count=0
     for trail in trails_data:
         if trail["title_submenu"]["breweries_completed"]["name"] and request.user.brewery:
-            print(trail["title_submenu"]["breweries_completed"]["name"])
             if str(trail["title_submenu"]["breweries_completed"]["name"])==str(request.user.brewery):
                 count=count+1
             participant={
