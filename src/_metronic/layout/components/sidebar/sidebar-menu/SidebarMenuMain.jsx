@@ -68,7 +68,7 @@ const SidebarMenuMain = () => {
         title={intl.formatMessage({ id: 'Membership Dashboard' })}
         fontIcon='bi-app-indicator'
       />
-      <SidebarMenuItemWithSub to='/lists' title='Lists' fontIcon='bi-archive' icon='bi bi-list-columns-reverse'>
+      <SidebarMenuItemWithSub to='/lists' title='Overall Points' fontIcon='bi-archive' icon='bi bi-list-columns-reverse'>
         <SidebarMenuItem to='/lists/breweries' title='Breweries' hasBullet={true} />
         <SidebarMenuItem to='/lists/trails' title='Trails' hasBullet={true} />
         <SidebarMenuItem to='/lists/participants' title='Participants' hasBullet={true} />

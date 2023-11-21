@@ -10,7 +10,7 @@ const EventsForm = () => {
     <div className="px-5">
       <iframe
                   src={`https://forms.fillout.com/t/gUSmhKpWZgus?id=${params.id}`}
-                  style={{ width: "100%", height: "500px", border: "none" }}
+                  style={{ width: "100%", height: "1000px", border: "none",}}
                 ></iframe>
       {/* {iframe?.length > 0
         ? iframe?.map((item,i) => {
