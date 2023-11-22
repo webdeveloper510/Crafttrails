@@ -118,6 +118,11 @@ tr:hover .iconss {
 .line_chart{
     margin-top: 60px;
 }
+.delete-btn{
+    color: rgb(197, 6, 6) !important;
+    font-size:18px !important;
+    cursor: pointer;
+  }
 .explaination{
     font-size: 15px;
 }

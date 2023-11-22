@@ -376,7 +376,18 @@ export const getUserByToken = async (token) => {
   })
   return response
 }
-
+export const deletUser = async(id) => {
+  const response = await Axios.delete(`/craft/delete_user/${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    },
+  }).then(res => {
+    return res?.data
+  }).catch(err => {
+    return err.response.data
+  })
+  return response
+};
 export const requestPassword = async (token) => {
   const response = await Axios.post(`/admins/token_verification`, {
     headers: {

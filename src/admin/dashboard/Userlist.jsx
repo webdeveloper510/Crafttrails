@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AdminUserStatus, adminUserList, editUserLocation, getuserlist } from "../../utils/Api";
+import { AdminUserStatus, adminUserList, deletUser, editUserLocation, getuserlist } from "../../utils/Api";
 import DataTable from "react-data-table-component";
 // import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -7,10 +7,13 @@ import "react-data-table-component-extensions/dist/index.css";
 import { toast } from 'react-toastify';
 import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap'
+import { useNavigate } from "react-router-dom";
 
 
 const UserList = () => {
 
+  const navigate = useNavigate()
+  const [delet, setDelet] = useState(false);
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -20,6 +23,37 @@ const UserList = () => {
   })
 
   const handleClose = () => setShow(false);
+
+  const handleDelClose = () => {
+    setDelet(false);
+    console.log(delet)
+  };
+
+  const handleDeletUser =(id)=>{
+    console.log("delet id",id)
+    deletUser(id).then((res)=>{
+      console.log("resssssssss delet success", res) 
+      if(res.code == 200){
+        toast.success(res?.message,{
+          position: "top-right",
+          autoClose: 2000,
+          theme: "colored",
+        });
+        getadminList()
+        setDelet(false)
+      }else{
+        toast.error(res?.error, {
+          position: "top-right",
+          autoClose: 2000,
+          theme: "colored",
+        });
+        setDelet(false)
+      }
+      getadminList()
+    }).catch((error)=>{
+      console.log(error)
+    })
+  }
 
   const getadminList = () => {
     setLoading(true);
@@ -100,6 +134,17 @@ const UserList = () => {
    })
   }
 
+  // const handleShowData = (item) => {
+  //   console.log("itemssssssss", item);
+  //   navigate(`/overall-points/${item.passport}`);
+   
+  // };
+
+  const handledelete = (item) => {
+    console.log("delete item---------", item.id);
+    setDelet(item.id);
+  };
+
   const columns = [
     {
       name: "Id",
@@ -122,24 +167,54 @@ const UserList = () => {
       sortable: true,
     },
     {
-      name: "Action",
+      name: "Status",
       selector: "status",
       sortable: true,
       cell: (d) =>
         d.status == true ? (
-         <> 
-         <i className="bi bi-pencil-square edit-btn" onClick={()=>handleEditLocation(d)}></i>
-         <button className="activebtn" onClick={()=>handleStatus(false, d.id)}>Active</button> 
-         
-         </>
+          <>
+            <button
+              className="activebtn"
+              onClick={() => handleStatus(false, d.id)}
+            >
+              Active
+            </button>
+          </>
         ) : (
           <>
-          <i className="bi bi-pencil-square edit-btn" onClick={()=>handleEditLocation(d)}></i>
-          <button className="inactivebtn" onClick={()=>handleStatus(true , d.id)}>Inactive</button>
+            <button
+              className="inactivebtn"
+              onClick={() => handleStatus(true, d.id)}
+            >
+              Inactive
+            </button>
           </>
-        )
-        
+        ),
     },
+    {
+      name: "Action",
+      cell: (d) => (
+        <>
+          <i
+            className="bi bi-pencil-square edit-btn"
+            onClick={() => handleEditLocation(d)}
+          ></i>
+          <i
+            className="bi bi-trash-fill delete-btn"
+            onClick={() => handledelete(d)}
+          ></i>
+        </>
+      ),
+    },
+    // {
+    //   name: "Overall Points",
+    //   cell: (d) => (
+    //     <i
+    //       className="bi bi-eye-fill ms-3 eye-btn"
+    //       onClick={() => handleShowData(d)}
+    //     ></i>
+    //   ),
+    // },
   ];
 
   const tableData = {
@@ -191,6 +266,24 @@ const UserList = () => {
             Save Changes
           </Button>
         </Modal.Footer>
+      </Modal>
+
+      <Modal centered show={delet} onHide={handleDelClose}>
+        <Modal.Header closeButton>
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          <h2 style={{ color: "black" }} className="mt-3">
+            Are You Sure
+          </h2>
+          <h6 className="my-4">You want to delete this User</h6>
+          <Button variant="primary" className="mx-2 my-3" onClick={()=>handleDeletUser(delet)}>
+            Delete
+          </Button>
+          <Button variant="secondary" className="mx-2 my-3" onClick={handleDelClose}>
+            Cancel
+          </Button>
+        </Modal.Body>
+        <Modal.Footer></Modal.Footer>
       </Modal>
     </>
   );
