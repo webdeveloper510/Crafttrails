@@ -26,4 +26,6 @@ urlpatterns = [
     path('user/links/', FetchLink.as_view(), name='user_links'),
     path('hottest/days/', HottestDay.as_view(), name='hottest_day'),
     path('membership/data/', Membership.as_view(), name='membership'),
+    path("delete_user/<int:id>",Delete_user.as_view(),name="delete_user"),
+
 ]

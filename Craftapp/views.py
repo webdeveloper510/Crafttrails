@@ -608,7 +608,18 @@ class Membership(APIView):
 
 
 
-
+"""API TO Delete User """
+class Delete_user(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+    
+    def delete(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+            user.delete()
+            return Response({'code': 200, 'message': 'User deleted successfully'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'code': 404, 'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 
