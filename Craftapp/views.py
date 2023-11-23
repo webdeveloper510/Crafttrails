@@ -168,6 +168,19 @@ class BreweriesView(APIView):
         except Exception as e:
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
+"""API TO GET BREWERIES DATA WITH ID"""
+class BreweriesIDView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+    def get(self,request,pid):
+        try:
+            brewery_data=breweries_all(request,pid)
+            return Response({"code":200,"data":brewery_data[0]},status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
 
 """API TO GET TRAIL DATA"""
@@ -187,6 +200,23 @@ class TrailView(APIView):
 
 
 
+"""API TO GET TRAIL DATA With ID"""
+class TrailIDView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+    def get(self,request,pid):
+        try:
+            trails_data=trails_all(request,pid)   
+            return Response({"code":200,"data":trails_data},status=status.HTTP_200_OK)
+        except Exception as e:
+            
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)            
+
+
+
 """API TO GET PARTICIPANTS DATA"""
 class ParticipantsView(APIView):
     permission_classes=[IsAuthenticated]
@@ -200,6 +230,23 @@ class ParticipantsView(APIView):
             return Response({"code":200,"data":participants_data},status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+
+
+"""API TO GET PARTICIPANTS DATA WITH ID"""
+class ParticipantsIDView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+    def get(self,request,pid):
+        try:
+            
+            participants_data=participants_all(request,pid)
+            return Response({"code":200,"data":participants_data},status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)            
         
 
 
@@ -217,6 +264,23 @@ class ParticipantsPointsView(APIView):
         except Exception as e:
            
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+
+
+"""API TO GET PARTICIPANTS POINTS DATA WITH ID"""
+class ParticipantsPointsIDView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+    def get(self,request,pid):
+        try:
+            partic_data=participantspoints_all(request,pid)
+            return Response({"code":200,"data":partic_data},status=status.HTTP_200_OK)
+        except Exception as e:
+           
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)            
         
 
 
@@ -227,12 +291,27 @@ class VisitView(APIView):
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'custom'
 
-    def get(self,request):
+    def get(self,request,pid):
         try:
             visit_data=visit(request)    
             return Response({"code":200,"data":visit_data},status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+
+"""API TO GET VISIT DATA"""
+class VisitIDView(APIView):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+    def get(self,request,pid):
+        try:
+            visit_data=visit_all(request,pid)    
+            return Response({"code":200,"data":visit_data},status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)            
         
 
 
