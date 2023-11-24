@@ -246,6 +246,8 @@ class ParticipantsIDView(APIView):
             participants_data=participants_all(request,pid)
             return Response({"code":200,"data":participants_data},status=status.HTTP_200_OK)
         except Exception as e:
+            print("***************************")
+            print(e)
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)            
         
 
