@@ -205,6 +205,7 @@ def trails(request):
     return data
 
 def trails_all(request,pid):
+    
     trail_list=[]
     base_url = settings.base_url
     headers = {
@@ -221,8 +222,7 @@ def trails_all(request,pid):
             if i["s211c64472"]!="":
                 master_id1=i["s211c64472"]
                 unique_master_id.add(master_id1)
-                print(unique_master_id)
-      
+               
 
     app_ids = settings.trailmaster_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
@@ -342,7 +342,7 @@ def participants(request):
     return data
 
 def participants_all(request,pid):
-    print("pid",pid,type(pid))
+   
     participant_list=[]
     base_url = settings.base_url
     headers = {
@@ -355,13 +355,13 @@ def participants_all(request,pid):
    
     unique_master_id=set()
     for i in response.json()["items"] :
-        print("pid1",i["s9d5037e2f"],type(i["s9d5037e2f"]))
+        
         if i["s9d5037e2f"]==pid :
             if i["s211c64472"]!="":
-                print("mid",i["s211c64472"],type(i["s211c64472"]))
+               
                 master_id1=i["s211c64472"]
                 unique_master_id.add(master_id1)
-                print(unique_master_id)
+               
             
 
     app_ids = settings.participants_id 
@@ -371,10 +371,7 @@ def participants_all(request,pid):
     for i in response.json()["items"] :
         
         if i["sd48be64b7"] in list(unique_master_id):
-            # print("mid",i["sd48be64b7"],unique_master_id)
-            # print(type(i["sac87d276d"]["date"]))
-            # if i["sac87d276d"]["date"]==None:
-            #     i["sac87d276d"]["date"]=""
+           
             try:
                 date=i["sac87d276d"]["date"]
             except Exception as e:
@@ -405,9 +402,9 @@ def participants_all(request,pid):
             }
             
             participant_list.append(data)  
-            print(participant_list)
+            
     data=participant_list   
-    print("data1",data)
+    
     return data
 
 
@@ -507,7 +504,7 @@ def participantspoints_all(request,pid):
             
                 master_id1=i["s211c64472"]
                 unique_master_id.add(master_id1)
-                print(unique_master_id)
+                
 
     app_ids = settings.participants_points
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
@@ -726,26 +723,32 @@ def get_all_sub_items(request):
         "Account-Id":  settings.account_id,
         "Content-Type": "application/json"
     }
-    app_ids = settings.active_trails
+    # app_ids = settings.active_trails
 
-    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-    app_ids = settings.trailmaster_id 
-    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-    
+    # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    # app_ids = settings.trailmaster_id 
+    # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    trails_data=trails(request)   
+    active_trails_data=active_trails(request) 
+    count=0
+    for k in active_trails_data.json()["items"]:
+        for i in trails_data:
+            if  i["trail_name"] == k["s9b9447a8e"] :
+                count=count+1
    
-    if response.status_code == 200:
-        json_response = response.json()
-        items = json_response.get('items', [])
-        print(items)
+    # if response.status_code == 200:
+    #     json_response = response.json()
+    #     items = json_response.get('items', [])
+    #     print(items)
  
-        for item in items:
-            sub_items = item.get("sb7210e570", {})
-            active_participants.append(sub_items["count"])
+    #     for item in items:
+    #         sub_items = item.get("sb7210e570", {})
+    #         active_participants.append(sub_items["count"])
             
-    else:
-        raise Exception(f"Failed to fetch data from SmartSuite: {response.content}")
-
-    return sum(active_participants)
+    # else:
+    #     raise Exception(f"Failed to fetch data from SmartSuite: {response.content}")
+    
+    return count
 
 
 def calculate_growth(request,week_number):

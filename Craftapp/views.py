@@ -246,8 +246,7 @@ class ParticipantsIDView(APIView):
             participants_data=participants_all(request,pid)
             return Response({"code":200,"data":participants_data},status=status.HTTP_200_OK)
         except Exception as e:
-            print("***************************")
-            print(e)
+          
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)            
         
 
@@ -504,16 +503,21 @@ class WeeklyParticipants(APIView):
 
 
     def get(self,request):
+       
         try:
+           
             actve_participants=[]
             current_date = datetime.datetime.now()
             week_number = current_date.strftime("%U")
             
             sub_items=get_all_sub_items(request)
+            
           
             parcount=WeekParticipants.objects.filter(user_id=request.user.id).exists()
            
+           
             if parcount ==False:
+                
                 WeekParticipants.objects.filter(user_id=request.user.id).create(user_id=request.user.id,weeknumber=week_number,participant=sub_items,weekname="week" + str(week_number))
             else:
                 already=WeekParticipants.objects.filter(user_id=request.user.id,weekname="week"+str(week_number)).exists()
