@@ -342,8 +342,8 @@ def participants(request):
     return data
 
 def participants_all(request,pid):
+    print("pid",pid,type(pid))
     participant_list=[]
-    master_id=[]
     base_url = settings.base_url
     headers = {
         "Authorization": settings.authorization,
@@ -355,8 +355,10 @@ def participants_all(request,pid):
    
     unique_master_id=set()
     for i in response.json()["items"] :
+        print("pid1",i["s9d5037e2f"],type(i["s9d5037e2f"]))
         if i["s9d5037e2f"]==pid :
             if i["s211c64472"]!="":
+                print(i["s211c64472"],type(i["s211c64472"]))
                 master_id1=i["s211c64472"]
                 unique_master_id.add(master_id1)
                 print(unique_master_id)
@@ -367,7 +369,7 @@ def participants_all(request,pid):
     
        
     for i in response.json()["items"] :
-        print((i["sd48be64b7"]))
+        print((i["sd48be64b7"]),type(i["sd48be64b7"]))
         if str(i["sd48be64b7"]) in list(unique_master_id):
             data={
                 "title":i["title"],
@@ -716,6 +718,9 @@ def get_all_sub_items(request):
         "Account-Id":  settings.account_id,
         "Content-Type": "application/json"
     }
+    app_ids = settings.active_trails
+
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     app_ids = settings.trailmaster_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     
@@ -723,6 +728,7 @@ def get_all_sub_items(request):
     if response.status_code == 200:
         json_response = response.json()
         items = json_response.get('items', [])
+        print(items)
  
         for item in items:
             sub_items = item.get("sb7210e570", {})
@@ -847,28 +853,36 @@ def list_user(request):
                     total_points[points["name_of_participants"]]=int(data["total_points"])  
                     points_earned[points["name_of_participants"]]=int(data["points_earned"])   
                     master_ids[points["name_of_participants"]] = int(points["master_id"])
-                            
-    top_user_overall = max(zip(total_points.values(), total_points.keys(),master_ids.values()))
-    bottom_user_overall = min(zip(total_points.values(), total_points.keys(),master_ids.values()))
-    top_points_earned=max(zip(points_earned.values(), points_earned.keys(),master_ids.values())) 
-    bottom_points_earned=min(zip(points_earned.values(), points_earned.keys(),master_ids.values()))
-    
-    
-    data=[{
-        "top_user_overall":{
-            
-            "master_id":top_user_overall[2],"participant":top_user_overall[1],"points":top_user_overall[0]
-            },
-        "bottom_user_overall":{
-            "master_id":bottom_user_overall[2],"participant":bottom_user_overall[1],"points":bottom_user_overall[0]
-            },
-        "top_points_earned":{
-            "master_id":top_points_earned[2],"participant":top_points_earned[1],"points":top_points_earned[0]
-            },
-        "bottom_points_earned":{
-            "master_id":bottom_points_earned[2],"participant":bottom_points_earned[1],"points":bottom_points_earned[0]
-            }
 
-    }]
+    top_10_total_points = sorted(zip(total_points.values(), total_points.keys(), master_ids.values()), reverse=True)[:10]
+    bottom_10_total_points = sorted(zip(total_points.values(), total_points.keys(), master_ids.values()))[:10]
+
+    top_10_points_earned = sorted(zip(points_earned.values(), points_earned.keys(), master_ids.values()), reverse=True)[:10]
+    bottom_10_points_earned = sorted(zip(points_earned.values(), points_earned.keys(), master_ids.values()))[:10]                        
+    # top_user_overall = max(zip(total_points.values(), total_points.keys(),master_ids.values()))
+    # bottom_user_overall = min(zip(total_points.values(), total_points.keys(),master_ids.values()))
+    # top_points_earned=max(zip(points_earned.values(), points_earned.keys(),master_ids.values())) 
+    # bottom_points_earned=min(zip(points_earned.values(), points_earned.keys(),master_ids.values()))
+    data=[{  "top_user_overall": [{"master_id": master_id, "participant": participant, "points": points} for points, participant, master_id in top_10_total_points],
+            "bottom_user_overall": [{"master_id": master_id, "participant": participant, "points": points} for points, participant, master_id in bottom_10_total_points],
+            "top_points_earned": [{"master_id": master_id, "participant": participant, "points": points} for points, participant, master_id in top_10_points_earned],
+            "bottom_points_earned": [{"master_id": master_id, "participant": participant, "points": points} for points, participant, master_id in bottom_10_points_earned]}]
+    
+    # data=[{
+    #     "top_user_overall":{
+            
+    #         "master_id":top_user_overall[2],"participant":top_user_overall[1],"points":top_user_overall[0]
+    #         },
+    #     "bottom_user_overall":{
+    #         "master_id":bottom_user_overall[2],"participant":bottom_user_overall[1],"points":bottom_user_overall[0]
+    #         },
+    #     "top_points_earned":{
+    #         "master_id":top_points_earned[2],"participant":top_points_earned[1],"points":top_points_earned[0]
+    #         },
+    #     "bottom_points_earned":{
+    #         "master_id":bottom_points_earned[2],"participant":bottom_points_earned[1],"points":bottom_points_earned[0]
+    #         }
+
+    # }]
 
     return data
