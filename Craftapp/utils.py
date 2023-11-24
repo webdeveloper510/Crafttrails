@@ -477,7 +477,6 @@ def participantspoints(request):
    
     data= participant_points
   
-
    
     return data
 
@@ -495,7 +494,7 @@ def participantspoints_all(request,pid):
     unique_master_id=set()
     for i in response.json()["items"] :
         if i["s9d5037e2f"]==pid :
-            if i["s211c64472"]!="":
+            
                 master_id1=i["s211c64472"]
                 unique_master_id.add(master_id1)
                 print(unique_master_id)
