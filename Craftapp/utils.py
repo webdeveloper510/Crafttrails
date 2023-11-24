@@ -371,10 +371,10 @@ def participants_all(request,pid):
     for i in response.json()["items"] :
         
         if i["sd48be64b7"] in list(unique_master_id):
-            print("mid",i["sd48be64b7"],unique_master_id)
-            print(type(i["sac87d276d"]["date"]))
-            if i["sac87d276d"]["date"]==None:
-                i["sac87d276d"]["date"]=""
+            # print("mid",i["sd48be64b7"],unique_master_id)
+            # print(type(i["sac87d276d"]["date"]))
+            # if i["sac87d276d"]["date"]==None:
+            #     i["sac87d276d"]["date"]=""
 
             
             data={
@@ -382,7 +382,7 @@ def participants_all(request,pid):
                 "rfid_tag":i["sbb8fea034"],
                 "full_name":i["s37af43f83"]["sys_root"],
                 "email":i["sac950cfcc"],
-                "date_of_birth":i["sac87d276d"]["date"],
+                # "date_of_birth":i["sac87d276d"]["date"],
                 "master_id":i["sd48be64b7"], 
                 "phone_number":i["s37e762ac3"],  
                 "address":i["sb91047f0b"]["location_address"],
@@ -392,7 +392,7 @@ def participants_all(request,pid):
                     "rfid_tag":i["sbb8fea034"],
                     "email":i["sac950cfcc"],
                     "full_name":i["s37af43f83"]["sys_root"],
-                    "date_of_birth":i["sac87d276d"]["date"],
+                    # "date_of_birth":i["sac87d276d"]["date"],
                     "master_id":i["sd48be64b7"],
                     "phone_number":i["s37e762ac3"],
                     "address":i["sb91047f0b"]["location_address"],
