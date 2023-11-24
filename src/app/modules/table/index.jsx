@@ -167,7 +167,7 @@ const DynamicTable = ({ data, moreView, display }) => {
                                             } else {
                                                 if (key === "phone_number") {
                                                     return (
-                                                        <td key={key}>{item[key] !== "" ? item[key][0]["sys_title"] : "N/A"}</td>
+                                                        <td key={key}>{item?.[key] !== "" ? item?.[key]?.[0]?.["sys_title"] : "N/A"}</td>
                                                     )
                                                 } else {
                                                     return (

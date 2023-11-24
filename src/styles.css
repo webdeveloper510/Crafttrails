@@ -139,6 +139,19 @@ tr:hover .iconss {
     padding: 5px;
     border: none;
 }
+.nav-fill .nav-item .nav-link, .nav-justified .nav-item .nav-link {
+    width: 100%;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+}
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #009ef7 !important;
+    background-color: #eaf4f9 !important;
+    border-color: #009ef7 !important;
+}
+.nav-link {
+    color: #000 !important;
+}
 .inactivebtn{
     background-color: rgb(194, 3, 3);
     color: white;

@@ -25,10 +25,10 @@ const ParticipantTable = ({passport}) => {
 
   return (
     <div>
-      <Breadcrumb className="display-6 mb-4">
+      {/* <Breadcrumb>
         <Breadcrumb.Item href="#"><span style={{ color: "#000" }}>Lists</span></Breadcrumb.Item>
-        <Breadcrumb.Item active><span style={{ color: "#ef305e" }}>Participants</span></Breadcrumb.Item>
-      </Breadcrumb>
+        <Breadcrumb.Item active><h1 style={{ color: "#ef305e" }}>Participants</h1></Breadcrumb.Item>
+      </Breadcrumb> */}
       {
         loading ? (
           <div className="loader-overly">

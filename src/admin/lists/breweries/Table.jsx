@@ -29,10 +29,10 @@ const BreweryTable = ({passport}) => {
   return (
     <>
       <div>
-        <Breadcrumb className="display-6 mb-4">
+        {/* <Breadcrumb>
           <Breadcrumb.Item href="#"><span style={{ color: "#000" }}>Lists</span></Breadcrumb.Item>
-          <Breadcrumb.Item active><span style={{ color: "#ef305e" }}>Breweries</span></Breadcrumb.Item>
-        </Breadcrumb>
+          <Breadcrumb.Item active><h1 style={{ color: "#ef305e" }}>Breweries</h1></Breadcrumb.Item>
+        </Breadcrumb> */}
         <div>
           {
             loading ? (

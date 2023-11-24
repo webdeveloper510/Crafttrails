@@ -69,6 +69,30 @@ export const userResetPassword = async (data) => {
   })
   return response
 }
+// craft/userprofile/
+export const getuserProfile = () => {
+  const response = Axios.get(`/craft/userprofile/`,{
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+
+export const edituserProfile = (id, data) => {
+  const response = Axios.post(`/Admin/user/update/${id}`,data,{
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+
+// user/update/
 
 
 export const getuserlist = (id) => {
@@ -493,7 +517,7 @@ export const forgotPassword = (data) => {
   })
   return response
 }
-
+// craft/userprofile/
 
 export const getprofileImage = async (token) => {
   const response = await Axios.get("https://graph.microsoft.com/v1.0/me/photo/$value", {

@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { KTIcon } from '../../../../_metronic/helpers'
 import { ChartsWidget1, ListsWidget5, TablesWidget1, TablesWidget5, } from '../../../../_metronic/partials/widgets'
 import { useAuth } from '../../auth'
-import { getUserData } from '../../../../utils/Api'
+import { getUserData, getuserProfile } from '../../../../utils/Api'
 type Props = {
   first_name: string,
   last_name: string,
@@ -15,7 +15,28 @@ type Props = {
 
 export function Overview() {
   const { auth } = useAuth()
-  const [data, setData] = React.useState<Props>()
+  const [data, setData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+  });
+  console.log("dataaaaaaaaaaaa", data)
+
+  useEffect(() => {
+    userProfileDetail();
+  }, []);
+
+  const userProfileDetail = () => {
+    getuserProfile()
+      .then((res) => {
+        console.log("get user profile detailssssssssss------------", res);
+        setData(res?.data?.[0]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  // const [data, setData] = React.useState<Props>()
 
   // React.useEffect(() => {
   //   // const d = JSON.parse(localStorage.getItem('app-serve-key'))
@@ -46,7 +67,7 @@ export function Overview() {
             <label className='col-lg-4 fw-bold text-muted'>Full Name</label>
 
             <div className='col-lg-8'>
-              <span className='fw-bolder fs-6 text-dark'>{auth?.firstname} {auth?.lastname}</span>
+              <span className='fw-bolder fs-6 text-dark'>{data?.first_name} {data?.last_name}</span>
             </div>
           </div>
 

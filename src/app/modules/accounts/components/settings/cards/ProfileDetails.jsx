@@ -1,228 +1,199 @@
-import React, { useState } from 'react'
-import { toAbsoluteUrl } from '../../../../../../_metronic/helpers'
-// import { IProfileDetails, profileDetailsInitValues as initialValues } from '../SettingsModel'
-import * as Yup from 'yup'
-import { useFormik } from 'formik'
-import { getUserData, editUser, getUserByToken } from '../../../../../../utils/Api'
-import { useAuth } from '../../../../auth'
-import { toast } from 'react-toastify';
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import { editUser, edituserProfile, getuserProfile } from "../../../../../../utils/Api";
+import { useAuth } from "../../../../auth";
+import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
 
 const profileDetailsSchema = Yup.object().shape({
-  firstname: Yup.string().required('First name is required'),
-  lastname: Yup.string().required('Last name is required'),
-  // company: Yup.string().required('Company name is required'),
-  email: Yup.string()
-    .required('email is required')
-
-  // companySite: Yup.string().required('Company site is required'),
-  // country: Yup.string().required('Country is required'),
-  // language: Yup.string().required('Language is required'),
-  // timeZone: Yup.string().required('Time zone is required'),
-  // currency: Yup.string().required('Currency is required'),
-})
-
-// type Props={
-//   first_name:string,
-//   last_name: string,
-//   phone_no: number,
-//   profile_image: any,
-// }
+  first_name: Yup.string().required("First name is required"),
+  last_name: Yup.string(),
+  email: Yup.string().required("email is required"),
+});
 
 const initialValues = {
-  firstname: "",
-  lastname: "",
+  first_name: "",
+  last_name: "",
   email: "",
-
-}
+};
 
 const ProfileDetails = () => {
+  const [data, setData] = useState({
+    id: "",
+    first_name: "",
+    last_name: "",
+    email: "",
+  });
+  const { auth, saveAuth, setCurrentUser } = useAuth();
+  const navigate = useNavigate();
 
-  // const ProfileDetails: React.FC = () => {  
+  useEffect(() => {
+    userProfileDetail();
+  }, []);
 
+  const userProfileDetail = () => {
+    getuserProfile()
+      .then((res) => {
+        console.log("get user profile detailssssssssss------------", res);
+        formik.setValues(res?.data?.[0]);
+        setData(res?.data?.[0]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-  const [data, setData] = useState()
-  const { auth, saveAuth, setCurrentUser } = useAuth()
-  // const updateData = (fieldsToUpdate) => {
-  //   const updatedData = Object.assign(data, fieldsToUpdate)
-  //   setData(updatedData)
-  // }
-  const navigate = useNavigate()
-
-
-  // React.useEffect(() => {
-  //   // const d = JSON.parse(localStorage.getItem('app-serve-key'))
-  //   console.log(auth.id, 'authhh')
-
-  //   getUserData(auth.id).then(res => {
-  //     if (res.code == 200) {
-  //       setData(res.result)
-  //       formik.setValues(res.result)
-  //     }
-  //   })
-  // }, [])
-
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues,
     validationSchema: profileDetailsSchema,
     onSubmit: (values) => {
-      // console.log('values', values)
-
-      setLoading(true)
-
-      const formData = new FormData()
-      formData.append("userId", auth.id)
-      formData.append("first_name", values.first_name)
-      formData.append("last_name", values.last_name)
-      formData.append("phone_no", values.phone_no)
-      formData.append('profile_image', values.profile_image);
-
-      editUser(formData).then((res) => {
-        // setProfilModal(false)
-        if (res.code === 200) {
-          toast.success('Profile Update Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
-          navigate('/crafted/account/overview')
-          saveAuth(res.result)
-          // getUserByToken(res.result.jwtToken).then(res => {
-          //   setCurrentUser(res)
-          // })
-          // setoggle(true)
-        } else if (res.code === 201) {
-          toast.error(res.message, { position: "top-right", autoClose: 2000, theme: "colored" });
-
+      // setLoading(true);
+      console.log("valuessssssssssss",values)
+      const id = values.id
+      edituserProfile(id,{
+        first_name : values.first_name,
+        last_name : values.last_name,
+        email : values.email
+      }).then((res)=>{
+        console.log("edit user profile success==", res)
+        if(res?.code == 200){
+          navigate("/crafted/account/overview")
+          toast.success(res?.data,{
+            position: "top-right",
+            autoClose: 2000,
+            theme: "colored",
+          });
         }
-        setLoading(false)
-
-      }).catch((err) => {
+      }).catch((error)=>{
+        console.log(error)
       })
+      // const formData = new FormData();
+      // formData.append("userId", auth.id);
+      // formData.append("first_name", values.first_name);
+      // formData.append("last_name", values.last_name);
+      // formData.append("phone_no", values.phone_no);
+      // formData.append("profile_image", values.profile_image);
 
+      // editUser(formData)
+      //   .then((res) => {
+      //     // setProfilModal(false)
+      //     if (res.code === 200) {
+      //       toast.success("Profile Update Successfully", {
+      //         position: "top-right",
+      //         autoClose: 2000,
+      //         theme: "colored",
+      //       });
+      //       navigate("/crafted/account/overview");
+      //       saveAuth(res.result);
+      //       // getUserByToken(res.result.jwtToken).then(res => {
+      //       //   setCurrentUser(res)
+      //       // })
+      //       // setoggle(true)
+      //     } else if (res.code === 201) {
+      //       toast.error(res.message, {
+      //         position: "top-right",
+      //         autoClose: 2000,
+      //         theme: "colored",
+      //       });
+      //     }
+      //     setLoading(false);
+      //   })
+      //   .catch((err) => {});
     },
-  })
+  });
 
   return (
-    <div className='card mb-5 mb-xl-10'>
+    <div className="card mb-5 mb-xl-10">
       <div
-        className='card-header border-0 cursor-pointer'
-        role='button'
-        data-bs-toggle='collapse'
-        data-bs-target='#kt_account_profile_details'
-        aria-expanded='true'
-        aria-controls='kt_account_profile_details'
+        className="card-header border-0 cursor-pointer"
+        role="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#kt_account_profile_details"
+        aria-expanded="true"
+        aria-controls="kt_account_profile_details"
       >
-        <div className='card-title m-0'>
-          <h3 className='fw-bolder m-0'>Profile Details</h3>
+        <div className="card-title m-0">
+          <h3 className="fw-bolder m-0">Profile Details</h3>
         </div>
       </div>
 
-      <div id='kt_account_profile_details' className='collapse show'>
-        <form onSubmit={formik.handleSubmit} noValidate className='form'>
-          <div className='card-body border-top p-9'>
-            {/* <div className='row mb-6'>
-              <label className='col-lg-4 col-form-label fw-bold fs-6'>Avatar</label>
-              <div className='col-lg-4'>
+      <div id="kt_account_profile_details" className="collapse show">
+        <form onSubmit={formik.handleSubmit} noValidate className="form">
+          <div className="card-body border-top p-9">
+            <div className="row mb-6">
+              <label className="col-lg-4 col-form-label required fw-bold fs-6">
+                Full Name
+              </label>
 
-                {
-                   data?.profile_image?.includes("https") ?
-                   <div
-                  className='image-input image-input-outline'
-                  data-kt-image-input='true'
-                  style={{backgroundImage: `url(${data?.profile_image})`}}
-                >
-                  <div
-                    className='image-input-wrapper w-125px h-125px'
-                    style={{backgroundImage: `url(${data?.profile_image})`}}
-                  ></div>
-                </div>
-                :
-                <div
-                  className='image-input image-input-outline'
-                  data-kt-image-input='true'
-                  style={{backgroundImage: `url(${process.env.REACT_APP_API_URL}/uploads/profile/${data?.profile_image})`}}
-                >
-                  <div
-                    className='image-input-wrapper w-125px h-125px'
-                    style={{backgroundImage: `url(${process.env.REACT_APP_API_URL}/uploads/profile/${data?.profile_image})`}}
-                  ></div>
-                </div>
-                }
-                
-              </div>
-              <div className='col-lg-4 fv-row'>
-              <input
-                  type='file'
-                  className='form-control mx-2 my-3'
-                  accept='image/*'
-                  onChange={(e) =>{
-                    if(e.target.files) {
-                      formik.setFieldValue('profile_image', e.target.files[0])
-
-                    }
-                  }
-                  }
-                  // onChange={handleFileChange}
-                  // {...formik.getFieldProps('profile_image')}
-                />
-                {formik.touched.profile_image && formik.errors.profile_image && (
-                  <div className='fv-plugins-message-container'>
-                    <div className='fv-help-block'>{formik.errors.profile_image}</div>
-                  </div>
-                )}
-              </div>
-            </div> */}
-
-            <div className='row mb-6'>
-              <label className='col-lg-4 col-form-label required fw-bold fs-6'>Full Name</label>
-
-              <div className='col-lg-8'>
-                <div className='row'>
-                  <div className='col-lg-6 fv-row'>
+              <div className="col-lg-8">
+                <div className="row">
+                  <div className="col-lg-6 fv-row">
                     <input
-                      type='text'
-                      className='form-control form-control-lg form-control-solid mb-3 mb-lg-0'
-                      placeholder='First name'
-                      // value={data?.first_name}
-                      {...formik.getFieldProps('firstname')}
+                      type="text"
+                      className="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                      placeholder="First name"
+                      value={data?.first_name}
+                      autoComplete="off"
+                      {...formik.getFieldProps("first_name")}
+                      name="first_name"
                     />
-                    {formik.touched.firstname && formik.errors.firstname && (
-                      <div className='fv-plugins-message-container'>
-                        <div className='fv-help-block'>{formik.errors.firstname}</div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className='col-lg-6 fv-row'>
-                    <input
-                      type='text'
-                      className='form-control form-control-lg form-control-solid'
-                      placeholder='Last name'
-                      {...formik.getFieldProps('lastname')}
-                    />
-                    {formik.touched.lastname && formik.errors.lastname && (
-                      <div className='fv-plugins-message-container'>
-                        <div className='fv-help-block'>{formik.errors.lastname}</div>
+                    {formik.touched.first_name && formik.errors.first_name && (
+                      <div className="fv-plugins-message-container">
+                        <div className="fv-help-block">
+                          {formik.errors.first_name}
+                        </div>
                       </div>
                     )}
                   </div>
                 </div>
               </div>
             </div>
-
-            <div className='row mb-6'>
-              <label className='col-lg-4 col-form-label fw-bold fs-6'>
-                <span className='required'>Email</span>
+            <div className="row mb-6">
+              <label className="col-lg-4 col-form-label fw-bold fs-6">
+                <span className="required">Last Name</span>
               </label>
 
-              <div className='col-lg-8 fv-row'>
+              <div className="col-lg-8 fv-row">
+              <input
+                      type="text"
+                      className="form-control form-control-lg form-control-solid"
+                      placeholder="Last name"
+                      value={data?.last_name}
+                      autoComplete="off"
+                      {...formik.getFieldProps("last_name")}
+                      name="last_name"
+                    />
+                    {formik.touched.last_name && formik.errors.last_name && (
+                      <div className="fv-plugins-message-container">
+                        <div className="fv-help-block">
+                          {formik.errors.last_name}
+                        </div>
+                      </div>
+                    )}
+              </div>
+            </div>
+
+            <div className="row mb-6">
+              <label className="col-lg-4 col-form-label fw-bold fs-6">
+                <span className="required">Email</span>
+              </label>
+
+              <div className="col-lg-8 fv-row">
                 <input
-                  type='tel'
-                  className='form-control form-control-lg form-control-solid'
-                  placeholder='Email'
-                  {...formik.getFieldProps('email')}
+                  type="tel"
+                  className="form-control form-control-lg form-control-solid"
+                  placeholder="Email"
+                  value={data?.email}
+                  autoComplete="off"
+                  name="email"
+                  readOnly
+                  {...formik.getFieldProps("email")}
                 />
                 {formik.touched.email && formik.errors.email && (
-                  <div className='fv-plugins-message-container'>
-                    <div className='fv-help-block'>{formik.errors.email}</div>
+                  <div className="fv-plugins-message-container">
+                    <div className="fv-help-block">{formik.errors.email}</div>
                   </div>
                 )}
               </div>
@@ -842,13 +813,16 @@ const ProfileDetails = () => {
             </div> */}
           </div>
 
-          <div className='card-footer d-flex justify-content-end py-6 px-9'>
-            <button type='submit' className='btn btn-primary' disabled={true}>
-              {!loading && 'Save Changes'}
+          <div className="card-footer d-flex justify-content-end py-6 px-9">
+            <button type="submit" className="btn btn-primary">
+              {!loading && "Save Changes"}
               {loading && (
-                <span className='indicator-progress' style={{ display: 'block' }}>
-                  Please wait...{' '}
-                  <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                <span
+                  className="indicator-progress"
+                  style={{ display: "block" }}
+                >
+                  Please wait...
+                  <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
               )}
             </button>
@@ -856,7 +830,7 @@ const ProfileDetails = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export { ProfileDetails }
+export { ProfileDetails };
