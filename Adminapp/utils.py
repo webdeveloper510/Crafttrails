@@ -26,3 +26,11 @@ def change_location(request,id):
     user_location=request.data.get("location")
     User.objects.filter(id=id).update(brewery=user_location)
     return "updated breweries"
+
+def change_profile(request,id):    
+    user_first_name=request.data.get("first_name")
+    user_last_name=request.data.get("last_name")
+    user_email=request.data.get("email")
+
+    User.objects.filter(id=id).update(first_name=user_first_name,last_name=user_last_name,email=user_email)
+    return "updated breweries"    
