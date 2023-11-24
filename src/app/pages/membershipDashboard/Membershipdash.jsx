@@ -12,7 +12,7 @@ const Membershipdash = () => {
     adminMembershipData()
       .then((res) => {
         setLoading(false)
-        console.log("user link--------------", res);
+        console.log("membership dashboard--------------", res);
         if(res.code == 200){
           setData(res.data);
         }

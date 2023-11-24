@@ -134,11 +134,10 @@ const UserList = () => {
    })
   }
 
-  // const handleShowData = (item) => {
-  //   console.log("itemssssssss", item);
-  //   navigate(`/overall-points/${item.passport}`);
-   
-  // };
+  const handleShowData = (item) => {
+    console.log("itemssssssss", item);
+    navigate(`/overall-points/${item.brewery}`);   
+  };
 
   const handledelete = (item) => {
     console.log("delete item---------", item.id);
@@ -206,15 +205,15 @@ const UserList = () => {
         </>
       ),
     },
-    // {
-    //   name: "Overall Points",
-    //   cell: (d) => (
-    //     <i
-    //       className="bi bi-eye-fill ms-3 eye-btn"
-    //       onClick={() => handleShowData(d)}
-    //     ></i>
-    //   ),
-    // },
+    {
+      name: "Overall Points",
+      cell: (d) => (
+        <i
+          className="bi bi-eye-fill ms-3 eye-btn"
+          onClick={() => handleShowData(d)}
+        ></i>
+      ),
+    },
   ];
 
   const tableData = {
@@ -243,6 +242,7 @@ const UserList = () => {
                 pagination
                 highlightOnHover
                 dense
+                paginationPerPage={50}
               />
             </DataTableExtensions>
           </>

@@ -400,6 +400,75 @@ export const requestPassword = async (token) => {
   })
   return response
 }
+// for admin
+export const getBreweryAdmin = async (id) => {
+  return await Axios.get(`/craft/breweries/list/${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    },
+  })
+    .then((res) => {
+      return res?.data;
+    })
+    .catch((error) => {
+      console.log("Participant list", error);
+    });
+};
+
+export const getTrailsAdmin = async (id) => {
+  return await Axios.get(`/craft/trail/list/${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    },
+  })
+    .then((res) => {
+      return res?.data;
+    })
+    .catch((error) => {
+      console.log("Participant list", error);
+    });
+};
+export const getVisitListadmin = async (id) => {
+  return await Axios.get(`/craft/visit/list/${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    },
+  })
+    .then((res) => {
+      return res?.data;
+    })
+    .catch((error) => {
+      console.log("Participant list", error);
+    });
+};
+
+export const getParticipantPoints = async (id) => {
+  return await Axios.get(`/craft/participants/list/${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    },
+  })
+    .then((res) => {
+      return res?.data;
+    })
+    .catch((error) => {
+      console.log("Participant list", error);
+    });
+};
+
+export const getParticipantPointsAdmin = async (id) => {
+  return await Axios.get(`/craft/participants/points/list/${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    },
+  })
+    .then((res) => {
+      return res?.data;
+    })
+    .catch((error) => {
+      console.log("Participant list", error);
+    });
+};
 
 // Send Otp
 export const sendOTP = (data) => {

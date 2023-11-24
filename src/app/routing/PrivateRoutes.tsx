@@ -22,6 +22,7 @@ import EventsForm from '../pages/Events/Event'
 import { NewPassword } from '../modules/auth/components/ResetPassword'
 import Membershipdash from '../pages/membershipDashboard/Membershipdash'
 import UserList from '../../admin/dashboard/Userlist'
+import OverallPoint from '../../admin/Overall'
 
 
 
@@ -57,7 +58,7 @@ const PrivateRoutes = () => {
         <Route path="brewery-event/feature-request" element={<FeatureRequest />} />
         <Route path="brewery-event/report-bug" element={<ReportBug />} />
         <Route path="events/events-iframe/:id" element={<EventsForm />} />
-       
+        <Route path="overall-points/:id" element={<OverallPoint />} />
 
         {/* Lazy Modules */}
         <Route
