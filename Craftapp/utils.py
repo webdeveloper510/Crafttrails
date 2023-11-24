@@ -371,6 +371,7 @@ def participants_all(request,pid):
     for i in response.json()["items"] :
         print("data",(i["sd48be64b7"]),type(i["sd48be64b7"]))
         if i["sd48be64b7"] in list(unique_master_id):
+            print("mid",i["sd48be64b7"],unique_master_id)
             data={
                 "title":i["title"],
                 "rfid_tag":i["sbb8fea034"],
