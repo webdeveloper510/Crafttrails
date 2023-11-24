@@ -358,7 +358,7 @@ def participants_all(request,pid):
         print("pid1",i["s9d5037e2f"],type(i["s9d5037e2f"]))
         if i["s9d5037e2f"]==pid :
             if i["s211c64472"]!="":
-                print(i["s211c64472"],type(i["s211c64472"]))
+                print("mid",i["s211c64472"],type(i["s211c64472"]))
                 master_id1=i["s211c64472"]
                 unique_master_id.add(master_id1)
                 print(unique_master_id)
@@ -369,7 +369,7 @@ def participants_all(request,pid):
     
        
     for i in response.json()["items"] :
-        print((i["sd48be64b7"]),type(i["sd48be64b7"]))
+        print("data",(i["sd48be64b7"]),type(i["sd48be64b7"]))
         if i["sd48be64b7"] in list(unique_master_id):
             data={
                 "title":i["title"],
@@ -397,8 +397,7 @@ def participants_all(request,pid):
             participant_list.append(data)  
             print(participant_list)
     data=participant_list   
-  
-
+    print("data1",data)
     return data
 
 
