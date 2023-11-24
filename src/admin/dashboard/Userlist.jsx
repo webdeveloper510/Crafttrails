@@ -224,7 +224,7 @@ const UserList = () => {
   return (
     <>
       <div>
-        <h1>Admin Dashboard</h1>
+        <h1>User List</h1>
         {loading ? (
           <div className="loader-overly">
             <div className="loader"></div>
