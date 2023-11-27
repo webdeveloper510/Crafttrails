@@ -7,6 +7,16 @@
     height: 100%;
     z-index: 99999999;
 }
+/* :root {
+    --body-font: 'Lato', sans-serif;
+    --heading-font: 'Montserrat';
+  } */
+h1, h2, h3, h4, h5, h6{
+    font-family: 'Montserrat';
+}
+p,a, body, label, input, button, td, th, li{
+   font-family: 'Lato';
+}
 
 .loader {
     position: absolute;
