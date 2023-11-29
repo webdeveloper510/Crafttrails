@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from Adminapp.utils import *
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser,IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.throttling import ScopedRateThrottle
 
@@ -73,9 +73,9 @@ class ChangeLocationView(APIView):
         except Exception as e:
             return Response({"code":400,"error":"unable to change status of user"},status=status.HTTP_200_OK)
 
-"""API TO Update Location Id of USER"""
+"""API TO Update Profile of USER"""
 class ChangeProfileView(APIView):
-    permission_classes=[IsAdminUser]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'custom'
