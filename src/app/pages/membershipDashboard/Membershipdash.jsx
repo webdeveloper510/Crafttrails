@@ -3,6 +3,10 @@ import { adminMembershipData } from "../../../utils/Api";
 import Table from "react-bootstrap/Table";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
+import Lifetime from "./Allpoints/Lifetime";
+import Available from "./Allpoints/Available";
+import AnnualPoint from "./Allpoints/Annual";
+import MonthlyPoint from "./Allpoints/Monthly";
 
 const Membershipdash = () => {
 
@@ -44,8 +48,9 @@ const Membershipdash = () => {
         className="mb-3"
         fill
       >
-        <Tab eventKey="top-user-overall" title="Top User Overall">
-        <div className="px-5 py-5" style={{width:"85%", margin:"auto"}}>
+        <Tab eventKey="top-user-overall" title="Lifetime Points">
+          <Lifetime/>
+        {/* <div className="px-5 py-5" style={{width:"85%", margin:"auto"}}>
             <Table striped bordered hover responsive>
               <thead>
                 <th
@@ -88,10 +93,11 @@ const Membershipdash = () => {
                   })
                 : ""}
             </Table>
-          </div>
+          </div> */}
         </Tab>
-        <Tab eventKey="bottom-user-overall" title="Bottom User Overall">
-        <div className="px-5 py-5" style={{width:"85%", margin:"auto"}}>
+        <Tab eventKey="bottom-user-overall" title="Available Point">
+          <Available/>
+        {/* <div className="px-5 py-5" style={{width:"85%", margin:"auto"}}>
             <Table striped bordered hover>
               <thead>
                 <th
@@ -134,10 +140,11 @@ const Membershipdash = () => {
                   })
                 : ""}
             </Table>
-          </div>
+          </div> */}
         </Tab>
-        <Tab eventKey="top-points-earned" title="Top Points Earned">
-        <div className="px-5 py-5" style={{width:"85%", margin:"auto"}}>
+        <Tab eventKey="top-points-earned" title="Annual Points">
+        <AnnualPoint/>
+        {/* <div className="px-5 py-5" style={{width:"85%", margin:"auto"}}>
             <Table striped bordered hover>
               <thead>
                 <th
@@ -180,10 +187,11 @@ const Membershipdash = () => {
                   })
                 : ""}
             </Table>
-          </div>
+          </div> */}
         </Tab>
-        <Tab eventKey="bottom-points-earned" title="Bottom Points Earned">
-        <div className="px-5 py-5" style={{width:"85%", margin:"auto"}}>
+        <Tab eventKey="bottom-points-earned" title="Monthly Points">
+          <MonthlyPoint/>
+        {/* <div className="px-5 py-5" style={{width:"85%", margin:"auto"}}>
             <Table striped bordered hover>
               <thead>
                 <th
@@ -226,7 +234,7 @@ const Membershipdash = () => {
                   })
                 : ""}
             </Table>
-          </div>
+          </div> */}
         </Tab>
        
       </Tabs>
