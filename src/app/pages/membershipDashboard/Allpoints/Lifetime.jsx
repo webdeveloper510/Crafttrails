@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { adminMembershipData } from "../../../../utils/Api";
 import Table from "react-bootstrap/Table";
+import BottomLifetime from "./bottomlife";
 
 const Lifetime = () => {
   const [lifetime, setLifetime] = useState([]);
@@ -88,7 +89,15 @@ const Lifetime = () => {
   }, []);
   return (
     <div>
-      <div className="px-5 py-5" style={{ width: "85%", margin: "auto" }}>
+      {
+        loading ? 
+        <div className="loader-overly">
+            <div className="loader" >
+            </div>
+          </div>
+          :
+          <>
+           <div className="px-5 py-5" style={{ width: "85%", margin: "auto" }}>
         <Table striped bordered hover responsive>
           <thead>
             <th
@@ -169,52 +178,10 @@ const Lifetime = () => {
         )}
       </div>
 
-      <div className="px-5 py-5" style={{ width: "85%", margin: "auto" }}>
-        <Table striped bordered hover responsive>
-          <thead>
-            <th
-              colSpan={3}
-              style={{
-                border: "1px solid gray",
-                textAlign: "center",
-                padding: "15px 0px",
-                fontSize: "20px",
-                fontWeight: 600,
-                color: "black",
-              }}
-            >
-              Bottom User Overall
-            </th>
-            <tr style={{ border: "1px solid gray", textAlign: "center" }}>
-              <th>Master Id</th>
-              <th>Participant</th>
-              <th>Point</th>
-            </tr>
-          </thead>
-          {bottom?.length > 0
-            ? bottom?.map((item, i) => {
-                return (
-                  <tbody>
-                    <tr
-                      key={i}
-                      style={{
-                        border: "1px solid gray",
-                        textAlign: "center",
-                        background: "#98d0fb",
-                      }}
-                    >
-                      <td>{item.master_id}</td>
-                      <td>{item.participant}</td>
-                      <td>{item.points}</td>
-                    </tr>
-                  </tbody>
-                );
-              })
-            : ""}
-        </Table>
-
-      
-      </div>
+      <BottomLifetime/>
+          </>
+      }
+     
     </div>
   );
 };

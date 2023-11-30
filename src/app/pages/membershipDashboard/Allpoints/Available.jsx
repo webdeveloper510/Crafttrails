@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { adminMembershipData } from "../../../../utils/Api";
 import Table from "react-bootstrap/Table";
+import BottomAvailable from "./Bottomavailble";
 
 const Available = () => {
   const [lifetime, setLifetime] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [bottom , setBottom] = useState([])
+  const [bottom, setBottom] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageLimit, setPageLimit] = useState(3);
@@ -62,8 +63,8 @@ const Available = () => {
   let pageIncreament = null;
   if (data.length > maxPage) {
     pageIncreament = <li onClick={handleNextPage}>...</li>;
-  }else{
-    pageIncreament = ""
+  } else {
+    pageIncreament = "";
   }
 
   const getlinkuser = () => {
@@ -88,7 +89,13 @@ const Available = () => {
   }, []);
   return (
     <div>
-    <div className="px-5 py-5" style={{width:"85%", margin:"auto"}}>
+      {loading ? (
+        <div className="loader-overly">
+          <div className="loader"></div>
+        </div>
+      ) : (
+        <>
+          <div className="px-5 py-5" style={{ width: "85%", margin: "auto" }}>
             <Table striped bordered hover>
               <thead>
                 <th
@@ -98,8 +105,8 @@ const Available = () => {
                     textAlign: "center",
                     padding: "15px 0px",
                     fontSize: "20px",
-                    fontWeight:600,
-                    color:"black"
+                    fontWeight: 600,
+                    color: "black",
                   }}
                 >
                   Top Earned Points
@@ -119,7 +126,7 @@ const Available = () => {
                           style={{
                             border: "1px solid gray",
                             textAlign: "center",
-                            background: "#98d0fb"
+                            background: "#98d0fb",
                           }}
                         >
                           <td>{item.master_id}</td>
@@ -133,87 +140,51 @@ const Available = () => {
             </Table>
 
             {data?.length > 0 ? (
-          <div
-            className="pagination-outer"
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "end",
-            }}
-          >
-            <div
-              className="prev_btn"
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                marginRight: "-25px",
-              }}
-            >
-              <button onClick={() => handlePrePage()} className="prev_btn">Prev</button>
-            </div>
-            <div >
-              <ul className="previous-page">
-                {pageNumber}
-                {/* <button className="dots_btn">{pageIncreament}</button> */}
-              </ul>
-            </div>
-            <div style={{
-                display: "flex",
-                flexDirection: "row",
-              }}>
-              <button onClick={() => handleNextPage()} className="next_btn">Next</button>
-            </div>
-          </div>
-        ) : (
-          ""
-        )}
-          </div> 
-
-          <div className="px-5 py-5" style={{width:"85%", margin:"auto"}}>
-            <Table striped bordered hover>
-              <thead>
-                <th
-                  colSpan={3}
+              <div
+                className="pagination-outer"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "end",
+                }}
+              >
+                <div
+                  className="prev_btn"
                   style={{
-                    border: "1px solid gray",
-                    textAlign: "center",
-                    padding: "15px 0px",
-                    fontSize: "20px",
-                    fontWeight:600,
-                    color:"black"
+                    display: "flex",
+                    flexDirection: "row",
+                    marginRight: "-25px",
                   }}
                 >
-                  Bottom Earned Points
-                </th>
-                <tr style={{ border: "1px solid gray", textAlign: "center" }}>
-                  <th>Master Id</th>
-                  <th>Participant</th>
-                  <th>Point</th>
-                </tr>
-              </thead>
-              {bottom?.length > 0
-                ? bottom?.map((item, i) => {
-                    return (
-                      <tbody>
-                        <tr
-                          key={i}
-                          style={{
-                            border: "1px solid gray",
-                            textAlign: "center",
-                            background: "#98d0fb"
-                          }}
-                        >
-                          <td>{item.master_id}</td>
-                          <td>{item.participant}</td>
-                          <td>{item.points}</td>
-                        </tr>
-                      </tbody>
-                    );
-                  })
-                : ""}
-            </Table>
+                  <button onClick={() => handlePrePage()} className="prev_btn">
+                    Prev
+                  </button>
+                </div>
+                <div>
+                  <ul className="previous-page">
+                    {pageNumber}
+                    {/* <button className="dots_btn">{pageIncreament}</button> */}
+                  </ul>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <button onClick={() => handleNextPage()} className="next_btn">
+                    Next
+                  </button>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
 
-          </div> 
+          <BottomAvailable />
+        </>
+      )}
     </div>
   );
 };

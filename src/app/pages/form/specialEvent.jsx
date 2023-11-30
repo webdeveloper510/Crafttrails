@@ -22,10 +22,10 @@ const SpecialEvent = () => {
         <iframe
           src="https://tockify.com/tkf2/submitEvent/c51629bbb7254d0eb5e4539048494ba5"
           width="100%"
-          height="800"
+          height="1700"
         ></iframe>
       </div>
-      <div style={{ width: "82%", marginTop: "20px" }}>
+      {/* <div style={{ width: "82%", marginTop: "20px" }}>
         <div className="text-end">
           <a
             href="https://tockify.com/tkf2/submitEvent/c51629bbb7254d0eb5e4539048494ba5"
@@ -43,7 +43,7 @@ const SpecialEvent = () => {
             Submit an Event
           </a>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

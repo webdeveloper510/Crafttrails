@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { adminMembershipData } from "../../../../utils/Api";
 import Table from "react-bootstrap/Table";
-import BottomAnnualPoint from "./Bottomannual";
 
-const AnnualPoint = () => {
-  const [lifetime, setLifetime] = useState([]);
+const BottomLifetime = () => {
   const [loading, setLoading] = useState(false);
   const [bottom , setBottom] = useState([])
 
@@ -15,8 +13,8 @@ const AnnualPoint = () => {
   const recordPage = 20;
   const lastIndex = currentPage * recordPage;
   const firstIndex = lastIndex - recordPage;
-  const data = lifetime?.slice(firstIndex, lastIndex);
-  const nPage = Math.ceil(lifetime?.length / recordPage);
+  const data = bottom?.slice(firstIndex, lastIndex);
+  const nPage = Math.ceil(bottom?.length / recordPage);
   const number = [...Array(nPage + 1)?.keys()]?.slice(1);
 
   const pageNumber = number.map((num, i) => {
@@ -74,8 +72,7 @@ const AnnualPoint = () => {
         setLoading(false);
         console.log("Lifetime points--------------", res);
         if (res.code == 200) {
-          setLifetime(res.data?.[0]?.top_annual_points);
-          setBottom(res.data?.[0]?.bottom_annual_points);
+          setBottom(res.data?.[0]?.bottom_user_overall);
         }
       })
       .catch((error) => {
@@ -89,59 +86,52 @@ const AnnualPoint = () => {
   }, []);
   return (
     <div>
-   {
-    loading ?
-    <div className="loader-overly">
-    <div className="loader" >
-    </div>
-  </div>
-    :
-    <>
-      <div className="px-5 py-5" style={{width:"85%", margin:"auto"}}>
-            <Table striped bordered hover>
-              <thead>
-                <th
-                  colSpan={3}
-                  style={{
-                    border: "1px solid gray",
-                    textAlign: "center",
-                    padding: "15px 0px",
-                    fontSize: "20px",
-                    fontWeight:600,
-                    color:"black"
-                  }}
-                >
-                  Top Annual Points
-                </th>
-                <tr style={{ border: "1px solid gray", textAlign: "center" }}>
-                  <th>Master Id</th>
-                  <th>Participant</th>
-                  <th>Point</th>
-                </tr>
-              </thead>
-              {data?.length > 0
-                ? data?.map((item, i) => {
-                    return (
-                      <tbody>
-                        <tr
-                          key={i}
-                          style={{
-                            border: "1px solid gray",
-                            textAlign: "center",
-                            background: "#98d0fb"
-                          }}
-                        >
-                          <td>{item.master_id}</td>
-                          <td>{item.participant}</td>
-                          <td>{item.points}</td>
-                        </tr>
-                      </tbody>
-                    );
-                  })
-                : ""}
-            </Table>
 
-            {data?.length > 0 ? (
+      <div className="px-5 py-5" style={{ width: "85%", margin: "auto" }}>
+        <Table striped bordered hover responsive>
+          <thead>
+            <th
+              colSpan={3}
+              style={{
+                border: "1px solid gray",
+                textAlign: "center",
+                padding: "15px 0px",
+                fontSize: "20px",
+                fontWeight: 600,
+                color: "black",
+              }}
+            >
+              Bottom User Overall
+            </th>
+            <tr style={{ border: "1px solid gray", textAlign: "center" }}>
+              <th>Master Id</th>
+              <th>Participant</th>
+              <th>Point</th>
+            </tr>
+          </thead>
+          {bottom?.length > 0
+            ? bottom?.map((item, i) => {
+                return (
+                  <tbody>
+                    <tr
+                      key={i}
+                      style={{
+                        border: "1px solid gray",
+                        textAlign: "center",
+                        background: "#98d0fb",
+                      }}
+                    >
+                      <td>{item.master_id}</td>
+                      <td>{item.participant}</td>
+                      <td>{item.points}</td>
+                    </tr>
+                  </tbody>
+                );
+              })
+            : ""}
+        </Table>
+
+        {data?.length > 0 ? (
           <div
             className="pagination-outer"
             style={{
@@ -176,12 +166,9 @@ const AnnualPoint = () => {
         ) : (
           ""
         )}
-          </div>
-          <BottomAnnualPoint/>
-    </>
-   }
+      </div>
     </div>
   );
 };
 
-export default AnnualPoint;
+export default BottomLifetime;
