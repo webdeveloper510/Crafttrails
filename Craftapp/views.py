@@ -375,6 +375,7 @@ class TrailsAnalytics(APIView):
         
             active_trails_data=active_trails(request)   
             for k in active_trails_data.json()["items"]:
+                
                 val=[round(i["title_submenu"]["breweries_completed"]["count"]/ int(i["location_to_complete"])*100,2) for i in trails_data if  i["location_to_complete"] and i["trail_year"]==k["s157fa6cfb"] ]
             
 
