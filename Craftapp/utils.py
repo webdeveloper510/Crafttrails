@@ -352,8 +352,6 @@ def participants(request):
         
             participant_list.append(data)  
     data=participant_list   
- 
-
     return data
 
 def participants_all(request,pid):
@@ -460,12 +458,7 @@ def participantspoints(request):
      
             for k in  range(i["s1255e267e"]["count"]):
                 
-                if i["s1255e267e"]["items"][k]["s2193f87d0"]=="":
-                   i["s1255e267e"]["items"][k]["s2193f87d0"]="0"
-                if i["s1255e267e"]["items"][k]["s7cb0a4f31"]=="":
-                   i["s1255e267e"]["items"][k]["s7cb0a4f31"]="0"   
-        
-     
+                    
                 data1={
                       
                       
@@ -510,6 +503,7 @@ def participantspoints(request):
     return data
 
 def participantspoints_all(request,pid):
+    print(pid)
     participant_points=[]
     points_earned=[]
     base_url = settings.base_url
@@ -523,9 +517,10 @@ def participantspoints_all(request,pid):
     unique_master_id=set()
     for i in response.json()["items"] :
         if i["s9d5037e2f"]==pid :
-            
-                master_id1=i["s211c64472"]
-                unique_master_id.add(master_id1)
+            print(pid,i["s9d5037e2f"])
+            master_id1=i["s211c64472"]
+            unique_master_id.add(master_id1)
+            print(unique_master_id)
                 
 
     app_ids = settings.participants_points
@@ -537,6 +532,7 @@ def participantspoints_all(request,pid):
         if i["title"] in list(unique_master_id):
        
             if i["s1255e267e"]["count"]>0:
+                print("1")
                 data={
                     "master_id":i["title"],
                     "name_of_participants":i["s332210fbb"],
@@ -551,14 +547,9 @@ def participantspoints_all(request,pid):
                 }
         
                 for k in  range(i["s1255e267e"]["count"]):
-                    if data["monthly_points"]=="":
-                        data["monthly_points"]=0
-                    if data["annual_points"]=="":
-                       data["annual_points"]=0   
+                   
         
-                    data1={
-                        
-                        
+                    data1={             
                             "name":i["s1255e267e"]["items"][k]["name"],
                             "first_created":i["s1255e267e"]["items"][k]["first_created"]["on"],
                             "last_updated":i["s1255e267e"]["items"][k]["last_updated"]["on"],
@@ -575,7 +566,7 @@ def participantspoints_all(request,pid):
                     points_earned.append(data1)
 
                     data["title_submenu"]["points_earned"].append(data1)    
-            
+                    
                 participant_points.append(data)  
           
        
