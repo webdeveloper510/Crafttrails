@@ -81,7 +81,7 @@ const SidebarMenuMain = () => {
         <SidebarMenuItem to='/brewery-event/feature-request' title='Feature Requests' hasBullet={true} />
         <SidebarMenuItem to='/brewery-event/report-bug' title='Report a Bug' hasBullet={true} />
       </SidebarMenuItemWithSub>
-      <SidebarMenuItemWithSub to='/events' title='Events' fontIcon='bi-archive' icon='bi bi-calendar3'>
+      {/* <SidebarMenuItemWithSub to='/events' title='Events' fontIcon='bi-archive' icon='bi bi-calendar3'>
         {
           data?.length > 0 ?
           data?.map((event) => {
@@ -92,7 +92,7 @@ const SidebarMenuMain = () => {
            
           }):""
         }
-      </SidebarMenuItemWithSub>
+      </SidebarMenuItemWithSub> */}
     </>
     }
      
