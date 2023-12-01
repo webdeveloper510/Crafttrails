@@ -190,33 +190,33 @@ def trails(request):
                         }
                 breweries_completed.append(data1)
                 data["title_submenu"]["breweries_completed"].append(data1)
-            else:
-                data={
+            # else:
+            #     data={
                     
-                    "title":i["title"],
-                    "application_id":i["id"],
-                    "participant_id":i["s99187d139"],
-                    "trail_name":i["sc270d76da"],
-                    "trail_year":i["scef57f448"],
-                    "trail_season":i["sd25a89828"],
-                    "mini_tour":i["s56b038ef3"], 
-                    "master_id":i["s0d1c07938"],  
-                    "title_submenu":{
-                        "title":i["title"],
-                        "participant_id":i["s99187d139"],
-                        "trail_name":i["sc270d76da"],
-                        "trail_year":i["scef57f448"],  
-                        "trail_season":i["sd25a89828"],
-                        "mini_tour":i["s56b038ef3"],
-                        "link__breweries":i["s24c712a83"],
-                        "breweries_completed":{
-                            "count":i["sb7210e570"]["count"],
+            #         "title":i["title"],
+            #         "application_id":i["id"],
+            #         "participant_id":i["s99187d139"],
+            #         "trail_name":i["sc270d76da"],
+            #         "trail_year":i["scef57f448"],
+            #         "trail_season":i["sd25a89828"],
+            #         "mini_tour":i["s56b038ef3"], 
+            #         "master_id":i["s0d1c07938"],  
+            #         "title_submenu":{
+            #             "title":i["title"],
+            #             "participant_id":i["s99187d139"],
+            #             "trail_name":i["sc270d76da"],
+            #             "trail_year":i["scef57f448"],  
+            #             "trail_season":i["sd25a89828"],
+            #             "mini_tour":i["s56b038ef3"],
+            #             "link__breweries":i["s24c712a83"],
+            #             "breweries_completed":{
+            #                 "count":i["sb7210e570"]["count"],
                         
-                        }
+            #             }
 
 
-                    } 
-                }
+            #         } 
+            #     }
             
             trail_list.append(data)  
         
@@ -271,7 +271,7 @@ def trails_all(request,pid):
                         "trail_season":i["sd25a89828"],
                         "mini_tour":i["s56b038ef3"],
                         "link__breweries":i["s24c712a83"],
-                         "breweries_completed":[]
+                        "breweries_completed":[]
                      }
                     } 
                 for k in range(i["sb7210e570"]["count"]):
@@ -424,6 +424,7 @@ def participants_all(request,pid):
 
 
 def participantspoints(request):
+    pid=request.user.brewery
     participant_points=[]
     points_earned=[]
     base_url = settings.base_url
@@ -433,52 +434,63 @@ def participantspoints(request):
         "Content-Type": "application/json"
     }
 
-      
+    app_ids = settings.visit
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    unique_master_id=set()
+    for i in response.json()["items"] :
+        if i["s9d5037e2f"]==pid :
+            print(pid,i["s9d5037e2f"])
+            master_id1=i["s211c64472"]
+            unique_master_id.add(master_id1)
+            print(unique_master_id)
+                
+
     app_ids = settings.participants_points
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     
 
     
     for i in response.json()["items"]:
+        if i["title"] in list(unique_master_id):
        
-       
-        if i["s1255e267e"]["count"]>0:
-            data={
-                "master_id":i["title"],
-                "name_of_participants":i["s332210fbb"],
-                "points_earned":i["s1255e267e"]["count"],
-
-                "title_submenu":{
+            if i["s1255e267e"]["count"]>0:
+                print("1")
+                data={
                     "master_id":i["title"],
-                    "count":i["s1255e267e"]["count"],
-                    "points_earned":[]
+                    "name_of_participants":i["s332210fbb"],
+                    "points_earned":i["s1255e267e"]["count"],
+
+                    "title_submenu":{
+                        "master_id":i["title"],
+                        "count":i["s1255e267e"]["count"],
+                        "points_earned":[]
+                    }
+                    
                 }
-                
-            }
-     
-            for k in  range(i["s1255e267e"]["count"]):
+        
+                for k in  range(i["s1255e267e"]["count"]):
+                    
+                        
+                    data1={
+                        
+                        
+                            "name":i["s1255e267e"]["items"][k]["name"],
+                            "first_created":i["s1255e267e"]["items"][k]["first_created"]["on"],
+                            "last_updated":i["s1255e267e"]["items"][k]["last_updated"]["on"],
+                            "total_points":i["s1255e267e"]["items"][k]["s9e25e9aba"],
+                            "points_earned":i["s1255e267e"]["items"][k]["s5dd95e7c3"],
+                            "monthly_points":i["s1255e267e"]["items"][k]["s2193f87d0"],
+                            "annual_points":i["s1255e267e"]["items"][k]["s7cb0a4f31"]
+                            
+
+                    }
+                    
                 
                     
-                data1={
-                      
-                      
-                        "name":i["s1255e267e"]["items"][k]["name"],
-                        "first_created":i["s1255e267e"]["items"][k]["first_created"]["on"],
-                        "last_updated":i["s1255e267e"]["items"][k]["last_updated"]["on"],
-                        "total_points":i["s1255e267e"]["items"][k]["s9e25e9aba"],
-                        "points_earned":i["s1255e267e"]["items"][k]["s5dd95e7c3"],
-                        "monthly_points":i["s1255e267e"]["items"][k]["s2193f87d0"],
-                        "annual_points":i["s1255e267e"]["items"][k]["s7cb0a4f31"]
-                        
+                    points_earned.append(data1)
 
-                }
-                
-               
-                
-                points_earned.append(data1)
-
-                data["title_submenu"]["points_earned"].append(data1)    
-           
+                    data["title_submenu"]["points_earned"].append(data1)    
+            
             participant_points.append(data)  
           
         else:
