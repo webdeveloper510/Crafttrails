@@ -445,11 +445,7 @@ def participantspoints(request):
      
             for k in  range(i["s1255e267e"]["count"]):
                 
-                if i["s1255e267e"]["items"][k]["s2193f87d0"]=="":
-                   i["s1255e267e"]["items"][k]["s2193f87d0"]="0"
-                if i["s1255e267e"]["items"][k]["s7cb0a4f31"]=="":
-                   i["s1255e267e"]["items"][k]["s7cb0a4f31"]="0"   
-        
+                
      
                 data1={
                       
@@ -536,11 +532,7 @@ def participantspoints_all(request,pid):
                 }
         
                 for k in  range(i["s1255e267e"]["count"]):
-                    if data["monthly_points"]=="":
-                        data["monthly_points"]=0
-                    if data["annual_points"]=="":
-                       data["annual_points"]=0   
-        
+                    
                     data1={
                         
                         
