@@ -121,10 +121,7 @@ class LoginView(APIView):
         else:
             return Response({'error': 'Invalid credentials',"code":400}, status=status.HTTP_200_OK)
         
- 
-        
-        
-                
+              
         
 """API for User Logout"""
 class LogoutView(APIView):
@@ -349,10 +346,10 @@ class ActiveUser(APIView):
             active_trails_data=active_trails(request)   
             count=0
             for i in trails_data:
-                val=[k for k in active_trails_data.json()["items"] if  i["location_to_complete"] and int(i["title_submenu"]["breweries_completed"]["name"])==int(k["title"])]
+                val=[k for k in active_trails_data.json()["items"] for j in range(i["breweries_completed"]) if  i["location_to_complete"] and int(i["title_submenu"]["breweries_completed"][j]["id"])==int(k["title"])]
                 if val: 
                     count=count+1
-
+               
             active_user={
                 "active_count":count
             }
@@ -371,15 +368,13 @@ class TrailsAnalytics(APIView):
 
     def get(self,request):
         try:
-            trails_data=trails(request)   
+            trails_data=trails(request)
+              
         
             active_trails_data=active_trails(request)   
             for k in active_trails_data.json()["items"]:
-                
-                val=[round(i["title_submenu"]["breweries_completed"]["count"]/ int(i["location_to_complete"])*100,2) for i in trails_data if  i["location_to_complete"] and i["trail_year"]==k["s157fa6cfb"] ]
-            
-
-            
+                val=[round(i["breweries_completed"]/ int(i["location_to_complete"])*100,2) for i in trails_data if  i["location_to_complete"] and i["trail_year"]==k["s157fa6cfb"] ]
+                          
             main_count=counts(request,val)
             
             breweries_analytics={
@@ -433,19 +428,21 @@ class ParticipantAge(APIView):
             trails_data=trails(request)   
             active_trails_data=active_trails(request)   
             participant_data=participants(request)
-
+          
             for k in active_trails_data.json()["items"]:
              
 
                 val=[int(i["master_id"]) for i in trails_data if i["master_id"] and i["location_to_complete"] and int(i["trail_year"])==int(k["s157fa6cfb"])]
-           
+               
             for paticipate in participant_data:
                 
                 if int(paticipate["master_id"]) in val:
-                    dateofbirth=paticipate["date_of_birth"].split("T")[0]
-                    yearofbirth=dateofbirth.split("-")[0]
-                    age_calculate=todays_date.year - int(yearofbirth)
-                    user_age.append(age_calculate)
+                    if paticipate["date_of_birth"] != "":
+                        dateofbirth=paticipate["date_of_birth"].split("T")[0]
+                        yearofbirth=dateofbirth.split("-")[0]
+                        age_calculate=todays_date.year - int(yearofbirth)
+                    
+                        user_age.append(age_calculate)
 
             main_count=age_counts(request,user_age)
             
@@ -462,7 +459,7 @@ class ParticipantAge(APIView):
             
             return Response({"code":200,"data":breweries_analytics},status=status.HTTP_200_OK)
         except Exception as e:
-     
+           
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
 
@@ -506,19 +503,15 @@ class WeeklyParticipants(APIView):
     def get(self,request):
        
         try:
-           
             actve_participants=[]
             current_date = datetime.datetime.now()
             week_number = current_date.strftime("%U")
-            
             sub_items=get_all_sub_items(request)
-            
-          
+                  
             parcount=WeekParticipants.objects.filter(user_id=request.user.id).exists()
-           
+          
            
             if parcount ==False:
-                
                 WeekParticipants.objects.filter(user_id=request.user.id).create(user_id=request.user.id,weeknumber=week_number,participant=sub_items,weekname="week" + str(week_number))
             else:
                 already=WeekParticipants.objects.filter(user_id=request.user.id,weekname="week"+str(week_number)).exists()
@@ -534,9 +527,7 @@ class WeeklyParticipants(APIView):
                         i.weekname:i.participant
             }
                 actve_participants.append(week_count)
-               
-
-                
+                   
 
             return Response({"code":200,"data":actve_participants},status=status.HTTP_200_OK)
         except Exception as e:

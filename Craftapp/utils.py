@@ -120,92 +120,14 @@ def breweries_all(request,pid):
             }
             breweries_list.append(data)  
     data=breweries_list
-    return breweries_list,bar_name
+    return breweries_list
 
 
 
 
 def trails(request):
-    trail_list=[]
-    base_url = settings.base_url
-    headers = {
-        "Authorization": settings.authorization,
-        "Account-Id":  settings.account_id,
-        "Content-Type": "application/json"
-    }
-    app_ids = settings.trailmaster_id 
-    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
- 
-    for i in response.json()["items"]:
-        
-        
-        if i["sb7210e570"]["count"]>0:
-            data={
-                
-                "title":i["title"],
-                "application_id":i["id"],
-                "participant_id":i["s99187d139"],
-                "breweries_completed":i["sb7210e570"]["count"],
-                "trail_name":i["sc270d76da"],
-                "trail_year":i["scef57f448"],
-                "trail_season":i["sd25a89828"],
-                "mini_tour":i["s56b038ef3"], 
-                "master_id":i["s0d1c07938"],  
-                "location_to_complete":i["s2f8f93c23"],
-              
-                "title_submenu":{
-                    "title":i["title"],
-                    "participant_id":i["s99187d139"],
-                    "trail_name":i["sc270d76da"],
-                    "trail_year":i["scef57f448"],  
-                    "trail_season":i["sd25a89828"],
-                    "mini_tour":i["s56b038ef3"],
-                    "link__breweries":i["s24c712a83"],
-                    "breweries_completed":{
-                        "count":i["sb7210e570"]["count"],
-                        "name":i["sb7210e570"]["items"][0]["name"],
-                        "date":i["sb7210e570"]["items"][0]["first_created"]["on"]
-                    
-                    }
-
-
-                } 
-            }
-        else:
-            data={
-                
-                "title":i["title"],
-                "application_id":i["id"],
-                "participant_id":i["s99187d139"],
-                "trail_name":i["sc270d76da"],
-                "trail_year":i["scef57f448"],
-                "trail_season":i["sd25a89828"],
-                "mini_tour":i["s56b038ef3"], 
-                "master_id":i["s0d1c07938"],  
-                "title_submenu":{
-                    "title":i["title"],
-                    "participant_id":i["s99187d139"],
-                    "trail_name":i["sc270d76da"],
-                    "trail_year":i["scef57f448"],  
-                    "trail_season":i["sd25a89828"],
-                    "mini_tour":i["s56b038ef3"],
-                    "link__breweries":i["s24c712a83"],
-                    "breweries_completed":{
-                        "count":i["sb7210e570"]["count"],
-                    
-                    }
-
-
-                } 
-            }
-        
-        trail_list.append(data)  
-        
-    data=trail_list     
-    return data
-
-def trails_all(request,pid):
-    
+    pid=request.user.brewery
+    breweries_completed=[]
     trail_list=[]
     base_url = settings.base_url
     headers = {
@@ -222,6 +144,84 @@ def trails_all(request,pid):
             if i["s211c64472"]!="":
                 master_id1=i["s211c64472"]
                 unique_master_id.add(master_id1)
+                
+               
+
+    app_ids = settings.trailmaster_id 
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+ 
+    for i in response.json()["items"]:
+        if i["s0d1c07938"] in list(unique_master_id):
+            if i["s2f8f93c23"]=="":
+                i["s2f8f93c23"]=1
+            if i["sb7210e570"]["count"]>0:
+                data={
+                    
+                    "title":i["title"],
+                    "application_id":i["id"],
+                    "participant_id":i["s99187d139"],
+                    "breweries_completed":i["sb7210e570"]["count"],
+                    "trail_name":i["sc270d76da"],
+                    "trail_year":i["scef57f448"],
+                    "trail_season":i["sd25a89828"],
+                    "mini_tour":i["s56b038ef3"], 
+                    "master_id":i["s0d1c07938"],  
+                    "location_to_complete":i["s2f8f93c23"],
+                
+                    "title_submenu":{
+                        "title":i["title"],
+                        "participant_id":i["s99187d139"],
+                        "trail_name":i["sc270d76da"],
+                        "trail_year":i["scef57f448"],  
+                        "trail_season":i["sd25a89828"],
+                        "mini_tour":i["s56b038ef3"],
+                        "link__breweries":i["s24c712a83"],
+                        "breweries_completed":[]
+                  }
+                } 
+                for k in range(i["sb7210e570"]["count"]):
+                    data1={
+                        "count":i["sb7210e570"]["count"],
+                        "name":i["sb7210e570"]["items"][k]["name"],
+                        "id":i["sb7210e570"]["items"][k]["name"],
+                        "date":i["sb7210e570"]["items"][k]["first_created"]["on"]
+                    }
+                    breweries_completed.append(data1)
+                    data["title_submenu"]["breweries_completed"].append(data1)
+                            
+                trail_list.append(data) 
+                
+
+    breweries_data=breweries_all(request,pid)
+    for i in breweries_data:
+        for j in trail_list:
+            for k in range(j["breweries_completed"]):
+                     
+                if j["title_submenu"]["breweries_completed"][k]["name"]==i["title"]:
+                    j["title_submenu"]["breweries_completed"][k]["name"]=i["bar_name"]        
+          
+    data=trail_list     
+    return data
+
+def trails_all(request,pid):
+    breweries_completed=[]
+    trail_list=[]
+    base_url = settings.base_url
+    headers = {
+        "Authorization": settings.authorization,
+        "Account-Id":  settings.account_id,
+        "Content-Type": "application/json"
+    }
+    app_ids = settings.visit
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+   
+    unique_master_id=set()
+    for i in response.json()["items"] :
+        if i["s9d5037e2f"]==pid :
+            if i["s211c64472"]!="":
+                master_id1=i["s211c64472"]
+                unique_master_id.add(master_id1)
+               
                
 
     app_ids = settings.trailmaster_id 
@@ -252,19 +252,28 @@ def trails_all(request,pid):
                         "trail_season":i["sd25a89828"],
                         "mini_tour":i["s56b038ef3"],
                         "link__breweries":i["s24c712a83"],
-                        "breweries_completed":{
-                            "count":i["sb7210e570"]["count"],
-                            "name":i["sb7210e570"]["items"][0]["name"],
-                            "date":i["sb7210e570"]["items"][0]["first_created"]["on"]
-                        
-                        }
-
-
-                    } 
-                }
-       
-        
-                trail_list.append(data)  
+                        "breweries_completed":[]
+                  }
+                } 
+                for k in range(i["sb7210e570"]["count"]):
+                    data1={
+                        "count":i["sb7210e570"]["count"],
+                        "name":i["sb7210e570"]["items"][k]["name"],
+                        "id":i["sb7210e570"]["items"][k]["name"],
+                        "date":i["sb7210e570"]["items"][k]["first_created"]["on"]
+                    }
+                    breweries_completed.append(data1)
+                    data["title_submenu"]["breweries_completed"].append(data1)
+                            
+                trail_list.append(data) 
+                
+    breweries_data=breweries_all(request,pid)
+    for i in breweries_data:
+        for j in trail_list:
+            for k in range(j["breweries_completed"]):
+                     
+                if j["title_submenu"]["breweries_completed"][k]["name"]==i["title"]:
+                    j["title_submenu"]["breweries_completed"][k]["name"]=i["bar_name"]        
         
     data=trail_list     
     return data    
@@ -272,7 +281,8 @@ def trails_all(request,pid):
 
 
 def participants(request):
-    
+    pid=request.user.brewery
+   
     participant_list=[]
     base_url = settings.base_url
     headers = {
@@ -280,20 +290,39 @@ def participants(request):
         "Account-Id": settings.account_id,
         "Content-Type": "application/json"
     }
+    app_ids = settings.visit
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+   
+    unique_master_id=set()
+    for i in response.json()["items"] :
+        
+        if i["s9d5037e2f"]==pid :
+            if i["s211c64472"]!="":
+               
+                master_id1=i["s211c64472"]
+                unique_master_id.add(master_id1)
+              
+            
+
     app_ids = settings.participants_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     
-    
-    count=0
+       
     for i in response.json()["items"] :
-      
-        if i["s37e762ac3"] and i.get("sac87d276d") :
+        
+        if i["sd48be64b7"] in list(unique_master_id):
+            
+            try:
+                date=i["sac87d276d"]["date"]
+            except Exception as e:
+                date=""    
+
             data={
                 "title":i["title"],
                 "rfid_tag":i["sbb8fea034"],
                 "full_name":i["s37af43f83"]["sys_root"],
                 "email":i["sac950cfcc"],
-                "date_of_birth":i["sac87d276d"]["date"],
+                "date_of_birth":date,
                 "master_id":i["sd48be64b7"], 
                 "phone_number":i["s37e762ac3"],  
                 "address":i["sb91047f0b"]["location_address"],
@@ -303,7 +332,7 @@ def participants(request):
                     "rfid_tag":i["sbb8fea034"],
                     "email":i["sac950cfcc"],
                     "full_name":i["s37af43f83"]["sys_root"],
-                    "date_of_birth":i["sac87d276d"]["date"],
+                    "date_of_birth":date,
                     "master_id":i["sd48be64b7"],
                     "phone_number":i["s37e762ac3"],
                     "address":i["sb91047f0b"]["location_address"],
@@ -311,31 +340,7 @@ def participants(request):
                 }
             }
 
-        elif i.get("sac87d276d")    :
-            data={
-                "title":i["title"],
-                "rfid_tag":i["sbb8fea034"],
-                "full_name":i["s37af43f83"]["sys_root"],
-                "email":i["sac950cfcc"],
-                "date_of_birth":i["sac87d276d"]["date"],
-                "master_id":i["sd48be64b7"], 
-                "phone_number":"",  
-                "address":i["sb91047f0b"]["location_address"],
-                "title_submenu":{
-                    "title":i["title"],
-                    "record_id":i["sfb74e1363"],
-                    "rfid_tag":i["sbb8fea034"],
-                    "email":i["sac950cfcc"],
-                    "full_name":i["s37af43f83"]["sys_root"],
-                    "date_of_birth":i["sac87d276d"]["date"],
-                    "master_id":i["sd48be64b7"],
-                    "phone_number":i["s37e762ac3"],
-                    "address":i["sb91047f0b"]["location_address"],
-                    "can_text":i["s5d2aed3fd"],
-                }
-            }
-
-        participant_list.append(data)  
+            participant_list.append(data)  
     data=participant_list   
  
 
@@ -411,6 +416,7 @@ def participants_all(request,pid):
 
 
 def participantspoints(request):
+    pid=request.user.brewery
     participant_points=[]
     points_earned=[]
     base_url = settings.base_url
@@ -419,75 +425,71 @@ def participantspoints(request):
         "Account-Id":  settings.account_id,
         "Content-Type": "application/json"
     }
+    app_ids = settings.visit
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    unique_master_id=set()
+    for i in response.json()["items"] :
+        if i["s9d5037e2f"]==pid :
+            
+                master_id1=i["s211c64472"]
+                unique_master_id.add(master_id1)
+                
 
-      
     app_ids = settings.participants_points
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     
 
     
     for i in response.json()["items"]:
+        if i["title"] in list(unique_master_id):
        
-       
-        if i["s1255e267e"]["count"]>0:
-            data={
-                "master_id":i["title"],
-                "name_of_participants":i["s332210fbb"],
-                "points_earned":i["s1255e267e"]["count"],
-
-                "title_submenu":{
+            if i["s1255e267e"]["count"]>0:
+                data={
                     "master_id":i["title"],
-                    "count":i["s1255e267e"]["count"],
-                    "points_earned":[]
+                    "name_of_participants":i["s332210fbb"],
+                    "points_earned":i["s1255e267e"]["count"],
+
+                    "title_submenu":{
+                        "master_id":i["title"],
+                        "count":i["s1255e267e"]["count"],
+                        "points_earned":[]
+                    }
+                    
                 }
-                
-            }
-     
-            for k in  range(i["s1255e267e"]["count"]):
-                
-                
-     
-                data1={
-                      
-                      
-                        "name":i["s1255e267e"]["items"][k]["name"],
-                        "first_created":i["s1255e267e"]["items"][k]["first_created"]["on"],
-                        "last_updated":i["s1255e267e"]["items"][k]["last_updated"]["on"],
-                        "total_points":i["s1255e267e"]["items"][k]["s9e25e9aba"],
-                        "points_earned":i["s1255e267e"]["items"][k]["s5dd95e7c3"],
-                        "monthly_points":i["s1255e267e"]["items"][k]["s2193f87d0"],
-                        "annual_points":i["s1255e267e"]["items"][k]["s7cb0a4f31"]
+        
+                for k in  range(i["s1255e267e"]["count"]):
+                    if i["s1255e267e"]["items"][k]["s2193f87d0"]=="":
+                        i["s1255e267e"]["items"][k]["s2193f87d0"]=0
+                    if i["s1255e267e"]["items"][k]["s7cb0a4f31"]=="":
+                        i["s1255e267e"]["items"][k]["s7cb0a4f31"]=0
+
+                    
+                    
+        
+                    data1={
                         
+                        
+                            "name":i["s1255e267e"]["items"][k]["name"],
+                            "first_created":i["s1255e267e"]["items"][k]["first_created"]["on"],
+                            "last_updated":i["s1255e267e"]["items"][k]["last_updated"]["on"],
+                            "total_points":i["s1255e267e"]["items"][k]["s9e25e9aba"],
+                            "points_earned":i["s1255e267e"]["items"][k]["s5dd95e7c3"],
+                            "monthly_points":i["s1255e267e"]["items"][k]["s2193f87d0"],
+                            "annual_points":i["s1255e267e"]["items"][k]["s7cb0a4f31"]
+                            
 
-                }
+                    }
+                    
                 
-               
-                
-                points_earned.append(data1)
+                    
+                    points_earned.append(data1)
 
-                data["title_submenu"]["points_earned"].append(data1)    
+                    data["title_submenu"]["points_earned"].append(data1)    
            
-            participant_points.append(data)  
-          
-        else:
-            
-            data={
-                "master_id":i["title"],
-                "name_of_participants":i["s332210fbb"],
-                "points_earned":i["s1255e267e"]["count"],
-                "title_submenu":{
-                    "master_id":i["title"],
-                    "points_earned":[{
-                    "count":i["s1255e267e"]["count"],
-                }]
-            }
+                participant_points.append(data)  
 
-            }
-            participant_points.append(data)  
-   
     data= participant_points
   
-   
     return data
 
 def participantspoints_all(request,pid):
@@ -546,8 +548,7 @@ def participantspoints_all(request,pid):
                             
 
                     }
-                    
-                
+                                 
                     
                     points_earned.append(data1)
 
@@ -555,29 +556,12 @@ def participantspoints_all(request,pid):
             
                 participant_points.append(data)  
           
-        # else:
-            
-        #     data={
-        #         "master_id":i["title"],
-        #         "name_of_participants":i["s332210fbb"],
-        #         "points_earned":i["s1255e267e"]["count"],
-        #         "title_submenu":{
-        #             "master_id":i["title"],
-        #             "points_earned":[{
-        #             "count":i["s1255e267e"]["count"],
-        #         }]
-        #     }
-
-        #     }
-        #     participant_points.append(data)  
-   
     data= participant_points
-  
-
-   
+    
     return data
 
 def visit(request):
+    pid=request.user.brewery
     visit_list=[]
     base_url = settings.base_url
     headers = {
@@ -589,25 +573,25 @@ def visit(request):
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     
     for i in response.json()["items"]:
-        
-        data={
-            "title":i["title"],
-            "master_participants_id":i["s211c64472"],
-            "visit_date":i["s7bed21761"]["date"],
-            "location_id":i["s9d5037e2f"],
-            "rfid":i["sea475d5e4"],
-            "title_submenu":{
+        if i["s9d5037e2f"]==pid:
+            data={
                 "title":i["title"],
-                "master_participant_id":i["s211c64472"],
+                "master_participants_id":i["s211c64472"],
                 "visit_date":i["s7bed21761"]["date"],
-                "brewery_id":i["s63e787f85"],
                 "location_id":i["s9d5037e2f"],
-                "rfid":i["sea475d5e4"]
+                "rfid":i["sea475d5e4"],
+                "title_submenu":{
+                    "title":i["title"],
+                    "master_participant_id":i["s211c64472"],
+                    "visit_date":i["s7bed21761"]["date"],
+                    "brewery_id":i["s63e787f85"],
+                    "location_id":i["s9d5037e2f"],
+                    "rfid":i["sea475d5e4"]
 
+                }
             }
-        }
 
-        visit_list.append(data)  
+            visit_list.append(data)  
     data=visit_list  
 
     return data
@@ -691,7 +675,7 @@ def counts(request,val):
 
 
 def age_counts(request,user_age):
-    
+   
     count=0
     count1=0
     count2=0
@@ -700,6 +684,7 @@ def age_counts(request,user_age):
     count5=0
 
     for i in user_age:
+       
         if i<=21 and i<=25:
             count=count+1
         if i>26 and i<=35:
@@ -762,7 +747,7 @@ def calculate_growth(request,week_number):
     previous_week=WeekParticipants.objects.filter(user_id=request.user.id,weeknumber=int(week_number)-1).values("participant")
    
     if current_week and previous_week:
-        growth_percentage=int(current_week[0]["participant"])-int(previous_week[0]["participant"])/int(previous_week[0]["participant"])
+        growth_percentage=(int(current_week[0]["participant"])-int(previous_week[0]["participant"]))/int(previous_week[0]["participant"])
     return growth_percentage
 
 
@@ -771,7 +756,7 @@ def calculate_netchange(request,week_number):
 
     current_week=WeekParticipants.objects.filter(user_id=request.user.id,weeknumber=int(week_number)).values("participant")
     previous_week=WeekParticipants.objects.filter(user_id=request.user.id,weeknumber=int(week_number)-1).values("participant")
- 
+    
     if current_week and previous_week:
         net_percentage=int(current_week[0]["participant"])-int(previous_week[0]["participant"])
 
@@ -781,18 +766,19 @@ def calculate_netchange(request,week_number):
 def trail_participant(request,trails_data):
     count=0
     for trail in trails_data:
-        if trail["title_submenu"]["breweries_completed"]["name"] and request.user.brewery:
-            if str(trail["title_submenu"]["breweries_completed"]["name"])==str(request.user.brewery):
-                count=count+1
-            participant={
-                
-                "paricipant_count":count
-            }
-        else:
-            participant={
-                
-                "paricipant_count":count
-            }
+        for j in range(trail["breweries_completed"]):
+            
+            if str(trail["title_submenu"]["breweries_completed"][j]["id"])==str(request.user.brewery):
+                    count=count+1
+                    participant={
+                    
+                    "paricipant_count":count
+                }
+            else:
+                participant={
+                    
+                    "paricipant_count":count
+                }
     return participant
 
 
@@ -830,18 +816,19 @@ def change_format(request,hottest_data):
     date_list=[]
     breweries_dict={}
     for date in hottest_data:
-        if date["title_submenu"]["breweries_completed"]["date"]:
+        for j in range(date["breweries_completed"]):
+            if date["title_submenu"]["breweries_completed"][j]["date"]:
 
-            input_string = date["title_submenu"]["breweries_completed"]["date"]
+                input_string = date["title_submenu"]["breweries_completed"][j]["date"]
 
-            datetime_object = datetime.datetime.fromisoformat(input_string.replace("Z", "+00:00"))
-            formatted_datetime = datetime_object.strftime("%A")
+                datetime_object = datetime.datetime.fromisoformat(input_string.replace("Z", "+00:00"))
+                formatted_datetime = datetime_object.strftime("%A")
 
-    
-            breweries_dict={
-                "breweries_completed":int(date["breweries_completed"]),
-                "hottest_day":formatted_datetime
-            }
+        
+                breweries_dict={
+                    "breweries_completed":int(date["breweries_completed"]),
+                    "hottest_day":formatted_datetime
+                }
 
             date_list.append(breweries_dict)
 
@@ -858,24 +845,31 @@ def list_user(request):
     
     master_ids={}
     points_data=participantspoints(request)
+    
     participants_data=participants(request)
+   
     master_data=[master["master_id"] for master in participants_data]
     master_name=[master["full_name"] for master in participants_data]
-    
+   
     for points in points_data:
-    
-        if points["master_id"] in master_data and points["name_of_participants"] in master_name:
-        
-            for data in points["title_submenu"]["points_earned"]:
-                
-                if int(data["name"])==int(request.user.brewery):   
-                                                   
-                    total_points[points["name_of_participants"]]=int(data["total_points"])  
-                    points_earned[points["name_of_participants"]]=int(data["points_earned"])  
-                    monthly_points[points["name_of_participants"]]=int(data["monthly_points"])
-                    annual_points[points["name_of_participants"]]=int(data["annual_points"])
-                    master_ids[points["name_of_participants"]] = int(points["master_id"])
 
+        
+        if points["master_id"] in master_data and points["name_of_participants"] in master_name:
+           
+            for j in range(points["title_submenu"]["count"]):
+                                
+                if int(points["title_submenu"]["points_earned"][j]["name"])==int(request.user.brewery):   
+                                            
+                    total_points[points["name_of_participants"]]=int(points["title_submenu"]["points_earned"][j]["total_points"])  
+                    
+                    points_earned[points["name_of_participants"]]=int(points["title_submenu"]["points_earned"][j]["points_earned"])  
+                    
+                    monthly_points[points["name_of_participants"]]=int(points["title_submenu"]["points_earned"][j]["monthly_points"])
+                    
+                    annual_points[points["name_of_participants"]]=int(points["title_submenu"]["points_earned"][j]["annual_points"])
+                   
+                    master_ids[points["name_of_participants"]] = int(points["master_id"])
+                    
     top_10_total_points = sorted(zip(total_points.values(), total_points.keys(), master_ids.values()), reverse=True)[:10]
     bottom_10_total_points = sorted(zip(total_points.values(), total_points.keys(), master_ids.values()))[:10]
 
