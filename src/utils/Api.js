@@ -81,6 +81,18 @@ export const getuserProfile = () => {
   return response
 }
 
+// craft/participant_gender/
+export const getparticipantGender = () => {
+  const response = Axios.get(`/craft/participant_gender/`,{
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+
 export const edituserProfile = (id, data) => {
   const response = Axios.post(`/Admin/user/update/${id}`,data,{
     headers: {

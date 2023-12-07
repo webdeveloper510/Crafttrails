@@ -114,7 +114,7 @@ const Available = () => {
                 <tr style={{ border: "1px solid gray", textAlign: "center" }}>
                   <th>Master Id</th>
                   <th>Participant</th>
-                  <th>Point</th>
+                  <th>Points</th>
                 </tr>
               </thead>
               {data?.length > 0

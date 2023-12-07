@@ -27,6 +27,7 @@ import NetChanges from "./charts/netchange";
 import WeeklyData from "./charts/weekly";
 import ParticipantCount from "./charts/participant";
 import { useNavigate } from "react-router-dom";
+import Usergender from "./charts/Gender";
 // import Hottestday from "./charts/hottestday";
 
 const DashboardPage = () => {
@@ -93,9 +94,9 @@ const DashboardPage = () => {
             <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
               <ParticipantCount />
             </div>
-            {/* <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
-              <Hottestday />
-            </div> */}
+            <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
+              <Usergender />
+            </div>
 
             {/* <div className='col-xxl-6'>
           <EngageWidget10 className='h-md-100' />

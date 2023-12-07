@@ -95,7 +95,7 @@ const Membershipdash = () => {
             </Table>
           </div> */}
         </Tab>
-        <Tab eventKey="bottom-user-overall" title="Available Point">
+        <Tab eventKey="bottom-user-overall" title="Available Points">
           <Available/>
         {/* <div className="px-5 py-5" style={{width:"85%", margin:"auto"}}>
             <Table striped bordered hover>

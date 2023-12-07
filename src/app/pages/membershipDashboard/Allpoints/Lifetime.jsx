@@ -116,7 +116,7 @@ const Lifetime = () => {
             <tr style={{ border: "1px solid gray", textAlign: "center" }}>
               <th>Master Id</th>
               <th>Participant</th>
-              <th>Point</th>
+              <th>Points</th>
             </tr>
           </thead>
           {data?.length > 0
@@ -133,7 +133,7 @@ const Lifetime = () => {
                     >
                       <td>{item.master_id}</td>
                       <td>{item.participant}</td>
-                      <td>{item.points}</td>
+                      <td>{item.ss}</td>
                     </tr>
                   </tbody>
                 );
