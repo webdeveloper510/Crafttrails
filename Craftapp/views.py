@@ -464,6 +464,53 @@ class ParticipantAge(APIView):
 
 
 
+"""API TO GET PARTICIPANT Gender"""
+class ParticipantGender(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'custom'
+
+    def get(self,request):
+        try:
+            gender_type=[]
+            todays_date = date.today() 
+            trails_data=trails(request)   
+            active_trails_data=active_trails(request)   
+            participant_data=participants(request)
+          
+            for k in active_trails_data.json()["items"]:
+             
+
+                val=[int(i["master_id"]) for i in trails_data if i["master_id"] and i["location_to_complete"] and int(i["trail_year"])==int(k["s157fa6cfb"])]
+               
+            for paticipate in participant_data:
+                
+                if int(paticipate["master_id"]) in val:
+                    if paticipate["gender"] != "":
+                        gendertype=paticipate["gender"]
+                        
+                    
+                        gender_type.append(gendertype)
+
+            main_count=gender_counts(request,gender_type)
+            
+            gender_analytics={
+                "gender":gender_type,
+                "male":main_count[0],
+                "female":main_count[1],
+                "transgender":main_count[2],
+                "non-binary/non-confirming":main_count[3],
+                
+            }
+               
+            return Response({"code":200,"data":gender_analytics},status=status.HTTP_200_OK)
+        except Exception as e:
+           
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+
+
 """API TO GET REGISTER AND UNREGISTER USER"""
 class RegisterUnRegister(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            

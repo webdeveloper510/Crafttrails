@@ -326,6 +326,7 @@ def participants(request):
                 "master_id":i["sd48be64b7"], 
                 "phone_number":i["s37e762ac3"],  
                 "address":i["sb91047f0b"]["location_address"],
+                "gender":i["sab36dd930"],
                 "title_submenu":{
                     "title":i["title"],
                     "record_id":i["sfb74e1363"],
@@ -702,6 +703,28 @@ def age_counts(request,user_age):
     return count,count1,count2,count3,count4,count5
 
 
+def gender_counts(request,gender_type):
+   
+    count=0
+    count1=0
+    count2=0
+    count3=0
+   
+
+    for i in gender_type:
+       
+        if i=="Male" or i=="man" or i=="Man":
+            count=count+1
+        if i=="Female" or i=="woman" or i=="Woman":
+            count1=count1+1 
+        if i=="Transgender":
+            count2=count2+1 
+        if i=="Non-Binary/Non-Conforming":
+            count3=count3+1 
+        
+    return count,count1,count2,count3
+
+
 
 def get_all_sub_items(request):
 
@@ -870,11 +893,11 @@ def list_user(request):
                    
                     master_ids[points["name_of_participants"]] = int(points["master_id"])
                     
-    top_10_total_points = sorted(zip(total_points.values(), total_points.keys(), master_ids.values()), reverse=True)[:10]
-    bottom_10_total_points = sorted(zip(total_points.values(), total_points.keys(), master_ids.values()))[:10]
+    top_10_total_points = sorted(zip(total_points.values(), total_points.keys(), master_ids.values()), reverse=True)
+    bottom_10_total_points = sorted(zip(total_points.values(), total_points.keys(), master_ids.values()))
 
-    top_10_points_earned = sorted(zip(points_earned.values(), points_earned.keys(), master_ids.values()), reverse=True)[:10]
-    bottom_10_points_earned = sorted(zip(points_earned.values(), points_earned.keys(), master_ids.values()))[:10]   
+    top_10_points_earned = sorted(zip(points_earned.values(), points_earned.keys(), master_ids.values()), reverse=True)
+    bottom_10_points_earned = sorted(zip(points_earned.values(), points_earned.keys(), master_ids.values()))   
     
     top_10_annual_points = sorted(zip(annual_points.values(), annual_points.keys(), master_ids.values()), reverse=True)
     bottom_10_annual_points = sorted(zip(annual_points.values(), annual_points.keys(), master_ids.values()))
