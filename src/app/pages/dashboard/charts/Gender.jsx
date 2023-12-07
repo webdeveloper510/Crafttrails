@@ -65,7 +65,7 @@ const Usergender = ({ className }) => {
             {
               label: "Age",
               data: [
-                gender.male, gender.female , data.transgender , data.nonbinary],
+                gender.male, gender.female ,gender.transgender, gender.nonbinary],
               borderWidth: 1,
               backgroundColor: [
                 "rgba(255, 99, 132, 0.6)",
@@ -123,8 +123,8 @@ const Usergender = ({ className }) => {
       style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
     >
       <h1 className="mt-4">Participants Gender</h1>
-      <div className="row pe-5 p-5 mt-5">
-        <div className="col-md-4 mt-5">
+      <div className="row py-5 px-5 line_chart">
+        <div className="col-md-4 px-2 mt-5">
           {labelData[0].label.length > 0
             ? labelData[0].label.map((label, index) => (
                 <div className="d-flex">
@@ -150,7 +150,7 @@ const Usergender = ({ className }) => {
               ))
             : ""}
         </div>
-        <div className="col-md-8">
+        <div className="col-md-8 mt-5 px-2" style={{display:"flex", justifyContent:"end"}}>
           {list !== null ? (
             <>
               <Doughnut
