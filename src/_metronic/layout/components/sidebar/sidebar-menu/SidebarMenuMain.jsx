@@ -76,7 +76,7 @@ const SidebarMenuMain = () => {
         <SidebarMenuItem to='/lists/visits' title='Visits' hasBullet={true} />
       </SidebarMenuItemWithSub> */}
 
-      <SidebarMenuItemWithSub to='/brewery-event' title='Brewery Event Submission & Support Hub' fontIcon='bi-archive' icon='bi bi-headset'>
+      <SidebarMenuItemWithSub to='/brewery-event' title='Event Submission & Support Hub' fontIcon='bi-archive' icon='bi bi-headset'>
         <SidebarMenuItem to='/brewery-event/special-event' title='Special Event Submission' hasBullet={true} />
         <SidebarMenuItem to='/brewery-event/feature-request' title='Feature Requests' hasBullet={true} />
         <SidebarMenuItem to='/brewery-event/report-bug' title='Report a Bug' hasBullet={true} />

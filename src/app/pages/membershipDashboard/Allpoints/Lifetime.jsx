@@ -133,7 +133,7 @@ const Lifetime = () => {
                     >
                       <td>{item.master_id}</td>
                       <td>{item.participant}</td>
-                      <td>{item.ss}</td>
+                      <td>{item.points}</td>
                     </tr>
                   </tbody>
                 );
