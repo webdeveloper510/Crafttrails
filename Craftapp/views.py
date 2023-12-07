@@ -500,7 +500,7 @@ class ParticipantGender(APIView):
                 "male":main_count[0],
                 "female":main_count[1],
                 "transgender":main_count[2],
-                "non-binary/non-confirming":main_count[3],
+                "nonbinary/nonconfirming":main_count[3],
                 
             }
                
