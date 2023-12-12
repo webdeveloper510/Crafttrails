@@ -137,8 +137,7 @@ class LogoutView(APIView):
 class Userprofile(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+   
 
     def get(self,request):
         try:
@@ -155,8 +154,7 @@ class Userprofile(APIView):
 class BreweriesView(APIView):
     permission_classes=[IsAuthenticated]
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+   
 
     def get(self,request):
         try:
@@ -169,8 +167,7 @@ class BreweriesView(APIView):
 class BreweriesIDView(APIView):
     permission_classes=[IsAuthenticated]
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+    
 
     def get(self,request,pid):
         try:
@@ -184,8 +181,7 @@ class BreweriesIDView(APIView):
 class TrailView(APIView):
     permission_classes=[IsAuthenticated]
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+ 
 
     def get(self,request):
         try:
@@ -201,8 +197,7 @@ class TrailView(APIView):
 class TrailIDView(APIView):
     permission_classes=[IsAuthenticated]
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+ 
 
     def get(self,request,pid):
         try:
@@ -218,8 +213,7 @@ class TrailIDView(APIView):
 class ParticipantsView(APIView):
     permission_classes=[IsAuthenticated]
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+
 
     def get(self,request):
         try:
@@ -234,8 +228,7 @@ class ParticipantsView(APIView):
 class ParticipantsIDView(APIView):
     permission_classes=[IsAuthenticated]
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+
 
     def get(self,request,pid):
         try:
@@ -252,8 +245,7 @@ class ParticipantsIDView(APIView):
 class ParticipantsPointsView(APIView):
     permission_classes=[IsAuthenticated]
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+  
 
     def get(self,request):
         try:
@@ -269,8 +261,7 @@ class ParticipantsPointsView(APIView):
 class ParticipantsPointsIDView(APIView):
     permission_classes=[IsAuthenticated]
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+ 
 
     def get(self,request,pid):
         try:
@@ -286,10 +277,9 @@ class ParticipantsPointsIDView(APIView):
 class VisitView(APIView):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+   
 
-    def get(self,request,pid):
+    def get(self,request):
         try:
             visit_data=visit(request)    
             return Response({"code":200,"data":visit_data},status=status.HTTP_200_OK)
@@ -301,8 +291,7 @@ class VisitView(APIView):
 class VisitIDView(APIView):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+   
 
     def get(self,request,pid):
         try:
@@ -317,8 +306,7 @@ class VisitIDView(APIView):
 class ChangePassword(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+    
 
     def post(self,request):
         serializer = ChangePasswordSerializer(data=request.data)
@@ -337,8 +325,7 @@ class ChangePassword(APIView):
 class ActiveUser(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+  
 
     def get(self,request):
         try:
@@ -363,8 +350,7 @@ class ActiveUser(APIView):
 class TrailsAnalytics(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+   
 
     def get(self,request):
         try:
@@ -399,8 +385,7 @@ class TrailsAnalytics(APIView):
 class BreweriesName(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+   
 
     def get(self,request):
         try:
@@ -418,8 +403,7 @@ class BreweriesName(APIView):
 class ParticipantAge(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+   
 
     def get(self,request):
         try:
@@ -468,8 +452,7 @@ class ParticipantAge(APIView):
 class ParticipantGender(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+  
 
     def get(self,request):
         try:
@@ -515,8 +498,7 @@ class ParticipantGender(APIView):
 class RegisterUnRegister(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+   
 
     def get(self,request):
         try:
@@ -534,7 +516,6 @@ class RegisterUnRegister(APIView):
             }
             return Response({"code":200,"data":user_count},status=status.HTTP_200_OK)
         except Exception as e:
-            
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
@@ -543,8 +524,7 @@ class RegisterUnRegister(APIView):
 class WeeklyParticipants(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+    
 
 
     def get(self,request):
@@ -588,8 +568,7 @@ class WeeklyParticipants(APIView):
 class WeeklyGrowth(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+    
 
     def get(self,request):
         try:
@@ -609,8 +588,7 @@ class WeeklyGrowth(APIView):
 class WeeklyGrowth(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+    
 
     def get(self,request):
         try:
@@ -632,8 +610,7 @@ class WeeklyGrowth(APIView):
 class NetChanges(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+    
 
     def get(self,request):
         try:
@@ -656,8 +633,7 @@ class NetChanges(APIView):
 class ParticipantsCount(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+    
 
     def get(self,request):
         try:
@@ -676,8 +652,7 @@ class ParticipantsCount(APIView):
 class FetchLink(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+   
 
     def get(self,request):
         # try:
@@ -693,8 +668,7 @@ class FetchLink(APIView):
 class HottestDay(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+    
 
     def get(self,request):
         try:
@@ -719,8 +693,7 @@ class HottestDay(APIView):
 class Membership(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+   
 
     def get(self,request):
         try:
