@@ -16,8 +16,7 @@ from rest_framework.throttling import ScopedRateThrottle
 class UserList(APIView):
     permission_classes=[IsAdminUser]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+    
 
     def get(self,request):
         try:
@@ -34,8 +33,7 @@ class UserList(APIView):
 class ActIactView(APIView):
     permission_classes=[IsAdminUser]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+    
 
     def post(self,request,id):
         try:
@@ -48,9 +46,7 @@ class ActIactView(APIView):
 class UserEditView(APIView):
     permission_classes=[IsAdminUser]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
-
+  
     def get(self,request,id):
         try:
             status_changed=user_edit(request,id)
@@ -63,8 +59,7 @@ class UserEditView(APIView):
 class ChangeLocationView(APIView):
     permission_classes=[IsAdminUser]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+   
 
     def post(self,request,id):
         try:
@@ -77,8 +72,7 @@ class ChangeLocationView(APIView):
 class ChangeProfileView(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'custom'
+   
 
     def post(self,request,id):
         try:
@@ -87,7 +81,32 @@ class ChangeProfileView(APIView):
         except Exception as e:
             return Response({"code":400,"error":"unable to change status of user"},status=status.HTTP_200_OK)
 
+"""API TO ACTIVE INACTIVE USER LIST ShOW"""
+class ListShowActIactView(APIView):
+    permission_classes=[IsAdminUser]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    
 
+    def post(self,request,id):
+        try:
+            status_changed=changelistshow_status(request,id)
+            return Response({"code":200,"data":"User List Show status changed"},status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"code":400,"error":"unable to change status of user"},status=status.HTTP_200_OK)
+
+
+"""API TO ACTIVE INACTIVE USER LIST EXPORT"""
+class ListExportActIactView(APIView):
+    permission_classes=[IsAdminUser]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    
+
+    def post(self,request,id):
+        try:
+            status_changed=changelistexport_status(request,id)
+            return Response({"code":200,"data":"User List Export status changed"},status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"code":400,"error":"unable to change status of user"},status=status.HTTP_200_OK)            
 
 
 

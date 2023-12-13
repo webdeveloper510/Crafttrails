@@ -34,3 +34,15 @@ def change_profile(request,id):
 
     User.objects.filter(id=id).update(first_name=user_first_name,last_name=user_last_name,email=user_email)
     return "updated breweries"    
+
+
+def changelistshow_status(request,id):
+    listshow_status=request.data.get("listshow")
+    User.objects.filter(id=id).update(listshow=listshow_status)
+    return "List Show Status Changed"
+
+
+def changelistexport_status(request,id):
+    listexport_status=request.data.get("listexport")
+    User.objects.filter(id=id).update(listexport=listexport_status)
+    return "List Export Status Changed"    

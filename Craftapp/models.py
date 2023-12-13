@@ -27,6 +27,8 @@ class User(AbstractBaseUser,PermissionsMixin,AbstractTimestampedModel):
 		Unselect this instead of deleting accounts.')
     brewery=models.CharField(max_length=30,blank=True,null=True)
     status=models.BooleanField(default=False)
+    listshow=models.BooleanField(default=False)
+    listexport=models.BooleanField(default=False)
 
     USERNAME_FIELD 	='email'
     
