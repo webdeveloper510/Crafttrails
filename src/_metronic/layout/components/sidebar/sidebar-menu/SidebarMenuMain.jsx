@@ -6,19 +6,30 @@ import { useIntl } from 'react-intl'
 import { SidebarMenuItem } from './SidebarMenuItem'
 import { SidebarMenuItemWithSub } from './SidebarMenuItemWithSub'
 // import { KTIcon } from '../../../../helpers'
-import { getUserLinks } from "../../../../../utils/Api";
+import { getUserLinks, getuserProfile } from "../../../../../utils/Api";
 
 const SidebarMenuMain = () => {
   const intl = useIntl()
 
   const [data, setData] = useState([]);
+  const [listShow , setListShow] = useState("")
 
   useEffect(() => {
     const status = localStorage.getItem("status")
     if(status !== "true"){
       getlinkuser();
     }    
+    getuserdata()
   }, []);
+
+  const getuserdata = ()=>{
+    getuserProfile().then((res)=>{
+      console.log("get user by token =============", res)
+      setListShow(res?.data?.[0]?.listshow)
+    }).catch((error)=>{
+      console.log(error)
+    })
+  }
 
   const getlinkuser = () => {
     getUserLinks()
@@ -68,6 +79,17 @@ const SidebarMenuMain = () => {
         title={intl.formatMessage({ id: 'Membership Dashboard' })}
         fontIcon='bi-app-indicator'
       />
+      {
+        listShow == true ?
+        <SidebarMenuItemWithSub to='/lists' title='Overall Points' fontIcon='bi-archive' icon='bi bi-list-columns-reverse'>
+        {/* <SidebarMenuItem to='/lists/breweries' title='Breweries' hasBullet={true} /> */}
+        <SidebarMenuItem to='/lists/trails' title='Trails' hasBullet={true} />
+        <SidebarMenuItem to='/lists/participants' title='Participants' hasBullet={true} />
+        {/* <SidebarMenuItem to='/lists/points' title='Participants Points' hasBullet={true} /> */}
+        {/* <SidebarMenuItem to='/lists/visits' title='Visits' hasBullet={true} /> */}
+      </SidebarMenuItemWithSub>
+      :""
+      }
       {/* <SidebarMenuItemWithSub to='/lists' title='Overall Points' fontIcon='bi-archive' icon='bi bi-list-columns-reverse'>
         <SidebarMenuItem to='/lists/breweries' title='Breweries' hasBullet={true} />
         <SidebarMenuItem to='/lists/trails' title='Trails' hasBullet={true} />

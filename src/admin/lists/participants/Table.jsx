@@ -22,6 +22,7 @@ const ParticipantTable = ({passport}) => {
       setLoading(false)
     })
   }, []);
+  console.log("participant dataaaaaaaaaaaaaaaa", list)
 
   return (
     <div>

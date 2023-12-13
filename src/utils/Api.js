@@ -369,8 +369,17 @@ export const AdminUserStatus = (id,data) => {
   })
   return response
 }
-
-
+// listshow
+export const Adminlistshow = (id,data) => {
+  const response = Axios.post(`/Admin/user/listshow/${id}`, data,{
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
 
 
 
@@ -407,11 +416,15 @@ export const getUserByToken = async (token) => {
     }
   }).then(res => {
     if (res?.data.code == 200) {
-      return res?.data.result
+      return res?.data
     }
+  }).catch((error)=>{
+    return error.response
   })
   return response
 }
+
+
 export const deletUser = async(id) => {
   const response = await Axios.delete(`/craft/delete_user/${id}`, {
     headers: {

@@ -5,9 +5,11 @@ import { ArrowDown, ArrowUp } from 'react-bootstrap-icons';
 import { Card } from 'react-bootstrap';
 
 const DynamicTable = ({ data, moreView, display }) => {
+
+    console.log("dataaaaaaaaaaaaaaaaaaaaaaaaaaa", data)
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
-    const [sortedData, setSortedData] = useState(data.slice());
+    const [sortedData, setSortedData] = useState(data?.slice());
     const [sortKey, setSortKey] = useState(null);
     const [sortDirection, setSortDirection] = useState('asc');
 
@@ -60,12 +62,12 @@ const DynamicTable = ({ data, moreView, display }) => {
         return date
     }
 
-    const itemsCount = sortedData.length;
+    const itemsCount = sortedData?.length;
     const totalPages = Math.ceil(itemsCount / itemsPerPage);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = sortedData?.slice(indexOfFirstItem, indexOfLastItem);
 
     useEffect(() => {
         if (sortKey) {
@@ -79,7 +81,7 @@ const DynamicTable = ({ data, moreView, display }) => {
             });
             setSortedData(copyData);
         } else {
-            setSortedData(data.slice())
+            setSortedData(data?.slice())
         }
     }, [data, sortKey, sortDirection]);
 

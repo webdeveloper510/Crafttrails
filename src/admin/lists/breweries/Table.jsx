@@ -26,6 +26,12 @@ const BreweryTable = ({passport}) => {
 
   }, []);
 
+  const arr = []
+  arr.push(list)
+  console.log("brewery dataaaaaaaaaaaaaaaa", arr)
+
+
+
   return (
     <>
       <div>
@@ -43,7 +49,7 @@ const BreweryTable = ({passport}) => {
             ) : (
               <>
                 {
-                  list && list.length > 0 ? <DynamicTable data={list} /> : "No Record Found!!"
+                  arr && arr.length > 0 ? <DynamicTable data={arr} /> : "No Record Found!!"
                 }
               </>
             )
