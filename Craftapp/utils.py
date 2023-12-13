@@ -206,7 +206,7 @@ def trails(request):
 
 def trailscomp(request):
     pid=request.user.brewery
-    print(pid)
+    
     breweries_completed=[]
     trail_list=[]
     base_url = settings.base_url
@@ -223,13 +223,13 @@ def trailscomp(request):
             trail_year=i["s157fa6cfb"]
             trail_season=i["s74aaea978"]
             trail_minitour=i["sd82de27d5"]
-            print(trail_name,trail_year,trail_season, trail_minitour)
+          
            
     app_ids = settings.trailmaster_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
  
     for i in response.json()["items"]:
-        print(i["sc270d76da"])
+       
         if trail_name==i["sc270d76da"] and trail_year==i["scef57f448"] and trail_season==i["sd25a89828"] and trail_minitour==i["s56b038ef3"]:
             
             if i["s2f8f93c23"]=="":

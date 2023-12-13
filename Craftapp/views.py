@@ -765,7 +765,7 @@ class TrailCompExportView(APIView):
                     }
                    
                 main_data.append(main_data1)    
-            print(main_data) 
+           
             
             df = pd.DataFrame(main_data)
             buffer = BytesIO()
@@ -789,8 +789,8 @@ class TrailCompExportView(APIView):
            
             # Get the full URL to the file
             file_url = os.path.join(settings.MEDIA_URL, file_name)
-            file_url1="http://127.0.0.1:8000/"+file_url
-            # file_url1="https://trailmetrics.cctrails.com"+file_url
+            # file_url1="http://127.0.0.1:8000/"+file_url
+            file_url1="https://trailmetrics.cctrails.com"+file_url
 
              # Respond with the full URL and other data
             response_data = {"code": 200, "message": "CSV file generated successfully", "file_url": file_url1}
@@ -809,7 +809,7 @@ class ParticipantExportView(APIView):
         try:
             participant_data=participants(request)  
             df = pd.DataFrame(participant_data)
-            print(df)
+          
             buffer = BytesIO()
 
             df.to_csv(buffer, index=False, encoding='utf-8')
@@ -830,8 +830,8 @@ class ParticipantExportView(APIView):
            
             # Get the full URL to the file
             file_url = os.path.join(settings.MEDIA_URL, file_name)
-            file_url1="http://127.0.0.1:8000/"+file_url
-            # file_url1="https://trailmetrics.cctrails.com"+file_url
+            # file_url1="http://127.0.0.1:8000"+file_url
+            file_url1="https://trailmetrics.cctrails.com"+file_url
 
              # Respond with the full URL and other data
             response_data = {"code": 200, "message": "CSV file generated successfully", "file_url": file_url1}
