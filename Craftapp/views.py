@@ -10,6 +10,10 @@ from Craftapp.utils import *
 from rest_framework.throttling import ScopedRateThrottle
 from datetime import date 
 import datetime
+import pandas as pd
+from io import BytesIO
+from django.http import FileResponse,HttpResponse
+import os
 
 
 
@@ -115,6 +119,8 @@ class LoginView(APIView):
                     "email":user.email,
                     "breweries_id":user.brewery,
                    "status":user.is_superuser,
+                   "listshow":user.listshow,
+                   "listexport":user.listexport,
                    "approved":user.status
             }
             return Response({'success':"Login Successfully",'token':str(user_token),"code":200,"data":data}, status=status.HTTP_200_OK)  
@@ -191,6 +197,21 @@ class TrailView(APIView):
             
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
+"""API TO GET TRAIL on the Active Trail basis DATA"""
+class TrailCompView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+ 
+
+    def get(self,request):
+        try:
+            trails_data=trailscomp(request)   
+            return Response({"code":200,"data":trails_data},status=status.HTTP_200_OK)
+        except Exception as e:
+            
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+
 
 
 """API TO GET TRAIL DATA With ID"""
@@ -232,7 +253,6 @@ class ParticipantsIDView(APIView):
 
     def get(self,request,pid):
         try:
-            
             participants_data=participants_all(request,pid)
             return Response({"code":200,"data":participants_data},status=status.HTTP_200_OK)
         except Exception as e:
@@ -718,6 +738,107 @@ class Delete_user(APIView):
         except Exception as e:
             return Response({'code': 404, 'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
+
+"""API TO EXPORT TRAIL on the Active Trail basis DATA"""
+class TrailCompExportView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+ 
+
+    def get(self,request):
+        try:
+            main_data=[]
+            json_data=trailscomp(request)  
+            for i in json_data:
+               
+                main_data1 = {
+                        'title': i['title'],
+                        'application_id': i['application_id'],
+                        'participant_id': i['participant_id'],
+                        'breweries_completed': i['breweries_completed'],
+                        'trail_name': i['trail_name'],
+                        'trail_year': i['trail_year'],
+                        'trail_season': i['trail_season'],
+                        'mini_tour': i['mini_tour'],
+                        'master_id': i['master_id'],
+                        'location_to_complete': i['location_to_complete']
+                    }
+                   
+                main_data.append(main_data1)    
+            print(main_data) 
+            
+            df = pd.DataFrame(main_data)
+            buffer = BytesIO()
+
+            # Save DataFrame to the BytesIO buffer
+            df.to_csv(buffer, index=False, encoding='utf-8')
+
+            file_name = 'trail.csv'
+            file_path = os.path.join(settings.MEDIA_ROOT, file_name)
+            with open(file_path, 'wb') as file:
+                buffer.seek(0)
+                file.write(buffer.read())
+
+            # Create the HTTP response with appropriate headers
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+            # Write the file content to the response
+            with open(file_path, 'rb') as file:
+                response.write(file.read())
+           
+            # Get the full URL to the file
+            file_url = os.path.join(settings.MEDIA_URL, file_name)
+            file_url1="http://127.0.0.1:8000/"+file_url
+            # file_url1="https://trailmetrics.cctrails.com"+file_url
+
+             # Respond with the full URL and other data
+            response_data = {"code": 200, "message": "CSV file generated successfully", "file_url": file_url1}
+            return Response(response_data, status=status.HTTP_200_OK)
+        except Exception as e:
+            
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+"""API TO EXPORT Participant DATA"""
+class ParticipantExportView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+ 
+
+    def get(self,request):
+        try:
+            participant_data=participants(request)  
+            df = pd.DataFrame(participant_data)
+            print(df)
+            buffer = BytesIO()
+
+            df.to_csv(buffer, index=False, encoding='utf-8')
+
+            file_name = 'participants.csv'
+            file_path = os.path.join(settings.MEDIA_ROOT, file_name)
+            with open(file_path, 'wb') as file:
+                buffer.seek(0)
+                file.write(buffer.read())
+
+            # Create the HTTP response with appropriate headers
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+            # Write the file content to the response
+            with open(file_path, 'rb') as file:
+                response.write(file.read())
+           
+            # Get the full URL to the file
+            file_url = os.path.join(settings.MEDIA_URL, file_name)
+            file_url1="http://127.0.0.1:8000/"+file_url
+            # file_url1="https://trailmetrics.cctrails.com"+file_url
+
+             # Respond with the full URL and other data
+            response_data = {"code": 200, "message": "CSV file generated successfully", "file_url": file_url1}
+            return Response(response_data, status=status.HTTP_200_OK)
+        except Exception as e:
+            
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
 
 

@@ -203,6 +203,87 @@ def trails(request):
     data=trail_list     
     return data
 
+
+def trailscomp(request):
+    pid=request.user.brewery
+    print(pid)
+    breweries_completed=[]
+    trail_list=[]
+    base_url = settings.base_url
+    headers = {
+        "Authorization": settings.authorization,
+        "Account-Id":  settings.account_id,
+        "Content-Type": "application/json"
+    }
+    app_ids = settings.active_trails
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    for i in response.json()["items"] :
+        if i["title"]==pid:
+            trail_name=i["s9b9447a8e"]
+            trail_year=i["s157fa6cfb"]
+            trail_season=i["s74aaea978"]
+            trail_minitour=i["sd82de27d5"]
+            print(trail_name,trail_year,trail_season, trail_minitour)
+           
+    app_ids = settings.trailmaster_id 
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+ 
+    for i in response.json()["items"]:
+        print(i["sc270d76da"])
+        if trail_name==i["sc270d76da"] and trail_year==i["scef57f448"] and trail_season==i["sd25a89828"] and trail_minitour==i["s56b038ef3"]:
+            
+            if i["s2f8f93c23"]=="":
+                i["s2f8f93c23"]=1
+            if i["sb7210e570"]["count"]>0:
+                data={
+                    
+                    "title":i["title"],
+                    "application_id":i["id"],
+                    "participant_id":i["s99187d139"],
+                    "breweries_completed":i["sb7210e570"]["count"],
+                    "trail_name":i["sc270d76da"],
+                    "trail_year":i["scef57f448"],
+                    "trail_season":i["sd25a89828"],
+                    "mini_tour":i["s56b038ef3"], 
+                    "master_id":i["s0d1c07938"],  
+                    "location_to_complete":i["s2f8f93c23"],
+                
+                    "title_submenu":{
+                        "title":i["title"],
+                        "participant_id":i["s99187d139"],
+                        "trail_name":i["sc270d76da"],
+                        "trail_year":i["scef57f448"],  
+                        "trail_season":i["sd25a89828"],
+                        "mini_tour":i["s56b038ef3"],
+                        "link__breweries":i["s24c712a83"],
+                        "breweries_completed":[]
+                  }
+                } 
+                for k in range(i["sb7210e570"]["count"]):
+                    data1={
+                        "count":i["sb7210e570"]["count"],
+                        "name":i["sb7210e570"]["items"][k]["name"],
+                        "id":i["sb7210e570"]["items"][k]["name"],
+                        "date":i["sb7210e570"]["items"][k]["first_created"]["on"]
+                    }
+                    breweries_completed.append(data1)
+                    data["title_submenu"]["breweries_completed"].append(data1)
+                            
+                trail_list.append(data) 
+                
+
+    breweries_data=breweries_all(request,pid)
+    for i in breweries_data:
+        for j in trail_list:
+            for k in range(j["breweries_completed"]):
+                     
+                if j["title_submenu"]["breweries_completed"][k]["name"]==i["title"]:
+                    j["title_submenu"]["breweries_completed"][k]["name"]=i["bar_name"]        
+          
+    data=trail_list     
+    return data   
+
+
 def trails_all(request,pid):
     breweries_completed=[]
     trail_list=[]

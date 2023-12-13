@@ -11,6 +11,7 @@ urlpatterns = [
     path("breweries/list/",BreweriesView.as_view(),name="breweries"),   
     path("breweries/list/<str:pid>",BreweriesIDView.as_view(),name="breweries"), 
     path("trail/list/",TrailView.as_view(),name="trail"),
+    path("trailcomp/list/",TrailCompView.as_view(),name="trailcomp"),
     path("trail/list/<str:pid>",TrailIDView.as_view(),name="trail_id"),
     path("participants/list/",ParticipantsView.as_view(),name="participants"),
     path("participants/list/<str:pid>",ParticipantsIDView.as_view(),name="participants_id"),
@@ -32,5 +33,7 @@ urlpatterns = [
     path('user/links/', FetchLink.as_view(), name='user_links'),
     path('hottest/days/', HottestDay.as_view(), name='hottest_day'),
     path('membership/data/', Membership.as_view(), name='membership'),
-    path("delete_user/<int:id>",Delete_user.as_view(),name="delete_user")
+    path("delete_user/<int:id>",Delete_user.as_view(),name="delete_user"),
+    path("trail/export/",TrailCompExportView.as_view(),name="trailexport"),
+    path("participant/export/",ParticipantExportView.as_view(),name="trailexport")
 ]
