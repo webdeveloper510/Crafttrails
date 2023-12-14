@@ -929,7 +929,7 @@ def calculate_growth(request,week_number):
     previous_week=WeekParticipants.objects.filter(user_id=request.user.id,weeknumber=int(week_number)-1).values("participant")
    
     if current_week and previous_week:
-        growth_percentage=(int(current_week[0]["participant"])-int(previous_week[0]["participant"]))/int(previous_week[0]["participant"])*100
+        growth_percentage=(int(current_week[0]["participant"])-int(previous_week[0]["participant"]))/int(previous_week[0]["participant"])
     return growth_percentage
 
 
