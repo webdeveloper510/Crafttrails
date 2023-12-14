@@ -231,3 +231,11 @@ button.google-login {
     font-weight: 600;
     font-size: 15px;
 }
+.export-btn{
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background: #181c32;
+    padding: 10px 20px;
+    margin-right: 10px;
+}

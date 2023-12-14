@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   AdminUserStatus,
+  Adminlistexport,
   Adminlistshow,
   adminUserList,
   deletUser,
@@ -194,7 +195,32 @@ const UserList = () => {
       console.log(error);
     });
   }
-  // Adminlistshow
+
+  const handleListExport =(val , id)=>{
+    console.log(id, val)
+    Adminlistexport(id, { listexport : val })
+    .then((res) => {
+      console.log("responseeeeeeeeeee", res);
+      if (res.code == 200) {
+        getadminList();
+        toast.success(res.data, {
+          position: "top-right",
+          autoClose: 2000,
+          theme: "colored",
+        });
+      } else {
+        toast.error(res.error, {
+          position: "top-right",
+          autoClose: 2000,
+          theme: "colored",
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
 
   const columns = [
     {
@@ -296,6 +322,39 @@ const UserList = () => {
                 cursor: "pointer",
               }}
               onClick={() => handleListShow(true, d.id)}
+            ></i>
+          </>
+        ),
+    },
+    {
+      name: "List Export",
+      selector: "listexport",
+      sortable: true,
+      cell: (d) =>
+        d.listexport == true ? (
+          <>
+            <i
+              class="bi bi-toggle2-on"
+              style={{
+                color: "green",
+                fontSize: "25px",
+                marginLeft: "10px",
+                cursor: "pointer",
+              }}
+              onClick={() => handleListExport(false, d.id)}
+            ></i>
+          </>
+        ) : (
+          <>
+            <i
+              class="bi bi-toggle2-off"
+              style={{
+                color: "red",
+                fontSize: "25px",
+                marginLeft: "10px",
+                cursor: "pointer",
+              }}
+              onClick={() => handleListExport(true, d.id)}
             ></i>
           </>
         ),

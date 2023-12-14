@@ -380,8 +380,18 @@ export const Adminlistshow = (id,data) => {
   })
   return response
 }
+// listexport
 
-
+export const Adminlistexport = (id,data) => {
+  const response = Axios.post(`/Admin/user/listexport/${id}`, data,{
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
 
 
 

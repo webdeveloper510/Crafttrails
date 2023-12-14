@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { Breadcrumb, Modal } from "react-bootstrap";
-import { getTrailList } from "../../../utils/Api";
+import { getTrailList, getuserProfile } from "../../../utils/Api";
 import DynamicTable from "../../modules/table";
 import { CheckSquareFill, XSquareFill } from "react-bootstrap-icons";
 
@@ -12,6 +12,17 @@ const Table = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false)
   const [moreView, setMoreView] = useState({ toggle: false, data: null })
+  const [data, setData] = useState("")
+
+  const getuserdata =()=>{
+    getuserProfile().then((res)=>{
+      console.log("res user profile data====", res)
+      setData(res?.data?.[0]?.listexport)
+    }).catch((error)=>{
+      console.log(error)
+    })
+  }
+
 
   useEffect(() => {
     setLoading(true)
@@ -23,6 +34,7 @@ const Table = () => {
     }).catch((error)=>{
       setLoading(false)
     })
+    getuserdata()
   }, []);
 
   return (
@@ -32,6 +44,13 @@ const Table = () => {
           <Breadcrumb.Item href="#"><span style={{ color: "#000" }}>Lists</span></Breadcrumb.Item>
           <Breadcrumb.Item active><span style={{ color: "#ef305e" }}>Trails</span></Breadcrumb.Item>
         </Breadcrumb>
+         <div className="text-end me-5">
+         {
+          data == true ?
+          <button className="export-btn">export</button>
+          :""
+         }
+         </div>
         <div>
           {
             loading ? (

@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { Breadcrumb, Modal } from "react-bootstrap";
-import { getTrailList, getTrailsAdmin } from "../../../utils/Api";
+import { getTrailList, getTrailsAdmin, getuserProfile } from "../../../utils/Api";
 import { CheckSquareFill, XSquareFill } from "react-bootstrap-icons";
 import DynamicTable from "../../table";
 
@@ -12,18 +12,7 @@ const TableTrail = ({passport}) => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false)
   const [moreView, setMoreView] = useState({ toggle: false, data: null })
-
-  useEffect(() => {
-    setLoading(true)
-    getTrailsAdmin(passport).then(res => {
-      setLoading(false)
-      if (res.code === 200) {
-        setList(res?.data)
-      }
-    }).catch((error)=>{
-      setLoading(false)
-    })
-  }, []);
+  
 
   return (
     <>
