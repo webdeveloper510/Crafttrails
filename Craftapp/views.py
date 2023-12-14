@@ -763,6 +763,7 @@ class TrailCompExportView(APIView):
 
     def get(self,request):
         try:
+            id=request.user.id
             main_data=[]
             json_data=trailscomp(request)  
             for i in json_data:
@@ -789,7 +790,7 @@ class TrailCompExportView(APIView):
             # Save DataFrame to the BytesIO buffer
             df.to_csv(buffer, index=False, encoding='utf-8')
             current_datetime = timezone.now().strftime("%Y%m%d%H%M%S")    
-            file_name = id+current_datetime+"_"+'trail.csv'
+            file_name = str(id)+current_datetime+"_"+'trail.csv'
             file_path = os.path.join(settings.MEDIA_ROOT, file_name)
             with open(file_path, 'wb') as file:
                 buffer.seek(0)
