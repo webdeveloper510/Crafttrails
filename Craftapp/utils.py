@@ -283,6 +283,84 @@ def trailscomp(request):
     data=trail_list     
     return data   
 
+def trailsidcomp(request,pid):
+     
+    breweries_completed=[]
+    trail_list=[]
+    base_url = settings.base_url
+    headers = {
+        "Authorization": settings.authorization,
+        "Account-Id":  settings.account_id,
+        "Content-Type": "application/json"
+    }
+    app_ids = settings.active_trails
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    for i in response.json()["items"] :
+        if i["title"]==pid:
+            trail_name=i["s9b9447a8e"]
+            trail_year=i["s157fa6cfb"]
+            trail_season=i["s74aaea978"]
+            trail_minitour=i["sd82de27d5"]
+          
+           
+    app_ids = settings.trailmaster_id 
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+ 
+    for i in response.json()["items"]:
+       
+        if trail_name==i["sc270d76da"] and trail_year==i["scef57f448"] and trail_season==i["sd25a89828"] and trail_minitour==i["s56b038ef3"]:
+            
+            if i["s2f8f93c23"]=="":
+                i["s2f8f93c23"]=1
+            if i["sb7210e570"]["count"]>0:
+                data={
+                    
+                    "title":i["title"],
+                    "application_id":i["id"],
+                    "participant_id":i["s99187d139"],
+                    "breweries_completed":i["sb7210e570"]["count"],
+                    "trail_name":i["sc270d76da"],
+                    "trail_year":i["scef57f448"],
+                    "trail_season":i["sd25a89828"],
+                    "mini_tour":i["s56b038ef3"], 
+                    "master_id":i["s0d1c07938"],  
+                    "location_to_complete":i["s2f8f93c23"],
+                
+                    "title_submenu":{
+                        "title":i["title"],
+                        "participant_id":i["s99187d139"],
+                        "trail_name":i["sc270d76da"],
+                        "trail_year":i["scef57f448"],  
+                        "trail_season":i["sd25a89828"],
+                        "mini_tour":i["s56b038ef3"],
+                        "link__breweries":i["s24c712a83"],
+                        "breweries_completed":[]
+                  }
+                } 
+                for k in range(i["sb7210e570"]["count"]):
+                    data1={
+                        "count":i["sb7210e570"]["count"],
+                        "name":i["sb7210e570"]["items"][k]["name"],
+                        "id":i["sb7210e570"]["items"][k]["name"],
+                        "date":i["sb7210e570"]["items"][k]["first_created"]["on"]
+                    }
+                    breweries_completed.append(data1)
+                    data["title_submenu"]["breweries_completed"].append(data1)
+                            
+                trail_list.append(data) 
+                
+
+    breweries_data=breweries_all(request,pid)
+    for i in breweries_data:
+        for j in trail_list:
+            for k in range(j["breweries_completed"]):
+                     
+                if j["title_submenu"]["breweries_completed"][k]["name"]==i["title"]:
+                    j["title_submenu"]["breweries_completed"][k]["name"]=i["bar_name"]        
+          
+    data=trail_list     
+    return data   
+
 
 def trails_all(request,pid):
     breweries_completed=[]
@@ -764,6 +842,7 @@ def age_counts(request,user_age):
     count3=0
     count4=0
     count5=0
+    count6=0
 
     for i in user_age:
        
@@ -779,8 +858,7 @@ def age_counts(request,user_age):
             count4=count4+1
         if i>65:
             count5=count5+1
-      
-
+       
     return count,count1,count2,count3,count4,count5
 
 
@@ -790,19 +868,19 @@ def gender_counts(request,gender_type):
     count1=0
     count2=0
     count3=0
-   
+    count4=0
 
     for i in gender_type:
        
-        if i=="Male" or i=="man" or i=="Man":
+        if i=="Male" or i=="man" or i=="Man" or i=="male":
             count=count+1
-        if i=="Female" or i=="woman" or i=="Woman":
+        if i=="Female" or i=="woman" or i=="Woman" or i=="female":
             count1=count1+1 
         if i=="Transgender":
             count2=count2+1 
         if i=="Non-Binary/Non-Conforming":
             count3=count3+1 
-        
+          
     return count,count1,count2,count3
 
 
@@ -821,7 +899,7 @@ def get_all_sub_items(request):
     # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     # app_ids = settings.trailmaster_id 
     # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-    trails_data=trails(request)   
+    trails_data=trailscomp(request)   
     active_trails_data=active_trails(request) 
     count=0
     for k in active_trails_data.json()["items"]:
@@ -851,7 +929,7 @@ def calculate_growth(request,week_number):
     previous_week=WeekParticipants.objects.filter(user_id=request.user.id,weeknumber=int(week_number)-1).values("participant")
    
     if current_week and previous_week:
-        growth_percentage=(int(current_week[0]["participant"])-int(previous_week[0]["participant"]))/int(previous_week[0]["participant"])
+        growth_percentage=(int(current_week[0]["participant"])-int(previous_week[0]["participant"]))/int(previous_week[0]["participant"])*100
     return growth_percentage
 
 
@@ -872,17 +950,13 @@ def trail_participant(request,trails_data):
     for trail in trails_data:
         for j in range(trail["breweries_completed"]):
             
-            if str(trail["title_submenu"]["breweries_completed"][j]["id"])==str(request.user.brewery):
+           
                     count=count+1
                     participant={
                     
                     "paricipant_count":count
                 }
-            else:
-                participant={
-                    
-                    "paricipant_count":count
-                }
+          
     return participant
 
 
@@ -911,7 +985,7 @@ def urls_link(request):
 
 
 def hottest_day(request):
-    hottest_date=trails(request)
+    hottest_date=trailscomp(request)
 
     return hottest_date
 
@@ -962,7 +1036,7 @@ def list_user(request):
            
             for j in range(points["title_submenu"]["count"]):
                                 
-                if int(points["title_submenu"]["points_earned"][j]["name"])==int(request.user.brewery):   
+                
                                             
                     total_points[points["name_of_participants"]]=int(points["title_submenu"]["points_earned"][j]["total_points"])  
                     

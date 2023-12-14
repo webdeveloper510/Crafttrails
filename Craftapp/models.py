@@ -44,3 +44,10 @@ class WeekParticipants(models.Model):
     weeknumber=models.CharField(blank=True,null=True,max_length=20)
     participant=models.IntegerField(blank=True,null=True)
     weekname=models.CharField(blank=True,null=True,max_length=20)
+
+
+
+class UserFile(models.Model):
+  user=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)  
+  file_path=models.CharField(blank=True,null=True,max_length=500)
+

@@ -8,13 +8,17 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from Craftapp.utils import *
 from rest_framework.throttling import ScopedRateThrottle
+from django.core.files.storage import default_storage
 from datetime import date 
+from django.utils import timezone
 import datetime
 import pandas as pd
 from io import BytesIO
 from django.http import FileResponse,HttpResponse
 import os
 
+
+# Signal to indicate that a file has been downloaded
 
 
 
@@ -211,7 +215,19 @@ class TrailCompView(APIView):
             
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
+"""API TO GET TRAIL on the Active Trail basis DATA"""
+class TrailIDCompView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+ 
 
+    def get(self,request,pid):
+        try:
+            trails_data=trailsidcomp(request,pid)   
+            return Response({"code":200,"data":trails_data},status=status.HTTP_200_OK)
+        except Exception as e:
+            
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
 
 """API TO GET TRAIL DATA With ID"""
@@ -349,7 +365,7 @@ class ActiveUser(APIView):
 
     def get(self,request):
         try:
-            trails_data=trails(request)   
+            trails_data=trailscomp(request)   
             active_trails_data=active_trails(request)   
             count=0
             for i in trails_data:
@@ -374,7 +390,7 @@ class TrailsAnalytics(APIView):
 
     def get(self,request):
         try:
-            trails_data=trails(request)
+            trails_data=trailscomp(request)
               
         
             active_trails_data=active_trails(request)   
@@ -429,7 +445,7 @@ class ParticipantAge(APIView):
         try:
             user_age=[]
             todays_date = date.today() 
-            trails_data=trails(request)   
+            trails_data=trailscomp(request)   
             active_trails_data=active_trails(request)   
             participant_data=participants(request)
           
@@ -478,7 +494,7 @@ class ParticipantGender(APIView):
         try:
             gender_type=[]
             todays_date = date.today() 
-            trails_data=trails(request)   
+            trails_data=trailscomp(request)   
             active_trails_data=active_trails(request)   
             participant_data=participants(request)
           
@@ -504,7 +520,7 @@ class ParticipantGender(APIView):
                 "female":main_count[1],
                 "transgender":main_count[2],
                 "nonbinary":main_count[3],
-                
+               
             }
                
             return Response({"code":200,"data":gender_analytics},status=status.HTTP_200_OK)
@@ -523,7 +539,7 @@ class RegisterUnRegister(APIView):
     def get(self,request):
         try:
             active_trails_data=active_trails(request)
-            trails_data=trails(request)
+            trails_data=trailscomp(request)
 
             for i in active_trails_data.json()["items"]:
                 
@@ -658,7 +674,7 @@ class ParticipantsCount(APIView):
     def get(self,request):
         try:
             
-            trails_data=trails(request)
+            trails_data=trailscomp(request)
             data=trail_participant(request,trails_data)
 
             return Response({"code":200,"data":data},status=status.HTTP_200_OK)
@@ -772,8 +788,8 @@ class TrailCompExportView(APIView):
 
             # Save DataFrame to the BytesIO buffer
             df.to_csv(buffer, index=False, encoding='utf-8')
-
-            file_name = 'trail.csv'
+            current_datetime = timezone.now().strftime("%Y%m%d%H%M%S")    
+            file_name = id+current_datetime+"_"+'trail.csv'
             file_path = os.path.join(settings.MEDIA_ROOT, file_name)
             with open(file_path, 'wb') as file:
                 buffer.seek(0)
@@ -791,13 +807,18 @@ class TrailCompExportView(APIView):
             file_url = os.path.join(settings.MEDIA_URL, file_name)
             # file_url1="http://127.0.0.1:8000/"+file_url
             file_url1="https://trailmetrics.cctrails.com"+file_url
+            UserFile.objects.create(user_id=id,file_path=file_url1)
+            userfile=UserFile.objects.filter(user_id=id).last()
+            userfile1=userfile.file_path
 
              # Respond with the full URL and other data
-            response_data = {"code": 200, "message": "CSV file generated successfully", "file_url": file_url1}
+            response_data = {"code": 200, "message": "CSV file generated successfully", "file_url": userfile1}
             return Response(response_data, status=status.HTTP_200_OK)
         except Exception as e:
             
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+
 
 """API TO EXPORT Participant DATA"""
 class ParticipantExportView(APIView):
@@ -807,14 +828,16 @@ class ParticipantExportView(APIView):
 
     def get(self,request):
         try:
+            id=request.user.id
             participant_data=participants(request)  
             df = pd.DataFrame(participant_data)
           
             buffer = BytesIO()
 
             df.to_csv(buffer, index=False, encoding='utf-8')
-
-            file_name = 'participants.csv'
+            current_datetime = timezone.now().strftime("%Y%m%d%H%M%S")    
+            file_name = str(id)+current_datetime+"_"+ "participants.csv"
+            
             file_path = os.path.join(settings.MEDIA_ROOT, file_name)
             with open(file_path, 'wb') as file:
                 buffer.seek(0)
@@ -830,15 +853,112 @@ class ParticipantExportView(APIView):
            
             # Get the full URL to the file
             file_url = os.path.join(settings.MEDIA_URL, file_name)
-            # file_url1="http://127.0.0.1:8000"+file_url
-            file_url1="https://trailmetrics.cctrails.com"+file_url
-
-             # Respond with the full URL and other data
-            response_data = {"code": 200, "message": "CSV file generated successfully", "file_url": file_url1}
+            file_url1="http://127.0.0.1:8000"+file_url
+            # file_url1="https://trailmetrics.cctrails.com"+file_url
+            UserFile.objects.create(user_id=id,file_path=file_url1)
+            userfile=UserFile.objects.filter(user_id=id).last()
+            userfile1=userfile.file_path
+            
+            response_data = {"code": 200, "message": "CSV file generated successfully", "file_url": userfile1}
             return Response(response_data, status=status.HTTP_200_OK)
         except Exception as e:
             
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+"""API TO EXPORT VISIT DATA"""
+class VisitExportView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+ 
+
+    def get(self,request):
+        try:
+            id=request.user.id
+            visit_data=visit(request)  
+            df = pd.DataFrame(visit_data)
+          
+            buffer = BytesIO()
+
+            df.to_csv(buffer, index=False, encoding='utf-8')
+            current_datetime = timezone.now().strftime("%Y%m%d%H%M%S")    
+            file_name = str(id)+current_datetime+"_"+ "visit.csv"
+           
+            file_path = os.path.join(settings.MEDIA_ROOT, file_name)
+            with open(file_path, 'wb') as file:
+                buffer.seek(0)
+                file.write(buffer.read())
+
+            # Create the HTTP response with appropriate headers
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+            # Write the file content to the response
+            with open(file_path, 'rb') as file:
+                response.write(file.read())
+           
+            # Get the full URL to the file
+            file_url = os.path.join(settings.MEDIA_URL, file_name)
+            file_url1="http://127.0.0.1:8000"+file_url
+            # file_url1="https://trailmetrics.cctrails.com"+file_url
+            UserFile.objects.create(user_id=id,file_path=file_url1)
+            userfile=UserFile.objects.filter(user_id=id).last()
+            userfile1=userfile.file_path
+            
+            response_data = {"code": 200, "message": "CSV file generated successfully", "file_url": userfile1}
+            return Response(response_data, status=status.HTTP_200_OK)
+        except Exception as e:
+            
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+
+
+"""API TO EXPORT PARTICPANTS POINTS DATA"""
+class ParticipantPointsExportView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+ 
+
+    def get(self,request):
+        try:
+            id=request.user.id
+            points_data=participantspoints(request)  
+            df = pd.DataFrame(points_data)
+          
+            buffer = BytesIO()
+
+            df.to_csv(buffer, index=False, encoding='utf-8')
+            current_datetime = timezone.now().strftime("%Y%m%d%H%M%S")    
+            file_name = str(id)+current_datetime+"_"+ "participantpoint.csv"
+            
+            file_path = os.path.join(settings.MEDIA_ROOT, file_name)
+            with open(file_path, 'wb') as file:
+                buffer.seek(0)
+                file.write(buffer.read())
+
+            # Create the HTTP response with appropriate headers
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+            # Write the file content to the response
+            with open(file_path, 'rb') as file:
+                response.write(file.read())
+           
+            # Get the full URL to the file
+            file_url = os.path.join(settings.MEDIA_URL, file_name)
+            file_url1="http://127.0.0.1:8000"+file_url
+            # file_url1="https://trailmetrics.cctrails.com"+file_url
+            UserFile.objects.create(user_id=id,file_path=file_url1)
+            userfile=UserFile.objects.filter(user_id=id).last()
+            userfile1=userfile.file_path
+            
+            response_data = {"code": 200, "message": "CSV file generated successfully", "file_url": userfile1}
+            return Response(response_data, status=status.HTTP_200_OK)
+        except Exception as e:
+            
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+
+
 
 
 
