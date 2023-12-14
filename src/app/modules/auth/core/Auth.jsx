@@ -11,7 +11,7 @@ import {
 import { LayoutSplashScreen } from '../../../../_metronic/layout/core'
 // import {AuthModel, UserModel} from './_models'
 import * as authHelper from './AuthHelpers'
-import { getUserByToken } from '../../../../utils/Api'
+import { edituserProfile } from '../../../../utils/Api'
 // import {WithChildren} from '../../../../_metronic/helpers'
 
 // type AuthContextProps = {
@@ -73,7 +73,7 @@ const AuthInit = ({ children }) => {
     const requestUser = (apiToken) => {
       try {
         if (!didRequest.current) {
-          const { data } = getUserByToken(apiToken)
+          const { data } = edituserProfile(apiToken)
           if (data) {
             setCurrentUser(data)
           }

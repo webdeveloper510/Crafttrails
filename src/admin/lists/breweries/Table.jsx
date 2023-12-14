@@ -7,30 +7,28 @@ import { getBreweryAdmin } from "../../../utils/Api";
 
 import DynamicTable from "../../table";
 
-const BreweryTable = ({passport}) => {
-
+const BreweryTable = ({ passport }) => {
   const [list, setList] = useState([]);
-  const [loading, setLoading] = useState(false)
-  const [open_modal, setOpenModal] = useState({ toggle: false, data: null })
+  const [loading, setLoading] = useState(false);
+  const [open_modal, setOpenModal] = useState({ toggle: false, data: null });
 
   useEffect(() => {
-    setLoading(true)
-    getBreweryAdmin(passport).then(res => {
-      setLoading(false)
-      if (res.code === 200) {
-        setList(res?.data)
-      }
-    }).catch((error)=>{
-      setLoading(false)
-    })
-
+    setLoading(true);
+    getBreweryAdmin(passport)
+      .then((res) => {
+        setLoading(false);
+        if (res.code === 200) {
+          setList(res?.data);
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
   }, []);
 
-  const arr = []
-  arr.push(list)
-  console.log("brewery dataaaaaaaaaaaaaaaa", arr)
-
-
+  const arr = [];
+  arr.push(list);
+  console.log("brewery dataaaaaaaaaaaaaaaa", arr);
 
   return (
     <>
@@ -40,20 +38,19 @@ const BreweryTable = ({passport}) => {
           <Breadcrumb.Item active><h1 style={{ color: "#ef305e" }}>Breweries</h1></Breadcrumb.Item>
         </Breadcrumb> */}
         <div>
-          {
-            loading ? (
-              <div className="loader-overly">
-                <div className="loader" >
-                </div>
-              </div>
-            ) : (
-              <>
-                {
-                  arr && arr.length > 0 ? <DynamicTable data={arr} /> : "No Record Found!!"
-                }
-              </>
-            )
-          }
+          {loading ? (
+            <div className="loader-overly">
+              <div className="loader"></div>
+            </div>
+          ) : (
+            <>
+              {arr && arr.length > 0 ? (
+                <DynamicTable data={arr} />
+              ) : (
+                "No Record Found!!"
+              )}
+            </>
+          )}
         </div>
       </div>
       {/* <ModalView toggle={open_modal.toggle} handler={() => setOpenModal({ toggle: false, data: null })} data={open_modal.data} /> */}
@@ -321,4 +318,3 @@ const BreweryTable = ({passport}) => {
 // }
 
 export default BreweryTable;
-

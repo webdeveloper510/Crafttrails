@@ -105,7 +105,7 @@ const WeeklyGrowth = ({ className }) => {
                     {label}-
                   </h3>
                   <div  style={{ margin: "5px 10px 8px 0px" }}>
-                   <h3> {labelData[0].growth[index]}</h3>
+                   <h3> {labelData[0].growth[index]?.toFixed(2)}</h3>
                   </div>
                 </div>
               ))

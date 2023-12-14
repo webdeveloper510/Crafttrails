@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { Breadcrumb, Modal } from "react-bootstrap";
-import { getTrailList, getuserProfile } from "../../../utils/Api";
+import { getTrailExport, getTrailList, getuserProfile } from "../../../utils/Api";
 import DynamicTable from "../../modules/table";
 import { CheckSquareFill, XSquareFill } from "react-bootstrap-icons";
 
@@ -35,7 +35,48 @@ const Table = () => {
       setLoading(false)
     })
     getuserdata()
+    // getTrailData()
   }, []);
+
+  const handleDownload = ()=>{
+    getTrailExport().then((res)=>{
+      console.log("get trails export dataaaaaaaaaa", res)
+      if(res.code == 200){
+        const data = res.file_url
+        const blob = new Blob([data], { type: 'text/csv' });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'trail.csv';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }      
+    }).catch((error)=>{
+      console.log(error)
+    })
+  } 
+
+  // const handleDownload = async () => {
+  //   try {
+  //     const response = await fetch('https://trailmetrics.cctrails.com/media/1120231214111134_trail.csv');
+  //     const data = await response.text();
+
+  //     // Create a Blob from the fetched data
+  //     const blob = new Blob([data], { type: 'text/csv' });
+
+  //     // Create a link element and trigger a click to download the file
+  //     const link = document.createElement('a');
+  //     link.href = window.URL.createObjectURL(blob);
+  //     link.download = 'trail.csv';
+  //     document.body.appendChild(link);
+  //     link.click();
+
+  //     // Clean up
+  //     document.body.removeChild(link);
+  //   } catch (error) {
+  //     console.error('Error downloading the file:', error);
+  //   }
+  // };
 
   return (
     <>
@@ -47,7 +88,7 @@ const Table = () => {
          <div className="text-end me-5">
          {
           data == true ?
-          <button className="export-btn">export</button>
+          <button className="export-btn" onClick={handleDownload}>export</button>
           :""
          }
          </div>

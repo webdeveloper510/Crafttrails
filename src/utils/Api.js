@@ -161,8 +161,9 @@ export const getBreweriesList = async () => {
   return response
 }
 
+// trail/list/ 
 export const getTrailList = async () => {
-  const response = await Axios.get("/craft/trail/list/", {
+  const response = await Axios.get("/craft/trailcomp/list/", {
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
@@ -393,6 +394,28 @@ export const Adminlistexport = (id,data) => {
   return response
 }
 
+// trail/export/
+export const getTrailExport = async () => {
+  const response = await Axios.get("/craft/trail/export/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+
+export const getParticipantExport = async () => {
+  const response = await Axios.get("/craft/participant/export/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
 
 
 
