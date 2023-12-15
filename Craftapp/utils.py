@@ -530,7 +530,7 @@ def participants(request):
     return data
 
 def participants_all(request,pid):
-   
+    val=[]
     participant_list=[]
     base_url = settings.base_url
     headers = {
@@ -538,19 +538,36 @@ def participants_all(request,pid):
         "Account-Id": settings.account_id,
         "Content-Type": "application/json"
     }
-    app_ids = settings.visit
-    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    # app_ids = settings.visit
+    # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
    
-    unique_master_id=set()
-    for i in response.json()["items"] :
+    # unique_master_id=set()
+    # for i in response.json()["items"] :
         
-        if i["s9d5037e2f"]==pid :
-            if i["s211c64472"]!="":
+    #     if i["s9d5037e2f"]==pid :
+    #         if i["s211c64472"]!="":
                
-                master_id1=i["s211c64472"]
-                unique_master_id.add(master_id1)
+    #             master_id1=i["s211c64472"]
+    #             unique_master_id.add(master_id1)
                
-            
+    app_ids = settings.active_trails
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    for i in response.json()["items"] :
+        if i["title"]==pid:
+            trail_name=i["s9b9447a8e"]
+            trail_year=i["s157fa6cfb"]
+            trail_season=i["s74aaea978"]
+            trail_minitour=i["sd82de27d5"]
+          
+           
+    app_ids = settings.trailmaster_id 
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+ 
+    for i in response.json()["items"]:
+       
+        if trail_name==i["sc270d76da"] and trail_year==i["scef57f448"] and trail_season==i["sd25a89828"] and trail_minitour==i["s56b038ef3"]:
+            passport=i["s99187d139"]
+            val.append(passport)        
 
     app_ids = settings.participants_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
@@ -558,7 +575,7 @@ def participants_all(request,pid):
        
     for i in response.json()["items"] :
         
-        if i["sd48be64b7"] in list(unique_master_id):
+        if i["sbb8fea034"] in val:
            
             try:
                 date=i["sac87d276d"]["date"]
