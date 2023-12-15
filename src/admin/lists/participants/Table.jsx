@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import { Breadcrumb } from "react-bootstrap";
 import { getParticipantList, getParticipantPoints } from "../../../utils/Api";
 import DynamicTable from "../../table";
+import Papa from "papaparse";
+
 
 const ParticipantTable = ({ passport }) => {
   const [list, setList] = useState([]);
@@ -25,6 +27,19 @@ const ParticipantTable = ({ passport }) => {
   }, []);
   console.log("participant dataaaaaaaaaaaaaaaa", list);
 
+  const handleDownload = () => {
+    const filename = "trail.csv"
+    const csv = Papa.unparse(list);
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  
+
   return (
     <div>
       {/* <Breadcrumb>
@@ -41,7 +56,7 @@ const ParticipantTable = ({ passport }) => {
           {list && list.length > 0 ? (
             <>
               <div className="text-end me-5">
-                <button className="export-btn">export</button>
+                <button className="export-btn" onClick={handleDownload}>export</button>
               </div>
               <DynamicTable data={list} />
             </>

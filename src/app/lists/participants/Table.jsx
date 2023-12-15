@@ -1,10 +1,11 @@
 /*eslint-disabled*/
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-
 import  { useState, useEffect } from "react";
 import { Breadcrumb } from "react-bootstrap";
 import { getParticipantExport, getParticipantList, getuserProfile } from "../../../utils/Api";
 import DynamicTable from "../../modules/table";
+import Papa from "papaparse";
+
 
 const ParticipantTable = () => {
 
@@ -34,30 +35,17 @@ const ParticipantTable = () => {
     getuserdata()
   }, []);
 
-  const handleDownload = ()=>{
-    getParticipantExport().then((res)=>{
-      console.log("get trails export dataaaaaaaaaa", res)
-      if(res.code == 200){
-        const fileUrl = res?.file_url
-
-        fetch(fileUrl)
-          .then(response => response.blob())
-          .then(blob => {
-            const url = window.URL.createObjectURL(new Blob([blob]));
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'participant.csv'; // specify the name for the downloaded file
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-          })
-          .catch(error => console.error('Error downloading file:', error)); 
-      }      
-    }).catch((error)=>{
-      console.log(error)
-    })
-  } 
+  const handleDownload = () => {
+    const filename = "trail.csv"
+    const csv = Papa.unparse(list);
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div>

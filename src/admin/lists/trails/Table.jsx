@@ -10,6 +10,8 @@ import {
 } from "../../../utils/Api";
 import { CheckSquareFill, XSquareFill } from "react-bootstrap-icons";
 import DynamicTable from "../../table";
+import Papa from "papaparse";
+
 
 const TableTrail = ({ passport }) => {
   const [list, setList] = useState([]);
@@ -32,6 +34,19 @@ const TableTrail = ({ passport }) => {
 
   console.log("trails dataaaaaaaaaaaaaaaa", list);
 
+  const handleDownload = () => {
+
+    const filename = "trail.csv"
+    const csv = Papa.unparse(list);
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <>
       <div>
@@ -49,7 +64,7 @@ const TableTrail = ({ passport }) => {
               {list && list.length > 0 ? (
                 <>
                  <div className="text-end me-5">
-                 <button className="export-btn">export</button>
+                 <button className="export-btn" onClick={handleDownload}>export</button>
                  </div>
                 <DynamicTable
                   data={list}

@@ -48,62 +48,16 @@ const Table = () => {
     // getTrailData()
   }, []);
 
-  const handlecsv = async()=>{
-    try {
-      const response = await fetch(csv);
-      const data = await response.text();
-      setCsvData(data);
-
-      // Create a Blob from the CSV data
-      const blob = new Blob([data], { type: 'text/csv' });
-
-      // Create a download link
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'trail.csv';
-
-      // Append the link to the body
-      document.body.appendChild(a);
-
-      // Trigger the click event to start the download
-      a.click();
-
-      // Remove the link from the body
-      document.body.removeChild(a);
-
-      // Release the object URL
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Error downloading CSV:', error);
-    }
-  }
   const handleDownload = () => {
-    getTrailExport()
-      .then((res) => {
-        console.log("get trails export dataaaaaaaaaa", res?.file_url);
-        if (res.code == 200) {
-          const fileUrl = res?.file_url;
-          setCsv(fileUrl)
-          handlecsv()
-          // fetch(fileUrl)
-          //   .then((response) => response.blob())
-          //   .then((blob) => {
-          //     const url = window.URL.createObjectURL(new Blob([blob]));
-          //     const a = document.createElement("a");
-          //     a.href = url;
-          //     a.download = "trail.csv"; // specify the name for the downloaded file
-          //     document.body.appendChild(a);
-          //     a.click();
-          //     document.body.removeChild(a);
-          //     window.URL.revokeObjectURL(url);
-          //   })
-          //   .catch((error) => console.error("Error downloading file:", error));
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const filename = "trail.csv"
+    const csv = Papa.unparse(list);
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (

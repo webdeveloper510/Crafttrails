@@ -99,8 +99,8 @@ const WeeklyData = ({ className }) => {
     >
       <h1 className="mt-4">Weekly</h1>
       <p className="explaination">Week to week participants Growth</p>
-      <div className="row py-5 px-5 line_chart">
-        <div className="col-md-4 px-2 mt-5">
+      <div className="row px-5 line_chart">
+        <div className="col-md-4 px-2">
           {labelData[0].label.length > 0
             ? labelData[0].label.map((label, index) => (
                 <div className="d-flex">
