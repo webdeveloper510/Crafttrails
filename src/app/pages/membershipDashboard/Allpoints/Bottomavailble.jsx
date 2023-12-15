@@ -106,8 +106,8 @@ const BottomAvailable = () => {
               <th>Points</th>
             </tr>
           </thead>
-          {bottom?.length > 0
-            ? bottom?.map((item, i) => {
+          {data?.length > 0
+            ? data?.map((item, i) => {
                 return (
                   <tbody>
                     <tr

@@ -151,6 +151,7 @@ const AnnualPoint = () => {
             }}
           >
             <div
+            onClick={() => handlePrePage()}
               className="prev_btn"
               style={{
                 display: "flex",
@@ -158,7 +159,7 @@ const AnnualPoint = () => {
                 marginRight: "-25px",
               }}
             >
-              <button onClick={() => handlePrePage()} className="prev_btn">Prev</button>
+              <button  className="prev_btn">Prev</button>
             </div>
             <div >
               <ul className="previous-page">

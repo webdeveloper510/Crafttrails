@@ -38,14 +38,21 @@ const ParticipantTable = () => {
     getParticipantExport().then((res)=>{
       console.log("get trails export dataaaaaaaaaa", res)
       if(res.code == 200){
-        const data = res.file_url
-        const blob = new Blob([data], { type: 'text/csv' });
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = 'trail.csv';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        const fileUrl = res?.file_url
+
+        fetch(fileUrl)
+          .then(response => response.blob())
+          .then(blob => {
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'participant.csv'; // specify the name for the downloaded file
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+          })
+          .catch(error => console.error('Error downloading file:', error)); 
       }      
     }).catch((error)=>{
       console.log(error)
