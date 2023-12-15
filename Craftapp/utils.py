@@ -995,7 +995,7 @@ def trail_participant(request,trails_data):
     for trail in trails_data:
         if trail["is_solo_trail"]:
             count=count+1
-            print(count)
+            
    
         else:    
             for j in range(trail["breweries_completed"]):
