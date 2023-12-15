@@ -369,7 +369,8 @@ class ActiveUser(APIView):
             active_trails_data=active_trails(request)   
             count=0
             for i in trails_data:
-                val=[k for k in active_trails_data.json()["items"] for j in range(i["breweries_completed"]) if  i["location_to_complete"] and int(i["title_submenu"]["breweries_completed"][j]["id"])==int(k["title"])]
+                # val=[k for k in active_trails_data.json()["items"] for j in range(i["breweries_completed"]) if  i["location_to_complete"] and int(i["title_submenu"]["breweries_completed"][j]["id"])==int(k["title"])]
+                val=[k for k in active_trails_data.json()["items"] if  i["trail_name"] == k["s9b9447a8e"]]
                 if val: 
                     count=count+1
                
@@ -444,28 +445,38 @@ class ParticipantAge(APIView):
     def get(self,request):
         try:
             user_age=[]
+            val=[]
             todays_date = date.today() 
             trails_data=trailscomp(request)   
             active_trails_data=active_trails(request)   
             participant_data=participants(request)
           
             for k in active_trails_data.json()["items"]:
-             
+                for i in trails_data:
+                    if i["trail_name"]==k["s9b9447a8e"]:
+                        if i["breweries_completed"]>0:
+                            passport=i["passport"]
+                            val.append(passport)
 
-                val=[int(i["master_id"]) for i in trails_data if i["master_id"] and i["location_to_complete"] and int(i["trail_year"])==int(k["s157fa6cfb"])]
-               
+                # val=[int(i["passport"]) for i in trails_data if i["master_id"] and i["location_to_complete"] and int(i["trail_year"])==int(k["s157fa6cfb"])]
+            
             for paticipate in participant_data:
+                                   
+            
+                if paticipate["rfid_tag"] in val:
                 
-                if int(paticipate["master_id"]) in val:
+               
                     if paticipate["date_of_birth"] != "":
                         dateofbirth=paticipate["date_of_birth"].split("T")[0]
                         yearofbirth=dateofbirth.split("-")[0]
                         age_calculate=todays_date.year - int(yearofbirth)
+                              
+                    else:
+                        age_calculate=0
+                    user_age.append(age_calculate)    
                     
-                        user_age.append(age_calculate)
-
             main_count=age_counts(request,user_age)
-            
+           
             breweries_analytics={
                 "age":user_age,
                 "21-25":main_count[0],
@@ -473,7 +484,8 @@ class ParticipantAge(APIView):
                 "36-45":main_count[2],
                 "46-55":main_count[3],
                 "56-65":main_count[4],
-                "66 and older":main_count[5]
+                "66 and older":main_count[5],
+                "notmentioned":main_count[6]
             }
                     
             
@@ -493,25 +505,32 @@ class ParticipantGender(APIView):
     def get(self,request):
         try:
             gender_type=[]
+            val=[]
+            val1=[]
             todays_date = date.today() 
             trails_data=trailscomp(request)   
             active_trails_data=active_trails(request)   
             participant_data=participants(request)
           
             for k in active_trails_data.json()["items"]:
-             
+                for i in trails_data:
+                    if i["trail_name"]==k["s9b9447a8e"]:
+                        if i["breweries_completed"]>0:
+                            passport=i["passport"]
+                            val.append(passport)
 
-                val=[int(i["master_id"]) for i in trails_data if i["master_id"] and i["location_to_complete"] and int(i["trail_year"])==int(k["s157fa6cfb"])]
-               
+                # val=[int(i["passport"]) for i in trails_data if i["master_id"] and i["location_to_complete"] and int(i["trail_year"])==int(k["s157fa6cfb"])]
+            count=0   
             for paticipate in participant_data:
-                
-                if int(paticipate["master_id"]) in val:
-                    if paticipate["gender"] != "":
+                                   
+            
+                if paticipate["rfid_tag"] in val:
+                    
                         gendertype=paticipate["gender"]
                         
                     
                         gender_type.append(gendertype)
-
+           
             main_count=gender_counts(request,gender_type)
             
             gender_analytics={
@@ -520,6 +539,7 @@ class ParticipantGender(APIView):
                 "female":main_count[1],
                 "transgender":main_count[2],
                 "nonbinary":main_count[3],
+                "notmentioned":main_count[4]
                
             }
                

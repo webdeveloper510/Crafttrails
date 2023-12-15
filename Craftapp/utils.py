@@ -247,7 +247,8 @@ def trailscomp(request):
                     "mini_tour":i["s56b038ef3"], 
                     "master_id":i["s0d1c07938"],  
                     "location_to_complete":i["s2f8f93c23"],
-                
+                    "is_solo_trail":i["sedee2e81b"],
+                    "passport":i["s99187d139"],
                     "title_submenu":{
                         "title":i["title"],
                         "participant_id":i["s99187d139"],
@@ -443,33 +444,56 @@ def participants(request):
     pid=request.user.brewery
    
     participant_list=[]
+    val=[]
     base_url = settings.base_url
     headers = {
         "Authorization": settings.authorization,
         "Account-Id": settings.account_id,
         "Content-Type": "application/json"
     }
-    app_ids = settings.visit
+    app_ids = settings.active_trails
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-   
-    unique_master_id=set()
     for i in response.json()["items"] :
+        if i["title"]==pid:
+            trail_name=i["s9b9447a8e"]
+            trail_year=i["s157fa6cfb"]
+            trail_season=i["s74aaea978"]
+            trail_minitour=i["sd82de27d5"]
+          
+           
+    app_ids = settings.trailmaster_id 
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+ 
+    for i in response.json()["items"]:
+       
+        if trail_name==i["sc270d76da"] and trail_year==i["scef57f448"] and trail_season==i["sd25a89828"] and trail_minitour==i["s56b038ef3"]:
+            passport=i["s99187d139"]
+            val.append(passport)
+   
         
-        if i["s9d5037e2f"]==pid :
-            if i["s211c64472"]!="":
+    # app_ids = settings.visit
+    # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+   
+    # unique_master_id=set()
+    # for i in response.json()["items"] :
+        
+    #     if i["s9d5037e2f"]==pid :
+    #         if i["s211c64472"]!="":
                
-                master_id1=i["s211c64472"]
-                unique_master_id.add(master_id1)
+    #             master_id1=i["s211c64472"]
+    #             unique_master_id.add(master_id1)
               
-            
-
+    # 
     app_ids = settings.participants_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     
-       
+    count=0    
     for i in response.json()["items"] :
         
-        if i["sd48be64b7"] in list(unique_master_id):
+        
+        # if i["sd48be64b7"] in list(unique_master_id):
+        if i["sbb8fea034"] in val:
+            
             
             try:
                 date=i["sac87d276d"]["date"]
@@ -501,9 +525,8 @@ def participants(request):
             }
 
             participant_list.append(data)  
-    data=participant_list   
+    data= participant_list  
  
-
     return data
 
 def participants_all(request,pid):
@@ -835,7 +858,7 @@ def counts(request,val):
 
 
 def age_counts(request,user_age):
-   
+    
     count=0
     count1=0
     count2=0
@@ -845,12 +868,12 @@ def age_counts(request,user_age):
     count6=0
 
     for i in user_age:
-       
-        if i<=21 and i<=25:
+        
+        if i>=21 and i<=25:
             count=count+1
-        if i>26 and i<=35:
+        if i>25 and i<=35:
             count1=count1+1 
-        if i>36 and i<=45:
+        if i>35 and i<=45:
             count2=count2+1 
         if i>45 and i<=55:
             count3=count3+1 
@@ -858,8 +881,10 @@ def age_counts(request,user_age):
             count4=count4+1
         if i>65:
             count5=count5+1
-       
-    return count,count1,count2,count3,count4,count5
+        if i==0 or i< 0:
+            count6=count6+1     
+    
+    return count,count1,count2,count3,count4,count5,count6
 
 
 def gender_counts(request,gender_type):
@@ -869,6 +894,7 @@ def gender_counts(request,gender_type):
     count2=0
     count3=0
     count4=0
+   
 
     for i in gender_type:
        
@@ -876,12 +902,14 @@ def gender_counts(request,gender_type):
             count=count+1
         if i=="Female" or i=="woman" or i=="Woman" or i=="female":
             count1=count1+1 
-        if i=="Transgender":
+        if i=="Transgender" or i=="Prefer not to say":
             count2=count2+1 
         if i=="Non-Binary/Non-Conforming":
             count3=count3+1 
+        if i=="":
+            count4=count4+1    
           
-    return count,count1,count2,count3
+    return count,count1,count2,count3,count4
 
 
 
@@ -948,14 +976,20 @@ def calculate_netchange(request,week_number):
 def trail_participant(request,trails_data):
     count=0
     for trail in trails_data:
-        for j in range(trail["breweries_completed"]):
+        if trail["is_solo_trail"]:
+            count=count+1
+            print(count)
+   
+        else:    
+            for j in range(trail["breweries_completed"]):
+                count=count+1
+             
+    participant={
             
-           
-                    count=count+1
-                    participant={
+            "paricipant_count":count
+        }       
                     
-                    "paricipant_count":count
-                }
+            
           
     return participant
 
