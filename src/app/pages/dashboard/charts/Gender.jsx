@@ -59,13 +59,14 @@ const Usergender = ({ className }) => {
             "Male",
             "Female",
             "Trans-gender",
-            "Non-binary"
+            "Non-binary",
+            "Not-Filled"
           ],
           datasets: [
             {
               label: "Age",
               data: [
-                gender.male, gender.female ,gender.transgender, gender.nonbinary],
+                gender.male, gender.female ,gender.transgender, gender.nonbinary, gender.notmentioned],
               borderWidth: 1,
               backgroundColor: [
                 "rgba(255, 99, 132, 0.6)",

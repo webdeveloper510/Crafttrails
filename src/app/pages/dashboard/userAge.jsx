@@ -66,12 +66,12 @@ const Piechart2 = ({ className }) => {
             {
               label: "Age",
               data: [
-                result1.length,
-                result2.length,
-                result3.length,
-                result4.length,
-                result5.length,
-                result6.length,
+                res?.data?.ageone,
+                res?.data?.agetwo,
+                res?.data?.agethree,
+                res?.data?.agefour,
+                res?.data?.agefive,
+                res?.data?.agesix,
                 res?.data?.notmentioned
               ],
               borderWidth: 1,
