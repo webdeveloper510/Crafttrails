@@ -479,12 +479,12 @@ class ParticipantAge(APIView):
            
             breweries_analytics={
                 "age":user_age,
-                "21_25":main_count[0],
-                "26_35":main_count[1],
-                "36_45":main_count[2],
-                "46_55":main_count[3],
-                "56_65":main_count[4],
-                "66_and_older":main_count[5],
+                "ageone":main_count[0],
+                "agetwo":main_count[1],
+                "agethree":main_count[2],
+                "agefour":main_count[3],
+                "agefive":main_count[4],
+                "agesix":main_count[5],
                 "notmentioned":main_count[6]
             }
                     
