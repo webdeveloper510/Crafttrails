@@ -60,6 +60,7 @@ const Piechart2 = ({ className }) => {
             "46 - 55",
             "56 - 65",
             "66 - 100",
+            "Not filled"
           ],
           datasets: [
             {
@@ -71,6 +72,7 @@ const Piechart2 = ({ className }) => {
                 result4.length,
                 result5.length,
                 result6.length,
+                res?.data?.notmentioned
               ],
               borderWidth: 1,
               backgroundColor: [
@@ -80,6 +82,7 @@ const Piechart2 = ({ className }) => {
                 "rgba(75, 192, 192, 0.6)",
                 "rgba(153, 102, 255, 0.6)",
                 "rgba(255, 159, 64, 0.6)",
+                "rgba(255, 99, 132, 0.6)",
               ],
               borderColor: [
                 "rgba(255, 99, 132, 1)",
@@ -88,6 +91,7 @@ const Piechart2 = ({ className }) => {
                 "rgba(75, 192, 192, 1)",
                 "rgba(153, 102, 255, 1)",
                 "rgba(255, 159, 64, 1)",
+                "rgba(255, 99, 132, 1)",
               ],
             },
           ],
