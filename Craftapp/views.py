@@ -806,8 +806,8 @@ class TrailCompExportView(APIView):
            
             # Get the full URL to the file
             file_url = os.path.join(settings.MEDIA_URL, file_name)
-            # file_url1="http://127.0.0.1:8000/"+file_url
-            file_url1="https://trailmetrics.cctrails.com"+file_url
+            file_url1="http://localhost:3000/"+file_url
+            # file_url1="https://trailmetrics.cctrails.com"+file_url
             UserFile.objects.create(user_id=id,file_path=file_url1)
             userfile=UserFile.objects.filter(user_id=id).last()
             userfile1=userfile.file_path
@@ -854,8 +854,8 @@ class ParticipantExportView(APIView):
            
             # Get the full URL to the file
             file_url = os.path.join(settings.MEDIA_URL, file_name)
-            file_url1="http://127.0.0.1:8000"+file_url
-            # file_url1="https://trailmetrics.cctrails.com"+file_url
+            # file_url1="http://127.0.0.1:8000"+file_url
+            file_url1="http://localhost:3000/"+file_url
             UserFile.objects.create(user_id=id,file_path=file_url1)
             userfile=UserFile.objects.filter(user_id=id).last()
             userfile1=userfile.file_path
@@ -899,8 +899,8 @@ class VisitExportView(APIView):
            
             # Get the full URL to the file
             file_url = os.path.join(settings.MEDIA_URL, file_name)
-            file_url1="http://127.0.0.1:8000"+file_url
-            # file_url1="https://trailmetrics.cctrails.com"+file_url
+            # file_url1="http://127.0.0.1:8000"+file_url
+            file_url1="http://localhost:3000/"+file_url
             UserFile.objects.create(user_id=id,file_path=file_url1)
             userfile=UserFile.objects.filter(user_id=id).last()
             userfile1=userfile.file_path
@@ -946,8 +946,8 @@ class ParticipantPointsExportView(APIView):
            
             # Get the full URL to the file
             file_url = os.path.join(settings.MEDIA_URL, file_name)
-            file_url1="http://127.0.0.1:8000"+file_url
-            # file_url1="https://trailmetrics.cctrails.com"+file_url
+            # file_url1="http://127.0.0.1:8000"+file_url
+            file_url1="http://localhost:3000/"+file_url
             UserFile.objects.create(user_id=id,file_path=file_url1)
             userfile=UserFile.objects.filter(user_id=id).last()
             userfile1=userfile.file_path
