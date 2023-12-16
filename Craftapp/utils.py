@@ -17,7 +17,7 @@ def breweries(request):
     bar_name=""
     
     for i in response.json()["items"]:
-       
+     
         if int(i["title"])==int(request.user.brewery):
             bar_name=i["s8a95871e9"]
         
@@ -55,7 +55,7 @@ def breweries(request):
                     "drink_option":i["s6a53b58cb"],
                     "website":i["s4a2531de8"],
                     "establishment":i["sfb39beff9"],
-                    "logo":i["sa24832ad2"],
+                    "logo":i["s8f6a2a5b8"],
                         
                 }
             }
@@ -114,7 +114,7 @@ def breweries_all(request,pid):
                     "drink_option":i["s6a53b58cb"],
                     "website":i["s4a2531de8"],
                     "establishment":i["sfb39beff9"],
-                    "logo":i["sa24832ad2"],
+                    "logo":i["s8f6a2a5b8"],
                         
                 }
             }
@@ -613,26 +613,45 @@ def participants_all(request,pid):
     return data
 
 
-
-
 def participantspoints(request):
     pid=request.user.brewery
     participant_points=[]
     points_earned=[]
+    unique_master_id=set()
     base_url = settings.base_url
     headers = {
         "Authorization": settings.authorization,
         "Account-Id":  settings.account_id,
         "Content-Type": "application/json"
     }
-    app_ids = settings.visit
+    app_ids = settings.active_trails
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-    unique_master_id=set()
     for i in response.json()["items"] :
-        if i["s9d5037e2f"]==pid :
+        if i["title"]==pid:
+            trail_name=i["s9b9447a8e"]
+            trail_year=i["s157fa6cfb"]
+            trail_season=i["s74aaea978"]
+            trail_minitour=i["sd82de27d5"]
+        
+           
+    app_ids = settings.trailmaster_id 
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    
+    for i in response.json()["items"]:
+       
+        if trail_name==i["sc270d76da"] and trail_year==i["scef57f448"] and trail_season==i["sd25a89828"] and trail_minitour==i["s56b038ef3"]:
+                if i["s0d1c07938"] !="":
+                    master_id1=i["s0d1c07938"]
+                    unique_master_id.add(master_id1)
+         
+    # app_ids = settings.visit
+    # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    
+    # for i in response.json()["items"] :
+    #     if i["s9d5037e2f"]==pid :
             
-                master_id1=i["s211c64472"]
-                unique_master_id.add(master_id1)
+    #             master_id1=i["s211c64472"]
+    #             unique_master_id.add(master_id1)
                 
 
     app_ids = settings.participants_points
@@ -642,7 +661,7 @@ def participantspoints(request):
     
     for i in response.json()["items"]:
         if i["title"] in list(unique_master_id):
-       
+           
             if i["s1255e267e"]["count"]>0:
                 data={
                     "master_id":i["title"],
@@ -695,20 +714,40 @@ def participantspoints(request):
 def participantspoints_all(request,pid):
     participant_points=[]
     points_earned=[]
+    unique_master_id=set()
     base_url = settings.base_url
     headers = {
         "Authorization": settings.authorization,
         "Account-Id":  settings.account_id,
         "Content-Type": "application/json"
     }
-    app_ids = settings.visit
+    app_ids = settings.active_trails
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-    unique_master_id=set()
     for i in response.json()["items"] :
-        if i["s9d5037e2f"]==pid :
+        if i["title"]==pid:
+            trail_name=i["s9b9447a8e"]
+            trail_year=i["s157fa6cfb"]
+            trail_season=i["s74aaea978"]
+            trail_minitour=i["sd82de27d5"]
+        
+           
+    app_ids = settings.trailmaster_id 
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    
+    for i in response.json()["items"]:
+       
+        if trail_name==i["sc270d76da"] and trail_year==i["scef57f448"] and trail_season==i["sd25a89828"] and trail_minitour==i["s56b038ef3"]:
+                if i["s0d1c07938"] !="":
+                    master_id1=i["s0d1c07938"]
+                    unique_master_id.add(master_id1)
+    # app_ids = settings.visit
+    # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    # unique_master_id=set()
+    # for i in response.json()["items"] :
+    #     if i["s9d5037e2f"]==pid :
             
-                master_id1=i["s211c64472"]
-                unique_master_id.add(master_id1)
+    #             master_id1=i["s211c64472"]
+    #             unique_master_id.add(master_id1)
                 
 
     app_ids = settings.participants_points
@@ -1086,7 +1125,7 @@ def list_user(request):
         if points["master_id"] in master_data and points["name_of_participants"] in master_name:
            
             for j in range(points["title_submenu"]["count"]):
-                                
+                      
                 
                                             
                     total_points[points["name_of_participants"]]=int(points["title_submenu"]["points_earned"][j]["total_points"])  

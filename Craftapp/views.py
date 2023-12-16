@@ -704,7 +704,7 @@ class ParticipantsCount(APIView):
 
 
 
-"""API TO GETCH LINK OF PARTICIPANTS"""
+"""API TO FETCH LINK OF PARTICIPANTS"""
 class FetchLink(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
