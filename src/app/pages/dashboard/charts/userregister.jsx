@@ -1,6 +1,6 @@
 import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Bar } from "react-chartjs-2";
+import { Bar, Pie } from "react-chartjs-2";
 import { getUserCount } from "../../../../utils/Api";
 
 const RegisterUser = ({ className }) => {
@@ -47,6 +47,7 @@ const RegisterUser = ({ className }) => {
   }, []);
 
   const options = {
+    indexAxis: 'y',
     plugins: {
       legend: {
         display: false,
@@ -71,7 +72,7 @@ const RegisterUser = ({ className }) => {
       <h1 className="mt-4"> Register/Unregister User</h1>
       {list !== null ? (
         <>
-          <Bar options={options} data={list} className="charts_bar" />
+          <Bar options={options} data={list} className="horizontal_bar" />
         </>
       ) : (
         ""

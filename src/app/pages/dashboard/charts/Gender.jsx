@@ -73,7 +73,7 @@ const Usergender = ({ className }) => {
                 "rgba(54, 162, 235, 0.6)",
                 "rgba(255, 206, 86, 0.6)",
                 "rgba(75, 192, 192, 0.6)",
-                "rgba(153, 102, 255, 0.6)",
+                "#fff",
                 "rgba(255, 159, 64, 0.6)",
               ],
               borderColor: [
@@ -81,7 +81,7 @@ const Usergender = ({ className }) => {
                 "rgba(54, 162, 235, 1)",
                 "rgba(255, 206, 86, 1)",
                 "rgba(75, 192, 192, 1)",
-                "rgba(153, 102, 255, 1)",
+                "#bdb9b9",
                 "rgba(255, 159, 64, 1)",
               ],
             },
@@ -120,12 +120,12 @@ const Usergender = ({ className }) => {
 
   return (
     <div
-      className={`card card-flush user_active align-items-center p-5  ${className}`}
+      className={`card card-flush user_active align-items-center p-1 ${className}`}
       style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
     >
       <h1 className="mt-4">Participants Gender</h1>
-      <div className="row py-5 px-5 line_chart">
-        <div className="col-md-4 px-2 mt-5">
+      <div className="row user-age">
+        <div className="col-md-4 mt-5">
           {labelData[0].label.length > 0
             ? labelData[0].label.map((label, index) => (
                 <div className="d-flex">
@@ -151,7 +151,7 @@ const Usergender = ({ className }) => {
               ))
             : ""}
         </div>
-        <div className="col-md-8 mt-5 px-2" style={{display:"flex", justifyContent:"end"}}>
+        <div className="col-md-8 mt-5" style={{display:"flex", justifyContent:"end"}}>
           {list !== null ? (
             <>
               <Doughnut

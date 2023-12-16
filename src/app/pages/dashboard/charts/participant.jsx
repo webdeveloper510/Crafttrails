@@ -1,5 +1,5 @@
 import React from "react";
-import { Doughnut } from "react-chartjs-2";
+import { Doughnut, Line } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { participantCount } from "../../../../utils/Api";
 
@@ -111,7 +111,7 @@ const ParticipantCount = ({ className }) => {
         >
           {list !== null ? (
             <>
-              <Doughnut
+              <Line
                 options={options}
                 data={list}
                 className="charts_doughnut"

@@ -34,8 +34,8 @@ function ActiveUserCountBox() {
         <div className="label mt-5 px-5 text-center">
         <h1 style={{fontWeight:500, marginBottom:"70px"}}>ACTIVE USERS</h1>
       </div>
-          <div className=" display-2 d-flex justify-content-center">
-            <p className="mb-0 " style={{color:"#624df7"}}> {activeUserCount} </p>
+          <div className="d-flex justify-content-center">
+            <h1 className="mb-0 active-count" style={{color:"#624df7"}}> {activeUserCount} </h1>
           </div>
           <div className="label text-center">
             <h1 style={{fontWeight:700}}>Users</h1>
@@ -45,8 +45,8 @@ function ActiveUserCountBox() {
         <div className="label mt-5 px-5 text-center">
         <h1 style={{fontWeight:500, marginBottom:"70px"}}>HOTTEST DAY OF THE WEEK</h1>
       </div>
-        <div className="display-6 mt-5 d-flex justify-content-center">
-        <p className="mb-0 text-danger"> {data} </p>
+        <div className="d-flex justify-content-center">
+        <h1 className="mb-0 text-danger week-day"> {data} </h1>
       </div>
         </div>
       </div>

@@ -82,7 +82,7 @@ const Piechart2 = ({ className }) => {
                 "rgba(75, 192, 192, 0.6)",
                 "rgba(153, 102, 255, 0.6)",
                 "rgba(255, 159, 64, 0.6)",
-                "rgba(255, 99, 132, 0.6)",
+                "#fff",
               ],
               borderColor: [
                 "rgba(255, 99, 132, 1)",
@@ -91,7 +91,7 @@ const Piechart2 = ({ className }) => {
                 "rgba(75, 192, 192, 1)",
                 "rgba(153, 102, 255, 1)",
                 "rgba(255, 159, 64, 1)",
-                "rgba(255, 99, 132, 1)",
+                "#bdb9b9",
               ],
             },
           ],
@@ -133,7 +133,7 @@ const Piechart2 = ({ className }) => {
       style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
     >
       <h1 className="mt-4">User Age</h1>
-      <div className="row pe-5 p-5 mt-5">
+      <div className="row user-age">
         <div className="col-md-4 mt-5">
           {labelData[0].label.length > 0
             ? labelData[0].label.map((label, index) => (

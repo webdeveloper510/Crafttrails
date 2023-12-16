@@ -239,3 +239,36 @@ button.google-login {
     padding: 10px 20px;
     margin-right: 10px;
 }
+.active-count{
+    font-size: 45px;
+}
+.week-day{
+    font-size: 40px;
+    /* margin-top: 30px; */
+}
+.user-age{
+    /* pe-5 p-5 mt-5  */
+    margin-top: 30px;
+    padding: 30px;
+}
+
+
+@media screen and (max-width: 1024px) {
+    .week-day{
+        font-size: 30px;
+        margin-top: -20px
+    }
+    .charts_doughnut{
+        height: 190px !important;
+        width: 190px !important;
+        text-align: center;
+        margin-left: 10px;
+        margin-top: 30px;
+    }
+    .user-age{
+        padding: 0px;
+    }
+    .charts_line{
+        width: 200px !important;
+    }
+}
