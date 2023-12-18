@@ -120,10 +120,10 @@ const Usergender = ({ className }) => {
 
   return (
     <div
-      className={`card card-flush user_active align-items-center p-1 ${className}`}
+      className={`card card-flush user_active1 align-items-center p-1 ${className}`}
       style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
     >
-      <h1 className="mt-4">Participants Gender</h1>
+      <h1 className="mt-5">Participants Gender</h1>
       <div className="row user-age">
         <div className="col-md-4 mt-5">
           {labelData[0].label.length > 0
@@ -142,7 +142,7 @@ const Usergender = ({ className }) => {
                   <div
                     style={{ margin: "8px 10px 8px 0px", whiteSpace: "nowrap" }}
                   >
-                    {label}
+                    {label} :
                   </div>
                   <div style={{ margin: "8px 10px 8px 20px" }}>
                     {labelData[0].age[index]}
@@ -151,7 +151,7 @@ const Usergender = ({ className }) => {
               ))
             : ""}
         </div>
-        <div className="col-md-8 mt-5" style={{display:"flex", justifyContent:"end"}}>
+        <div className="col-md-8 mt-5 doughnut-chart" >
           {list !== null ? (
             <>
               <Doughnut

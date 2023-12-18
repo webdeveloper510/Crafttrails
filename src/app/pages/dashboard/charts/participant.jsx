@@ -114,7 +114,7 @@ const ParticipantCount = ({ className }) => {
               <Line
                 options={options}
                 data={list}
-                className="charts_doughnut"
+                className="charts_doughnut1"
               />
             </>
           ) : (

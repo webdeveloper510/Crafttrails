@@ -103,6 +103,12 @@ tr:hover .iconss {
 .user_active{
     height: 380px !important;
 }
+.user_active1{
+    height: 380px !important;
+}
+.user_active2{
+    height: 380px !important;
+}
 
 
 .charts_pie{
@@ -119,6 +125,16 @@ tr:hover .iconss {
     height: 220px !important;
     width: 220px !important;
     text-align: center;
+}
+.charts_doughnut1{
+    height: 220px !important;
+    width: 220px !important;
+    text-align: center;
+}
+
+.doughnut-chart{
+    display: flex;
+    justify-content: end;
 }
 .charts_line{
     height: 210px !important;
@@ -270,5 +286,29 @@ button.google-login {
     }
     .charts_line{
         width: 200px !important;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .user-age{
+        margin-top: 0px;
+    }
+    .user_active1{
+        height: 550px !important;
+    }
+    .user_active2{
+        height: 650px !important;
+    }
+    .charts_line {
+        width: 100% !important;
+    }
+    .doughnut-chart{
+        display: flex;
+        justify-content: center;
+    }
+    .charts_doughnut1{
+        height: 220px !important;
+        width: 100% !important;
+        text-align: center;
     }
 }

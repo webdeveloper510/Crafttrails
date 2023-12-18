@@ -7,6 +7,15 @@ const RegisterUser = ({ className }) => {
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const [list, setList] = React.useState(null);
+  const [labelData, setLableData] = React.useState([
+    {
+      label: "",
+      bgcolor: "",
+      borderclr: "",
+      borderwidth: "",
+      age: "",
+    },
+  ]);
 
   React.useEffect(() => {
     getUserCount().then((res) => {
@@ -42,26 +51,35 @@ const RegisterUser = ({ className }) => {
           ],
         };
         setList(obj);
+        setLableData([
+          {
+            label: obj.labels,
+            bgcolor: obj.datasets[0].backgroundColor,
+            borderclr: obj.datasets[0].borderColor,
+            borderwidth: obj.datasets[0].borderWidth,
+            age: obj.datasets[0].data,
+          },
+        ]);
       }
     });
   }, []);
 
   const options = {
     indexAxis: 'y',
-    plugins: {
-      legend: {
-        display: false,
-        position: "left",
-
-        maxHeight: 100,
-        labels: {
-          font: {
-            size: 18,
-            textAlign: "left",
-          },
-        },
-      },
-    },
+    plugins : {
+        legend: {
+            display : false,
+            position: 'left',
+            
+            maxHeight : 100 ,
+            labels: {
+                font: {
+                    size: 18,
+                    textAlign : "left",
+                }
+            }   
+          }
+    }
   };
 
   return (
@@ -70,6 +88,32 @@ const RegisterUser = ({ className }) => {
       style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
     >
       <h1 className="mt-4"> Register/Unregister User</h1>
+      <div className="">
+          {labelData[0].label.length > 0
+            ? labelData[0].label.map((label, index) => (
+                <div className="d-flex">
+                  <div
+                    key={index}
+                    style={{
+                      backgroundColor: labelData[0].bgcolor[index],
+                      border: `${labelData[0].borderwidth}px solid ${labelData[0].borderclr[index]}`,
+                      padding: "5px",
+                      margin: "8px 8px 10px 0px",
+                      textAlign: "center",
+                    }}
+                  ></div>
+                  <div
+                    style={{ margin: "8px 10px 8px 0px", whiteSpace: "nowrap" }}
+                  >
+                    {label}
+                  </div>
+                  <div style={{ margin: "8px 10px 8px 20px" }}>
+                    {labelData[0].age[index]}
+                  </div>
+                </div>
+              ))
+            : ""}
+        </div>
       {list !== null ? (
         <>
           <Bar options={options} data={list} className="horizontal_bar" />

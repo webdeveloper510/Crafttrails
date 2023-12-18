@@ -1,7 +1,7 @@
 import React from "react";
 import { getParticipantAge } from "../../../utils/Api";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut, Pie } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 
 const Piechart2 = ({ className }) => {
   ChartJS.register(ArcElement, Tooltip, Legend);
@@ -21,36 +21,36 @@ const Piechart2 = ({ className }) => {
     getParticipantAge().then((res) => {
       // console.log("response------------------", res);
       if (res.code === 200) {
-        let data = res?.data?.age;
+        // let data = res?.data?.age;
         // console.log("Lets Shows" , data)
         // let data = [8.37, 21.2 , 5.55, 80.21, 100,  55.10, 30.40 , 63.24 , 16.67]
 
-        const result1 = data.filter((data) => {
-          return data <= 25 && data >= 21;
-        });
+        // const result1 = data.filter((data) => {
+        //   return data <= 25 && data >= 21;
+        // });
 
         // console.log(result1);
 
-        const result2 = data.filter((data) => {
-          return data <= 35 && data > 26;
-        });
+        // const result2 = data.filter((data) => {
+        //   return data <= 35 && data > 26;
+        // });
         // console.log(result2);
 
-        const result3 = data.filter((data) => {
-          return data <= 45 && data > 36;
-        });
+        // const result3 = data.filter((data) => {
+        //   return data <= 45 && data > 36;
+        // });
 
-        const result4 = data.filter((data) => {
-          return data <= 55 && data > 46;
-        });
+        // const result4 = data.filter((data) => {
+        //   return data <= 55 && data > 46;
+        // });
 
-        const result5 = data.filter((data) => {
-          return data <= 65 && data > 56;
-        });
+        // const result5 = data.filter((data) => {
+        //   return data <= 65 && data > 56;
+        // });
 
-        const result6 = data.filter((data) => {
-          return data <= 100 && data > 66;
-        });
+        // const result6 = data.filter((data) => {
+        //   return data <= 100 && data > 66;
+        // });
 
         let obj = {
           labels: [
@@ -129,12 +129,12 @@ const Piechart2 = ({ className }) => {
 
   return (
     <div
-      className={`card card-flush user_active align-items-center p-5  ${className}`}
+      className={`card card-flush user_active1 align-items-center p-5  ${className}`}
       style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
     >
       <h1 className="mt-4">User Age</h1>
       <div className="row user-age">
-        <div className="col-md-4 mt-5">
+        <div className="col-md-4 mt-5 col-sm-6">
           {labelData[0].label.length > 0
             ? labelData[0].label.map((label, index) => (
                 <div className="d-flex">
@@ -151,16 +151,16 @@ const Piechart2 = ({ className }) => {
                   <div
                     style={{ margin: "8px 10px 8px 0px", whiteSpace: "nowrap" }}
                   >
-                    {label}
+                    {label} :
                   </div>
-                  <div style={{ margin: "8px 10px 8px 20px" }}>
+                  <div style={{ margin: "8px 8px 8px 8px" }}>
                     {labelData[0].age[index]}
                   </div>
                 </div>
               ))
             : ""}
         </div>
-        <div className="col-md-8">
+        <div className="col-md-8 col-sm-6">
           {list !== null ? (
             <>
               <Doughnut

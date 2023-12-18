@@ -47,8 +47,32 @@ const WeeklyData = ({ className }) => {
                       "rgba(75, 192, 192, 0.8)",
                       "rgba(153, 102, 255, 0.8)",
                       "rgba(255, 159, 64, 0.8)",
+                      "rgba(255, 99, 132, 0.8)",
+                      "rgba(54, 162, 235, 0.8)",
+                      "rgba(255, 206, 86, 0.8)",
+                      "rgba(75, 192, 192, 0.8)",
+                      "rgba(153, 102, 255, 0.8)",
+                      "rgba(255, 159, 64, 0.8)",
+                      "rgba(255, 99, 132, 0.8)",
+                      "rgba(54, 162, 235, 0.8)",
+                      "rgba(255, 206, 86, 0.8)",
+                      "rgba(75, 192, 192, 0.8)",
+                      "rgba(153, 102, 255, 0.8)",
+                      "rgba(255, 159, 64, 0.8)",
                     ],
                     borderColor: [
+                      "rgba(255, 99, 132, 1)",
+                      "rgba(54, 162, 235, 1)",
+                      "rgba(255, 206, 86, 1)",
+                      "rgba(75, 192, 192, 1)",
+                      "rgba(153, 102, 255, 1)",
+                      "rgba(255, 159, 64, 1)",
+                      "rgba(255, 99, 132, 1)",
+                      "rgba(54, 162, 235, 1)",
+                      "rgba(255, 206, 86, 1)",
+                      "rgba(75, 192, 192, 1)",
+                      "rgba(153, 102, 255, 1)",
+                      "rgba(255, 159, 64, 1)",
                       "rgba(255, 99, 132, 1)",
                       "rgba(54, 162, 235, 1)",
                       "rgba(255, 206, 86, 1)",
@@ -94,10 +118,10 @@ const WeeklyData = ({ className }) => {
 
   return (
     <div
-      className={`card card-flush user_active align-items-center  ${className}`}
+      className={`card card-flush user_active2 align-items-center  ${className}`}
       style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
     >
-      <h1 className="mt-4">Weekly</h1>
+      <h1 className="mt-2">Weekly</h1>
       <p className="explaination">Week to week participants Growth</p>
       <div className="row px-5 line_chart">
         <div className="col-md-4 px-2">
