@@ -29,7 +29,8 @@ const PointsTable = ({ passport }) => {
 
   const handleDownload = () => {
     const filename = "trail.csv";
-    const csv = Papa.unparse(list);
+    const modifiedData = list.map(({ title_submenu, ...rest }) => rest);
+    const csv = Papa.unparse(modifiedData);
     const blob = new Blob([csv], { type: "text/csv" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
@@ -57,7 +58,7 @@ const PointsTable = ({ passport }) => {
                 <>
                   <div className="text-end me-5">
                     <button className="export-btn" onClick={handleDownload}>
-                      export
+                      Export
                     </button>
                   </div>
                   <DynamicTable

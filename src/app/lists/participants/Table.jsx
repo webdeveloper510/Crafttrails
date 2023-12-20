@@ -36,8 +36,12 @@ const ParticipantTable = () => {
   }, []);
 
   const handleDownload = () => {
+    const newdata = list.map(({ title_submenu, phone_number, ...rest }) => ({
+      ...rest,
+      phone_number: phone_number && phone_number.length > 0 ? phone_number[0].phone_number : '',
+    }));
     const filename = "trail.csv"
-    const csv = Papa.unparse(list);
+    const csv = Papa.unparse(newdata);
     const blob = new Blob([csv], { type: 'text/csv' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
@@ -56,7 +60,7 @@ const ParticipantTable = () => {
       <div className="text-end me-5">
          {
           data == true ?
-          <button className="export-btn" onClick={handleDownload}>export</button>
+          <button className="export-btn" onClick={handleDownload}>Export</button>
           :""
          }
          </div>

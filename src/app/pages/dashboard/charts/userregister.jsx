@@ -87,7 +87,7 @@ const RegisterUser = ({ className }) => {
       className={`card card-flush user_active align-items-center  ${className}`}
       style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
     >
-      <h1 className="mt-4"> Register/Unregister User</h1>
+      <h1 className="mt-4">Registered/Unregistered</h1>
       <div className="">
           {labelData[0].label.length > 0
             ? labelData[0].label.map((label, index) => (

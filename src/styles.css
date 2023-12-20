@@ -125,11 +125,16 @@ tr:hover .iconss {
     height: 220px !important;
     width: 220px !important;
     text-align: center;
+    margin-top: 20px;
 }
 .charts_doughnut1{
     height: 220px !important;
     width: 220px !important;
     text-align: center;
+}
+.doughnut-graph{
+    display: flex;
+    justify-content: center;
 }
 
 .doughnut-chart{

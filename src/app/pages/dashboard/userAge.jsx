@@ -132,7 +132,7 @@ const Piechart2 = ({ className }) => {
       className={`card card-flush user_active1 align-items-center p-5  ${className}`}
       style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
     >
-      <h1 className="mt-4">User Age</h1>
+      <h1 className="mt-4">Age</h1>
       <div className="row user-age">
         <div className="col-md-4 mt-5 col-sm-6">
           {labelData[0].label.length > 0
@@ -160,7 +160,7 @@ const Piechart2 = ({ className }) => {
               ))
             : ""}
         </div>
-        <div className="col-md-8 col-sm-6">
+        <div className="col-md-8 col-sm-6 mt-5 doughnut-graph">
           {list !== null ? (
             <>
               <Doughnut

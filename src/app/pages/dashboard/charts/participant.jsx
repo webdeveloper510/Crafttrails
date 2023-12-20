@@ -78,8 +78,7 @@ const ParticipantCount = ({ className }) => {
     >
       <h1 className="mt-4">Participant Count</h1>
       <p className="explaination">Count of Participants Starting the Trail at Your Brewery</p>
-      <div className="row  py-5 px-5">
-        <div className="col-md-4 mt-5">
+      <div className="col-md-4 mt-5">
           {labelData[0].label.length > 0
             ? labelData[0].label.map((label, index) => (
                 <div className="d-flex">
@@ -105,8 +104,10 @@ const ParticipantCount = ({ className }) => {
               ))
             : ""}
         </div>
+      <div className="">
+       
         <div
-          className="col-md-8"
+          className=""
           style={{ display: "flex", justifyContent: "end" }}
         >
           {list !== null ? (

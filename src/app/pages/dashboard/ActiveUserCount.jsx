@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getActiveUserCount, getHottestDays } from "../../../utils/Api";
 
+
 function ActiveUserCountBox() {
   const [activeUserCount, setActiveUserCount] = useState(0);
   const [data, setData] = useState("");
@@ -43,7 +44,7 @@ function ActiveUserCountBox() {
         </div>
         <div className="col-md-6 px-5">
         <div className="label mt-5 px-5 text-center">
-        <h1 style={{fontWeight:500, marginBottom:"70px"}}>HOTTEST DAY OF THE WEEK</h1>
+        <h1 style={{fontWeight:500, marginBottom:"70px",textTransform: "uppercase"}}>Busiest Day of the Week</h1>
       </div>
         <div className="d-flex justify-content-center">
         <h1 className="mb-0 text-danger week-day"> {data} </h1>

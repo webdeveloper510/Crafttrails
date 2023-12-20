@@ -60,13 +60,14 @@ const Usergender = ({ className }) => {
             "Female",
             "Trans-gender",
             "Non-binary",
-            "Not-Filled"
+            "Not-Filled",
+            "Prefer Not to Say"
           ],
           datasets: [
             {
               label: "Age",
               data: [
-                gender.male, gender.female ,gender.transgender, gender.nonbinary, gender.notmentioned],
+                gender.male, gender.female ,gender.transgender, gender.nonbinary, gender.notmentioned, gender.prefernot],
               borderWidth: 1,
               backgroundColor: [
                 "rgba(255, 99, 132, 0.6)",
@@ -123,7 +124,7 @@ const Usergender = ({ className }) => {
       className={`card card-flush user_active1 align-items-center p-1 ${className}`}
       style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
     >
-      <h1 className="mt-5">Participants Gender</h1>
+      <h1 className="mt-5">Gender</h1>
       <div className="row user-age">
         <div className="col-md-4 mt-5">
           {labelData[0].label.length > 0
@@ -151,7 +152,7 @@ const Usergender = ({ className }) => {
               ))
             : ""}
         </div>
-        <div className="col-md-8 mt-5 doughnut-chart" >
+        <div className="col-md-8 doughnut-chart" >
           {list !== null ? (
             <>
               <Doughnut

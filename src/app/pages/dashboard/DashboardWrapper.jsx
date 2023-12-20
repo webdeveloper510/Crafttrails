@@ -69,11 +69,14 @@ const DashboardPage = () => {
             <h1 className="display-6 mb-5 pb-4 text-center">{name}</h1>
           </div>
           <div className="row g-5 g-xl-10 mb-5 mb-xl-10">
-            <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
+            <div className="col-md-12 col-lg-12 col-xl-12 col-xxl-12 mb-md-5 mb-xl-10">
               <ActiveUserCount />
             </div>
             <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
               <PieChart />
+            </div>
+            <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
+              <RegisterUser />
             </div>
             <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
               <Piechart2 />
@@ -81,9 +84,7 @@ const DashboardPage = () => {
             <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
               <Usergender />
             </div>
-            <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
-              <RegisterUser />
-            </div>
+            
             <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
               <WeeklyData />
             </div>

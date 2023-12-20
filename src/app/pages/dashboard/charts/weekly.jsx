@@ -121,7 +121,7 @@ const WeeklyData = ({ className }) => {
       className={`card card-flush user_active2 align-items-center  ${className}`}
       style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
     >
-      <h1 className="mt-2">Weekly</h1>
+      <h1 className="mt-2">Week to Week</h1>
       <p className="explaination">Week to week participants Growth</p>
       <div className="row px-5 line_chart">
         <div className="col-md-4 px-2">
