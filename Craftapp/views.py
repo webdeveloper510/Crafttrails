@@ -539,7 +539,8 @@ class ParticipantGender(APIView):
                 "female":main_count[1],
                 "transgender":main_count[2],
                 "nonbinary":main_count[3],
-                "notmentioned":main_count[4]
+                "prefernot":main_count[4],
+                "notmentioned":main_count[5]
                
             }
                
@@ -653,7 +654,7 @@ class WeeklyGrowth(APIView):
             growth=calculate_growth(request,week_number)
             weekly_growth={
                 "growth":growth
-            }
+            } 
             
             return Response({"code":200,"data":weekly_growth},status=status.HTTP_200_OK)
         except Exception as e:
@@ -729,16 +730,17 @@ class HottestDay(APIView):
     def get(self,request):
         try:
             hottest_data=hottest_day(request)
+          
             format_change=change_format(request,hottest_data)
-            res = {}
-            for dic in format_change:
-                for key, val in dic.items():
-                    if key in res:
-                        res[key] = max(res[key], val)
-                    else:
-                        res[key] = val
+            # res = {}
+            # for dic in format_change:
+            #     for key, val in dic.items():
+            #         if key in res:
+            #             res[key] = hottest_day
+            #         else:
+            #             res[key] = hottest_day
            
-            return Response({"code":200,"data":res})
+            return Response({"code":200,"data":format_change})
         except Exception as e:
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
         
@@ -924,7 +926,7 @@ class VisitExportView(APIView):
             UserFile.objects.create(user_id=id,file_path=file_url1)
             userfile=UserFile.objects.filter(user_id=id).last()
             userfile1=userfile.file_path
-            
+             
             response_data = {"code": 200, "message": "CSV file generated successfully", "file_url": userfile1}
             return Response(response_data, status=status.HTTP_200_OK)
         except Exception as e:

@@ -950,6 +950,7 @@ def gender_counts(request,gender_type):
     count2=0
     count3=0
     count4=0
+    count5=0
    
 
     for i in gender_type:
@@ -958,14 +959,16 @@ def gender_counts(request,gender_type):
             count=count+1
         if i=="Female" or i=="woman" or i=="Woman" or i=="female":
             count1=count1+1 
-        if i=="Transgender" or i=="Prefer not to say":
+        if i=="Transgender":
             count2=count2+1 
         if i=="Non-Binary/Non-Conforming":
             count3=count3+1 
+        if i=="Prefer not to say":    
+            count4=count4+1
         if i=="":
-            count4=count4+1    
+            count5=count5+1    
           
-    return count,count1,count2,count3,count4
+    return count,count1,count2,count3,count4,count5
 
 
 
@@ -1075,7 +1078,8 @@ def urls_link(request):
 
 
 def hottest_day(request):
-    hottest_date=trailscomp(request)
+    hottest_date=visit(request)  
+    # hottest_date=trailscomp(request)
 
     return hottest_date
 
@@ -1083,25 +1087,36 @@ def hottest_day(request):
 def change_format(request,hottest_data):
     date_list=[]
     breweries_dict={}
+    date_counts={}
+    busiest_date={}
     for date in hottest_data:
-        for j in range(date["breweries_completed"]):
-            if date["title_submenu"]["breweries_completed"][j]["date"]:
+        # for j in range(date["breweries_completed"]):
+        #     if date["title_submenu"]["breweries_completed"][j]["date"]:
 
-                input_string = date["title_submenu"]["breweries_completed"][j]["date"]
+        #         input_string = date["title_submenu"]["breweries_completed"][j]["date"]
+            input_string=date["visit_date"]
+           
+            datetime_object = datetime.datetime.fromisoformat(input_string.replace("Z", "+00:00"))
+            formatted_datetime = datetime_object.strftime("%A")
+            date_list.append(formatted_datetime)
+           
+    for date in date_list:
+        if date in date_counts:
+            date_counts[date] += 1
+        else:
+            date_counts[date] = 1
+       
+# Find the date with the maximum count
+    max_date = max(date_counts, key=date_counts.get)
+    max_count = date_counts[max_date]
+  
+    busiest_date={
+                "count":max_count,
+                "hottest_day":max_date
+            }
 
-                datetime_object = datetime.datetime.fromisoformat(input_string.replace("Z", "+00:00"))
-                formatted_datetime = datetime_object.strftime("%A")
-
-        
-                breweries_dict={
-                    "breweries_completed":int(date["breweries_completed"]),
-                    "hottest_day":formatted_datetime
-                }
-
-            date_list.append(breweries_dict)
-
-
-    return date_list
+    
+    return busiest_date
 
 
 
@@ -1125,8 +1140,7 @@ def list_user(request):
         if points["master_id"] in master_data and points["name_of_participants"] in master_name:
            
             for j in range(points["title_submenu"]["count"]):
-                      
-                
+                         
                                             
                     total_points[points["name_of_participants"]]=int(points["title_submenu"]["points_earned"][j]["total_points"])  
                     
