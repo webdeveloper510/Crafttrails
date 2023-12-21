@@ -2,6 +2,7 @@ from CraftTrails import settings
 import requests
 from .models import *
 import datetime
+import copy
 
 
 def breweries(request):
@@ -215,6 +216,7 @@ def trailscomp(request):
         "Account-Id":  settings.account_id,
         "Content-Type": "application/json"
     }
+
     app_ids = settings.active_trails
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     for i in response.json()["items"] :
@@ -227,7 +229,7 @@ def trailscomp(request):
            
     app_ids = settings.trailmaster_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
- 
+    
     for i in response.json()["items"]:
        
         if trail_name==i["sc270d76da"] and trail_year==i["scef57f448"] and trail_season==i["sd25a89828"] and trail_minitour==i["s56b038ef3"]:
@@ -249,6 +251,7 @@ def trailscomp(request):
                     "location_to_complete":i["s2f8f93c23"],
                     "is_solo_trail":i["sedee2e81b"],
                     "passport":i["s99187d139"],
+                    "pname":"",
                     "title_submenu":{
                         "title":i["title"],
                         "participant_id":i["s99187d139"],
@@ -279,8 +282,15 @@ def trailscomp(request):
             for k in range(j["breweries_completed"]):
                      
                 if j["title_submenu"]["breweries_completed"][k]["name"]==i["title"]:
-                    j["title_submenu"]["breweries_completed"][k]["name"]=i["bar_name"]        
-          
+                    j["title_submenu"]["breweries_completed"][k]["name"]=i["bar_name"]     
+
+    participant_data=participants_all(request,pid) 
+    for i in participant_data:
+        for j in trail_list:
+            if j["passport"] ==i["rfid_tag"]:  
+                j["pname"]=i["full_name"]
+                   
+         
     data=trail_list     
     return data   
 
@@ -326,6 +336,9 @@ def trailsidcomp(request,pid):
                     "mini_tour":i["s56b038ef3"], 
                     "master_id":i["s0d1c07938"],  
                     "location_to_complete":i["s2f8f93c23"],
+                    "is_solo_trail":i["sedee2e81b"],
+                    "passport":i["s99187d139"],
+                    "pname":"",
                 
                     "title_submenu":{
                         "title":i["title"],
@@ -357,7 +370,13 @@ def trailsidcomp(request,pid):
             for k in range(j["breweries_completed"]):
                      
                 if j["title_submenu"]["breweries_completed"][k]["name"]==i["title"]:
-                    j["title_submenu"]["breweries_completed"][k]["name"]=i["bar_name"]        
+                    j["title_submenu"]["breweries_completed"][k]["name"]=i["bar_name"] 
+
+    participant_data=participants_all(request,pid) 
+    for i in participant_data:
+        for j in trail_list:
+            if j["passport"] == i["rfid_tag"]:  
+                j["pname"]=i["full_name"]                       
           
     data=trail_list     
     return data   
@@ -1163,7 +1182,6 @@ def list_user(request):
 
     top_10_monthly_points = sorted(zip(monthly_points.values(), monthly_points.keys(), master_ids.values()), reverse=True)
     bottom_10_monthly_points = sorted(zip(monthly_points.values(), monthly_points.keys(), master_ids.values())) 
-
                         
     # top_user_overall = max(zip(total_points.values(), total_points.keys(),master_ids.values()))
     # bottom_user_overall = min(zip(total_points.values(), total_points.keys(),master_ids.values()))
