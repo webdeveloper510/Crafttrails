@@ -242,6 +242,7 @@ def trailscomp(request):
                     "title":i["title"],
                     "application_id":i["id"],
                     "participant_id":i["s99187d139"],
+                    "participant_name":"",
                     "breweries_completed":i["sb7210e570"]["count"],
                     "trail_name":i["sc270d76da"],
                     "trail_year":i["scef57f448"],
@@ -251,7 +252,7 @@ def trailscomp(request):
                     "location_to_complete":i["s2f8f93c23"],
                     "is_solo_trail":i["sedee2e81b"],
                     "passport":i["s99187d139"],
-                    "pname":"",
+                    
                     "title_submenu":{
                         "title":i["title"],
                         "participant_id":i["s99187d139"],
@@ -288,7 +289,7 @@ def trailscomp(request):
     for i in participant_data:
         for j in trail_list:
             if j["passport"] ==i["rfid_tag"]:  
-                j["pname"]=i["full_name"]
+                j["participant_name"]=i["full_name"]
                    
          
     data=trail_list     
@@ -329,6 +330,7 @@ def trailsidcomp(request,pid):
                     "title":i["title"],
                     "application_id":i["id"],
                     "participant_id":i["s99187d139"],
+                    "participant_name":"",
                     "breweries_completed":i["sb7210e570"]["count"],
                     "trail_name":i["sc270d76da"],
                     "trail_year":i["scef57f448"],
@@ -338,7 +340,7 @@ def trailsidcomp(request,pid):
                     "location_to_complete":i["s2f8f93c23"],
                     "is_solo_trail":i["sedee2e81b"],
                     "passport":i["s99187d139"],
-                    "pname":"",
+                    
                 
                     "title_submenu":{
                         "title":i["title"],
@@ -376,7 +378,7 @@ def trailsidcomp(request,pid):
     for i in participant_data:
         for j in trail_list:
             if j["passport"] == i["rfid_tag"]:  
-                j["pname"]=i["full_name"]                       
+                j["participant_name"]=i["full_name"]                       
           
     data=trail_list     
     return data   
