@@ -250,7 +250,7 @@ def trailscomp(request):
                     "mini_tour":i["s56b038ef3"], 
                     "master_id":i["s0d1c07938"],  
                     "location_to_complete":i["s2f8f93c23"],
-                    "is_solo_trail":i["sedee2e81b"],
+                    "is_solo_trail":str(i["sedee2e81b"]),
                     "passport":i["s99187d139"],
                     
                     "title_submenu":{
@@ -338,7 +338,7 @@ def trailsidcomp(request,pid):
                     "mini_tour":i["s56b038ef3"], 
                     "master_id":i["s0d1c07938"],  
                     "location_to_complete":i["s2f8f93c23"],
-                    "is_solo_trail":i["sedee2e81b"],
+                    "is_solo_trail":str(i["sedee2e81b"]),
                     "passport":i["s99187d139"],
                     
                 
