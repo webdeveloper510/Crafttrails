@@ -6,7 +6,7 @@ import { Card } from 'react-bootstrap';
 
 const DynamicTable = ({ data, moreView, display }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(10);
+    const [itemsPerPage] = useState(50);
     const [sortedData, setSortedData] = useState(data.slice());
     const [sortKey, setSortKey] = useState(null);
     const [sortDirection, setSortDirection] = useState('asc');

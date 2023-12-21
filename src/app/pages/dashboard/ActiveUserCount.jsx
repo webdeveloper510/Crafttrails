@@ -28,7 +28,7 @@ function ActiveUserCountBox() {
   return (
     <div
       style={{ boxShadow: "1px 1px 3px 1px #e1e1e1" }}
-      className="card card-flush user_active py-5 d-flex   mb-5 mb-xl-10"
+      className="card card-flush user_active d-flex mb-xl-10"
     >
       <div className="row">
         <div className="col-md-6">
