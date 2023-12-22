@@ -675,8 +675,8 @@ class NetChanges(APIView):
             week_number = current_date.strftime("%U")
             growth=calculate_netchange(request,week_number)
             net_changes={
-                "netchanges":growth
-            }
+                     "netchanges":growth
+                      }
             
             
             return Response({"code":200,"data":net_changes},status=status.HTTP_200_OK)
@@ -980,9 +980,33 @@ class ParticipantPointsExportView(APIView):
             
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
+"""API TO EXPORT Historic Trails"""
+class HistoricTrailsView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+ 
 
+    def get(self,request):
+        try:
+            historic_data=historic_trails(request)
+            return Response({"code":200,"data":historic_data},status=status.HTTP_200_OK)
+        except Exception as e:  
+            
+            return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
 
+"""API TO EXPORT Historic participant Trails"""
+class HistoricTrailsParticipantView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+ 
 
+    def get(self,request,trail):
+        try:
+            historic_data=historic_participant(request,trail)
+            return Response({"code":200,"data":historic_data},status=status.HTTP_200_OK)
+        except Exception as e:  
+            
+            return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
 
 
         

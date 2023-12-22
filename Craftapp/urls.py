@@ -38,5 +38,8 @@ urlpatterns = [
     path("trail/export/",TrailCompExportView.as_view(),name="trailexport"),
     path("participant/export/",ParticipantExportView.as_view(),name="participantexport"),
     path("visit/export/",VisitExportView.as_view(),name="visitexport"),
-    path("participant/points/export/",ParticipantPointsExportView.as_view(),name="pointsexport")
+    path("participant/points/export/",ParticipantPointsExportView.as_view(),name="pointsexport"),
+    path("historic/trails/",HistoricTrailsView.as_view(),name="historictrails"),
+    path("historic/participant/<str:name>",HistoricTrailsParticipantView.as_view(),name="historicparticipant")
 ]
+

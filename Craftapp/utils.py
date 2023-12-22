@@ -1201,3 +1201,114 @@ def list_user(request):
  
 
     return data
+
+
+def historic_trails(request):
+    
+    pid=request.user.brewery
+   
+    trail_dict={}
+    trail_list=[]
+    trail_data=trailscomp(request)
+    base_url = settings.base_url
+    historic_trails=set()
+    headers = {
+        "Authorization": settings.authorization,
+        "Account-Id":  settings.account_id,
+        "Content-Type": "application/json"
+    }
+    
+    app_ids = settings.active_trails
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    for i in response.json()["items"] :       
+        for trails in trail_data:  
+             
+            
+            if trails["trail_name"] != i["s9b9447a8e"]:
+                
+                trail_name=i["s9b9447a8e"]
+                
+                historic_trails.add(trail_name)
+    
+    data1=list(historic_trails)
+    for i in data1:
+        trail_dict={
+                "trail_name":i
+                 } 
+         
+        trail_list.append(trail_dict)
+    
+    return trail_list
+
+
+
+def historic_participant(request,trail):
+    participant_list=[]
+    val=[]
+    base_url = settings.base_url
+    headers = {
+        "Authorization": settings.authorization,
+        "Account-Id": settings.account_id,
+        "Content-Type": "application/json"
+    }
+            
+           
+    app_ids = settings.trailmaster_id 
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+ 
+    for i in response.json()["items"]:
+       
+        if i["trail_name"]==trail:
+            passport=i["s99187d139"]
+            val.append(passport)
+   
+        
+    app_ids = settings.participants_id 
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    
+    count=0    
+    for i in response.json()["items"] :
+        
+        
+        # if i["sd48be64b7"] in list(unique_master_id):
+        if i["sbb8fea034"] in val:
+            
+            
+            try:
+                date=i["sac87d276d"]["date"]
+            except Exception as e:
+                date=""    
+
+            data={
+                "title":i["title"],
+                "rfid_tag":i["sbb8fea034"],
+                "full_name":i["s37af43f83"]["sys_root"],
+                "email":i["sac950cfcc"],
+                "date_of_birth":date,
+                "master_id":i["sd48be64b7"], 
+                "phone_number":i["s37e762ac3"],  
+                "address":i["sb91047f0b"]["location_address"],
+                "gender":i["sab36dd930"],
+                "title_submenu":{
+                    "title":i["title"],
+                    "record_id":i["sfb74e1363"],
+                    "rfid_tag":i["sbb8fea034"],
+                    "email":i["sac950cfcc"],
+                    "full_name":i["s37af43f83"]["sys_root"],
+                    "date_of_birth":date,
+                    "master_id":i["sd48be64b7"],
+                    "phone_number":i["s37e762ac3"],
+                    "address":i["sb91047f0b"]["location_address"],
+                    "can_text":i["s5d2aed3fd"],
+                }
+            }
+
+            participant_list.append(data)  
+    data= participant_list  
+ 
+    return data
+    
+   
+   
+    
+   
