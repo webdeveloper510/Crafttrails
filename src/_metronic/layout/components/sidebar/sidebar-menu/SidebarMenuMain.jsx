@@ -6,13 +6,14 @@ import { useIntl } from 'react-intl'
 import { SidebarMenuItem } from './SidebarMenuItem'
 import { SidebarMenuItemWithSub } from './SidebarMenuItemWithSub'
 // import { KTIcon } from '../../../../helpers'
-import { getUserLinks, getuserProfile } from "../../../../../utils/Api";
+import { getHistoricTrails, getUserLinks, getuserProfile } from "../../../../../utils/Api";
 
 const SidebarMenuMain = () => {
   const intl = useIntl()
 
   const [data, setData] = useState([]);
   const [listShow , setListShow] = useState("")
+  const [historic, setHistoric] = useState([])
 
   useEffect(() => {
     const status = localStorage.getItem("status")
@@ -20,6 +21,7 @@ const SidebarMenuMain = () => {
       getlinkuser();
     }    
     getuserdata()
+    getTrailhistoric()
   }, []);
 
   const getuserdata = ()=>{
@@ -44,6 +46,17 @@ const SidebarMenuMain = () => {
         console.log(error);
       });
   };
+
+  const getTrailhistoric = ()=>{
+    getHistoricTrails().then((res)=>{
+      console.log("get historic trails dataaaaaaaaaaaa", res)
+      if(res.code == 200){
+        setHistoric(res?.data)
+      }
+    }).catch((error)=>{
+      console.log(error)
+    })
+  }
 
   const status = localStorage.getItem("status")
 
@@ -73,6 +86,16 @@ const SidebarMenuMain = () => {
         title={intl.formatMessage({ id: 'Trail Dashboard' })}
         fontIcon='bi-app-indicator'
       />
+      <SidebarMenuItemWithSub to='/points' title='Historic Trails' fontIcon='bi-app-indicator' icon='element-11'>
+      {
+        historic?.length > 0 ?
+        historic?.map((item)=>{
+          return(
+              <SidebarMenuItem to={`/points/historic-trails/${item.trail_name}`} title={item.trail_name} hasBullet={true} />
+          )
+        }):""
+      }
+      </SidebarMenuItemWithSub>
        <SidebarMenuItem
         to='/membership-dashboard'
         icon='element-11'

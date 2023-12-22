@@ -23,6 +23,7 @@ import { NewPassword } from '../modules/auth/components/ResetPassword'
 import Membershipdash from '../pages/membershipDashboard/Membershipdash'
 import UserList from '../../admin/dashboard/Userlist'
 import OverallPoint from '../../admin/Overall'
+import HistoricTable from '../lists/historic/table'
 
 
 
@@ -59,6 +60,7 @@ const PrivateRoutes = () => {
         <Route path="brewery-event/report-bug" element={<ReportBug />} />
         <Route path="events/events-iframe/:id" element={<EventsForm />} />
         <Route path="overall-points/:id" element={<OverallPoint />} />
+        <Route path="points/historic-trails/:id" element={<HistoricTable />} />
 
         {/* Lazy Modules */}
         <Route

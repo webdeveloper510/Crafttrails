@@ -416,10 +416,28 @@ export const getParticipantExport = async () => {
   })
   return response
 }
-
-
-
-
+// historic/trails/
+export const getHistoricTrails = async () => {
+  const response = await Axios.get("/craft/historic/trails/", {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+// historic/participant/
+export const getHistoricParticipant = async (id) => {
+  const response = await Axios.get(`/craft/historic/participant/${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
 
 
 
