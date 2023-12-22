@@ -2,7 +2,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 
 import { useState, useEffect } from "react";
-import { Breadcrumb, Modal } from "react-bootstrap";
+import { Breadcrumb, Modal, Tab, Tabs } from "react-bootstrap";
 import {
   getTrailExport,
   getTrailList,
@@ -14,12 +14,12 @@ import Papa from "papaparse";
 
 const Table = () => {
   const [list, setList] = useState([]);
+  const [visited, setVisited] = useState([]);
   const [loading, setLoading] = useState(false);
   const [moreView, setMoreView] = useState({ toggle: false, data: null });
   const [data, setData] = useState("");
-  const [csvData, setCsvData] = useState('');
-  const [csv , setCsv] = useState(null)
-
+  const [csvData, setCsvData] = useState("");
+  const [csv, setCsv] = useState(null);
 
   const getuserdata = () => {
     getuserProfile()
@@ -36,9 +36,20 @@ const Table = () => {
     setLoading(true);
     getTrailList()
       .then((res) => {
+        console.log("trailssssssssssssss", res.data);
         setLoading(false);
         if (res.code === 200) {
-          setList(res?.data);
+          // setList(res?.data);
+          let lists = res?.data;
+          const soloTrailData = lists.filter(
+            (item) => item.is_solo_trail === "True"
+          );
+          const soloTrailfalse = lists.filter(
+            (item) => item.is_solo_trail === "False"
+          );
+          setList(soloTrailData);
+          setVisited(soloTrailfalse);
+          // console.log("is solo trailssssssssss", soloTrailData)
         }
       })
       .catch((error) => {
@@ -49,17 +60,19 @@ const Table = () => {
   }, []);
 
   const handleDownload = () => {
-    const filename = "trail.csv"
+    const filename = "trail.csv";
     const modifiedData = list.map(({ title_submenu, ...rest }) => rest);
     const csv = Papa.unparse(modifiedData);
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const link = document.createElement('a');
+    const blob = new Blob([csv], { type: "text/csv" });
+    const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = filename;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
+
+  // console.log(list, "++++++++++++++++++++++++++++");
 
   return (
     <>
@@ -88,9 +101,33 @@ const Table = () => {
             </div>
           ) : (
             <>
+              <Tabs
+                defaultActiveKey="visits-completed"
+                id="fill-tab-example"
+                className="mb-3"
+                fill
+              >
+                <Tab eventKey="visits-completed" title="Visits Completed">
+                  {list && list.length > 0 ? (
+                    <DynamicTable
+                      data={list}
+                      moreView={(value) => {
+                        setMoreView(value);
+                      }}
+                      display={{ value: true, key: "breweries_completed" }}
+                    />
+                  ) : (
+                    "No Record Found!!"
+                  )}
+                </Tab>
+                <Tab
+                  eventKey="location-completed"
+                  title="Locations Completed"
+                ></Tab>
+              </Tabs>
               {list && list.length > 0 ? (
                 <DynamicTable
-                  data={list}
+                  data={visited}
                   moreView={(value) => {
                     setMoreView(value);
                   }}
