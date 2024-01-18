@@ -6,6 +6,7 @@ const Username = () => {
 
   const [passport , setPassport] = useState("")
   const [username , setUsername] = useState("")
+  const [show, setShow] = useState(false)
 
   const handlePassport =(e)=>{
     console.log(e.target.value)
@@ -20,7 +21,9 @@ const Username = () => {
       console.log("responseeeeeeee", res)
       if(res?.code==200){
          setUsername(res?.data?.full_name)
+         setShow(true)
       }else {
+        // setShow(true)
         toast.error("Passport number not found", {
           position: "top-right",
           autoClose: 2000,
@@ -35,7 +38,12 @@ const Username = () => {
   return (
     <div>
       <div>
-        <h1>Name : {username? username : "Not Filled"}</h1>
+        {
+          show == true ?
+          <h1>Name : {username? username : "Not Filled"}</h1>
+          :
+          ""
+         }
       </div>  
        <div className='mt-5'>
         <h3 style={{color:"black"}}>Enter your passport</h3>
