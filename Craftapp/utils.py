@@ -320,7 +320,7 @@ def trailsidcomp(request,pid):
  
     for i in response.json()["items"]:
        
-        if trail_name==i["sc270d76da"] and trail_year==i["scef57f448"] and trail_season==i["sd25a89828"] and trail_minitour==i["s56b038ef3"]:
+        if trail_name==i["sc270d76da"]:
             
             if i["s2f8f93c23"]=="":
                 i["s2f8f93c23"]=1
