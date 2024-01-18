@@ -441,6 +441,17 @@ export const getHistoricParticipant = async (id) => {
 
 
 
+export const searchPassport = ( data) => {
+  const response = Axios.post(`/craft/passport/name/`,data,{
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+
 
 
 

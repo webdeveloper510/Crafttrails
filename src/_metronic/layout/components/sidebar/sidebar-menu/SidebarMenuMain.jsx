@@ -126,6 +126,12 @@ const SidebarMenuMain = () => {
         <SidebarMenuItem to='/brewery-event/feature-request' title='Feature Requests' hasBullet={true} />
         <SidebarMenuItem to='/brewery-event/report-bug' title='Report a Bug' hasBullet={true} />
       </SidebarMenuItemWithSub>
+      <SidebarMenuItem
+        to='/username'
+        icon='element-11'
+        title={intl.formatMessage({ id: 'User Name' })}
+        fontIcon='bi-app-indicator'
+      />
       {/* <SidebarMenuItemWithSub to='/events' title='Events' fontIcon='bi-archive' icon='bi bi-calendar3'>
         {
           data?.length > 0 ?

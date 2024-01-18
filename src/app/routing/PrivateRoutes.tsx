@@ -24,6 +24,7 @@ import Membershipdash from '../pages/membershipDashboard/Membershipdash'
 import UserList from '../../admin/dashboard/Userlist'
 import OverallPoint from '../../admin/Overall'
 import HistoricTable from '../lists/historic/table'
+import Username from '../pages/username'
 
 
 
@@ -61,6 +62,7 @@ const PrivateRoutes = () => {
         <Route path="events/events-iframe/:id" element={<EventsForm />} />
         <Route path="overall-points/:id" element={<OverallPoint />} />
         <Route path="points/historic-trails/:id" element={<HistoricTable />} />
+        <Route path="username" element={<Username />} />
 
         {/* Lazy Modules */}
         <Route
