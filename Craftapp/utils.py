@@ -1223,8 +1223,8 @@ def historic_trails(request):
     for i in response.json()["items"] :       
         for trails in trail_data:  
              
-            
-            if trails["trail_name"] != i["s9b9447a8e"]:
+        
+            if trails["trail_name"] == i["s9b9447a8e"] and trails["mini_tour"]==i["sd82de27d5"]:
                 
                 trail_name=i["s9b9447a8e"]
                 
@@ -1251,29 +1251,28 @@ def historic_participant(request,trail):
         "Account-Id": settings.account_id,
         "Content-Type": "application/json"
     }
-            
-           
+          
     app_ids = settings.trailmaster_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
  
     for i in response.json()["items"]:
        
-        if i["trail_name"]==trail:
+        trails=i["sc270d76da"].strip()
+        trail=trail.strip()
+        
+        if trails == trail:
             passport=i["s99187d139"]
             val.append(passport)
-   
-        
+           
     app_ids = settings.participants_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     
     count=0    
     for i in response.json()["items"] :
-        
-        
+               
         # if i["sd48be64b7"] in list(unique_master_id):
         if i["sbb8fea034"] in val:
-            
-            
+              
             try:
                 date=i["sac87d276d"]["date"]
             except Exception as e:
@@ -1305,8 +1304,27 @@ def historic_participant(request,trail):
 
             participant_list.append(data)  
     data= participant_list  
- 
     return data
+
+
+def passportname(request,passport):
+    base_url = settings.base_url
+    headers = {
+        "Authorization": settings.authorization,
+        "Account-Id": settings.account_id,
+        "Content-Type": "application/json"
+    }
+    app_ids = settings.participants_id 
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+       
+    for i in response.json()["items"] :
+        if i["sbb8fea034"] == passport :
+            data={
+                 "full_name":i["s37af43f83"]["sys_root"]
+                }
+               
+    return data
+
     
    
    

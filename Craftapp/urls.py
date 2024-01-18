@@ -40,6 +40,7 @@ urlpatterns = [
     path("visit/export/",VisitExportView.as_view(),name="visitexport"),
     path("participant/points/export/",ParticipantPointsExportView.as_view(),name="pointsexport"),
     path("historic/trails/",HistoricTrailsView.as_view(),name="historictrails"),
-    path("historic/participant/<str:name>",HistoricTrailsParticipantView.as_view(),name="historicparticipant")
+    path("historic/participant/<str:trail>",HistoricTrailsParticipantView.as_view(),name="historicparticipant"),
+    path("passport/name/",PassportNameView.as_view(),name="passportname")
 ]
 

@@ -396,8 +396,9 @@ class TrailsAnalytics(APIView):
         
             active_trails_data=active_trails(request)   
             for k in active_trails_data.json()["items"]:
-                val=[round(i["breweries_completed"]/ int(i["location_to_complete"])*100,2) for i in trails_data if  i["location_to_complete"] and i["trail_year"]==k["s157fa6cfb"] ]
-                          
+                
+                val=[round((i["breweries_completed"])/ int(i["location_to_complete"])*100,2) for i in trails_data if  i["location_to_complete"]]
+                             
             main_count=counts(request,val)
             
             breweries_analytics={
@@ -522,8 +523,7 @@ class ParticipantGender(APIView):
                 # val=[int(i["passport"]) for i in trails_data if i["master_id"] and i["location_to_complete"] and int(i["trail_year"])==int(k["s157fa6cfb"])]
             count=0   
             for paticipate in participant_data:
-                                   
-            
+                       
                 if paticipate["rfid_tag"] in val:
                     
                         gendertype=paticipate["gender"]
@@ -980,6 +980,7 @@ class ParticipantPointsExportView(APIView):
             
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
+
 """API TO EXPORT Historic Trails"""
 class HistoricTrailsView(APIView):
     permission_classes=[IsAuthenticated]
@@ -994,8 +995,10 @@ class HistoricTrailsView(APIView):
             
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
 
+
 """API TO EXPORT Historic participant Trails"""
 class HistoricTrailsParticipantView(APIView):
+    
     permission_classes=[IsAuthenticated]
     authentication_classes=[TokenAuthentication]
  
@@ -1008,6 +1011,16 @@ class HistoricTrailsParticipantView(APIView):
             
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
 
+
+"""API TO GET PASSPORT NAME"""
+class PassportNameView(APIView):
+    def post(self,request):
+        try:
+            passport=request.data.get("passport")
+            passport_name=passportname(request,passport)
+            return Response({"code":200,"data":passport_name},status=status.HTTP_200_OK)
+        except Exception as e:  
+            return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
 
         
     
