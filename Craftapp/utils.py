@@ -237,6 +237,7 @@ def trailscomp(request):
             if i["s2f8f93c23"]=="":
                 i["s2f8f93c23"]=1
             if i["sb7210e570"]["count"]>0:
+                
                 data={
                     
                     "title":i["title"],
@@ -244,6 +245,7 @@ def trailscomp(request):
                     "participant_id":i["s99187d139"],
                     "participant_name":"",
                     "breweries_completed":i["sb7210e570"]["count"],
+                    "location_completed":i["sb7210e570"]["count"],
                     "trail_name":i["sc270d76da"],
                     "trail_year":i["scef57f448"],
                     "trail_season":i["sd25a89828"],
