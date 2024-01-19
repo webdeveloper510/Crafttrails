@@ -25,6 +25,7 @@ import UserList from '../../admin/dashboard/Userlist'
 import OverallPoint from '../../admin/Overall'
 import HistoricTable from '../lists/historic/table'
 import Username from '../pages/username'
+import Marketingform from '../pages/form/marketing'
 
 
 
@@ -58,6 +59,7 @@ const PrivateRoutes = () => {
         <Route path="lists/visits" element={<VisitsTable />} />
         <Route path="brewery-event/special-event" element={<SpecialEvent />} />
         <Route path="brewery-event/feature-request" element={<FeatureRequest />} />
+        <Route path="brewery-event/marketing-text" element={<Marketingform />} />
         <Route path="brewery-event/report-bug" element={<ReportBug />} />
         <Route path="events/events-iframe/:id" element={<EventsForm />} />
         <Route path="overall-points/:id" element={<OverallPoint />} />
