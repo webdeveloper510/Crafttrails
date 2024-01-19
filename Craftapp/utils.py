@@ -236,6 +236,16 @@ def trailscomp(request):
             
             if i["s2f8f93c23"]=="":
                 i["s2f8f93c23"]=1
+            
+            visit_completed1=0
+            location_completed1=0
+            if i["sedee2e81b"]==True:
+                visit_completed1=i["sb7210e570"]["count"]
+             
+            else:
+                
+                location_completed1=i["sb7210e570"]["count"]    
+
             if i["sb7210e570"]["count"]>0:
                 
                 data={
@@ -244,8 +254,8 @@ def trailscomp(request):
                     "application_id":i["id"],
                     "participant_id":i["s99187d139"],
                     "participant_name":"",
-                    "breweries_completed":i["sb7210e570"]["count"],
-                    "location_completed":i["sb7210e570"]["count"],
+                    "visit_completed":visit_completed1,
+                    "location_completed":location_completed1,
                     "trail_name":i["sc270d76da"],
                     "trail_year":i["scef57f448"],
                     "trail_season":i["sd25a89828"],
@@ -263,7 +273,7 @@ def trailscomp(request):
                         "trail_season":i["sd25a89828"],
                         "mini_tour":i["s56b038ef3"],
                         "link__breweries":i["s24c712a83"],
-                        "breweries_completed":[]
+                        "visit_completed":[]
                   }
                 } 
                 for k in range(i["sb7210e570"]["count"]):
@@ -274,18 +284,18 @@ def trailscomp(request):
                         "date":i["sb7210e570"]["items"][k]["first_created"]["on"]
                     }
                     breweries_completed.append(data1)
-                    data["title_submenu"]["breweries_completed"].append(data1)
+                    data["title_submenu"]["visit_completed"].append(data1)
                             
                 trail_list.append(data) 
-                
+  
 
     breweries_data=breweries_all(request,pid)
     for i in breweries_data:
         for j in trail_list:
-            for k in range(j["breweries_completed"]):
-                     
-                if j["title_submenu"]["breweries_completed"][k]["name"]==i["title"]:
-                    j["title_submenu"]["breweries_completed"][k]["name"]=i["bar_name"]     
+            for k in range(j["visit_completed"]):
+                
+                if j["title_submenu"]["visit_completed"][k]["name"]==i["title"]:
+                    j["title_submenu"]["visit_completed"][k]["name"]=i["bar_name"]     
 
     participant_data=participants_all(request,pid) 
     for i in participant_data:
