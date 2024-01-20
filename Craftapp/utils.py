@@ -20,7 +20,7 @@ def breweries(request):
     for i in response.json()["items"]:
      
         if int(i["title"])==int(request.user.brewery):
-            print(i)
+           
             bar_name=i["s8a95871e9"]
         
             data={
