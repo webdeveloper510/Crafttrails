@@ -452,7 +452,19 @@ export const searchPassport = ( data) => {
   return response
 }
 
-
+export const getBreweryForm = async (id) => {
+  return await Axios.get(`/craft/breweries/list/${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    },
+  })
+    .then((res) => {
+      return res?.data;
+    })
+    .catch((error) => {
+      console.log("Participant list", error);
+    });
+};
 
 
 

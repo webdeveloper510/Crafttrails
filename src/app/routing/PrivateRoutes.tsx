@@ -26,6 +26,7 @@ import OverallPoint from '../../admin/Overall'
 import HistoricTable from '../lists/historic/table'
 import Username from '../pages/username'
 import Marketingform from '../pages/form/marketing'
+import Business from '../pages/form/bussiness'
 
 
 
@@ -60,10 +61,12 @@ const PrivateRoutes = () => {
         <Route path="brewery-event/special-event" element={<SpecialEvent />} />
         <Route path="brewery-event/feature-request" element={<FeatureRequest />} />
         <Route path="brewery-event/marketing-text" element={<Marketingform />} />
+        <Route path="brewery-event/update-business" element={<Business />} />
         <Route path="brewery-event/report-bug" element={<ReportBug />} />
         <Route path="events/events-iframe/:id" element={<EventsForm />} />
         <Route path="overall-points/:id" element={<OverallPoint />} />
         <Route path="points/historic-trails/:id" element={<HistoricTable />} />
+        
         <Route path="username" element={<Username />} />
 
         {/* Lazy Modules */}

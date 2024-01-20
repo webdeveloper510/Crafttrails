@@ -126,6 +126,8 @@ const SidebarMenuMain = () => {
         <SidebarMenuItem to='/brewery-event/feature-request' title='Feature Requests' hasBullet={true} />
         <SidebarMenuItem to='/brewery-event/report-bug' title='Report a Bug' hasBullet={true} />
         <SidebarMenuItem to='/brewery-event/marketing-text' title='Marketing Text & Email Form' hasBullet={true} />
+        <SidebarMenuItem to='/brewery-event/update-business' title='Update My Business' hasBullet={true} />
+
       </SidebarMenuItemWithSub>
       <SidebarMenuItem
         to='/username'
