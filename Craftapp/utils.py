@@ -20,6 +20,7 @@ def breweries(request):
     for i in response.json()["items"]:
      
         if int(i["title"])==int(request.user.brewery):
+            print(i)
             bar_name=i["s8a95871e9"]
         
             data={
@@ -57,6 +58,7 @@ def breweries(request):
                     "website":i["s4a2531de8"],
                     "establishment":i["sfb39beff9"],
                     "logo":i["s8f6a2a5b8"],
+                    "updatebussiness":i["se5335622b"]
                         
                 }
             }
@@ -116,6 +118,7 @@ def breweries_all(request,pid):
                     "website":i["s4a2531de8"],
                     "establishment":i["sfb39beff9"],
                     "logo":i["s8f6a2a5b8"],
+                    "updatebussiness":i["se5335622b"]
                         
                 }
             }
