@@ -3,10 +3,8 @@ import { adminMembershipData } from "../../../../utils/Api";
 import Table from "react-bootstrap/Table";
 import BottomMonthly from "./Bottommonthly";
 
-const MonthlyPoint = () => {
-  const [lifetime, setLifetime] = useState([]);
+const MonthlyPoint = ({monthly}) => {
   const [loading, setLoading] = useState(false);
-  const [bottom, setBottom] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageLimit, setPageLimit] = useState(3);
@@ -15,8 +13,8 @@ const MonthlyPoint = () => {
   const recordPage = 20;
   const lastIndex = currentPage * recordPage;
   const firstIndex = lastIndex - recordPage;
-  const data = lifetime?.slice(firstIndex, lastIndex);
-  const nPage = Math.ceil(lifetime?.length / recordPage);
+  const data = monthly?.slice(firstIndex, lastIndex);
+  const nPage = Math.ceil(monthly?.length / recordPage);
   const number = [...Array(nPage + 1)?.keys()]?.slice(1);
 
   const pageNumber = number.map((num, i) => {
@@ -67,26 +65,26 @@ const MonthlyPoint = () => {
     pageIncreament = "";
   }
 
-  const getlinkuser = () => {
-    setLoading(true);
-    adminMembershipData()
-      .then((res) => {
-        setLoading(false);
-        console.log("Lifetime points--------------", res);
-        if (res.code == 200) {
-          setLifetime(res.data?.[0]?.top_monthly_points);
-          setBottom(res.data?.[0]?.bottom_monthly_points);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  };
+  // const getlinkuser = () => {
+  //   setLoading(true);
+  //   adminMembershipData()
+  //     .then((res) => {
+  //       setLoading(false);
+  //       console.log("Lifetime points--------------", res);
+  //       if (res.code == 200) {
+  //         setLifetime(res.data?.[0]?.top_monthly_points);
+  //         setBottom(res.data?.[0]?.bottom_monthly_points);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setLoading(false);
+  //     });
+  // };
 
-  useEffect(() => {
-    getlinkuser();
-  }, []);
+  // useEffect(() => {
+  //   getlinkuser();
+  // }, []);
   return (
     <div>
       {loading ? (
@@ -181,8 +179,6 @@ const MonthlyPoint = () => {
               ""
             )}
           </div>
-
-          <BottomMonthly />
         </>
       )}
     </div>

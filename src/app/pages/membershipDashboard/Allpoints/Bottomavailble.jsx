@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { adminMembershipData } from "../../../../utils/Api";
 import Table from "react-bootstrap/Table";
 
-const BottomAvailable = () => {
+const BottomAvailable = ({bottomAvailable}) => {
   const [loading, setLoading] = useState(false);
-  const [bottom, setBottom] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageLimit, setPageLimit] = useState(3);
@@ -13,8 +12,8 @@ const BottomAvailable = () => {
   const recordPage = 20;
   const lastIndex = currentPage * recordPage;
   const firstIndex = lastIndex - recordPage;
-  const data = bottom?.slice(firstIndex, lastIndex);
-  const nPage = Math.ceil(bottom?.length / recordPage);
+  const data = bottomAvailable?.slice(firstIndex, lastIndex);
+  const nPage = Math.ceil(bottomAvailable?.length / recordPage);
   const number = [...Array(nPage + 1)?.keys()]?.slice(1);
 
   const pageNumber = number.map((num, i) => {
@@ -63,25 +62,25 @@ const BottomAvailable = () => {
     pageIncreament = <li onClick={handleNextPage}>...</li>;
   }
 
-  const getlinkuser = () => {
-    setLoading(true);
-    adminMembershipData()
-      .then((res) => {
-        setLoading(false);
-        console.log("Lifetime points--------------", res);
-        if (res.code == 200) {
-          setBottom(res.data?.[0]?.bottom_points_earned);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  };
+  // const getlinkuser = () => {
+  //   setLoading(true);
+  //   adminMembershipData()
+  //     .then((res) => {
+  //       setLoading(false);
+  //       console.log("Lifetime points--------------", res);
+  //       if (res.code == 200) {
+  //         setBottom(res.data?.[0]?.bottom_points_earned);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setLoading(false);
+  //     });
+  // };
 
-  useEffect(() => {
-    getlinkuser();
-  }, []);
+  // useEffect(() => {
+  //   getlinkuser();
+  // }, []);
   return (
     <div>
       <div className="px-5 py-5" style={{ width: "85%", margin: "auto" }}>

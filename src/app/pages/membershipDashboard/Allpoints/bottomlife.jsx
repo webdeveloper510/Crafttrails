@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { adminMembershipData } from "../../../../utils/Api";
 import Table from "react-bootstrap/Table";
 
-const BottomLifetime = () => {
+const BottomLifetime = ({bottom}) => {
   const [loading, setLoading] = useState(false);
-  const [bottom , setBottom] = useState([])
+  // const [bottom , setBottom] = useState([])
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageLimit, setPageLimit] = useState(3);
@@ -65,108 +65,117 @@ const BottomLifetime = () => {
     pageIncreament = ""
   }
 
-  const getlinkuser = () => {
-    setLoading(true);
-    adminMembershipData()
-      .then((res) => {
-        setLoading(false);
-        console.log("Lifetime points--------------", res);
-        if (res.code == 200) {
-          setBottom(res.data?.[0]?.bottom_user_overall);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  };
+  // const getlinkuser = () => {
+  //   setLoading(true);
+  //   adminMembershipData()
+  //     .then((res) => {
+  //       setLoading(false);
+  //       console.log("Lifetime points--------------", res);
+  //       if (res.code == 200) {
+  //         setBottom(res.data?.[0]?.bottom_user_overall);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setLoading(false);
+  //     });
+  // };
 
-  useEffect(() => {
-    getlinkuser();
-  }, []);
+  // useEffect(() => {
+  //   getlinkuser();
+  // }, []);
   return (
     <div>
-
+      {
+        loading ? 
+        <div className="loader-overly">
+        <div className="loader" >
+        </div>
+      </div>
+      :
       <div className="px-5 py-5" style={{ width: "85%", margin: "auto" }}>
-        <Table striped bordered hover responsive>
-          <thead>
-            <th
-              colSpan={3}
-              style={{
-                border: "1px solid gray",
-                textAlign: "center",
-                padding: "15px 0px",
-                fontSize: "20px",
-                fontWeight: 600,
-                color: "black",
-              }}
-            >
-              Bottom User Overall
-            </th>
-            <tr style={{ border: "1px solid gray", textAlign: "center" }}>
-              <th>Master Id</th>
-              <th>Participant</th>
-              <th>Points</th>
-            </tr>
-          </thead>
-          {data?.length > 0
-            ? data?.map((item, i) => {
-                return (
-                  <tbody>
-                    <tr
-                      key={i}
-                      style={{
-                        border: "1px solid gray",
-                        textAlign: "center",
-                        background: "#98d0fb",
-                      }}
-                    >
-                      <td>{item.master_id}</td>
-                      <td>{item.participant}</td>
-                      <td>{item.points}</td>
-                    </tr>
-                  </tbody>
-                );
-              })
-            : ""}
-        </Table>
+      <Table striped bordered hover responsive>
+        <thead>
+          <th
+            colSpan={3}
+            style={{
+              border: "1px solid gray",
+              textAlign: "center",
+              padding: "15px 0px",
+              fontSize: "20px",
+              fontWeight: 600,
+              color: "black",
+            }}
+          >
+            Bottom User Overall
+          </th>
+          <tr style={{ border: "1px solid gray", textAlign: "center" }}>
+            <th>Master Id</th>
+            <th>Participant</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        {data?.length > 0
+          ? data?.map((item, i) => {
+              return (
+                <tbody>
+                  <tr
+                    key={i}
+                    style={{
+                      border: "1px solid gray",
+                      textAlign: "center",
+                      background: "#98d0fb",
+                    }}
+                  >
+                    <td>{item.master_id}</td>
+                    <td>{item.participant}</td>
+                    <td>{item.points}</td>
+                  </tr>
+                </tbody>
+              );
+            })
+          : ""}
+      </Table>
 
-        {data?.length > 0 ? (
+      {data?.length > 0 ? (
+        <div
+          className="pagination-outer"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "end",
+          }}
+        >
           <div
-            className="pagination-outer"
+            className="prev_btn"
             style={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "end",
+              marginRight: "-25px",
             }}
           >
-            <div
-              className="prev_btn"
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                marginRight: "-25px",
-              }}
-            >
-              <button onClick={() => handlePrePage()} className="prev_btn">Prev</button>
-            </div>
-            <div >
-              <ul className="previous-page">
-                {pageNumber}
-                {/* <button className="dots_btn">{pageIncreament}</button> */}
-              </ul>
-            </div>
-            <div style={{
-                display: "flex",
-                flexDirection: "row",
-              }}>
-              <button onClick={() => handleNextPage()} className="next_btn">Next</button>
-            </div>
+            <button onClick={() => handlePrePage()} className="prev_btn">Prev</button>
           </div>
-        ) : (
-          ""
-        )}
-      </div>
+          <div >
+            <ul className="previous-page">
+              {pageNumber}
+              {/* <button className="dots_btn">{pageIncreament}</button> */}
+            </ul>
+          </div>
+          <div style={{
+              display: "flex",
+              flexDirection: "row",
+            }}>
+            <button onClick={() => handleNextPage()} className="next_btn">Next</button>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+    </div>
+      }
+
+     
     </div>
   );
 };

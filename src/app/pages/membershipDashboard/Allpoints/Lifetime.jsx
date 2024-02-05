@@ -3,10 +3,8 @@ import { adminMembershipData } from "../../../../utils/Api";
 import Table from "react-bootstrap/Table";
 import BottomLifetime from "./bottomlife";
 
-const Lifetime = () => {
-  const [lifetime, setLifetime] = useState([]);
+const Lifetime = ({lifetime}) => {
   const [loading, setLoading] = useState(false);
-  const [bottom , setBottom] = useState([])
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageLimit, setPageLimit] = useState(3);
@@ -67,26 +65,26 @@ const Lifetime = () => {
     pageIncreament = ""
   }
 
-  const getlinkuser = () => {
-    setLoading(true);
-    adminMembershipData()
-      .then((res) => {
-        setLoading(false);
-        console.log("Lifetime points--------------", res);
-        if (res.code == 200) {
-          setLifetime(res.data?.[0]?.top_user_overall);
-          setBottom(res.data?.[0]?.bottom_user_overall);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  };
+  // const getlinkuser = () => {
+  //   // setLoading(true);
+  //   adminMembershipData()
+  //     .then((res) => {
+  //       // setLoading(false);
+  //       console.log("Lifetime points--------------", res);
+  //       if (res.code == 200) {
+  //         setLifetime(res.data?.[0]?.top_user_overall);
+  //         setBottom(res.data?.[0]?.bottom_user_overall);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       // setLoading(false);
+  //     });
+  // };
 
-  useEffect(() => {
-    getlinkuser();
-  }, []);
+  // useEffect(() => {
+  //   getlinkuser();
+  // }, []);
   return (
     <div>
       {
@@ -178,7 +176,7 @@ const Lifetime = () => {
         )}
       </div>
 
-      <BottomLifetime/>
+      {/* <BottomLifetime/> */}
           </>
       }
      

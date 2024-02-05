@@ -7,11 +7,23 @@ import Lifetime from "./Allpoints/Lifetime";
 import Available from "./Allpoints/Available";
 import AnnualPoint from "./Allpoints/Annual";
 import MonthlyPoint from "./Allpoints/Monthly";
+import BottomLifetime from "./Allpoints/bottomlife";
+import BottomAnnualPoint from "./Allpoints/Bottomannual";
+import BottomAvailable from "./Allpoints/Bottomavailble";
+import BottomMonthly from "./Allpoints/Bottommonthly";
 
 const Membershipdash = () => {
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [lifetime, setLifetime] = useState([]);
+  const [bottom , setBottom] = useState([])
+  const [annual , setAnnual] = useState([])
+  const [bAnnual, setBAnnual] = useState([])
+  const [available , setAvailable] = useState([])
+  const [bottomAvailable, setBottomAvailable] = useState([])
+  const [monthly , setMonthly] = useState([])
+  const [bottmMonthly , setBottmMonthly] = useState([])
 
   const getlinkuser = () => {
     setLoading(true);
@@ -21,6 +33,14 @@ const Membershipdash = () => {
         // console.log("membership dashboard--------------", res);
         if(res.code == 200){
           setData(res.data?.[0]);
+          setLifetime(res.data?.[0]?.top_user_overall);
+          setBottom(res.data?.[0]?.bottom_user_overall);
+          setAnnual(res.data?.[0]?.top_annual_points)
+          setBAnnual(res.data?.[0]?.bottom_annual_points);
+          setAvailable(res.data?.[0]?.top_points_earned)
+          setBottomAvailable(res.data?.[0]?.bottom_points_earned);
+          setMonthly(res.data?.[0]?.top_monthly_points)
+          setBottmMonthly(res.data?.[0]?.bottom_monthly_points);
         }
       })
       .catch((error) => {
@@ -49,373 +69,23 @@ const Membershipdash = () => {
         fill
       >
         <Tab eventKey="top-user-overall" title="Lifetime Points">
-          <Lifetime/>
-        {/* <div className="px-5 py-5" style={{width:"85%", margin:"auto"}}>
-            <Table striped bordered hover responsive>
-              <thead>
-                <th
-                  colSpan={3}
-                  style={{
-                    border: "1px solid gray",
-                    textAlign: "center",
-                    padding: "15px 0px",
-                    fontSize: "20px",
-                    fontWeight:600,
-                    color:"black"
-                  }}
-                >
-                  Top User Overall
-                </th>
-                <tr style={{ border: "1px solid gray", textAlign: "center" }}>
-                  <th>Master Id</th>
-                  <th>Participant</th>
-                  <th>Point</th>
-                </tr>
-              </thead>
-              {data?.top_user_overall?.length > 0
-                ? data?.top_user_overall?.map((item, i) => {
-                    return (
-                      <tbody>
-                        <tr
-                          key={i}
-                          style={{
-                            border: "1px solid gray",
-                            textAlign: "center",
-                            background: "#98d0fb"
-                          }}
-                        >
-                          <td>{item.master_id}</td>
-                          <td>{item.participant}</td>
-                          <td>{item.points}</td>
-                        </tr>
-                      </tbody>
-                    );
-                  })
-                : ""}
-            </Table>
-          </div> */}
+          <Lifetime lifetime={lifetime}/>
+          <BottomLifetime bottom={bottom}/>
         </Tab>
         <Tab eventKey="bottom-user-overall" title="Available Points">
-          <Available/>
-        {/* <div className="px-5 py-5" style={{width:"85%", margin:"auto"}}>
-            <Table striped bordered hover>
-              <thead>
-                <th
-                  colSpan={3}
-                  style={{
-                    border: "1px solid gray",
-                    textAlign: "center",
-                    padding: "15px 0px",
-                    fontSize: "20px",
-                    fontWeight:600,
-                    color:"black"
-                  }}
-                >
-                  Bottom User Overall
-                </th>
-                <tr style={{ border: "1px solid gray", textAlign: "center" }}>
-                  <th>Master Id</th>
-                  <th>Participant</th>
-                  <th>Point</th>
-                </tr>
-              </thead>
-              {data?.bottom_user_overall?.length > 0
-                ? data?.bottom_user_overall?.map((item, i) => {
-                    return (
-                      <tbody>
-                        <tr
-                          key={i}
-                          style={{
-                            border: "1px solid gray",
-                            textAlign: "center",
-                            background: "#98d0fb"
-                          }}
-                        >
-                          <td>{item.master_id}</td>
-                          <td>{item.participant}</td>
-                          <td>{item.points}</td>
-                        </tr>
-                      </tbody>
-                    );
-                  })
-                : ""}
-            </Table>
-          </div> */}
+          <Available available={available}/>
+          <BottomAvailable bottomAvailable={bottomAvailable} />
         </Tab>
         <Tab eventKey="top-points-earned" title="Annual Points">
-        <AnnualPoint/>
-        {/* <div className="px-5 py-5" style={{width:"85%", margin:"auto"}}>
-            <Table striped bordered hover>
-              <thead>
-                <th
-                  colSpan={3}
-                  style={{
-                    border: "1px solid gray",
-                    textAlign: "center",
-                    padding: "15px 0px",
-                    fontSize: "20px",
-                    fontWeight:600,
-                    color:"black"
-                  }}
-                >
-                  Top Points Earned
-                </th>
-                <tr style={{ border: "1px solid gray", textAlign: "center" }}>
-                  <th>Master Id</th>
-                  <th>Participant</th>
-                  <th>Point</th>
-                </tr>
-              </thead>
-              {data?.top_points_earned?.length > 0
-                ? data?.top_points_earned?.map((item, i) => {
-                    return (
-                      <tbody>
-                        <tr
-                          key={i}
-                          style={{
-                            border: "1px solid gray",
-                            textAlign: "center",
-                            background: "#98d0fb"
-                          }}
-                        >
-                          <td>{item.master_id}</td>
-                          <td>{item.participant}</td>
-                          <td>{item.points}</td>
-                        </tr>
-                      </tbody>
-                    );
-                  })
-                : ""}
-            </Table>
-          </div> */}
+        <AnnualPoint annual={annual}/>
+        <BottomAnnualPoint bAnnual={bAnnual}/>
         </Tab>
         <Tab eventKey="bottom-points-earned" title="Monthly Points">
-          <MonthlyPoint/>
-        {/* <div className="px-5 py-5" style={{width:"85%", margin:"auto"}}>
-            <Table striped bordered hover>
-              <thead>
-                <th
-                  colSpan={3}
-                  style={{
-                    border: "1px solid gray",
-                    textAlign: "center",
-                    padding: "15px 0px",
-                    fontSize: "20px",
-                    fontWeight:600,
-                    color:"black"
-                  }}
-                >
-                  Bottom Points Earned
-                </th>
-                <tr style={{ border: "1px solid gray", textAlign: "center" }}>
-                  <th>Master Id</th>
-                  <th>Participant</th>
-                  <th>Point</th>
-                </tr>
-              </thead>
-              {data?.bottom_points_earned?.length > 0
-                ? data?.bottom_points_earned?.map((item, i) => {
-                    return (
-                      <tbody>
-                        <tr
-                          key={i}
-                          style={{
-                            border: "1px solid gray",
-                            textAlign: "center",
-                            background: "#98d0fb"
-                          }}
-                        >
-                          <td>{item.master_id}</td>
-                          <td>{item.participant}</td>
-                          <td>{item.points}</td>
-                        </tr>
-                      </tbody>
-                    );
-                  })
-                : ""}
-            </Table>
-          </div> */}
+          <MonthlyPoint monthly={monthly} />
+          <BottomMonthly bottmMonthly={bottmMonthly} />
         </Tab>
        
       </Tabs>
-           {/* <div className="row">
-           <div className="col-md-6 px-5 py-5">
-            <Table striped bordered hover responsive>
-              <thead>
-                <th
-                  colSpan={3}
-                  style={{
-                    border: "1px solid gray",
-                    textAlign: "center",
-                    padding: "15px 0px",
-                    fontSize: "20px",
-                    fontWeight:600,
-                    color:"gray"
-                  }}
-                >
-                  Top User Overall
-                </th>
-                <tr style={{ border: "1px solid gray", textAlign: "center" }}>
-                  <th>Master Id</th>
-                  <th>Participant</th>
-                  <th>Point</th>
-                </tr>
-              </thead>
-              {data?.top_user_overall?.length > 0
-                ? data?.top_user_overall?.map((item, i) => {
-                    return (
-                      <tbody>
-                        <tr
-                          key={i}
-                          style={{
-                            border: "1px solid gray",
-                            textAlign: "center",
-                            background: "#98d0fb"
-                          }}
-                        >
-                          <td>{item.master_id}</td>
-                          <td>{item.participant}</td>
-                          <td>{item.points}</td>
-                        </tr>
-                      </tbody>
-                    );
-                  })
-                : ""}
-            </Table>
-          </div>
-          <div className="col-md-6 px-5 py-5">
-            <Table striped bordered hover>
-              <thead>
-                <th
-                  colSpan={3}
-                  style={{
-                    border: "1px solid gray",
-                    textAlign: "center",
-                    padding: "15px 0px",
-                    fontSize: "20px",
-                    fontWeight:600,
-                    color:"gray"
-                  }}
-                >
-                  Bottom User Overall
-                </th>
-                <tr style={{ border: "1px solid gray", textAlign: "center" }}>
-                  <th>Master Id</th>
-                  <th>Participant</th>
-                  <th>Point</th>
-                </tr>
-              </thead>
-              {data?.bottom_user_overall?.length > 0
-                ? data?.bottom_user_overall?.map((item, i) => {
-                    return (
-                      <tbody>
-                        <tr
-                          key={i}
-                          style={{
-                            border: "1px solid gray",
-                            textAlign: "center",
-                            background: "#98d0fb"
-                          }}
-                        >
-                          <td>{item.master_id}</td>
-                          <td>{item.participant}</td>
-                          <td>{item.points}</td>
-                        </tr>
-                      </tbody>
-                    );
-                  })
-                : ""}
-            </Table>
-          </div>
-          <div className="col-md-6 px-5 py-5">
-            <Table striped bordered hover>
-              <thead>
-                <th
-                  colSpan={3}
-                  style={{
-                    border: "1px solid gray",
-                    textAlign: "center",
-                    padding: "15px 0px",
-                    fontSize: "20px",
-                    fontWeight:600,
-                    color:"gray"
-                  }}
-                >
-                  Top Points Earned
-                </th>
-                <tr style={{ border: "1px solid gray", textAlign: "center" }}>
-                  <th>Master Id</th>
-                  <th>Participant</th>
-                  <th>Point</th>
-                </tr>
-              </thead>
-              {data?.top_points_earned?.length > 0
-                ? data?.top_points_earned?.map((item, i) => {
-                    return (
-                      <tbody>
-                        <tr
-                          key={i}
-                          style={{
-                            border: "1px solid gray",
-                            textAlign: "center",
-                            background: "#98d0fb"
-                          }}
-                        >
-                          <td>{item.master_id}</td>
-                          <td>{item.participant}</td>
-                          <td>{item.points}</td>
-                        </tr>
-                      </tbody>
-                    );
-                  })
-                : ""}
-            </Table>
-          </div>
-          <div className="col-md-6 px-5 py-5">
-            <Table striped bordered hover>
-              <thead>
-                <th
-                  colSpan={3}
-                  style={{
-                    border: "1px solid gray",
-                    textAlign: "center",
-                    padding: "15px 0px",
-                    fontSize: "20px",
-                    fontWeight:600,
-                    color:"gray"
-                  }}
-                >
-                  Bottom Points Earned
-                </th>
-                <tr style={{ border: "1px solid gray", textAlign: "center" }}>
-                  <th>Master Id</th>
-                  <th>Participant</th>
-                  <th>Point</th>
-                </tr>
-              </thead>
-              {data?.bottom_points_earned?.length > 0
-                ? data?.bottom_points_earned?.map((item, i) => {
-                    return (
-                      <tbody>
-                        <tr
-                          key={i}
-                          style={{
-                            border: "1px solid gray",
-                            textAlign: "center",
-                            background: "#98d0fb"
-                          }}
-                        >
-                          <td>{item.master_id}</td>
-                          <td>{item.participant}</td>
-                          <td>{item.points}</td>
-                        </tr>
-                      </tbody>
-                    );
-                  })
-                : ""}
-            </Table>
-          </div>
-        </div> */}
         </>
       )}
      

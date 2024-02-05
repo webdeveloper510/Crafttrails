@@ -3,7 +3,7 @@ import { adminMembershipData } from "../../../../utils/Api";
 import Table from "react-bootstrap/Table";
 import BottomAnnualPoint from "./Bottomannual";
 
-const AnnualPoint = () => {
+const AnnualPoint = ({annual}) => {
   const [lifetime, setLifetime] = useState([]);
   const [loading, setLoading] = useState(false);
   const [bottom , setBottom] = useState([])
@@ -15,8 +15,8 @@ const AnnualPoint = () => {
   const recordPage = 20;
   const lastIndex = currentPage * recordPage;
   const firstIndex = lastIndex - recordPage;
-  const data = lifetime?.slice(firstIndex, lastIndex);
-  const nPage = Math.ceil(lifetime?.length / recordPage);
+  const data = annual?.slice(firstIndex, lastIndex);
+  const nPage = Math.ceil(annual?.length / recordPage);
   const number = [...Array(nPage + 1)?.keys()]?.slice(1);
 
   const pageNumber = number.map((num, i) => {
@@ -67,26 +67,26 @@ const AnnualPoint = () => {
     pageIncreament = ""
   }
 
-  const getlinkuser = () => {
-    setLoading(true);
-    adminMembershipData()
-      .then((res) => {
-        setLoading(false);
-        console.log("Lifetime points--------------", res);
-        if (res.code == 200) {
-          setLifetime(res.data?.[0]?.top_annual_points);
-          setBottom(res.data?.[0]?.bottom_annual_points);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  };
+  // const getlinkuser = () => {
+  //   setLoading(true);
+  //   adminMembershipData()
+  //     .then((res) => {
+  //       setLoading(false);
+  //       console.log("Lifetime points--------------", res);
+  //       if (res.code == 200) {
+  //         setLifetime(res.data?.[0]?.top_annual_points);
+  //         setBottom(res.data?.[0]?.bottom_annual_points);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setLoading(false);
+  //     });
+  // };
 
-  useEffect(() => {
-    getlinkuser();
-  }, []);
+  // useEffect(() => {
+  //   getlinkuser();
+  // }, []);
   return (
     <div>
    {
@@ -178,7 +178,7 @@ const AnnualPoint = () => {
           ""
         )}
           </div>
-          <BottomAnnualPoint/>
+          {/* <BottomAnnualPoint/> */}
     </>
    }
     </div>
