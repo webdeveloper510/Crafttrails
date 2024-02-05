@@ -393,12 +393,12 @@ class TrailsAnalytics(APIView):
         try:
             trails_data=trailscomp(request)
               
-        
+            
             active_trails_data=active_trails(request)   
             for k in active_trails_data.json()["items"]:
                 
-                val=[round((i["breweries_completed"])/ int(i["location_to_complete"])*100,2) for i in trails_data if  i["location_to_complete"]]
-                             
+                val=[round(int(i["breweries_completed"])/ int(i["location_to_complete"])*100,2) for i in trails_data if  i["location_to_complete"]]
+                            
             main_count=counts(request,val)
             
             breweries_analytics={

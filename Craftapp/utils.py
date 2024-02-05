@@ -248,6 +248,7 @@ def trailscomp(request):
             else:
                 
                 location_completed1=i["sb7210e570"]["count"]    
+               
 
             if i["sb7210e570"]["count"]>0:
                 
@@ -257,6 +258,7 @@ def trailscomp(request):
                     "application_id":i["id"],
                     "participant_id":i["s99187d139"],
                     "participant_name":"",
+                    "breweries_completed":i["sb7210e570"]["count"],
                     "visit_completed":visit_completed1,
                     "location_completed":location_completed1,
                     "trail_name":i["sc270d76da"],
@@ -765,7 +767,7 @@ def participantspoints_all(request,pid):
             trail_year=i["s157fa6cfb"]
             trail_season=i["s74aaea978"]
             trail_minitour=i["sd82de27d5"]
-        
+           
            
     app_ids = settings.trailmaster_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
@@ -776,6 +778,7 @@ def participantspoints_all(request,pid):
                 if i["s0d1c07938"] !="":
                     master_id1=i["s0d1c07938"]
                     unique_master_id.add(master_id1)
+                    
     # app_ids = settings.visit
     # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     # unique_master_id=set()
@@ -811,8 +814,7 @@ def participantspoints_all(request,pid):
                 for k in  range(i["s1255e267e"]["count"]):
                     
                     data1={
-                        
-                        
+                                               
                             "name":i["s1255e267e"]["items"][k]["name"],
                             "first_created":i["s1255e267e"]["items"][k]["first_created"]["on"],
                             "last_updated":i["s1255e267e"]["items"][k]["last_updated"]["on"],
@@ -1174,20 +1176,20 @@ def list_user(request):
 
         
         if points["master_id"] in master_data and points["name_of_participants"] in master_name:
-           
+            
             for j in range(points["title_submenu"]["count"]):
-                         
+                    participant_key = f"{points['name_of_participants']}_{j}"     
                                             
-                    total_points[points["name_of_participants"]]=int(points["title_submenu"]["points_earned"][j]["total_points"])  
+                    total_points[participant_key]=int(points["title_submenu"]["points_earned"][j]["total_points"])  
                     
-                    points_earned[points["name_of_participants"]]=int(points["title_submenu"]["points_earned"][j]["points_earned"])  
-                    
-                    monthly_points[points["name_of_participants"]]=int(points["title_submenu"]["points_earned"][j]["monthly_points"])
-                    
-                    annual_points[points["name_of_participants"]]=int(points["title_submenu"]["points_earned"][j]["annual_points"])
+                    points_earned[participant_key]=int(points["title_submenu"]["points_earned"][j]["points_earned"])  
                    
-                    master_ids[points["name_of_participants"]] = int(points["master_id"])
+                    monthly_points[participant_key]=int(points["title_submenu"]["points_earned"][j]["monthly_points"])
+                   
+                    annual_points[participant_key]=int(points["title_submenu"]["points_earned"][j]["annual_points"])
                     
+                    master_ids[participant_key] = int(points["master_id"])
+    
     top_10_total_points = sorted(zip(total_points.values(), total_points.keys(), master_ids.values()), reverse=True)
     bottom_10_total_points = sorted(zip(total_points.values(), total_points.keys(), master_ids.values()))
 
@@ -1199,7 +1201,8 @@ def list_user(request):
 
     top_10_monthly_points = sorted(zip(monthly_points.values(), monthly_points.keys(), master_ids.values()), reverse=True)
     bottom_10_monthly_points = sorted(zip(monthly_points.values(), monthly_points.keys(), master_ids.values())) 
-                        
+    
+                     
     # top_user_overall = max(zip(total_points.values(), total_points.keys(),master_ids.values()))
     # bottom_user_overall = min(zip(total_points.values(), total_points.keys(),master_ids.values()))
     # top_points_earned=max(zip(points_earned.values(), points_earned.keys(),master_ids.values())) 
@@ -1244,7 +1247,7 @@ def historic_trails(request):
                 trail_name=i["s9b9447a8e"]
                 
                 historic_trails.add(trail_name)
-    
+        
     data1=list(historic_trails)
     for i in data1:
         trail_dict={
