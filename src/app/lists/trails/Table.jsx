@@ -127,7 +127,7 @@ const Table = () => {
               </Tabs> */}
               {list && list.length > 0 ? (
                 <DynamicTable
-                  data={visited}
+                  data={list}
                   moreView={(value) => {
                     setMoreView(value);
                   }}
