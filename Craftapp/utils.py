@@ -1159,6 +1159,7 @@ def change_format(request,hottest_data):
 
 
 def list_user(request):
+    pid=request.user.brewery
     total_points={}
     points_earned={}
     monthly_points={}
@@ -1178,6 +1179,9 @@ def list_user(request):
         if points["master_id"] in master_data and points["name_of_participants"] in master_name:
             
             for j in range(points["title_submenu"]["count"]):
+               
+                if  points["title_submenu"]["points_earned"][j]["name"]  == pid: 
+
                     participant_key = f"{points['name_of_participants']}_{j}"     
                                             
                     total_points[participant_key]=int(points["title_submenu"]["points_earned"][j]["total_points"])  
@@ -1189,6 +1193,8 @@ def list_user(request):
                     annual_points[participant_key]=int(points["title_submenu"]["points_earned"][j]["annual_points"])
                     
                     master_ids[participant_key] = int(points["master_id"])
+
+                    break
     
     top_10_total_points = sorted(zip(total_points.values(), total_points.keys(), master_ids.values()), reverse=True)
     bottom_10_total_points = sorted(zip(total_points.values(), total_points.keys(), master_ids.values()))
