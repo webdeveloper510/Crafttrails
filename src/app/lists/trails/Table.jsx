@@ -39,16 +39,16 @@ const Table = () => {
         console.log("trailssssssssssssss", res.data);
         setLoading(false);
         if (res.code === 200) {
-          // setList(res?.data);
-          let lists = res?.data;
-          const soloTrailData = lists.filter(
-            (item) => item.is_solo_trail === "True"
-          );
-          const soloTrailfalse = lists.filter(
-            (item) => item.is_solo_trail === "False"
-          );
-          setList(soloTrailData);
-          setVisited(soloTrailfalse);
+          setList(res?.data);
+          // let lists = res?.data;
+          // const soloTrailData = lists.filter(
+          //   (item) => item.is_solo_trail === "True"
+          // );
+          // const soloTrailfalse = lists.filter(
+          //   (item) => item.is_solo_trail === "False"
+          // );
+          // setList(soloTrailData);
+          // setVisited(soloTrailfalse);
           // console.log("is solo trailssssssssss", soloTrailData)
         }
       })
@@ -101,7 +101,7 @@ const Table = () => {
             </div>
           ) : (
             <>
-              <Tabs
+              {/* <Tabs
                 defaultActiveKey="visits-completed"
                 id="fill-tab-example"
                 className="mb-3"
@@ -124,7 +124,7 @@ const Table = () => {
                   eventKey="location-completed"
                   title="Locations Completed"
                 ></Tab>
-              </Tabs>
+              </Tabs> */}
               {list && list.length > 0 ? (
                 <DynamicTable
                   data={visited}
