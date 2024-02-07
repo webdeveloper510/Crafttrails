@@ -1194,7 +1194,7 @@ def list_user(request):
                     
                     master_ids[participant_key] = int(points["master_id"])
 
-                    break
+                    
     
     top_10_total_points = sorted(zip(total_points.values(), total_points.keys(), master_ids.values()), reverse=True)
     bottom_10_total_points = sorted(zip(total_points.values(), total_points.keys(), master_ids.values()))
@@ -1213,14 +1213,14 @@ def list_user(request):
     # bottom_user_overall = min(zip(total_points.values(), total_points.keys(),master_ids.values()))
     # top_points_earned=max(zip(points_earned.values(), points_earned.keys(),master_ids.values())) 
     # bottom_points_earned=min(zip(points_earned.values(), points_earned.keys(),master_ids.values()))
-    data= [{ "top_user_overall": [{"master_id": master_id, "participant": participant, "points": points} for points, participant, master_id in top_10_total_points],
-            "bottom_user_overall": [{"master_id": master_id, "participant": participant, "points": points} for points, participant, master_id in bottom_10_total_points],
-            "top_points_earned": [{"master_id": master_id, "participant": participant, "points": points} for points, participant, master_id in top_10_points_earned],
-            "bottom_points_earned": [{"master_id": master_id, "participant": participant, "points": points} for points, participant, master_id in bottom_10_points_earned],
-            "top_monthly_points": [{"master_id": master_id, "participant": participant, "points": points} for points, participant, master_id in top_10_monthly_points],
-            "bottom_monthly_points": [{"master_id": master_id, "participant": participant, "points": points} for points, participant, master_id in bottom_10_monthly_points],
-            "top_annual_points": [{"master_id": master_id, "participant": participant, "points": points} for points, participant, master_id in top_10_annual_points],
-            "bottom_annual_points": [{"master_id": master_id, "participant": participant, "points": points} for points, participant, master_id in bottom_10_annual_points] 
+    data= [{ "top_user_overall": [{"master_id": master_id, "participant": participant.split('_')[0], "points": points} for points, participant, master_id in top_10_total_points],
+            "bottom_user_overall": [{"master_id": master_id, "participant": participant.split('_')[0], "points": points} for points, participant, master_id in bottom_10_total_points],
+            "top_points_earned": [{"master_id": master_id, "participant": participant.split('_')[0], "points": points} for points, participant, master_id in top_10_points_earned],
+            "bottom_points_earned": [{"master_id": master_id, "participant": participant.split('_')[0], "points": points} for points, participant, master_id in bottom_10_points_earned],
+            "top_monthly_points": [{"master_id": master_id, "participant": participant.split('_')[0], "points": points} for points, participant, master_id in top_10_monthly_points],
+            "bottom_monthly_points": [{"master_id": master_id, "participant": participant.split('_')[0], "points": points} for points, participant, master_id in bottom_10_monthly_points],
+            "top_annual_points": [{"master_id": master_id, "participant": participant.split('_')[0], "points": points} for points, participant, master_id in top_10_annual_points],
+            "bottom_annual_points": [{"master_id": master_id, "participant": participant.split('_')[0], "points": points} for points, participant, master_id in bottom_10_annual_points] 
             }]
  
 
