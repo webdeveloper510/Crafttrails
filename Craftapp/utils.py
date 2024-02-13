@@ -630,6 +630,7 @@ def participants_all(request,pid):
                 "master_id":i["sd48be64b7"], 
                 "phone_number":i["s37e762ac3"],  
                 "address":i["sb91047f0b"]["location_address"],
+                "gender":i["sab36dd930"],
                 "title_submenu":{
                     "title":i["title"],
                     "record_id":i["sfb74e1363"],
@@ -1058,6 +1059,19 @@ def calculate_growth(request,week_number):
     return growth_percentage
 
 
+def calculate_growth1(request,week_number,email):
+    user=User.objects.filter(email=email).values("id")
+    id=user[0]["id"]
+    growth_percentage=0
+    
+    current_week=WeekParticipants.objects.filter(user_id=id,weeknumber=int(week_number)).values("participant")
+    previous_week=WeekParticipants.objects.filter(user_id=id,weeknumber=int(week_number)-1).values("participant")
+   
+    if current_week and previous_week:
+        growth_percentage=(int(current_week[0]["participant"])-int(previous_week[0]["participant"]))/int(previous_week[0]["participant"])
+    return growth_percentage
+
+
 def calculate_netchange(request,week_number):
     net_percentage=0
 
@@ -1070,24 +1084,37 @@ def calculate_netchange(request,week_number):
     return net_percentage
 
 
+def calculate_netchange1(request,week_number,email):
+    user=User.objects.filter(email=email).values("id")
+    id=user[0]["id"]
+
+    net_percentage=0
+
+    current_week=WeekParticipants.objects.filter(user_id=id,weeknumber=int(week_number)).values("participant")
+    previous_week=WeekParticipants.objects.filter(user_id=id,weeknumber=int(week_number)-1).values("participant")
+    
+    if current_week and previous_week:
+        net_percentage=int(current_week[0]["participant"])-int(previous_week[0]["participant"])
+
+    return net_percentage    
+
+
+
+
 def trail_participant(request,trails_data):
     count=0
     for trail in trails_data:
         if trail["is_solo_trail"]:
             count=count+1
             
-   
         else:    
             for j in range(trail["breweries_completed"]):
                 count=count+1
              
     participant={
-            
-            "paricipant_count":count
-        }       
-                    
-            
-          
+                 "paricipant_count":count
+                }       
+      
     return participant
 
 
@@ -1120,6 +1147,13 @@ def hottest_day(request):
     # hottest_date=trailscomp(request)
 
     return hottest_date
+
+
+def hottestid_day(request,pid):
+    hottest_date=visit_all(request,pid)  
+    # hottest_date=trailscomp(request)
+
+    return hottest_date    
 
 
 def change_format(request,hottest_data):

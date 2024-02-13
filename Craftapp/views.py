@@ -382,6 +382,31 @@ class ActiveUser(APIView):
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
 
+"""API TO SHOW COUNT OF ACTIVE USER BY ID"""
+class ActiveUserId(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+  
+
+    def get(self,request,pid):
+        try:
+            trails_data=trailsidcomp(request,pid)   
+            active_trails_data=active_trails(request)   
+            count=0
+            for i in trails_data:
+                # val=[k for k in active_trails_data.json()["items"] for j in range(i["breweries_completed"]) if  i["location_to_complete"] and int(i["title_submenu"]["breweries_completed"][j]["id"])==int(k["title"])]
+                val=[k for k in active_trails_data.json()["items"] if  i["trail_name"] == k["s9b9447a8e"]]
+                if val: 
+                    count=count+1
+               
+            active_user={
+                "active_count":count
+            }
+            return Response({"code":200,"data":active_user},status=status.HTTP_200_OK)
+        except Exception as e: 
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)            
+
+
 
 """API TO GET TRAILS ANALYTICS DATA"""
 class TrailsAnalytics(APIView):
@@ -392,6 +417,41 @@ class TrailsAnalytics(APIView):
     def get(self,request):
         try:
             trails_data=trailscomp(request)
+              
+            
+            active_trails_data=active_trails(request)   
+            for k in active_trails_data.json()["items"]:
+                
+                val=[round(int(i["breweries_completed"])/ int(i["location_to_complete"])*100,2) for i in trails_data if  i["location_to_complete"]]
+                            
+            main_count=counts(request,val)
+            
+            breweries_analytics={
+                "breweries_percentage":val,
+                "0-16.67":main_count[0],
+                "16.67-33.33":main_count[1],
+                "33.33-50":main_count[2],
+                "50-66.67":main_count[3],
+                "66.67-83.33":main_count[4],
+                "83.33-100":main_count[5]
+            }
+            
+
+            return Response({"code":200,"data":breweries_analytics},status=status.HTTP_200_OK)
+        except Exception as e:
+           
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+
+"""API TO GET TRAILS ANALYTICS DATA BY ID"""
+class TrailsAnalyticsId(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+   
+
+    def get(self,request,pid):
+        try:
+            trails_data=trailsidcomp(request,pid)
               
             
             active_trails_data=active_trails(request)   
@@ -496,6 +556,66 @@ class ParticipantAge(APIView):
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
 
 
+"""API TO GET PARTICIPANT AGE BY ID"""
+class ParticipantAgeId(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+   
+
+    def get(self,request,pid):
+        try:
+            user_age=[]
+            val=[]
+            todays_date = date.today() 
+            trails_data=trailsidcomp(request,pid)   
+            active_trails_data=active_trails(request)   
+            participant_data=participants_all(request,pid)
+          
+            for k in active_trails_data.json()["items"]:
+                for i in trails_data:
+                    if i["trail_name"]==k["s9b9447a8e"]:
+                        if i["breweries_completed"]>0:
+                            passport=i["passport"]
+                            val.append(passport)
+
+                # val=[int(i["passport"]) for i in trails_data if i["master_id"] and i["location_to_complete"] and int(i["trail_year"])==int(k["s157fa6cfb"])]
+            
+            for paticipate in participant_data:
+                                   
+            
+                if paticipate["rfid_tag"] in val:
+                
+               
+                    if paticipate["date_of_birth"] != "":
+                        dateofbirth=paticipate["date_of_birth"].split("T")[0]
+                        yearofbirth=dateofbirth.split("-")[0]
+                        age_calculate=todays_date.year - int(yearofbirth)
+                              
+                    else:
+                        age_calculate=0
+                    user_age.append(age_calculate)    
+                    
+            main_count=age_counts(request,user_age)
+           
+            breweries_analytics={
+                "age":user_age,
+                "ageone":main_count[0],
+                "agetwo":main_count[1],
+                "agethree":main_count[2],
+                "agefour":main_count[3],
+                "agefive":main_count[4],
+                "agesix":main_count[5],
+                "notmentioned":main_count[6]
+            }
+                       
+            return Response({"code":200,"data":breweries_analytics},status=status.HTTP_200_OK)
+        except Exception as e:
+           
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+
+
+
 
 """API TO GET PARTICIPANT Gender"""
 class ParticipantGender(APIView):
@@ -527,8 +647,58 @@ class ParticipantGender(APIView):
                 if paticipate["rfid_tag"] in val:
                     
                         gendertype=paticipate["gender"]
-                        
+                                         
+                        gender_type.append(gendertype)
+           
+            main_count=gender_counts(request,gender_type)
+            
+            gender_analytics={
+                "gender":gender_type,
+                "male":main_count[0],
+                "female":main_count[1],
+                "transgender":main_count[2],
+                "nonbinary":main_count[3],
+                "prefernot":main_count[4],
+                "notmentioned":main_count[5]
+               
+            }
+               
+            return Response({"code":200,"data":gender_analytics},status=status.HTTP_200_OK)
+        except Exception as e:
+           
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+
+"""API TO GET PARTICIPANT Gender BY ID"""
+class ParticipantGenderId(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    
+    def get(self,request,pid):
+        try:
+            gender_type=[]
+            val=[]
+            val1=[]
+            todays_date = date.today() 
+            trails_data=trailsidcomp(request,pid)   
+            active_trails_data=active_trails(request)   
+            participant_data=participants_all(request,pid)
+          
+            for k in active_trails_data.json()["items"]:
+                for i in trails_data:
+                    if i["trail_name"]==k["s9b9447a8e"]:
+                        if i["breweries_completed"]>0:
+                            passport=i["passport"]
+                            val.append(passport)
+
+                # val=[int(i["passport"]) for i in trails_data if i["master_id"] and i["location_to_complete"] and int(i["trail_year"])==int(k["s157fa6cfb"])]
+            count=0   
+            for paticipate in participant_data:
+                       
+                if paticipate["rfid_tag"] in val:
                     
+                        gendertype=paticipate["gender"]
+                                           
                         gender_type.append(gendertype)
            
             main_count=gender_counts(request,gender_type)
@@ -576,6 +746,30 @@ class RegisterUnRegister(APIView):
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
         
 
+"""API TO GET REGISTER AND UNREGISTER USER BY ID"""
+class RegisterUnRegisterId(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+   
+
+    def get(self,request,pid):
+        try:
+            active_trails_data=active_trails(request)
+            trails_data=trailsidcomp(request,pid)
+
+            for i in active_trails_data.json()["items"]:
+                
+                register_user=[k["master_id"] for k in trails_data if k["master_id"] and k["location_to_complete"]]
+                unregister_user=[k["master_id"] for k in trails_data if k["master_id"]=="" and k["location_to_complete"]]
+            
+            user_count={
+                "register_user":len(register_user),
+                "unregister_user":len(unregister_user)
+            }
+            return Response({"code":200,"data":user_count},status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+        
 
 """API TO GET  COUNT OF WEEKLY PARTICIPANT"""
 class WeeklyParticipants(APIView):
@@ -604,7 +798,54 @@ class WeeklyParticipants(APIView):
                 else:
                     WeekParticipants.objects.filter(user_id=request.user.id).create(user_id=request.user.id,weeknumber=week_number,participant=sub_items,weekname="week" + str(week_number))
 
-            week_data=WeekParticipants.objects.filter(user_id=request.user.id)
+            week_data=WeekParticipants.objects.filter(user_id=request.user.id).order_by('-weekname')[:10]
+          
+            for i in week_data:
+                week_count={
+                        i.weekname:i.participant
+                        }
+                actve_participants.append(week_count)
+                   
+
+            return Response({"code":200,"data":actve_participants},status=status.HTTP_200_OK)
+        except Exception as e:
+           
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+
+
+"""API TO GET  COUNT OF WEEKLY PARTICIPANT BY EMAIL"""
+class WeeklyParticipantsId(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    
+
+
+    def get(self,request,email):
+       
+        try:
+                      
+            actve_participants=[]
+            current_date = datetime.datetime.now()
+            week_number = current_date.strftime("%U")
+            sub_items=get_all_sub_items(request)
+            user=User.objects.filter(email=email).values("id")
+            
+            id=user[0]["id"]     
+            
+            parcount=WeekParticipants.objects.filter(user_id=id).exists()
+          
+           
+            if parcount ==False:
+                WeekParticipants.objects.filter(user_id=id).create(user_id=id,weeknumber=week_number,participant=sub_items,weekname="week" + str(week_number))
+            else:
+                already=WeekParticipants.objects.filter(user_id=id,weekname="week"+str(week_number)).exists()
+                if already == True:
+                    WeekParticipants.objects.filter(user_id=id,weekname="week" + str(week_number)).update(participant=sub_items)
+                else:
+                    WeekParticipants.objects.filter(user_id=id).create(user_id=id,weeknumber=week_number,participant=sub_items,weekname="week" + str(week_number))
+
+            week_data=WeekParticipants.objects.filter(user_id=id).order_by('-weekname')[:10 ]
           
             for i in week_data:
                 week_count={
@@ -621,6 +862,7 @@ class WeeklyParticipants(APIView):
 
 
 
+
 """API TO GET COUNT OF WEEKLY GROWTH OF PARTICIPANT"""
 class WeeklyGrowth(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
@@ -632,26 +874,28 @@ class WeeklyGrowth(APIView):
             current_date = datetime.datetime.now()
             week_number = current_date.strftime("%U")
             growth=calculate_growth(request,week_number)
+            weekly_growth={
+                "growth":growth
+            } 
             
-            
-            return Response({"code":200,"data":growth},status=status.HTTP_200_OK)
+            return Response({"code":200,"data":weekly_growth},status=status.HTTP_200_OK)
         except Exception as e:
             
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
 
 
 
-"""API TO GET COUNT OF WEEKLY GROWTH OF PARTICIPANT"""
-class WeeklyGrowth(APIView):
+"""API TO GET COUNT OF WEEKLY GROWTH OF PARTICIPANT BY EMAIL"""
+class WeeklyGrowthId(APIView):
     permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
     authentication_classes=[TokenAuthentication]
     
 
-    def get(self,request):
+    def get(self,request,email):
         try:
             current_date = datetime.datetime.now()
             week_number = current_date.strftime("%U")
-            growth=calculate_growth(request,week_number)
+            growth=calculate_growth1(request,week_number,email)
             weekly_growth={
                 "growth":growth
             } 
@@ -685,6 +929,28 @@ class NetChanges(APIView):
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
 
 
+"""API TO CALCULATE NET CHANGE IN NUMBER OF PARTICIPANT BY ID"""
+class NetChangesId(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    
+
+    def get(self,request,email):
+        try:
+            current_date = datetime.datetime.now()
+            week_number = current_date.strftime("%U")
+            growth=calculate_netchange1(request,week_number,email)
+            net_changes={
+                     "netchanges":growth
+                      }
+            
+            
+            return Response({"code":200,"data":net_changes},status=status.HTTP_200_OK)
+        except Exception as e:
+           
+            return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
+
+
 
 """API TO COUNT PARTICIPANTS COUNTS"""
 class ParticipantsCount(APIView):
@@ -702,6 +968,24 @@ class ParticipantsCount(APIView):
         except Exception as e:
             
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
+
+
+"""API TO COUNT PARTICIPANTS COUNTS BY ID"""
+class ParticipantsCountId(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    
+
+    def get(self,request,pid):
+        try:
+            
+            trails_data=trailsidcomp(request,pid)
+            data=trail_participant(request,trails_data)
+
+            return Response({"code":200,"data":data},status=status.HTTP_200_OK)
+        except Exception as e:
+            
+            return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)            
 
 
 
@@ -730,6 +1014,31 @@ class HottestDay(APIView):
     def get(self,request):
         try:
             hottest_data=hottest_day(request)
+          
+            format_change=change_format(request,hottest_data)
+            # res = {}
+            # for dic in format_change:
+            #     for key, val in dic.items():
+            #         if key in res:
+            #             res[key] = hottest_day
+            #         else:
+            #             res[key] = hottest_day
+           
+            return Response({"code":200,"data":format_change})
+        except Exception as e:
+            return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
+
+
+
+"""API TO CALCULATE HOTTEST DAY OF THE WEEK BY ID"""
+class HottestDayId(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+    
+
+    def get(self,request,pid):
+        try:
+            hottest_data=hottestid_day(request,pid)
           
             format_change=change_format(request,hottest_data)
             # res = {}
@@ -801,7 +1110,7 @@ class TrailCompExportView(APIView):
                         'mini_tour': i['mini_tour'],
                         'master_id': i['master_id'],
                         'location_to_complete': i['location_to_complete']
-                    }
+                        }
                    
                 main_data.append(main_data1)    
            
