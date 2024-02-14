@@ -3,15 +3,21 @@ import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
 import { ArrowDown, ArrowUp } from 'react-bootstrap-icons';
 import { Card } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const DynamicTable = ({ data, moreView, display }) => {
 
+    const navigate = useNavigate()
     console.log("dataaaaaaaaaaaaaaaaaaaaaaaaaaa", data)
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(50);
     const [sortedData, setSortedData] = useState(data?.slice());
     const [sortKey, setSortKey] = useState(null);
     const [sortDirection, setSortDirection] = useState('asc');
+
+    const handleDashboard =(item)=>{
+        navigate(`/user-dashboard/${item.title}`)
+    }
 
     const generateTableHeaders = () => {
         if (sortedData.length === 0) {
@@ -150,6 +156,13 @@ const DynamicTable = ({ data, moreView, display }) => {
                                 <tr key={index}>
                                     {Object.keys(item).map((key) => {
                                         if (key !== "title_submenu") {
+                                            if (key.includes("dashboard")) {
+                                                return (
+                                                    <td key={key} >
+                                                         <i onClick={()=>handleDashboard(item)} className="bi bi-eye-fill ms-5 eye-btn"  /> 
+                                                    </td>
+                                                )
+                                            }
                                             if (typeof (item[key]) !== "object") {
                                                 if (key.includes("date") || key === "first_created" || key === "last_updated") {
                                                     return (

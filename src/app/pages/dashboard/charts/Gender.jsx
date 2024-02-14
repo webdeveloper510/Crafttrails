@@ -1,9 +1,9 @@
 import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut, Pie } from "react-chartjs-2";
-import { getparticipantGender } from "../../../../utils/Api";
+import { getparticipantGender, getparticipantGenderAdmin } from "../../../../utils/Api";
 
-const Usergender = ({ className }) => {
+const Usergender = ({ className, id }) => {
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const [list, setList] = React.useState(null);
@@ -18,41 +18,12 @@ const Usergender = ({ className }) => {
   ]);
 
   React.useEffect(() => {
-    getparticipantGender().then((res) => {
+  if(id){
+    getparticipantGenderAdmin(id).then((res) => {
       // console.log("response------------------", res);
       if (res.code === 200) {
         let data = res?.data?.gender;
         let gender = res?.data
-
-        // console.log("Lets Shows" , data)
-        // let data = [8.37, 21.2 , 5.55, 80.21, 100,  55.10, 30.40 , 63.24 , 16.67]
-
-        // const result1 = data.filter((data) => {
-        //   return data <= 25 && data >= 21;
-        // });
-
-        // // console.log(result1);
-
-        // const result2 = data.filter((data) => {
-        //   return data <= 35 && data > 26;
-        // });
-        // // console.log(result2);
-
-        // const result3 = data.filter((data) => {
-        //   return data <= 45 && data > 36;
-        // });
-
-        // const result4 = data.filter((data) => {
-        //   return data <= 55 && data > 46;
-        // });
-
-        // const result5 = data.filter((data) => {
-        //   return data <= 65 && data > 56;
-        // });
-
-        // const result6 = data.filter((data) => {
-        //   return data <= 100 && data > 66;
-        // });
 
         let obj = {
           labels: [
@@ -100,6 +71,59 @@ const Usergender = ({ className }) => {
         setList(obj);
       }
     });
+  }else{
+    getparticipantGender().then((res) => {
+      // console.log("response------------------", res);
+      if (res.code === 200) {
+        let data = res?.data?.gender;
+        let gender = res?.data
+        let obj = {
+          labels: [
+            "Male",
+            "Female",
+            "Trans-gender",
+            "Non-binary",
+            "Not-Filled",
+            "Prefer Not to Say"
+          ],
+          datasets: [
+            {
+              label: "Age",
+              data: [
+                gender.male, gender.female ,gender.transgender, gender.nonbinary, gender.notmentioned, gender.prefernot],
+              borderWidth: 1,
+              backgroundColor: [
+                "rgba(255, 99, 132, 0.6)",
+                "rgba(54, 162, 235, 0.6)",
+                "rgba(255, 206, 86, 0.6)",
+                "rgba(75, 192, 192, 0.6)",
+                "#fff",
+                "rgba(255, 159, 64, 0.6)",
+              ],
+              borderColor: [
+                "rgba(255, 99, 132, 1)",
+                "rgba(54, 162, 235, 1)",
+                "rgba(255, 206, 86, 1)",
+                "rgba(75, 192, 192, 1)",
+                "#bdb9b9",
+                "rgba(255, 159, 64, 1)",
+              ],
+            },
+          ],
+        };
+        setLableData([
+          {
+            label: obj.labels,
+            bgcolor: obj.datasets[0].backgroundColor,
+            borderclr: obj.datasets[0].borderColor,
+            borderwidth: obj.datasets[0].borderWidth,
+            age: obj.datasets[0].data,
+          },
+        ]);
+        setList(obj);
+      }
+    });
+  }
   }, []);
 
   const options = {

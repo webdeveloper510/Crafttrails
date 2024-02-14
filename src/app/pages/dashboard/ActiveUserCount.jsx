@@ -1,21 +1,41 @@
 import { useEffect, useState } from "react";
-import { getActiveUserCount, getHottestDays } from "../../../utils/Api";
+import { getActiveUserCount, getActiveUserCountAdmin, getHottestDays, getHottestDaysAdmin } from "../../../utils/Api";
 
 
-function ActiveUserCountBox() {
+function ActiveUserCountBox({id}) {
   const [activeUserCount, setActiveUserCount] = useState(0);
   const [data, setData] = useState("");
+
+  console.log("idssssssssssssssssssssssssssssss", id)
   useEffect(() => {
-    getActiveUserCount().then((res) => {
-      if (res.code === 200) {
-        setActiveUserCount(res?.data?.active_count);
-      }
-    });
+    if(id){
+      getActiveUserCountAdmin(id).then((res) => {
+        if (res.code === 200) {
+          setActiveUserCount(res?.data?.active_count);
+        }
+      });
+    }else{
+      getActiveUserCount().then((res) => {
+        if (res.code === 200) {
+          setActiveUserCount(res?.data?.active_count);
+        }
+      });
+    }
+    
     getHotestdays();
   }, []);
 
   const getHotestdays = () => {
-    getHottestDays()
+    if(id){
+      getHottestDaysAdmin(id).then((res) => {
+        console.log("ressssssssssssssssssssssssss", res);
+        setData(res?.data?.hottest_day);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }else{
+      getHottestDays()
       .then((res) => {
         console.log("ressssssssssssssssssssssssss", res);
         setData(res?.data?.hottest_day);
@@ -23,6 +43,7 @@ function ActiveUserCountBox() {
       .catch((error) => {
         console.log(error);
       });
+    }     
   };
 
   return (

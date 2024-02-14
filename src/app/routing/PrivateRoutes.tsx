@@ -27,6 +27,7 @@ import HistoricTable from '../lists/historic/table'
 import Username from '../pages/username'
 import Marketingform from '../pages/form/marketing'
 import Business from '../pages/form/bussiness'
+import Userdashboard from '../../admin/dashboard/userdashboard'
 
 
 
@@ -48,6 +49,7 @@ const PrivateRoutes = () => {
         {/* Pages */}
         <Route path='admin-dashboard' element={<AdminDashboard />} />
         <Route path='user-list' element={<UserList />} />
+        <Route path='user-dashboard/:id' element={<Userdashboard />} />
         <Route path='dashboard' element={<DashboardWrapper />} />
         <Route path='membership-dashboard' element={<Membershipdash />} />
         <Route path='documentManager' element={<DcumentManagerWrapper />} />

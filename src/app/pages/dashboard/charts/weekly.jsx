@@ -1,9 +1,9 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { getWeeklyData } from "../../../../utils/Api";
+import { getWeeklyData, getWeeklyDataAdmin } from "../../../../utils/Api";
 
-const WeeklyData = ({ className }) => {
+const WeeklyData = ({ className, id }) => {
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const [list, setList] = React.useState(null);
@@ -19,6 +19,85 @@ const WeeklyData = ({ className }) => {
 
 
   React.useEffect(() => {
+    const email = localStorage.getItem("user-email")
+    console.log("local storage emailllllllllllllllllll", email)
+   if(id){
+    getWeeklyDataAdmin(email).then((res) => {
+      if (res.code === 200) {
+        let newdata = res?.data
+        const resultArray = [];
+        const resultvalue = [];
+        for (let i = 0; i < newdata.length; i++) {
+            const object = newdata[i];
+            const key = Object.keys(object)[0]; // Get the key
+            const value = object[key]; // Get the value
+            resultArray.push(key);
+            resultvalue.push(value);
+             let obj = {
+                labels: resultArray,
+                datasets: [
+                  {
+                    label: "Net Changes",
+                    data: resultvalue,
+                    borderWidth: 1,
+                    backgroundColor: [
+                      "rgba(255, 99, 132, 0.8)",
+                      "rgba(54, 162, 235, 0.8)",
+                      "rgba(255, 206, 86, 0.8)",
+                      "rgba(75, 192, 192, 0.8)",
+                      "rgba(153, 102, 255, 0.8)",
+                      "rgba(255, 159, 64, 0.8)",
+                      "rgba(255, 99, 132, 0.8)",
+                      "rgba(54, 162, 235, 0.8)",
+                      "rgba(255, 206, 86, 0.8)",
+                      "rgba(75, 192, 192, 0.8)",
+                      "rgba(153, 102, 255, 0.8)",
+                      "rgba(255, 159, 64, 0.8)",
+                      "rgba(255, 99, 132, 0.8)",
+                      "rgba(54, 162, 235, 0.8)",
+                      "rgba(255, 206, 86, 0.8)",
+                      "rgba(75, 192, 192, 0.8)",
+                      "rgba(153, 102, 255, 0.8)",
+                      "rgba(255, 159, 64, 0.8)",
+                    ],
+                    borderColor: [
+                      "rgba(255, 99, 132, 1)",
+                      "rgba(54, 162, 235, 1)",
+                      "rgba(255, 206, 86, 1)",
+                      "rgba(75, 192, 192, 1)",
+                      "rgba(153, 102, 255, 1)",
+                      "rgba(255, 159, 64, 1)",
+                      "rgba(255, 99, 132, 1)",
+                      "rgba(54, 162, 235, 1)",
+                      "rgba(255, 206, 86, 1)",
+                      "rgba(75, 192, 192, 1)",
+                      "rgba(153, 102, 255, 1)",
+                      "rgba(255, 159, 64, 1)",
+                      "rgba(255, 99, 132, 1)",
+                      "rgba(54, 162, 235, 1)",
+                      "rgba(255, 206, 86, 1)",
+                      "rgba(75, 192, 192, 1)",
+                      "rgba(153, 102, 255, 1)",
+                      "rgba(255, 159, 64, 1)",
+                    ],
+                  },
+                ],
+              };
+        setLableData([
+            {
+              label: obj.labels,
+              bgcolor: obj.datasets[0].backgroundColor,
+              borderclr: obj.datasets[0].borderColor,
+              borderwidth: obj.datasets[0].borderWidth,
+              changes: obj.datasets[0].data,
+            },
+          ]);
+        setList(obj);
+            // console.log(`Key: ${key}, Value: ${value}`);
+        }
+      }
+    });
+   }else{
     getWeeklyData().then((res) => {
       // console.log("response+++++++++++", res);
       if (res.code === 200) {
@@ -97,6 +176,7 @@ const WeeklyData = ({ className }) => {
         }
       }
     });
+   }
   }, []);
 
   const options = {
@@ -125,8 +205,8 @@ const WeeklyData = ({ className }) => {
       <p className="explaination">Week to week participants Growth</p>
       <div className="row px-5 line_chart">
         <div className="col-md-4 px-2">
-          {labelData[0].label.length > 0
-            ? labelData[0].label.map((label, index) => (
+          {labelData[0]?.label?.length > 0
+            ? labelData[0]?.label?.slice(0,2)?.map((label, index) => (
                 <div className="d-flex">
                   <div
                     key={index}

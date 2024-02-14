@@ -466,12 +466,107 @@ export const getBreweryForm = async (id) => {
     });
 };
 
-
-
-
-
-
-
+export const getActiveUserCountAdmin = async (id) => {
+  const response = await Axios.get(`/craft/active_user/${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+export const getHottestDaysAdmin = async (id) => {
+  const response = await Axios.get(`/craft/hottest/days/${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+export const getTrailAnalyticsAdmin = async (id) => {
+  const response = await Axios.get(`/craft/trail_analytics/${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+export const getUserCountAdmin = async (id) => {
+  const response = await Axios.get(`/craft/usercount/${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+export const getParticipantAgeadmin = async (id) => {
+  const response = await Axios.get(`/craft/participant_age/${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+export const getparticipantGenderAdmin = (id) => {
+  const response = Axios.get(`/craft/participant_gender/${id}`,{
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+export const getWeeklyDataAdmin = async (email) => {
+  console.log("emailaaaaaaaaaaaaaaaa", email)
+  const response = await Axios.get(`/craft/weekly/${email}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+export const getWeeklyGrowthAdmin = async (email) => {
+  const response = await Axios.get(`/craft/weeklygrowth/${email}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+export const getNetChangesAdmin = async (email) => {
+  const response = await Axios.get(`/craft/netchanges/${email}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+export const participantCountAdmin = async (id) => {
+  const response = await Axios.get(`/craft/participants/count/${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
 
 
 

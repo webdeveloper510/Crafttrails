@@ -1,9 +1,9 @@
 import React from "react";
-import { getParticipantAge } from "../../../utils/Api";
+import { getParticipantAge, getParticipantAgeadmin } from "../../../utils/Api";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 
-const Piechart2 = ({ className }) => {
+const Piechart2 = ({ className, id }) => {
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const [list, setList] = React.useState(null);
@@ -18,96 +18,127 @@ const Piechart2 = ({ className }) => {
   ]);
 
   React.useEffect(() => {
-    getParticipantAge().then((res) => {
-      // console.log("response------------------", res);
-      if (res.code === 200) {
-        // let data = res?.data?.age;
-        // console.log("Lets Shows" , data)
-        // let data = [8.37, 21.2 , 5.55, 80.21, 100,  55.10, 30.40 , 63.24 , 16.67]
-
-        // const result1 = data.filter((data) => {
-        //   return data <= 25 && data >= 21;
-        // });
-
-        // console.log(result1);
-
-        // const result2 = data.filter((data) => {
-        //   return data <= 35 && data > 26;
-        // });
-        // console.log(result2);
-
-        // const result3 = data.filter((data) => {
-        //   return data <= 45 && data > 36;
-        // });
-
-        // const result4 = data.filter((data) => {
-        //   return data <= 55 && data > 46;
-        // });
-
-        // const result5 = data.filter((data) => {
-        //   return data <= 65 && data > 56;
-        // });
-
-        // const result6 = data.filter((data) => {
-        //   return data <= 100 && data > 66;
-        // });
-
-        let obj = {
-          labels: [
-            "21 - 25",
-            "26 - 35",
-            "36 - 45",
-            "46 - 55",
-            "56 - 65",
-            "66 - 100",
-            "Not filled"
-          ],
-          datasets: [
+    if(id){
+      getParticipantAgeadmin(id).then((res) => {
+        // console.log("response------------------", res);
+        if (res.code === 200) {
+  
+          let obj = {
+            labels: [
+              "21 - 25",
+              "26 - 35",
+              "36 - 45",
+              "46 - 55",
+              "56 - 65",
+              "66 - 100",
+              "Not filled"
+            ],
+            datasets: [
+              {
+                label: "Age",
+                data: [
+                  res?.data?.ageone,
+                  res?.data?.agetwo,
+                  res?.data?.agethree,
+                  res?.data?.agefour,
+                  res?.data?.agefive,
+                  res?.data?.agesix,
+                  res?.data?.notmentioned
+                ],
+                borderWidth: 1,
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.6)",
+                  "rgba(54, 162, 235, 0.6)",
+                  "rgba(255, 206, 86, 0.6)",
+                  "rgba(75, 192, 192, 0.6)",
+                  "rgba(153, 102, 255, 0.6)",
+                  "rgba(255, 159, 64, 0.6)",
+                  "#fff",
+                ],
+                borderColor: [
+                  "rgba(255, 99, 132, 1)",
+                  "rgba(54, 162, 235, 1)",
+                  "rgba(255, 206, 86, 1)",
+                  "rgba(75, 192, 192, 1)",
+                  "rgba(153, 102, 255, 1)",
+                  "rgba(255, 159, 64, 1)",
+                  "#bdb9b9",
+                ],
+              },
+            ],
+          };
+          setLableData([
             {
-              label: "Age",
-              data: [
-                res?.data?.ageone,
-                res?.data?.agetwo,
-                res?.data?.agethree,
-                res?.data?.agefour,
-                res?.data?.agefive,
-                res?.data?.agesix,
-                res?.data?.notmentioned
-              ],
-              borderWidth: 1,
-              backgroundColor: [
-                "rgba(255, 99, 132, 0.6)",
-                "rgba(54, 162, 235, 0.6)",
-                "rgba(255, 206, 86, 0.6)",
-                "rgba(75, 192, 192, 0.6)",
-                "rgba(153, 102, 255, 0.6)",
-                "rgba(255, 159, 64, 0.6)",
-                "#fff",
-              ],
-              borderColor: [
-                "rgba(255, 99, 132, 1)",
-                "rgba(54, 162, 235, 1)",
-                "rgba(255, 206, 86, 1)",
-                "rgba(75, 192, 192, 1)",
-                "rgba(153, 102, 255, 1)",
-                "rgba(255, 159, 64, 1)",
-                "#bdb9b9",
-              ],
+              label: obj.labels,
+              bgcolor: obj.datasets[0].backgroundColor,
+              borderclr: obj.datasets[0].borderColor,
+              borderwidth: obj.datasets[0].borderWidth,
+              age: obj.datasets[0].data,
             },
-          ],
-        };
-        setLableData([
-          {
-            label: obj.labels,
-            bgcolor: obj.datasets[0].backgroundColor,
-            borderclr: obj.datasets[0].borderColor,
-            borderwidth: obj.datasets[0].borderWidth,
-            age: obj.datasets[0].data,
-          },
-        ]);
-        setList(obj);
-      }
-    });
+          ]);
+          setList(obj);
+        }
+      });
+    }else{
+      getParticipantAge().then((res) => {
+        if (res.code === 200) {
+          let obj = {
+            labels: [
+              "21 - 25",
+              "26 - 35",
+              "36 - 45",
+              "46 - 55",
+              "56 - 65",
+              "66 - 100",
+              "Not filled"
+            ],
+            datasets: [
+              {
+                label: "Age",
+                data: [
+                  res?.data?.ageone,
+                  res?.data?.agetwo,
+                  res?.data?.agethree,
+                  res?.data?.agefour,
+                  res?.data?.agefive,
+                  res?.data?.agesix,
+                  res?.data?.notmentioned
+                ],
+                borderWidth: 1,
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.6)",
+                  "rgba(54, 162, 235, 0.6)",
+                  "rgba(255, 206, 86, 0.6)",
+                  "rgba(75, 192, 192, 0.6)",
+                  "rgba(153, 102, 255, 0.6)",
+                  "rgba(255, 159, 64, 0.6)",
+                  "#fff",
+                ],
+                borderColor: [
+                  "rgba(255, 99, 132, 1)",
+                  "rgba(54, 162, 235, 1)",
+                  "rgba(255, 206, 86, 1)",
+                  "rgba(75, 192, 192, 1)",
+                  "rgba(153, 102, 255, 1)",
+                  "rgba(255, 159, 64, 1)",
+                  "#bdb9b9",
+                ],
+              },
+            ],
+          };
+          setLableData([
+            {
+              label: obj.labels,
+              bgcolor: obj.datasets[0].backgroundColor,
+              borderclr: obj.datasets[0].borderColor,
+              borderwidth: obj.datasets[0].borderWidth,
+              age: obj.datasets[0].data,
+            },
+          ]);
+          setList(obj);
+        }
+      });
+    }
   }, []);
 
   const options = {

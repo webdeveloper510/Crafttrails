@@ -165,6 +165,7 @@ const UserList = () => {
   const handleShowData = (item) => {
     console.log("itemssssssss", item);
     navigate(`/overall-points/${item.brewery}`);
+    localStorage.setItem("user-email", item.email)
   };
 
   const handledelete = (item) => {

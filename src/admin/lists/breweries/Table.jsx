@@ -25,11 +25,14 @@ const BreweryTable = ({ passport }) => {
         setLoading(false);
       });
   }, []);
-
+  
   const arr = [];
   arr.push(list);
   console.log("brewery dataaaaaaaaaaaaaaaa", arr);
-
+  const updatedData = arr.map(item => {
+    return { ...item, dashboard: ""  };
+  });
+ 
   return (
     <>
       <div>
@@ -38,6 +41,7 @@ const BreweryTable = ({ passport }) => {
           <Breadcrumb.Item active><h1 style={{ color: "#ef305e" }}>Breweries</h1></Breadcrumb.Item>
         </Breadcrumb> */}
         <div>
+        
           {loading ? (
             <div className="loader-overly">
               <div className="loader"></div>
@@ -45,7 +49,7 @@ const BreweryTable = ({ passport }) => {
           ) : (
             <>
               {arr && arr.length > 0 ? (
-                <DynamicTable data={arr} />
+                <DynamicTable data={updatedData} />
               ) : (
                 "No Record Found!!"
               )}
