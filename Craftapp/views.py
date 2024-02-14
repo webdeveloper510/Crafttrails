@@ -822,21 +822,21 @@ class WeeklyParticipantsId(APIView):
 
 
     def get(self,request,email):
-        print(email)
+        
         try:
                       
             actve_participants=[]
             current_date = datetime.datetime.now()
             week_number = current_date.strftime("%U")
             sub_items=get_all_sub_items(request)
-            print(sub_items)
+           
             user=User.objects.filter(email=email).values("id")
             
             id=user[0]["id"] 
-            print(id)    
+                
             
             parcount=WeekParticipants.objects.filter(user_id=id).exists()
-            print(parcount)
+            
            
             if parcount ==False:
                 WeekParticipants.objects.filter(user_id=id).create(user_id=id,weeknumber=week_number,participant=sub_items,weekname="week" + str(week_number))
@@ -855,7 +855,7 @@ class WeeklyParticipantsId(APIView):
             }
                 actve_participants.append(week_count)
                    
-            print(actve_participants)
+            
             return Response({"code":200,"data":actve_participants},status=status.HTTP_200_OK)
         except Exception as e:
            
