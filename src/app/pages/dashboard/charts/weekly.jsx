@@ -20,7 +20,6 @@ const WeeklyData = ({ className, id }) => {
 
   React.useEffect(() => {
     const email = localStorage.getItem("user-email")
-    console.log("local storage emailllllllllllllllllll", email)
    if(id){
     getWeeklyDataAdmin(email).then((res) => {
       if (res.code === 200) {
@@ -93,15 +92,12 @@ const WeeklyData = ({ className, id }) => {
             },
           ]);
         setList(obj);
-            // console.log(`Key: ${key}, Value: ${value}`);
         }
       }
     });
    }else{
     getWeeklyData().then((res) => {
-      // console.log("response+++++++++++", res);
       if (res.code === 200) {
-        // let data = res?.data[0].week41;
         let newdata = res?.data
         const resultArray = [];
         const resultvalue = [];
@@ -111,7 +107,6 @@ const WeeklyData = ({ className, id }) => {
             const value = object[key]; // Get the value
             resultArray.push(key);
             resultvalue.push(value);
-            //  console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",resultArray, "+++++++++++++++++++",resultvalue)
             let obj = {
                 labels: resultArray,
                 datasets: [
@@ -172,7 +167,6 @@ const WeeklyData = ({ className, id }) => {
             },
           ]);
         setList(obj);
-            // console.log(`Key: ${key}, Value: ${value}`);
         }
       }
     });

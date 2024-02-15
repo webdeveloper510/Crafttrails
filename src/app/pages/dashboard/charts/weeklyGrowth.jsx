@@ -19,7 +19,6 @@ const WeeklyGrowth = ({ className , id }) => {
 
   React.useEffect(() => {
     const email = localStorage.getItem("user-email")
-    console.log("local storage emailllllllllllllllllll", email)
    if(id){
     getWeeklyGrowthAdmin(email).then((res) => {
       if (res.code === 200) {
@@ -68,7 +67,6 @@ const WeeklyGrowth = ({ className , id }) => {
     });
    }else{
     getWeeklyGrowth().then((res) => {
-      // console.log("response+++++++++++", res);
       if (res.code === 200) {
         let data = res?.data?.growth;
         let obj = {

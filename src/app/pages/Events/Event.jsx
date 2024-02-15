@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 const EventsForm = () => {
 
   const params = useParams()
-  console.log("paramssssssssssssssssssss", params.id)
   
   return (
     <div className="px-5">

@@ -20,7 +20,6 @@ const Piechart2 = ({ className, id }) => {
   React.useEffect(() => {
     if(id){
       getParticipantAgeadmin(id).then((res) => {
-        // console.log("response------------------", res);
         if (res.code === 200) {
   
           let obj = {

@@ -25,7 +25,6 @@ const ParticipantTable = ({ passport }) => {
         setLoading(false);
       });
   }, []);
-  console.log("participant dataaaaaaaaaaaaaaaa", list);
 
   const handleDownload = () => {    
     const newdata = list.map(({ title_submenu, phone_number, ...rest }) => ({

@@ -39,10 +39,8 @@ const DashboardPage = () => {
 
   useEffect(() => {
     const status = localStorage.getItem("status")
-    // console.log("statussssssssssssssssssssssssssss", status)
     if(status == "true"){
-      navigate("/admin-dashboard") 
-      console.log("statussssssssssssssssssssssssssss", status)     
+      navigate("/admin-dashboard")     
     }
 
     setLoading(true);

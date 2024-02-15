@@ -65,10 +65,8 @@ const AuthProvider = ({ children }) => {
 
 const AuthInit = ({ children }) => {
   const { auth, logout, setCurrentUser } = useAuth()
-  // console.log("Auth Init================>",auth, logout )
   const didRequest = useRef(false)
   const [showSplashScreen, setShowSplashScreen] = useState(true)
-  // We should request user by authToken (IN OUR EXAMPLE IT'S API_TOKEN) before rendering the application
   useEffect(() => {
     const requestUser = (apiToken) => {
       try {
@@ -95,7 +93,6 @@ const AuthInit = ({ children }) => {
       logout()
       setShowSplashScreen(false)
     }
-    // eslint-disable-next-line
   }, [])
 
   return showSplashScreen ? <LayoutSplashScreen /> : <>{children}</>

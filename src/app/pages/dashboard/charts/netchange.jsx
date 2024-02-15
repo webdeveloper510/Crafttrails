@@ -20,10 +20,8 @@ const NetChanges = ({ className , id}) => {
 
   React.useEffect(() => {
     const email = localStorage.getItem("user-email")
-    console.log("local storage emailllllllllllllllllll", email)
    if(id){
     getNetChangesAdmin(email).then((res) => {
-      // console.log("response+++++++++++", res);
       if (res.code === 200) {
         let data = res?.data?.netchanges;
         let obj = {
@@ -70,7 +68,6 @@ const NetChanges = ({ className , id}) => {
     });
    }else{
     getNetChanges().then((res) => {
-      // console.log("response+++++++++++", res);
       if (res.code === 200) {
         let data = res?.data?.netchanges;
         let obj = {

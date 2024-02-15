@@ -19,10 +19,10 @@ const TableTrail = ({ passport }) => {
   const [moreView, setMoreView] = useState({ toggle: false, data: null });
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     getTrailsAdmin(passport)
       .then((res) => {
-        setLoading(false);
+        // setLoading(false);
         if (res.code === 200) {
           setList(res?.data);
         }
@@ -32,7 +32,7 @@ const TableTrail = ({ passport }) => {
       });
   }, []);
 
-  console.log("trails dataaaaaaaaaaaaaaaa", list);
+ 
 
   const handleDownload = () => {
     const filename = "trail.csv"

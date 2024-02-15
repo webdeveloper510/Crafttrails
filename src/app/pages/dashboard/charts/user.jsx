@@ -12,22 +12,16 @@ const PieChart3 = ({ className }) => {
 
     React.useEffect(() => {
         getTrailAnalytics().then(res => {
-            // console.log("response+++++++++++", res)
             if (res.code === 200) {
                 let data = res?.data?.breweries_percentage
-                // console.log("Lets Shows" , data)
-                // let data = [8.37, 21.2 , 5.55, 80.21, 100,  55.10, 30.40 , 63.24 , 16.67]
-
+             
             const result1  = data.filter((data)=> {
                 return data <= 16.67 && data >= 0
              })
-
-             console.log(result1)
                 
              const result2  = data.filter((data)=> {
                 return data <=  33.33 && data > 16.67
              })
-             console.log(result2)
 
              const result3  = data.filter((data)=> {
                 return data <= 50 && data > 33.33

@@ -68,10 +68,6 @@ export function Login() {
   };
 
   const handlePassport = (e) => {
-    console.log({
-      ...inputdata,
-      [e.target.name]: e.target.value,
-    });
 
     setInputdata({
       ...inputdata,
@@ -86,7 +82,6 @@ export function Login() {
   const handleSubmitData = () => {
     let valid = true;
     const newErrors = { ...passError };
-    // const regex = /^[A-PR-WY][1-9]\d\s?\d{4}[1-9]$/;
     if (!inputdata.location_id) {
       valid = false;
       newErrors.location_id = "Please Enter Your Location Id";
@@ -94,15 +89,11 @@ export function Login() {
     setPassError(newErrors);
     if (valid) {
       setPassError("");
-      console.log(inputdata.location_id);
       googleRegister({
         email : data?.wt.cu,
         location : inputdata?.location_id
       }).then((res)=>{
-        console.log(res)
         if (res?.code === 200) {
-          // toast.success(res.success , { position: "top-right", autoClose: 2000, theme: "colored" });
-          // saveAuth({ firstname: res.data.firstname, lastname: res.data.lastname, email: res.data.email, jwtToken: res.token })
           localStorage.setItem("token", res?.token);
           localStorage.setItem("approved", res.data.approved);
           const approved = res.data.approved;
@@ -171,10 +162,7 @@ export function Login() {
     onSubmit: async (values) => {
       loginUser(values).then((res) => {
         setLoading(false);
-        console.log("login dataaaaaaaaaaa", res);
         if (res?.code === 200) {
-          // toast.success(res.success , { position: "top-right", autoClose: 2000, theme: "colored" });
-          // saveAuth({ firstname: res.data.firstname, lastname: res.data.lastname, email: res.data.email, jwtToken: res.token })
           localStorage.setItem("token", res.token);
           localStorage.setItem("approved", res.data.approved);
           const approved = res.data.approved;
@@ -238,15 +226,10 @@ export function Login() {
   });
 
   const responseGoogle = (response) => {
-    console.log(response);
     if(response.tokenId != null){      
-      // const token = response.tokenId      
       const email = response?.profileObj?.email
       setData(response)
       getUser(email).then((res)=>{
-        console.log("get user data", res)
-        
-        // if(res?.code == 200){
           
           if(res?.error == "Invalid email"){
             setShow(true)           
@@ -257,9 +240,7 @@ export function Login() {
               email : newemail,
               location : location_id
             }).then((res)=>{
-              console.log(res)
               if (res?.code === 200) {
-                console.log(res)
                 localStorage.setItem("token", res.token);
                 localStorage.setItem("approved", res.data.approved);
                 const approved = res.data.approved;
@@ -291,7 +272,6 @@ export function Login() {
                     autoClose: 2000,
                     theme: "colored",
                   });
-                  // setShow(false)
                 } else {
                   toast.success(res?.success, {
                     position: "top-right",
@@ -310,7 +290,6 @@ export function Login() {
                     email: res.data.email,
                     jwtToken: res.token,
                   });
-                  // setShow(false)
                 }
               } else if (res?.code === 400) {
                 toast.error(res?.error, {
@@ -318,14 +297,12 @@ export function Login() {
                   autoClose: 2000,
                   theme: "colored",
                 });
-                // setShow(false)
                 setLoading(false);
               }
             }).catch((error)=>{
               console.log(error)
             })
-          }          
-        // }
+          }     
       }).catch((error)=>{
         console.log(error)
       })

@@ -3,11 +3,9 @@ import axios from "axios";
 
 const API_URL = process.env.REACT_APP_API_URL
 
-console.log(API_URL , "URl_______________________")
 
 Axios.defaults.baseURL = API_URL
 
-console.log(Axios.defaults.baseURL , "URl_______________________2")
 
 const local = JSON.parse(localStorage.getItem("app-serve-key"))
 
@@ -52,7 +50,7 @@ export const registerUser = async (data) => {
 
 export const userForgotPassword = async (data) => {
   const response = await Axios.post("/api/password_reset/", data).then(res => {
-    console.log(res, "try")
+    // console.log(res, "try")
     return res?.data
   }).catch(err => {
     return err.response?.data
@@ -61,7 +59,6 @@ export const userForgotPassword = async (data) => {
 }
 
 export const userResetPassword = async (data) => {
-  console.log("dataaaaaaa", data)
   const response = await Axios.post("/api/password_reset/confirm/", data).then(res => {
     return res?.data
   }).catch(err => {
@@ -69,7 +66,7 @@ export const userResetPassword = async (data) => {
   })
   return response
 }
-// craft/userprofile/
+
 export const getuserProfile = () => {
   const response = Axios.get(`/craft/userprofile/`,{
     headers: {
@@ -81,7 +78,7 @@ export const getuserProfile = () => {
   return response
 }
 
-// craft/participant_gender/
+
 export const getparticipantGender = () => {
   const response = Axios.get(`/craft/participant_gender/`,{
     headers: {
@@ -103,9 +100,6 @@ export const edituserProfile = (id, data) => {
   })
   return response
 }
-
-// user/update/
-
 
 export const getuserlist = (id) => {
   const response = Axios.get(`/Admin/user/edit/${id}`,{
@@ -161,7 +155,7 @@ export const getBreweriesList = async () => {
   return response
 }
 
-// trail/list/ 
+ 
 export const getTrailList = async () => {
   const response = await Axios.get("/craft/trailcomp/list/", {
     headers: {
@@ -370,7 +364,7 @@ export const AdminUserStatus = (id,data) => {
   })
   return response
 }
-// listshow
+
 export const Adminlistshow = (id,data) => {
   const response = Axios.post(`/Admin/user/listshow/${id}`, data,{
     headers: {
@@ -381,7 +375,7 @@ export const Adminlistshow = (id,data) => {
   })
   return response
 }
-// listexport
+
 
 export const Adminlistexport = (id,data) => {
   const response = Axios.post(`/Admin/user/listexport/${id}`, data,{
@@ -394,7 +388,6 @@ export const Adminlistexport = (id,data) => {
   return response
 }
 
-// trail/export/
 export const getTrailExport = async () => {
   const response = await Axios.get("/craft/trail/export/", {
     headers: {
@@ -416,7 +409,7 @@ export const getParticipantExport = async () => {
   })
   return response
 }
-// historic/trails/
+
 export const getHistoricTrails = async () => {
   const response = await Axios.get("/craft/historic/trails/", {
     headers: {
@@ -427,7 +420,7 @@ export const getHistoricTrails = async () => {
   })
   return response
 }
-// historic/participant/
+
 export const getHistoricParticipant = async (id) => {
   const response = await Axios.get(`/craft/historic/participant/${id}`, {
     headers: {
@@ -462,7 +455,7 @@ export const getBreweryForm = async (id) => {
       return res?.data;
     })
     .catch((error) => {
-      console.log("Participant list", error);
+      // console.log("Participant list", error);
     });
 };
 
@@ -527,7 +520,6 @@ export const getparticipantGenderAdmin = (id) => {
   return response
 }
 export const getWeeklyDataAdmin = async (email) => {
-  console.log("emailaaaaaaaaaaaaaaaa", email)
   const response = await Axios.get(`/craft/weekly/${email}`, {
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
@@ -547,6 +539,7 @@ export const getWeeklyGrowthAdmin = async (email) => {
   })
   return response
 }
+
 export const getNetChangesAdmin = async (email) => {
   const response = await Axios.get(`/craft/netchanges/${email}`, {
     headers: {
@@ -629,7 +622,7 @@ export const getBreweryAdmin = async (id) => {
       return res?.data;
     })
     .catch((error) => {
-      console.log("Participant list", error);
+      // console.log("Participant list", error);
     });
 };
 
@@ -643,7 +636,7 @@ export const getTrailsAdmin = async (id) => {
       return res?.data;
     })
     .catch((error) => {
-      console.log("Participant list", error);
+      // console.log("Participant list", error);
     });
 };
 export const getVisitListadmin = async (id) => {
@@ -656,7 +649,7 @@ export const getVisitListadmin = async (id) => {
       return res?.data;
     })
     .catch((error) => {
-      console.log("Participant list", error);
+      // console.log("Participant list", error);
     });
 };
 
@@ -670,7 +663,7 @@ export const getParticipantPoints = async (id) => {
       return res?.data;
     })
     .catch((error) => {
-      console.log("Participant list", error);
+      // console.log("Participant list", error);
     });
 };
 
@@ -684,11 +677,11 @@ export const getParticipantPointsAdmin = async (id) => {
       return res?.data;
     })
     .catch((error) => {
-      console.log("Participant list", error);
+      // console.log("Participant list", error);
     });
 };
 
-// Send Otp
+
 export const sendOTP = (data) => {
   const response = Axios.put("/users/send_otp", data).then(res => {
     return res?.data
@@ -696,7 +689,7 @@ export const sendOTP = (data) => {
   return response
 }
 
-//Verify OTP
+
 export const verifyOtp = (data) => {
   const response = Axios.put("/users/verify_otp", data).then(res => {
     return res?.data
@@ -704,14 +697,14 @@ export const verifyOtp = (data) => {
   return response
 }
 
-//Forget Password
+
 export const forgotPassword = (data) => {
   const response = Axios.put("/users/forgot_password", data).then(res => {
     return res?.data
   })
   return response
 }
-// craft/userprofile/
+
 
 export const getprofileImage = async (token) => {
   const response = await Axios.get("https://graph.microsoft.com/v1.0/me/photo/$value", {
@@ -719,16 +712,11 @@ export const getprofileImage = async (token) => {
       "Authorization": `Bearer ${token}`
     }
   }).then((res) => {
-    //  window.open(`${res?.data}`)
-
-
-    // console.log(res)
     return new Blob([res?.data])
   }).then((data) => {
     var reader = new FileReader();
     reader.onload = function () {
       var b64 = reader.result
-      // window.open(b64)
 
       return b64
     }

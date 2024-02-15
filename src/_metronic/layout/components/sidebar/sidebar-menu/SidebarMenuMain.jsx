@@ -26,7 +26,6 @@ const SidebarMenuMain = () => {
 
   const getuserdata = ()=>{
     getuserProfile().then((res)=>{
-      console.log("get user by token =============", res)
       setListShow(res?.data?.[0]?.listshow)
     }).catch((error)=>{
       console.log(error)
@@ -36,7 +35,6 @@ const SidebarMenuMain = () => {
   const getlinkuser = () => {
     getUserLinks()
       .then((res) => {
-        console.log("user link--------------", res.data);
         if (res?.code == 200) {
           const val = res.data
           setData(val);
@@ -49,7 +47,6 @@ const SidebarMenuMain = () => {
 
   const getTrailhistoric = ()=>{
     getHistoricTrails().then((res)=>{
-      console.log("get historic trails dataaaaaaaaaaaa", res)
       if(res.code == 200){
         setHistoric(res?.data)
       }

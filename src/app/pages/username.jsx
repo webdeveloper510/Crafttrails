@@ -9,21 +9,17 @@ const Username = () => {
   const [show, setShow] = useState(false)
 
   const handlePassport =(e)=>{
-    console.log(e.target.value)
     setPassport(e.target.value)
   }
 
   const handleSearch =()=>{
-    console.log("passporttttttttttt", passport)
     searchPassport({
       passport : passport
     }).then((res)=>{
-      console.log("responseeeeeeee", res)
       if(res?.code==200){
          setUsername(res?.data?.full_name)
          setShow(true)
       }else {
-        // setShow(true)
         toast.error("Passport number not found", {
           position: "top-right",
           autoClose: 2000,

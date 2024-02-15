@@ -62,25 +62,6 @@ const BottomAvailable = ({bottomAvailable}) => {
     pageIncreament = <li onClick={handleNextPage}>...</li>;
   }
 
-  // const getlinkuser = () => {
-  //   setLoading(true);
-  //   adminMembershipData()
-  //     .then((res) => {
-  //       setLoading(false);
-  //       console.log("Lifetime points--------------", res);
-  //       if (res.code == 200) {
-  //         setBottom(res.data?.[0]?.bottom_points_earned);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setLoading(false);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   getlinkuser();
-  // }, []);
   return (
     <div>
       <div className="px-5 py-5" style={{ width: "85%", margin: "auto" }}>

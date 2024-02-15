@@ -33,14 +33,7 @@ export function NewPassword() {
 
   const url = new URL(window.location.href);
   const token = url?.search?.split("?token=")[1]
-  console.log("tokennnnnnn", token, url)
   const [loading, setLoading] = useState(false)
-  // const [hasErrors, setHasErrors] = useState(undefined)
-  // const [otpStatus, setOtpStatus] = useState(false)
-  // const [verifyOtpStatus, setVerifyOtpStatus] = useState(false)
-  // const [passwordStatus, setPasswordStatus] = useState(false)
-  // const [id, setId] = useState(0)
-  // const [process, setProcess] = useState(0)
   const navigate = useNavigate()
 
   const formik = useFormik({
@@ -48,9 +41,7 @@ export function NewPassword() {
     validationSchema: passwordSchema,
     onSubmit: (values) => {
       setLoading(true)
-      // setHasErrors(undefined)
       userResetPassword({ password: values.newPassword ,token : token}).then(res => {
-        // console.log("resssssssssssssss", res)
         setLoading(false)
         if (res?.status?.toLowerCase() === "ok") {
           navigate("/auth")
@@ -74,15 +65,10 @@ export function NewPassword() {
     onSubmit={formik.handleSubmit}
   >
     <div className='text-center mb-10'>
-      {/* begin::Title */}
       <h1 className='text-dark fw-bolder mb-3'>Reset Password ?</h1>
-      {/* end::Title */}
-
-      {/* begin::Link */}
       <div className='text-gray-500 fw-semibold fs-6'>
         Enter your new password.
       </div>
-      {/* end::Link */}
     </div>
 
    

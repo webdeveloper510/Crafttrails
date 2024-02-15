@@ -20,7 +20,6 @@ const ParticipantCount = ({ className , id }) => {
   React.useEffect(() => {
   if(id){
     participantCountAdmin(id).then((res) => {
-      // console.log("participant count +++++++++++", res);
       if (res.code === 200) {
         let data = res?.data?.paricipant_count;
         let obj = {
@@ -63,7 +62,6 @@ const ParticipantCount = ({ className , id }) => {
     });
   }else{
     participantCount().then((res) => {
-      // console.log("participant count +++++++++++", res);
       if (res.code === 200) {
         let data = res?.data?.paricipant_count;
         let obj = {

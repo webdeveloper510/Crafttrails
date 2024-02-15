@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 const DynamicTable = ({ data, moreView, display }) => {
 
     const navigate = useNavigate()
-    console.log("dataaaaaaaaaaaaaaaaaaaaaaaaaaa", data)
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(50);
     const [sortedData, setSortedData] = useState(data?.slice());
@@ -159,7 +158,7 @@ const DynamicTable = ({ data, moreView, display }) => {
                                             if (key.includes("dashboard")) {
                                                 return (
                                                     <td key={key} >
-                                                         <i onClick={()=>handleDashboard(item)} className="bi bi-eye-fill ms-5 eye-btn"  /> 
+                                                         <i onClick={()=>handleDashboard(item)} className="bi bi-eye-fill ms-5 home-btn"  /> 
                                                     </td>
                                                 )
                                             }

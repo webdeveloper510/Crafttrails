@@ -32,14 +32,11 @@ const UserList = () => {
 
   const handleDelClose = () => {
     setDelet(false);
-    console.log(delet);
   };
 
   const handleDeletUser = (id) => {
-    console.log("delet id", id);
     deletUser(id)
       .then((res) => {
-        console.log("resssssssss delet success", res);
         if (res.code == 200) {
           toast.success(res?.message, {
             position: "top-right",
@@ -68,7 +65,6 @@ const UserList = () => {
     adminUserList()
       .then((res) => {
         setLoading(false);
-        console.log("response-------$$$$$$$$$------------", res);
         if (res.code == 200) {
           const val = res.data;
           setData(val);
@@ -87,7 +83,6 @@ const UserList = () => {
   const handleStatus = (val, id) => {
     AdminUserStatus(id, { status: val })
       .then((res) => {
-        console.log("responseeeeeeeeeee", res);
         if (res.code == 200) {
           getadminList();
           toast.success(res.data, {
@@ -109,11 +104,9 @@ const UserList = () => {
   };
 
   const handleEditLocation = (item) => {
-    console.log("itemmmmmmmmmmmmmmmmmmmmmmmmmmmmm", item);
     setShow(true);
     getuserlist(item.id)
       .then((response) => {
-        console.log("responseeeeeeeeeeeeeee", response);
         if (response?.code == 200) {
           setEditdata({
             id: item.id,
@@ -135,13 +128,11 @@ const UserList = () => {
   };
 
   const handleChangeLocation = () => {
-    console.log("locationnnnnnnnnnnnnnnn", editdata);
     let id = editdata.id;
     editUserLocation(id, {
       location: editdata.location,
     })
       .then((res) => {
-        console.log("successss update location-------------", res);
         if (res?.code == 200) {
           toast.success(res?.data, {
             position: "top-right",
@@ -163,20 +154,17 @@ const UserList = () => {
   };
 
   const handleShowData = (item) => {
-    console.log("itemssssssss", item);
     navigate(`/overall-points/${item.brewery}`);
     localStorage.setItem("user-email", item.email)
   };
 
   const handledelete = (item) => {
-    console.log("delete item---------", item.id);
     setDelet(item.id);
   };
 
   const handleListShow =(val, id)=>{
     Adminlistshow(id, { listshow : val })
     .then((res) => {
-      console.log("responseeeeeeeeeee", res);
       if (res.code == 200) {
         getadminList();
         toast.success(res.data, {
@@ -198,10 +186,8 @@ const UserList = () => {
   }
 
   const handleListExport =(val , id)=>{
-    console.log(id, val)
     Adminlistexport(id, { listexport : val })
     .then((res) => {
-      console.log("responseeeeeeeeeee", res);
       if (res.code == 200) {
         getadminList();
         toast.success(res.data, {

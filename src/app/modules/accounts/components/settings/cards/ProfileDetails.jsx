@@ -35,7 +35,6 @@ const ProfileDetails = () => {
   const userProfileDetail = () => {
     getuserProfile()
       .then((res) => {
-        console.log("get user profile detailssssssssss------------", res);
         formik.setValues(res?.data?.[0]);
         setData(res?.data?.[0]);
       })
@@ -49,15 +48,12 @@ const ProfileDetails = () => {
     initialValues,
     validationSchema: profileDetailsSchema,
     onSubmit: (values) => {
-      // setLoading(true);
-      console.log("valuessssssssssss",values)
       const id = values.id
       edituserProfile(id,{
         first_name : values.first_name,
         last_name : values.last_name,
         email : values.email
       }).then((res)=>{
-        console.log("edit user profile success==", res)
         if(res?.code == 200){
           navigate("/crafted/account/overview")
           toast.success(res?.data,{
@@ -69,38 +65,7 @@ const ProfileDetails = () => {
       }).catch((error)=>{
         console.log(error)
       })
-      // const formData = new FormData();
-      // formData.append("userId", auth.id);
-      // formData.append("first_name", values.first_name);
-      // formData.append("last_name", values.last_name);
-      // formData.append("phone_no", values.phone_no);
-      // formData.append("profile_image", values.profile_image);
-
-      // editUser(formData)
-      //   .then((res) => {
-      //     // setProfilModal(false)
-      //     if (res.code === 200) {
-      //       toast.success("Profile Update Successfully", {
-      //         position: "top-right",
-      //         autoClose: 2000,
-      //         theme: "colored",
-      //       });
-      //       navigate("/crafted/account/overview");
-      //       saveAuth(res.result);
-      //       // getUserByToken(res.result.jwtToken).then(res => {
-      //       //   setCurrentUser(res)
-      //       // })
-      //       // setoggle(true)
-      //     } else if (res.code === 201) {
-      //       toast.error(res.message, {
-      //         position: "top-right",
-      //         autoClose: 2000,
-      //         theme: "colored",
-      //       });
-      //     }
-      //     setLoading(false);
-      //   })
-      //   .catch((err) => {});
+     
     },
   });
 
@@ -199,26 +164,7 @@ const ProfileDetails = () => {
               </div>
             </div>
             {/* 
-            <div className='row mb-6'>
-              <label className='col-lg-4 col-form-label fw-bold fs-6'>
-                <span className='required'>Company Site</span>
-              </label>
-
-              <div className='col-lg-8 fv-row'>
-                <input
-                  type='text'
-                  className='form-control form-control-lg form-control-solid'
-                  placeholder='Company website'
-                  {...formik.getFieldProps('companySite')}
-                />
-                {formik.touched.companySite && formik.errors.companySite && (
-                  <div className='fv-plugins-message-container'>
-                    <div className='fv-help-block'>{formik.errors.companySite}</div>
-                  </div>
-                )}
-              </div>
-            </div>
-
+           
             <div className='row mb-6'>
               <label className='col-lg-4 col-form-label fw-bold fs-6'>
                 <span className='required'>Country</span>
@@ -748,69 +694,7 @@ const ProfileDetails = () => {
                 )}
               </div>
             </div>
-
-            <div className='row mb-6'>
-              <label className='col-lg-4 col-form-label fw-bold fs-6'>Communication</label>
-
-              <div className='col-lg-8 fv-row'>
-                <div className='d-flex align-items-center mt-3'>
-                  <label className='form-check form-check-inline form-check-solid me-5'>
-                    <input
-                      className='form-check-input'
-                      name='communication[]'
-                      type='checkbox'
-                      defaultChecked={data.communications?.email}
-                      onChange={() => {
-                        updateData({
-                          communications: {
-                            email: !data.communications?.email,
-                            phone: data.communications?.phone,
-                          },
-                        })
-                      }}
-                    />
-                    <span className='fw-bold ps-2 fs-6'>Email</span>
-                  </label>
-
-                  <label className='form-check form-check-inline form-check-solid'>
-                    <input
-                      className='form-check-input'
-                      name='communication[]'
-                      type='checkbox'
-                      defaultChecked={data.communications?.phone}
-                      onChange={() => {
-                        updateData({
-                          communications: {
-                            email: data.communications?.email,
-                            phone: !data.communications?.phone,
-                          },
-                        })
-                      }}
-                    />
-                    <span className='fw-bold ps-2 fs-6'>Phone</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div className='row mb-0'>
-              <label className='col-lg-4 col-form-label fw-bold fs-6'>Allow Marketing</label>
-
-              <div className='col-lg-8 d-flex align-items-center'>
-                <div className='form-check form-check-solid form-switch fv-row'>
-                  <input
-                    className='form-check-input w-45px h-30px'
-                    type='checkbox'
-                    id='allowmarketing'
-                    defaultChecked={data.allowMarketing}
-                    onChange={() => {
-                      updateData({allowMarketing: !data.allowMarketing})
-                    }}
-                  />
-                  <label className='form-check-label'></label>
-                </div>
-              </div>
-            </div> */}
+           */}
           </div>
 
           <div className="card-footer d-flex justify-content-end py-6 px-9">

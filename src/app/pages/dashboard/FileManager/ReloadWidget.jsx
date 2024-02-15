@@ -7,7 +7,6 @@ function ReloadWidget() {
 
     function onClickReloadButtonHandler(){  
         loadUserFolderHierarchy(true);
-        // console.log(JSON.parse(window.localStorage['app-serve-key'])["id"]);
     }
 
     return (

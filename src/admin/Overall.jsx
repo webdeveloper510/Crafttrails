@@ -10,8 +10,6 @@ import PointsTable from "./lists/points/Table";
 const Overallpoint = () => {
   const url = window.location.pathname?.split("/");
   const passport = url?.[2];
-
-  console.log("url location----------", url?.[2]);
   return (
     <div>
       <h1>Overall points</h1>

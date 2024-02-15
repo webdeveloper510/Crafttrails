@@ -15,7 +15,6 @@ const ParticipantTable = () => {
 
   const getuserdata =()=>{
     getuserProfile().then((res)=>{
-      console.log("res user profile data====", res)
       setData(res?.data?.[0]?.listexport)
     }).catch((error)=>{
       console.log(error)

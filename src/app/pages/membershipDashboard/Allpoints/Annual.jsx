@@ -67,26 +67,6 @@ const AnnualPoint = ({annual}) => {
     pageIncreament = ""
   }
 
-  // const getlinkuser = () => {
-  //   setLoading(true);
-  //   adminMembershipData()
-  //     .then((res) => {
-  //       setLoading(false);
-  //       console.log("Lifetime points--------------", res);
-  //       if (res.code == 200) {
-  //         setLifetime(res.data?.[0]?.top_annual_points);
-  //         setBottom(res.data?.[0]?.bottom_annual_points);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setLoading(false);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   getlinkuser();
-  // }, []);
   return (
     <div>
    {

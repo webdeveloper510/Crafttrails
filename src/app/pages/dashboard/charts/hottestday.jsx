@@ -11,7 +11,6 @@ const Hottestday = ({ className }) => {
   const getHotestdays = () => {
     getHottestDays()
       .then((res) => {
-        console.log("ressssssssssssssssssssssssss", res);
         setData(res.data.hottest_day);
       })
       .catch((error) => {

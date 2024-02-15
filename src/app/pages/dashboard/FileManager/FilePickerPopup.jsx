@@ -33,12 +33,8 @@ function FilePickerPopup() {
             multiselect: false,
             callbackFunction: (data) => {
                 if (data.action === 'cancel') {
-                    // console.log('User clicked cancel/close button')
                 }
                 else {
-                    // console.log("Array = ",Array.isArray(data.docs));
-                    // console.log(data.docs);
-                    // console.log(data.authResponse);
                     if (data.docs != undefined && Array.isArray(data.docs)) {
                         var file = data.docs[0];
                         setFileName(file.name)
@@ -60,14 +56,6 @@ function FilePickerPopup() {
                                         size: blob.size,
                                         // content: 
                                     });  
-
-                                    // console.log("--file = ", newFile);
-                                    // console.log("--file.size = ", blob.size);
-                                    // console.log("--file.size = ", newFile.size);
-                                    // console.log("--file.name = ", newFile.name);
-                                    // console.log("--file instanceof File = ", newFile instanceof File);
-                                     
- 
                                     setUploadedFile(newFile)
                                     postDocumentToServer(true)
 
@@ -82,7 +70,6 @@ function FilePickerPopup() {
 
     useEffect(() => {
         if (data) {
-            // data.docs.map( (i)=> console.log(i) )
         }
     }, [data])
 
@@ -115,7 +102,6 @@ function FilePickerPopup() {
         const formData = new FormData();
         formData.append('user_id', extractUserId());
         if (is_file) {
-            // console.log("---> uploadedFile ", uploadedFile)
             formData.append('file', uploadedFile);
             formData.append('name', fileName);
         } else {

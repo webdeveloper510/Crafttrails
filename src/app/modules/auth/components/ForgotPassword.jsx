@@ -72,7 +72,6 @@ export function ForgotPassword() {
       setLoading(true);
       setHasErrors(undefined);
       userForgotPassword({ email: values.email }).then((res) => {
-        // console.log("resssssssssssssss", res)
         if (res?.status?.toLowerCase() === "ok") {
           setShow(true);
         } else if (res?.email) {
@@ -131,18 +130,11 @@ export function ForgotPassword() {
           onSubmit={formik.handleSubmit}
         >
           <div className="text-center mb-10">
-            {/* begin::Title */}
             <h1 className="text-dark fw-bolder mb-3">Forgot Password ?</h1>
-            {/* end::Title */}
-
-            {/* begin::Link */}
             <div className="text-gray-500 fw-semibold fs-6">
               Enter your email to reset your password.
             </div>
-            {/* end::Link */}
           </div>
-
-          {/* begin::Title */}
           {hasErrors === true && (
             <div className="mb-lg-15 alert alert-danger">
               <div className="alert-text font-weight-bold">
@@ -159,9 +151,6 @@ export function ForgotPassword() {
               </div>
             </div>
           )}
-          {/* end::Title */}
-
-          {/* begin::Form group */}
           <div className="fv-row mb-8">
             <label className="form-label fw-bolder text-gray-900 fs-6">
               Email
@@ -187,9 +176,6 @@ export function ForgotPassword() {
               </div>
             )}
           </div>
-          {/* end::Form group */}
-
-          {/* begin::Form group */}
           <div className="d-flex flex-wrap justify-content-center pb-lg-0">
             <button
               type="submit"
@@ -213,9 +199,8 @@ export function ForgotPassword() {
               >
                 Cancel
               </button>
-            </Link>{" "}
+            </Link>
           </div>
-          {/* end::Form group */}
         </form>
       ) : process === 1 ? (
         <form
@@ -225,18 +210,11 @@ export function ForgotPassword() {
           onSubmit={otpFormik.handleSubmit}
         >
           <div className="text-center mb-10">
-            {/* begin::Title */}
             <h1 className="text-dark fw-bolder mb-3">Forgot Password ?</h1>
-            {/* end::Title */}
-
-            {/* begin::Link */}
             <div className="text-gray-500 fw-semibold fs-6">
               Enter verification OTP.
             </div>
-            {/* end::Link */}
           </div>
-
-          {/* begin::Title */}
           {hasErrors === true && (
             <div className="mb-lg-15 alert alert-danger">
               <div className="alert-text font-weight-bold">
@@ -253,9 +231,6 @@ export function ForgotPassword() {
               </div>
             </div>
           )}
-          {/* end::Title */}
-
-          {/* begin::Form group */}
           <div className="fv-row mb-8">
             <label className="form-label fw-bolder text-gray-900 fs-6">
               Verification OTP
@@ -281,9 +256,6 @@ export function ForgotPassword() {
               </div>
             )}
           </div>
-          {/* end::Form group */}
-
-          {/* begin::Form group */}
           <div className="d-flex flex-wrap justify-content-center pb-lg-0">
             <button
               type="submit"
@@ -299,7 +271,6 @@ export function ForgotPassword() {
               )}
             </button>
           </div>
-          {/* end::Form group */}
         </form>
       ) : (
         <form
@@ -309,18 +280,11 @@ export function ForgotPassword() {
           onSubmit={passFormik.handleSubmit}
         >
           <div className="text-center mb-10">
-            {/* begin::Title */}
             <h1 className="text-dark fw-bolder mb-3">Forgot Password ?</h1>
-            {/* end::Title */}
-
-            {/* begin::Link */}
             <div className="text-gray-500 fw-semibold fs-6">
               Enter New Password
             </div>
-            {/* end::Link */}
           </div>
-
-          {/* begin::Title */}
           {hasErrors === true && (
             <div className="mb-lg-15 alert alert-danger">
               <div className="alert-text font-weight-bold">
@@ -337,9 +301,6 @@ export function ForgotPassword() {
               </div>
             </div>
           )}
-          {/* end::Title */}
-
-          {/* begin::Form group */}
           <div className="fv-row mb-8" data-kt-password-meter="true">
             <div className="mb-1">
               <label className="form-label fw-bolder text-dark fs-6">
@@ -376,7 +337,6 @@ export function ForgotPassword() {
                     </div>
                   )}
               </div>
-              {/* begin::Meter */}
               <div
                 className="d-flex align-items-center mb-3"
                 data-kt-password-meter-control="highlight"
@@ -386,15 +346,11 @@ export function ForgotPassword() {
                 <div className="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
                 <div className="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
               </div>
-              {/* end::Meter */}
             </div>
             <div className="text-muted">
               Use 8 or more characters with a mix of letters, numbers & symbols.
             </div>
           </div>
-          {/* end::Form group */}
-
-          {/* begin::Form group Confirm password */}
           <div className="fv-row mb-5">
             <label className="form-label fw-bolder text-dark fs-6">
               Confirm Password
@@ -429,9 +385,6 @@ export function ForgotPassword() {
                 </div>
               )}
           </div>
-          {/* end::Form group */}
-
-          {/* begin::Form group */}
           <div className="d-flex flex-wrap justify-content-center pb-lg-0">
             <button
               type="submit"
@@ -447,7 +400,6 @@ export function ForgotPassword() {
               )}
             </button>
           </div>
-          {/* end::Form group */}
         </form>
       )}
 
@@ -463,13 +415,6 @@ export function ForgotPassword() {
           <p>Please Check Your Email</p>
         </Modal.Body>
         <Modal.Footer>
-          {/* <Button variant="secondary" onClick={handleClose}>
-            Ok
-          </Button> */}
-          {/*
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button> */}
         </Modal.Footer>
       </Modal>
     </div>

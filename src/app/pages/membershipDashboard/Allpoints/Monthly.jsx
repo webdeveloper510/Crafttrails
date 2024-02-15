@@ -65,26 +65,7 @@ const MonthlyPoint = ({monthly}) => {
     pageIncreament = "";
   }
 
-  // const getlinkuser = () => {
-  //   setLoading(true);
-  //   adminMembershipData()
-  //     .then((res) => {
-  //       setLoading(false);
-  //       console.log("Lifetime points--------------", res);
-  //       if (res.code == 200) {
-  //         setLifetime(res.data?.[0]?.top_monthly_points);
-  //         setBottom(res.data?.[0]?.bottom_monthly_points);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setLoading(false);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   getlinkuser();
-  // }, []);
+ 
   return (
     <div>
       {loading ? (

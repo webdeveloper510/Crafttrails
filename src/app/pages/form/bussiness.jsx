@@ -17,12 +17,10 @@ const Business = () => {
 
   const getProfileData =()=>{
     getuserProfile().then((res)=>{
-        console.log("responseeeeeee", res?.data?.[0]?.brewery)
 
         if(res?.code == 200){
           const id = res?.data?.[0]?.brewery
           getBreweryForm(id).then((res)=>{
-            console.log("brewery idsssssssssssss", res?.data?.title_submenu?.updatebussiness)
             setData(res?.data?.title_submenu?.updatebussiness)
           }).catch((error)=>{
             console.log(error)

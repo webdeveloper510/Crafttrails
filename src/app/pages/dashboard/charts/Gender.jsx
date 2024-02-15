@@ -20,7 +20,6 @@ const Usergender = ({ className, id }) => {
   React.useEffect(() => {
   if(id){
     getparticipantGenderAdmin(id).then((res) => {
-      // console.log("response------------------", res);
       if (res.code === 200) {
         let data = res?.data?.gender;
         let gender = res?.data
@@ -73,7 +72,6 @@ const Usergender = ({ className, id }) => {
     });
   }else{
     getparticipantGender().then((res) => {
-      // console.log("response------------------", res);
       if (res.code === 200) {
         let data = res?.data?.gender;
         let gender = res?.data

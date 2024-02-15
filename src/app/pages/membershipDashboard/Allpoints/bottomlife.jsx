@@ -65,25 +65,7 @@ const BottomLifetime = ({bottom}) => {
     pageIncreament = ""
   }
 
-  // const getlinkuser = () => {
-  //   setLoading(true);
-  //   adminMembershipData()
-  //     .then((res) => {
-  //       setLoading(false);
-  //       console.log("Lifetime points--------------", res);
-  //       if (res.code == 200) {
-  //         setBottom(res.data?.[0]?.bottom_user_overall);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setLoading(false);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   getlinkuser();
-  // }, []);
+ 
   return (
     <div>
       {

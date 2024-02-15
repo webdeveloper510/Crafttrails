@@ -13,11 +13,9 @@ const HistoricTable = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState("")
   const url = window?.location?.pathname?.split("/")?.[3]?.replaceAll("%20", " ")
-  console.log("location urllllllllllllllllllll", url)
 
   const getuserdata =()=>{
     getuserProfile().then((res)=>{
-      console.log("res user profile data====", res)
       setData(res?.data?.[0]?.listexport)
     }).catch((error)=>{
       console.log(error)
@@ -26,10 +24,8 @@ const HistoricTable = () => {
 
   useEffect(() => {
     setLoading(true)
-    console.log("getHistoricParticipanttttttttttttttttttttt", url)
 
     getHistoricParticipant(url).then(res => {
-        console.log("getHistoricParticipanttttttttttttttttttttt", res?.data)
       setLoading(false)
       if (res.code === 200) {
         setList(res?.data)

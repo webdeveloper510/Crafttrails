@@ -154,6 +154,11 @@ tr:hover .iconss {
     font-size:18px !important;
     cursor: pointer;
 }
+.home-btn{
+    color: #009ef7 !important;
+    font-size:24px !important;
+    cursor: pointer;
+}
 .delete-btn{
     color: rgb(197, 6, 6) !important;
     font-size:18px !important;

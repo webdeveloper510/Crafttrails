@@ -30,7 +30,6 @@ const Membershipdash = () => {
     adminMembershipData()
       .then((res) => {
         setLoading(false)
-        // console.log("membership dashboard--------------", res);
         if(res.code == 200){
           setData(res.data?.[0]);
           setLifetime(res.data?.[0]?.top_user_overall);

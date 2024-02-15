@@ -24,7 +24,6 @@ const Table = () => {
   const getuserdata = () => {
     getuserProfile()
       .then((res) => {
-        console.log("res user profile data====", res);
         setData(res?.data?.[0]?.listexport);
       })
       .catch((error) => {
@@ -36,27 +35,15 @@ const Table = () => {
     setLoading(true);
     getTrailList()
       .then((res) => {
-        console.log("trailssssssssssssss", res.data);
         setLoading(false);
         if (res.code === 200) {
           setList(res?.data);
-          // let lists = res?.data;
-          // const soloTrailData = lists.filter(
-          //   (item) => item.is_solo_trail === "True"
-          // );
-          // const soloTrailfalse = lists.filter(
-          //   (item) => item.is_solo_trail === "False"
-          // );
-          // setList(soloTrailData);
-          // setVisited(soloTrailfalse);
-          // console.log("is solo trailssssssssss", soloTrailData)
         }
       })
       .catch((error) => {
         setLoading(false);
       });
     getuserdata();
-    // getTrailData()
   }, []);
 
   const handleDownload = () => {
@@ -72,7 +59,6 @@ const Table = () => {
     document.body.removeChild(link);
   };
 
-  // console.log(list, "++++++++++++++++++++++++++++");
 
   return (
     <>

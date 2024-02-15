@@ -28,7 +28,6 @@ const BreweryTable = ({ passport }) => {
   
   const arr = [];
   arr.push(list);
-  console.log("brewery dataaaaaaaaaaaaaaaa", arr);
   const updatedData = arr.map(item => {
     return { ...item, dashboard: ""  };
   });
