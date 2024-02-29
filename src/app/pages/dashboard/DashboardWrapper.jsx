@@ -1,21 +1,4 @@
-// /* eslint-disable jsx-a11y/anchor-is-valid */
-// import { useIntl } from "react-intl";
-// import { toAbsoluteUrl } from "../../../_metronic/helpers";
-// import { PageTitle } from "../../../_metronic/layout/core";
-// import {
-//   ListsWidget2,
-//   ListsWidget3,
-//   ListsWidget4,
-//   ListsWidget6,
-//   TablesWidget5,
-//   TablesWidget10,
-//   MixedWidget8,
-//   // CardsWidget7,
-//   // CardsWidget17,
-//   // CardsWidget20,
-//   // ListsWidget26,
-//   EngageWidget10,
-// } from "../../../_metronic/partials/widgets";
+
 import ActiveUserCount from "./ActiveUserCount";
 import PieChart from "./userCompletion";
 import { useEffect, useState } from "react";
@@ -28,6 +11,7 @@ import WeeklyData from "./charts/weekly";
 import ParticipantCount from "./charts/participant";
 import { useNavigate } from "react-router-dom";
 import Usergender from "./charts/Gender";
+import Loyality from "./charts/loyality";
 // import Hottestday from "./charts/hottestday";
 
 const DashboardPage = () => {
@@ -36,6 +20,7 @@ const DashboardPage = () => {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
+  const [loyality, setLoyality] = useState("Loyality")
 
   useEffect(() => {
     const status = localStorage.getItem("status")
@@ -54,6 +39,11 @@ const DashboardPage = () => {
     })
   }, []);
 
+  const handlePoints=(name)=>{
+    setLoyality(name)
+  }
+
+  console.log("name-----------------------", loyality)
   
   return (
     <>
@@ -65,8 +55,16 @@ const DashboardPage = () => {
         <>
           <div className="row">
             <h1 className="display-6 mb-5 pb-4 text-center">{name}</h1>
+            <div className="text-center mb-5 pb-4">
+              <button className="butns-dash" onClick={()=>handlePoints("Loyality")} >Loyality</button>
+              <button className="butns-dash" onClick={()=>handlePoints("Birthday")}>Birthday</button>
+              <button className="butns-dash" onClick={()=>handlePoints("Special Trail")}>Special Trail</button>
+            </div>
           </div>
           <div className="row g-5 g-xl-10 mb-5 mb-xl-10">
+          <div className="col-md-12 col-lg-12 col-xl-12 col-xxl-12 mb-md-5 mb-xl-10">
+              <Loyality loyality={loyality}/>
+            </div>
             <div className="col-md-12 col-lg-12 col-xl-12 col-xxl-12 mb-md-5 mb-xl-10">
               <ActiveUserCount />
             </div>

@@ -724,3 +724,39 @@ export const getprofileImage = async (token) => {
   })
   return response
 }
+
+
+// participant/birthday/
+
+export const getparticipantBirthday = () => {
+  const response = Axios.get(`/craft/participant/birthday/`,{
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+// participant/loyality_points/
+export const getLoyalityPoints = () => {
+  const response = Axios.get(`/craft/participant/loyality_points/`,{
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
+// historic/trails/
+export const getSpecialTrails = () => {
+  const response = Axios.get(`/craft/historic/trails/`,{
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}

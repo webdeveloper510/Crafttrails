@@ -322,3 +322,14 @@ button.google-login {
         text-align: center;
     }
 }
+
+.butns-dash{
+    background: #1593d5;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 10px;
+    margin: 10px 5px;
+}
