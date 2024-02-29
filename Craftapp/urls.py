@@ -51,6 +51,9 @@ urlpatterns = [
     path("participant/points/export/",ParticipantPointsExportView.as_view(),name="pointsexport"),
     path("historic/trails/",HistoricTrailsView.as_view(),name="historictrails"),
     path("historic/participant/<str:trail>",HistoricTrailsParticipantView.as_view(),name="historicparticipant"),
-    path("passport/name/",PassportNameView.as_view(),name="passportname")
+    path("passport/name/",PassportNameView.as_view(),name="passportname"),
+    path("participant/birthday/",ParticipantBirthday.as_view(),name="participantbirthday"),
+    path("participant/loyality_points/",LoyalityPointsView.as_view(),name="loyalitypoints")
+
 ]
 

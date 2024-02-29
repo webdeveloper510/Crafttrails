@@ -738,9 +738,9 @@ class RegisterUnRegister(APIView):
                 unregister_user=[k["master_id"] for k in trails_data if k["master_id"]=="" and k["location_to_complete"]]
             
             user_count={
-                "register_user":len(register_user),
-                "unregister_user":len(unregister_user)
-            }
+                        "register_user":len(register_user),
+                        "unregister_user":len(unregister_user)
+                        }
             return Response({"code":200,"data":user_count},status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
@@ -763,9 +763,9 @@ class RegisterUnRegisterId(APIView):
                 unregister_user=[k["master_id"] for k in trails_data if k["master_id"]=="" and k["location_to_complete"]]
             
             user_count={
-                "register_user":len(register_user),
-                "unregister_user":len(unregister_user)
-            }
+                        "register_user":len(register_user),
+                        "unregister_user":len(unregister_user)
+                        }
             return Response({"code":200,"data":user_count},status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
@@ -784,28 +784,33 @@ class WeeklyParticipants(APIView):
             actve_participants=[]
             current_date = datetime.datetime.now()
             week_number = current_date.strftime("%U")
+            week_year = current_date.strftime("%Y")
+           
             sub_items=get_all_sub_items(request)
                   
             parcount=WeekParticipants.objects.filter(user_id=request.user.id).exists()
           
            
             if parcount ==False:
-                WeekParticipants.objects.filter(user_id=request.user.id).create(user_id=request.user.id,weeknumber=week_number,participant=sub_items,weekname="week" + str(week_number))
+               
+                WeekParticipants.objects.filter(user_id=request.user.id).create(user_id=request.user.id,weeknumber=int(week_number),weekyear=week_year,participant=sub_items,weekname="week" + str(week_number))
             else:
-                already=WeekParticipants.objects.filter(user_id=request.user.id,weekname="week"+str(week_number)).exists()
+                already=WeekParticipants.objects.filter(user_id=request.user.id,weekyear=week_year,weekname="week"+str(week_number)).exists()
                 if already == True:
-                    WeekParticipants.objects.filter(user_id=request.user.id,weekname="week" + str(week_number)).update(participant=sub_items)
+                    WeekParticipants.objects.filter(user_id=request.user.id,weekyear=week_year,weekname="week" + str(week_number)).update(participant=sub_items)
                 else:
-                    WeekParticipants.objects.filter(user_id=request.user.id).create(user_id=request.user.id,weeknumber=week_number,participant=sub_items,weekname="week" + str(week_number))
+                    WeekParticipants.objects.filter(user_id=request.user.id).create(user_id=request.user.id,weekyear=week_year,weeknumber=int(week_number),participant=sub_items,weekname="week" + str(week_number))
 
-            week_data=WeekParticipants.objects.filter(user_id=request.user.id).order_by('-weekname')[:10]
+            week_data=WeekParticipants.objects.filter(user_id=request.user.id).order_by('weekyear')
           
             for i in week_data:
-                week_count={
-                        i.weekname:i.participant
-                        }
-                actve_participants.append(week_count)
-                   
+                if i.weekyear==week_year:
+
+                    week_count={
+                            i.weekname:i.participant
+                            }
+                    actve_participants.append(week_count)
+                    
 
             return Response({"code":200,"data":actve_participants},status=status.HTTP_200_OK)
         except Exception as e:
@@ -822,38 +827,37 @@ class WeeklyParticipantsId(APIView):
 
 
     def get(self,request,email):
-        
+        pid=request.user.brewery
         try:
                       
             actve_participants=[]
             current_date = datetime.datetime.now()
             week_number = current_date.strftime("%U")
-            sub_items=get_all_sub_items(request)
-           
+            week_year=current_date.strftime("%Y")
+            sub_items=get_all_sub_items1(request,pid)
             user=User.objects.filter(email=email).values("id")
-            
-            id=user[0]["id"] 
-                
-            
-            parcount=WeekParticipants.objects.filter(user_id=id).exists()
-            
+            id=user[0]["id"]
            
+            parcount=WeekParticipants.objects.filter(user_id=id).exists()
+                      
             if parcount ==False:
-                WeekParticipants.objects.filter(user_id=id).create(user_id=id,weeknumber=week_number,participant=sub_items,weekname="week" + str(week_number))
-            else:
-                already=WeekParticipants.objects.filter(user_id=id,weekname="week"+str(week_number)).exists()
-                if already == True:
-                    WeekParticipants.objects.filter(user_id=id,weekname="week" + str(week_number)).update(participant=sub_items)
-                else:
-                    WeekParticipants.objects.filter(user_id=id).create(user_id=id,weeknumber=week_number,participant=sub_items,weekname="week" + str(week_number))
 
-            week_data=WeekParticipants.objects.filter(user_id=id).order_by('-weekname')[:10 ]
+                WeekParticipants.objects.filter(user_id=id).create(user_id=id,weeknumber=int(week_number),weekyear=week_year,participant=sub_items,weekname="week" + str(week_number))
+            else:
+                already=WeekParticipants.objects.filter(user_id=id,weekyear=week_year,weekname="week"+str(week_number)).exists()
+                if already == True:
+                    WeekParticipants.objects.filter(user_id=id,weekyear=week_year,weekname="week" + str(week_number)).update(participant=sub_items)
+                else:
+                    WeekParticipants.objects.filter(user_id=id).create(user_id=id,weeknumber=int(week_number),weekyear=week_year,participant=sub_items,weekname="week" + str(week_number))
+
+            week_data=WeekParticipants.objects.filter(user_id=id).order_by('weekname')
           
             for i in week_data:
-                week_count={
-                        i.weekname:i.participant
-            }
-                actve_participants.append(week_count)
+                if i.weekyear==week_year:
+                    week_count={
+                                i.weekname:i.participant
+                            }
+                    actve_participants.append(week_count)
                    
             
             return Response({"code":200,"data":actve_participants},status=status.HTTP_200_OK)
@@ -875,7 +879,9 @@ class WeeklyGrowth(APIView):
         try:
             current_date = datetime.datetime.now()
             week_number = current_date.strftime("%U")
-            growth=calculate_growth(request,week_number)
+            week_year = current_date.strftime("%Y")
+            
+            growth=calculate_growth(request,week_number,week_year)
             weekly_growth={
                 "growth":growth
             } 
@@ -897,7 +903,8 @@ class WeeklyGrowthId(APIView):
         try:
             current_date = datetime.datetime.now()
             week_number = current_date.strftime("%U")
-            growth=calculate_growth1(request,week_number,email)
+            week_year=current_date.strftime("%Y")
+            growth=calculate_growth1(request,week_number,email,week_year)
             weekly_growth={
                 "growth":growth
             } 
@@ -919,7 +926,8 @@ class NetChanges(APIView):
         try:
             current_date = datetime.datetime.now()
             week_number = current_date.strftime("%U")
-            growth=calculate_netchange(request,week_number)
+            week_year=current_date.strftime("%Y")
+            growth=calculate_netchange(request,week_number,week_year)
             net_changes={
                      "netchanges":growth
                       }
@@ -941,7 +949,8 @@ class NetChangesId(APIView):
         try:
             current_date = datetime.datetime.now()
             week_number = current_date.strftime("%U")
-            growth=calculate_netchange1(request,week_number,email)
+            week_year=current_date.strftime("%Y")
+            growth=calculate_netchange1(request,week_number,email,week_year)
             net_changes={
                      "netchanges":growth
                       }
@@ -1332,6 +1341,70 @@ class PassportNameView(APIView):
             return Response({"code":200,"data":passport_name},status=status.HTTP_200_OK)
         except Exception as e:  
             return Response({"code":400,"error":"unable to fetch data"},status=status.HTTP_200_OK)
+
+
+"Api to get participants Birthday"   
+class ParticipantBirthday(APIView):
+    permission_classes=[IsAuthenticated]                                                                                                                                                                                                                                                                                                                                                                                                                            
+    authentication_classes=[TokenAuthentication]
+   
+
+    def get(self,request):
+        try:
+            birthday=[]
+            val=[]
+            todays_date = date.today() 
+            trails_data=trailscomp(request)   
+            active_trails_data=active_trails(request)   
+            participant_data=participants(request)
+            name=""
+            for k in active_trails_data.json()["items"]:
+                for i in trails_data:
+                    if i["trail_name"]==k["s9b9447a8e"]:
+                        if i["breweries_completed"]>0:
+                            passport=i["passport"]
+                            val.append(passport)
+
+            count=0
+            count1=0
+            count2=0
+           
+            for paticipate in participant_data:
+                if paticipate["rfid_tag"] in val:
+                    if paticipate["date_of_birth"] != "":
+                        dateofbirth=paticipate["date_of_birth"].split("T")[0]
+                        dateofbirth1=datetime.datetime.strptime(dateofbirth, "%Y-%m-%d").date()
+                                            
+                        if (dateofbirth1.month, dateofbirth1.day) == (todays_date.month, todays_date.day):
+                            count=count+1
+                            name=paticipate["full_name"] 
+                        else:
+                            count1=count1+1
+                    else:    
+                        count2=count2+1   
+                    data={"count":count,"name":name,"count1":count1,"count2":count2}
+                    birthday.append(data)        
+            data = birthday                  
+            return Response({"code":200,"data":data},status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)
+
+
+"""API to get Participants Loyality Points Count"""      
+class LoyalityPointsView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
+  
+
+    def get(self,request):
+        try:
+            partic_data=loyalitypoints(request)
+            return Response({"code":200,"data":partic_data},status=status.HTTP_200_OK)
+        except Exception as e:
+           
+            return Response({"code":400,"error":"Unable to fetch data"},status=status.HTTP_200_OK)      
+
+
 
         
     

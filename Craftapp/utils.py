@@ -1016,10 +1016,10 @@ def get_all_sub_items(request):
     active_participants=[]
     base_url = settings.base_url
     headers = {
-        "Authorization": settings.authorization,
-        "Account-Id":  settings.account_id,
-        "Content-Type": "application/json"
-    }
+            "Authorization": settings.authorization,
+            "Account-Id":  settings.account_id,
+            "Content-Type": "application/json"
+            }
     # app_ids = settings.active_trails
 
     # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
@@ -1048,57 +1048,76 @@ def get_all_sub_items(request):
     return count
 
 
-def calculate_growth(request,week_number):
+
+def get_all_sub_items1(request,pid):
+    active_participants=[]
+    base_url = settings.base_url
+    headers = {
+        "Authorization": settings.authorization,
+        "Account-Id":  settings.account_id,
+        "Content-Type": "application/json"
+    }
+    trails_data=trailsidcomp(request,pid)   
+    active_trails_data=active_trails(request) 
+    count=0
+    for k in active_trails_data.json()["items"]:
+        for i in trails_data:
+            if  i["trail_name"] == k["s9b9447a8e"] :
+                count=count+1
+        
+    return count    
+
+
+def calculate_growth(request,week_number,week_year):
     growth_percentage=0
     
-    current_week=WeekParticipants.objects.filter(user_id=request.user.id,weeknumber=int(week_number)).values("participant")
-    previous_week=WeekParticipants.objects.filter(user_id=request.user.id,weeknumber=int(week_number)-1).values("participant")
-   
+    current_week=WeekParticipants.objects.filter(user_id=request.user.id,weeknumber=int(week_number),weekyear=week_year).values("participant")
+    previous_week=WeekParticipants.objects.filter(user_id=request.user.id,weeknumber=int(week_number)-1,weekyear=week_year).values("participant")
+    
     if current_week and previous_week:
         growth_percentage=(int(current_week[0]["participant"])-int(previous_week[0]["participant"]))/int(previous_week[0]["participant"])
     return growth_percentage
 
 
-def calculate_growth1(request,week_number,email):
+def calculate_growth1(request,week_number,email,week_year):
     user=User.objects.filter(email=email).values("id")
     id=user[0]["id"]
     growth_percentage=0
     
-    current_week=WeekParticipants.objects.filter(user_id=id,weeknumber=int(week_number)).values("participant")
-    previous_week=WeekParticipants.objects.filter(user_id=id,weeknumber=int(week_number)-1).values("participant")
+    current_week=WeekParticipants.objects.filter(user_id=id,weeknumber=int(week_number),weekyear=week_year).values("participant")
+    previous_week=WeekParticipants.objects.filter(user_id=id,weeknumber=int(week_number)-1,weekyear=week_year).values("participant")
    
     if current_week and previous_week:
         growth_percentage=(int(current_week[0]["participant"])-int(previous_week[0]["participant"]))/int(previous_week[0]["participant"])
     return growth_percentage
 
 
-def calculate_netchange(request,week_number):
+def calculate_netchange(request,week_number,week_year):
+   
     net_percentage=0
 
-    current_week=WeekParticipants.objects.filter(user_id=request.user.id,weeknumber=int(week_number)).values("participant")
-    previous_week=WeekParticipants.objects.filter(user_id=request.user.id,weeknumber=int(week_number)-1).values("participant")
-    
+    current_week=WeekParticipants.objects.filter(user_id=request.user.id,weeknumber=int(week_number),weekyear=week_year).values("participant")
+    previous_week=WeekParticipants.objects.filter(user_id=request.user.id,weeknumber=int(week_number)-1,weekyear=week_year).values("participant")
+  
     if current_week and previous_week:
         net_percentage=int(current_week[0]["participant"])-int(previous_week[0]["participant"])
 
     return net_percentage
 
 
-def calculate_netchange1(request,week_number,email):
+def calculate_netchange1(request,week_number,email,week_year):
     user=User.objects.filter(email=email).values("id")
     id=user[0]["id"]
 
     net_percentage=0
 
-    current_week=WeekParticipants.objects.filter(user_id=id,weeknumber=int(week_number)).values("participant")
-    previous_week=WeekParticipants.objects.filter(user_id=id,weeknumber=int(week_number)-1).values("participant")
+    current_week=WeekParticipants.objects.filter(user_id=id,weeknumber=int(week_number),weekyear=week_year).values("participant")
+    previous_week=WeekParticipants.objects.filter(user_id=id,weeknumber=int(week_number)-1,weekyear=week_year).values("participant")
     
     if current_week and previous_week:
         net_percentage=int(current_week[0]["participant"])-int(previous_week[0]["participant"])
 
     return net_percentage    
-
-
 
 
 def trail_participant(request,trails_data):
@@ -1127,7 +1146,7 @@ def urls_link(request):
         "Authorization": settings.authorization,
         "Account-Id":  settings.account_id,
         "Content-Type": "application/json"
-    }
+         }
     app_ids = settings.event 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     active_urls_linlk={urls["title"]:urls["s0576c7c42"] for urls in response.json()["items"] if urls["safb5bb2e0"] and int(urls["safb5bb2e0"])==int(request.user.brewery)}
@@ -1264,7 +1283,8 @@ def list_user(request):
 def historic_trails(request):
     
     pid=request.user.brewery
-   
+    unique_master_id=set()
+    participant_trail=set()
     trail_dict={}
     trail_list=[]
     trail_data=trailscomp(request)
@@ -1275,23 +1295,68 @@ def historic_trails(request):
         "Account-Id":  settings.account_id,
         "Content-Type": "application/json"
     }
+    app_ids = settings.active_trails
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    for i in response.json()["items"] :
+        if i["title"]==pid:
+            trail_name=i["s9b9447a8e"]
+            trail_year=i["s157fa6cfb"]
+            trail_season=i["s74aaea978"]
+            trail_minitour=i["sd82de27d5"]
+        
+           
+    app_ids = settings.trailmaster_id 
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    
+    for i in response.json()["items"]:
+       
+        if trail_name==i["sc270d76da"] and trail_year==i["scef57f448"] and trail_season==i["sd25a89828"] and trail_minitour==i["s56b038ef3"]:
+                if i["s0d1c07938"] !="":
+                    master_id1=i["s0d1c07938"]
+                    unique_master_id.add(master_id1)
+         
+    app_ids = settings.participants_points
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    
+
+    
+    for i in response.json()["items"]:
+        if i["title"] in list(unique_master_id):
+       
+            if i["s1255e267e"]["count"]>0:
+                       
+                for k in  range(i["s1255e267e"]["count"]):
+                    trail_name=i["s1255e267e"]["items"][k]["name"]
+                    participant_trail.add( trail_name)
+                        
+    trail_data=list(participant_trail)
     
     app_ids = settings.active_trails
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     for i in response.json()["items"] :       
-        for trails in trail_data:  
-             
-        
-            if trails["trail_name"] == i["s9b9447a8e"] and trails["mini_tour"]==i["sd82de27d5"]:
+        for trail in trail_data:
+            if i["title"] == trail:
+                title_exists = True
+                trail_data.remove(trail)
+              
+
+    app_ids = settings.breweries_id 
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+      
+    for i in response.json()["items"] :     
+        for trail in trail_data:
+            if int(i["title"]) == int(trail):
+                trail_name = i["s8a95871e9"]  # Make sure to handle the case when 's9b9447a8e' is not present
+                if trail_name:
+                    historic_trails.add(trail_name)
                 
-                trail_name=i["s9b9447a8e"]
-                
-                historic_trails.add(trail_name)
-        
     data1=list(historic_trails)
+    count=0
     for i in data1:
+        count=count+1
         trail_dict={
-                "trail_name":i
+                "trail_name":i,
+                "count":count
                  } 
          
         trail_list.append(trail_dict)
@@ -1382,6 +1447,55 @@ def passportname(request,passport):
                 }
                
     return data
+
+
+def loyalitypoints(request):
+    pid=request.user.brewery
+    loyality_points=[]
+    unique_master_id=set()
+    base_url = settings.base_url
+    headers = {
+        "Authorization": settings.authorization,
+        "Account-Id":  settings.account_id,
+        "Content-Type": "application/json"
+    }
+    app_ids = settings.active_trails
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    for i in response.json()["items"] :
+        if i["title"]==pid:
+            trail_name=i["s9b9447a8e"]
+            trail_year=i["s157fa6cfb"]
+            trail_season=i["s74aaea978"]
+            trail_minitour=i["sd82de27d5"]
+        
+           
+    app_ids = settings.trailmaster_id 
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    for i in response.json()["items"]:
+        if trail_name==i["sc270d76da"] and trail_year==i["scef57f448"] and trail_season==i["sd25a89828"] and trail_minitour==i["s56b038ef3"]:
+                if i["s0d1c07938"] !="":
+                    master_id1=i["s0d1c07938"]
+                    unique_master_id.add(master_id1)
+         
+   
+    app_ids = settings.participants_points
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    
+    count=0
+    
+    for i in response.json()["items"]:
+        if i["title"] in list(unique_master_id):
+           
+            if i["s1255e267e"]["count"]>0:
+                 
+                for k in  range(i["s1255e267e"]["count"]):
+                    count=count+1
+    data={"count":count}
+    loyality_points.append(data)        
+    data= loyality_points
+    return data    
+
+  
 
     
    
