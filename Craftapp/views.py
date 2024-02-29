@@ -1377,13 +1377,13 @@ class ParticipantBirthday(APIView):
                                             
                         if (dateofbirth1.month, dateofbirth1.day) == (todays_date.month, todays_date.day):
                             count=count+1
-                            name=paticipate["full_name"] 
+                            # name=paticipate["full_name"] 
                         else:
                             count1=count1+1
                     else:    
                         count2=count2+1   
-                    data={"count":count,"name":name,"count1":count1,"count2":count2}
-                    birthday.append(data)        
+            data={"count":count,"count1":count1,"count2":count2}
+            birthday.append(data)        
             data = birthday                  
             return Response({"code":200,"data":data},status=status.HTTP_200_OK)
         except Exception as e:
