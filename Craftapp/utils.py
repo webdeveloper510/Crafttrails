@@ -366,10 +366,11 @@ def trailscomp(request,trail_type):
     return data   
 
 def trailsidcomp(request,pid,trail_type):
-   
+    print(pid,trail_type)
     breweries_completed=[]
     trail_list=[]
     trail1=googlesheetread(request)
+    print(trail1)
     base_url = settings.base_url
     headers = {
         "Authorization": settings.authorization,
