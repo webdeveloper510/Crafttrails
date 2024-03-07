@@ -840,7 +840,9 @@ class WeeklyParticipantsId(APIView):
 
 
     def get(self,request,email):
-        pid=request.user.brewery
+        user=User.objects.filter(email=email).values("brewery")
+        pid=user[0]["brewery"]
+        
         try:
                       
             actve_participants=[]
