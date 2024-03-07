@@ -250,7 +250,7 @@ def googlesheetread(request):
     return data      
 
 def googlesheetread(request,pid):
-    pid=request.user.brewery
+   
     trails_data=[]
     sheet_id = 'https://docs.google.com/spreadsheets/d/10kGAedZW2pNm-jbxalfzZ_rMx-KEZIcdUEKSzezWjdc/edit#gid=0/'
     # URL to access Google Sheets API
