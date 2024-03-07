@@ -209,7 +209,8 @@ class TrailCompView(APIView):
 
     def get(self,request):
         try:
-            trails_data=trailscomp(request)   
+            trail_type = request.query_params.get("trail_type")
+            trails_data=trailscomp(request,trail_type)   
             return Response({"code":200,"data":trails_data},status=status.HTTP_200_OK)
         except Exception as e:
             
@@ -223,7 +224,8 @@ class TrailIDCompView(APIView):
 
     def get(self,request,pid):
         try:
-            trails_data=trailsidcomp(request,pid)   
+            trail_type = request.query_params.get("trail_type")
+            trails_data=trailsidcomp(request,pid,trail_type)   
             return Response({"code":200,"data":trails_data},status=status.HTTP_200_OK)
         except Exception as e:
             
@@ -365,7 +367,8 @@ class ActiveUser(APIView):
 
     def get(self,request):
         try:
-            trails_data=trailscomp(request)   
+            trail_type=request.query_params.get("trail_type")
+            trails_data=trailscomp(request,trail_type)   
             active_trails_data=active_trails(request)   
             count=0
             for i in trails_data:
@@ -390,7 +393,8 @@ class ActiveUserId(APIView):
 
     def get(self,request,pid):
         try:
-            trails_data=trailsidcomp(request,pid)   
+            trail_type = request.query_params.get("trail_type")
+            trails_data=trailsidcomp(request,pid,trail_type)   
             active_trails_data=active_trails(request)   
             count=0
             for i in trails_data:
@@ -416,7 +420,8 @@ class TrailsAnalytics(APIView):
 
     def get(self,request):
         try:
-            trails_data=trailscomp(request)
+            trail_type=request.query_params.get("trail_type")
+            trails_data=trailscomp(request,trail_type)
               
             
             active_trails_data=active_trails(request)   
@@ -451,7 +456,8 @@ class TrailsAnalyticsId(APIView):
 
     def get(self,request,pid):
         try:
-            trails_data=trailsidcomp(request,pid)
+            trail_type = request.query_params.get("trail_type")
+            trails_data=trailsidcomp(request,pid,trail_type)
               
             
             active_trails_data=active_trails(request)   
@@ -508,7 +514,8 @@ class ParticipantAge(APIView):
             user_age=[]
             val=[]
             todays_date = date.today() 
-            trails_data=trailscomp(request)   
+            trail_type=request.query_params.get("trail_type")
+            trails_data=trailscomp(request,trail_type)   
             active_trails_data=active_trails(request)   
             participant_data=participants(request)
           
@@ -567,7 +574,8 @@ class ParticipantAgeId(APIView):
             user_age=[]
             val=[]
             todays_date = date.today() 
-            trails_data=trailsidcomp(request,pid)   
+            trail_type = request.query_params.get("trail_type")
+            trails_data=trailsidcomp(request,pid,trail_type)   
             active_trails_data=active_trails(request)   
             participant_data=participants_all(request,pid)
           
@@ -629,7 +637,8 @@ class ParticipantGender(APIView):
             val=[]
             val1=[]
             todays_date = date.today() 
-            trails_data=trailscomp(request)   
+            trail_type=request.query_params.get("trail_type")
+            trails_data=trailscomp(request,trail_type)   
             active_trails_data=active_trails(request)   
             participant_data=participants(request)
           
@@ -680,7 +689,8 @@ class ParticipantGenderId(APIView):
             val=[]
             val1=[]
             todays_date = date.today() 
-            trails_data=trailsidcomp(request,pid)   
+            trail_type=request.query_params.get("trail_type")
+            trails_data=trailsidcomp(request,pid,trail_type)   
             active_trails_data=active_trails(request)   
             participant_data=participants_all(request,pid)
           
@@ -730,7 +740,8 @@ class RegisterUnRegister(APIView):
     def get(self,request):
         try:
             active_trails_data=active_trails(request)
-            trails_data=trailscomp(request)
+            trail_type=request.query_params.get("trail_type")
+            trails_data=trailscomp(request,trail_type)
 
             for i in active_trails_data.json()["items"]:
                 
@@ -755,7 +766,8 @@ class RegisterUnRegisterId(APIView):
     def get(self,request,pid):
         try:
             active_trails_data=active_trails(request)
-            trails_data=trailsidcomp(request,pid)
+            trail_type=request.query_params.get("trail_type")
+            trails_data=trailsidcomp(request,pid,trail_type)
 
             for i in active_trails_data.json()["items"]:
                 
@@ -971,8 +983,8 @@ class ParticipantsCount(APIView):
 
     def get(self,request):
         try:
-            
-            trails_data=trailscomp(request)
+            trail_type=request.query_params.get("trail_type")
+            trails_data=trailscomp(request,trail_type)
             data=trail_participant(request,trails_data)
 
             return Response({"code":200,"data":data},status=status.HTTP_200_OK)
@@ -989,8 +1001,8 @@ class ParticipantsCountId(APIView):
 
     def get(self,request,pid):
         try:
-            
-            trails_data=trailsidcomp(request,pid)
+            trail_type=request.query_params.get("trail_type")
+            trails_data=trailsidcomp(request,pid,trail_type)
             data=trail_participant(request,trails_data)
 
             return Response({"code":200,"data":data},status=status.HTTP_200_OK)
@@ -1309,7 +1321,8 @@ class HistoricTrailsView(APIView):
 
     def get(self,request):
         try:
-            historic_data=historic_trails(request)
+            trail_type=request.query_params.get("trail_type")
+            historic_data=historic_trails(request,trail_type)
             return Response({"code":200,"data":historic_data},status=status.HTTP_200_OK)
         except Exception as e:  
             

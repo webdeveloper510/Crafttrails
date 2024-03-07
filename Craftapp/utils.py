@@ -3,7 +3,8 @@ import requests
 from .models import *
 import datetime
 import copy
-
+import pandas as pd
+import os
 
 def breweries(request):
     breweries_list=[]
@@ -207,9 +208,54 @@ def trails(request):
     data=trail_list     
     return data
 
-
-def trailscomp(request):
+def googlesheetread(request):
     pid=request.user.brewery
+    trails_data=[]
+    sheet_id = 'https://docs.google.com/spreadsheets/d/10kGAedZW2pNm-jbxalfzZ_rMx-KEZIcdUEKSzezWjdc/edit#gid=0/'
+    # URL to access Google Sheets API
+    export_url = sheet_id.replace('/edit#gid=0', '/export?format=xlsx&gid')
+    # Send a GET request to the export URL
+    response = requests.get(export_url)
+    if response.status_code == 200:
+        # Save the response content (Excel file) to a file
+        file_name = "trails.xlsx"
+        file_path = os.path.join(settings.MEDIA_ROOT, file_name)
+        print(file_path)
+        with open(file_path, 'wb') as f:
+            f.write(response.content)
+        # Read the Excel file into a DataFrame
+    df = pd.read_excel(file_path,header=None)
+# Filter out rows containing HTML content
+    filtered_rows = df[df[0] == float(pid)]
+    
+    for index, row in filtered_rows.iterrows():
+        trail_id=row[0]
+        trail_name=row[1]
+        trail_year=row[2]
+        trail_season=row[3]
+        trail_type=row[14]
+        data={"trail_id":trail_id,
+              "trail_name":trail_name,
+              "trail_year":trail_year,
+              "trail_season":trail_season,
+              "trail_type":trail_type.replace(" ","_") }
+        trails_data.append(data)
+    os.remove(file_path)     
+    data=trails_data
+    print(data)
+    return data                 
+    
+
+
+        
+       
+
+
+def trailscomp(request,trail_type):
+    pid=request.user.brewery
+    trail1=googlesheetread(request)
+    print("helo",trail1)
+    print(trail_type)
     
     breweries_completed=[]
     trail_list=[]
@@ -220,14 +266,23 @@ def trailscomp(request):
         "Content-Type": "application/json"
     }
 
-    app_ids = settings.active_trails
-    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-    for i in response.json()["items"] :
-        if i["title"]==pid:
-            trail_name=i["s9b9447a8e"]
-            trail_year=i["s157fa6cfb"]
-            trail_season=i["s74aaea978"]
-            trail_minitour=i["sd82de27d5"]
+    # app_ids = settings.active_trails
+    # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    # for i in response.json()["items"] :
+    #     if i["title"]==pid:
+    #         trail_name=i["s9b9447a8e"]
+    #         trail_year=i["s157fa6cfb"]
+    #         trail_season=i["s74aaea978"]
+    #         trail_minitour=i["sd82de27d5"]
+    for trail in trail1: 
+        print(trail["trail_id"],trail["trail_type"],trail_type,pid)
+        if trail["trail_id"]==float(pid) and trail["trail_type"]==trail_type:
+            trail_name=trail["trail_name"]
+            trail_year=trail["trail_year"]
+            trail_season=trail["trail_season"]
+
+            print(trail_name)
+
           
            
     app_ids = settings.trailmaster_id 
@@ -235,7 +290,7 @@ def trailscomp(request):
     
     for i in response.json()["items"]:
        
-        if trail_name==i["sc270d76da"] and trail_year==i["scef57f448"] and trail_season==i["sd25a89828"] and trail_minitour==i["s56b038ef3"]:
+        if trail_name==i["sc270d76da"] and trail_year==float(i["scef57f448"]) and trail_season==i["sd25a89828"]:
             
             if i["s2f8f93c23"]=="":
                 i["s2f8f93c23"]=1
@@ -277,6 +332,7 @@ def trailscomp(request):
                         "trail_year":i["scef57f448"],  
                         "trail_season":i["sd25a89828"],
                         "mini_tour":i["s56b038ef3"],
+                        
                         "link__breweries":i["s24c712a83"],
                         "visit_completed":[]
                   }
@@ -312,25 +368,33 @@ def trailscomp(request):
     data=trail_list     
     return data   
 
-def trailsidcomp(request,pid):
-     
+def trailsidcomp(request,pid,trail_type):
+    print(trail_type) 
     breweries_completed=[]
     trail_list=[]
+    trail1=googlesheetread(request)
     base_url = settings.base_url
     headers = {
         "Authorization": settings.authorization,
         "Account-Id":  settings.account_id,
         "Content-Type": "application/json"
     }
-    app_ids = settings.active_trails
-    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-    for i in response.json()["items"] :
-        if i["title"]==pid:
-            trail_name=i["s9b9447a8e"]
-            trail_year=i["s157fa6cfb"]
-            trail_season=i["s74aaea978"]
-            trail_minitour=i["sd82de27d5"]
-          
+    # app_ids = settings.active_trails
+    # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    # for i in response.json()["items"] :
+    #     if i["title"]==pid:
+    #         trail_name=i["s9b9447a8e"]
+    #         trail_year=i["s157fa6cfb"]
+    #         trail_season=i["s74aaea978"]
+    #         trail_minitour=i["sd82de27d5"]
+    for trail in trail1: 
+        print(trail["trail_id"],trail["trail_type"],trail_type,pid)
+        if trail["trail_id"]==float(pid) and trail["trail_type"]==trail_type:
+            trail_name=trail["trail_name"]
+            trail_year=trail["trail_year"]
+            trail_season=trail["trail_season"]
+
+            print(trail_name)      
            
     app_ids = settings.trailmaster_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
@@ -1000,12 +1064,13 @@ def gender_counts(request,gender_type):
             count1=count1+1 
         if i=="Transgender":
             count2=count2+1 
-        if i=="Non-Binary/Non-Conforming":
+        if i=="Non-Binary/Non-Conforming" or i=="Non Binary":
             count3=count3+1 
         if i=="Prefer not to say":    
             count4=count4+1
         if i=="":
-            count5=count5+1    
+            count5=count5+1   
+     
           
     return count,count1,count2,count3,count4,count5
 
@@ -1025,6 +1090,7 @@ def get_all_sub_items(request):
     # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     # app_ids = settings.trailmaster_id 
     # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    
     trails_data=trailscomp(request)   
     active_trails_data=active_trails(request) 
     count=0
@@ -1280,14 +1346,15 @@ def list_user(request):
     return data
 
 
-def historic_trails(request):
+def historic_trails(request,trail_type):
     
     pid=request.user.brewery
     unique_master_id=set()
     participant_trail=set()
     trail_dict={}
     trail_list=[]
-    trail_data=trailscomp(request)
+    trail1=googlesheetread(request)
+    trail_data=trailscomp(request,trail_type)
     base_url = settings.base_url
     historic_trails=set()
     headers = {
@@ -1295,14 +1362,22 @@ def historic_trails(request):
         "Account-Id":  settings.account_id,
         "Content-Type": "application/json"
     }
-    app_ids = settings.active_trails
-    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-    for i in response.json()["items"] :
-        if i["title"]==pid:
-            trail_name=i["s9b9447a8e"]
-            trail_year=i["s157fa6cfb"]
-            trail_season=i["s74aaea978"]
-            trail_minitour=i["sd82de27d5"]
+    # app_ids = settings.active_trails
+    # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    # for i in response.json()["items"] :
+    #     if i["title"]==pid:
+    #         trail_name=i["s9b9447a8e"]
+    #         trail_year=i["s157fa6cfb"]
+    #         trail_season=i["s74aaea978"]
+    #         trail_minitour=i["sd82de27d5"]
+    for trail in trail1: 
+        print(trail["trail_id"],trail["trail_type"],trail_type,pid)
+        if trail["trail_id"]==float(pid) and trail["trail_type"]==trail_type:
+            trail_name=trail["trail_name"]
+            trail_year=trail["trail_year"]
+            trail_season=trail["trail_season"]
+            print(trail_name)
+
         
            
     app_ids = settings.trailmaster_id 
@@ -1310,9 +1385,11 @@ def historic_trails(request):
     
     for i in response.json()["items"]:
        
-        if trail_name==i["sc270d76da"] and trail_year==i["scef57f448"] and trail_season==i["sd25a89828"] and trail_minitour==i["s56b038ef3"]:
+        if trail_name==i["sc270d76da"] and trail_year==float(i["scef57f448"]) and trail_season==i["sd25a89828"]:
                 if i["s0d1c07938"] !="":
+                    
                     master_id1=i["s0d1c07938"]
+                    print(master_id1)
                     unique_master_id.add(master_id1)
          
     app_ids = settings.participants_points
@@ -1382,9 +1459,10 @@ def historic_participant(request,trail):
        
         trails=i["sc270d76da"].strip()
         trail=trail.strip()
-        
+        print(trails,trail)
         if trails == trail:
             passport=i["s99187d139"]
+           
             val.append(passport)
            
     app_ids = settings.participants_id 
