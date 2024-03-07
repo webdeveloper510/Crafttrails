@@ -216,9 +216,10 @@ def googlesheetread(request):
     export_url = sheet_id.replace('/edit#gid=0', '/export?format=xlsx&gid')
     # Send a GET request to the export URL
     response = requests.get(export_url)
+    print(response.content)
     if response.status_code == 200:
         # Save the response content (Excel file) to a file
-        file_name = "trails.xlsx"
+        file_name = "trails.csv"
         file_path = os.path.join(settings.MEDIA_ROOT, file_name)
         print(file_path)
         with open(file_path, 'wb') as f:
