@@ -390,6 +390,7 @@ def trailsidcomp(request,pid,trail_type):
             trail_name=trail["trail_name"]
             trail_year=trail["trail_year"]
             trail_season=trail["trail_season"]
+            print(trail_name)
     
            
     app_ids = settings.trailmaster_id 
@@ -397,7 +398,7 @@ def trailsidcomp(request,pid,trail_type):
  
     for i in response.json()["items"]:
        
-        if trail_name==i["sc270d76da"]:
+        if trail_name==i["sc270d76da"] and trail_year==float(i["scef57f448"]) and trail_season==i["sd25a89828"]:
             
             if i["s2f8f93c23"]=="":
                 i["s2f8f93c23"]=1
@@ -454,7 +455,7 @@ def trailsidcomp(request,pid,trail_type):
                 
 
     breweries_data=breweries_all(request,pid)
-    breweries_data=breweries_all(request,pid)
+   
     for i in breweries_data:
         for j in trail_list:
             for k in range(j["visit_completed"]):
@@ -468,7 +469,8 @@ def trailsidcomp(request,pid,trail_type):
             if j["passport"] == i["rfid_tag"]:  
                 j["participant_name"]=i["full_name"]                       
           
-    data=trail_list     
+    data=trail_list   
+    print(data)  
     return data   
 
 
