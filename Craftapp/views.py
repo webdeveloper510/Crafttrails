@@ -814,7 +814,7 @@ class WeeklyParticipants(APIView):
                 else:
                     WeekParticipants.objects.filter(user_id=request.user.id).create(user_id=request.user.id,weekyear=week_year,weeknumber=int(week_number),participant=sub_items,weekname="week" + str(week_number))
 
-            week_data=WeekParticipants.objects.filter(user_id=request.user.id).order_by('weekyear')
+            week_data=WeekParticipants.objects.filter(user_id=request.user.id).order_by('weekname')
           
             for i in week_data:
                 if i.weekyear==week_year:

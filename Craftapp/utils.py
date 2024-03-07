@@ -1122,6 +1122,7 @@ def get_all_sub_items1(request,pid,trail_type):
     count=0
     for k in active_trails_data.json()["items"]:
         for i in trails_data:
+            print(i["trail_name"])
             if  i["trail_name"] == k["s9b9447a8e"] :
                 count=count+1
         
