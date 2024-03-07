@@ -227,6 +227,7 @@ def googlesheetread(request):
         
     try:    # Read the Excel file into a DataFrame
         df = pd.read_excel(file_path,header=None)
+        print(df)
     except Exception as e:
         print(f"Error reading Excel file: {e}")
 # Filter out rows containing HTML content
@@ -275,6 +276,7 @@ def trailscomp(request,trail_type):
             trail_name=trail["trail_name"]
             trail_year=trail["trail_year"]
             trail_season=trail["trail_season"]
+            print(trail_name)
 
         
 
@@ -399,6 +401,14 @@ def trailsidcomp(request,pid,trail_type):
             
             if i["s2f8f93c23"]=="":
                 i["s2f8f93c23"]=1
+            visit_completed1=0
+            location_completed1=0
+            if i["sedee2e81b"]==True:
+                visit_completed1=i["sb7210e570"]["count"]
+             
+            else:
+                
+                location_completed1=i["sb7210e570"]["count"]       
             if i["sb7210e570"]["count"]>0:
                 data={
                     
@@ -407,6 +417,8 @@ def trailsidcomp(request,pid,trail_type):
                     "participant_id":i["s99187d139"],
                     "participant_name":"",
                     "breweries_completed":i["sb7210e570"]["count"],
+                    "visit_completed":visit_completed1,
+                    "location_completed":location_completed1,
                     "trail_name":i["sc270d76da"],
                     "trail_year":i["scef57f448"],
                     "trail_season":i["sd25a89828"],
@@ -442,12 +454,13 @@ def trailsidcomp(request,pid,trail_type):
                 
 
     breweries_data=breweries_all(request,pid)
+    breweries_data=breweries_all(request,pid)
     for i in breweries_data:
         for j in trail_list:
-            for k in range(j["breweries_completed"]):
-                     
-                if j["title_submenu"]["breweries_completed"][k]["name"]==i["title"]:
-                    j["title_submenu"]["breweries_completed"][k]["name"]=i["bar_name"] 
+            for k in range(j["visit_completed"]):
+                
+                if j["title_submenu"]["visit_completed"][k]["name"]==i["title"]:
+                    j["title_submenu"]["visit_completed"][k]["name"]=i["bar_name"] 
 
     participant_data=participants_all(request,pid) 
     for i in participant_data:
