@@ -227,7 +227,6 @@ def googlesheetread(request):
         
     try:    # Read the Excel file into a DataFrame
         df = pd.read_excel(file_path,header=None)
-        print(df)
     except Exception as e:
         print(f"Error reading Excel file: {e}")
 # Filter out rows containing HTML content
@@ -268,7 +267,6 @@ def googlesheetread(request,pid):
         
     try:    # Read the Excel file into a DataFrame
         df = pd.read_excel(file_path,header=None)
-        print(df)
     except Exception as e:
         print(f"Error reading Excel file: {e}")
 # Filter out rows containing HTML content
@@ -317,12 +315,7 @@ def trailscomp(request,trail_type):
             trail_name=trail["trail_name"]
             trail_year=trail["trail_year"]
             trail_season=trail["trail_season"]
-            print(trail_name)
-
-        
-
-          
-           
+                       
     app_ids = settings.trailmaster_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     
@@ -407,11 +400,9 @@ def trailscomp(request,trail_type):
     return data   
 
 def trailsidcomp(request,pid,trail_type):
-    print(pid,trail_type)
     breweries_completed=[]
     trail_list=[]
     trail1=googlesheetread(request,pid)
-    print(trail1)
     base_url = settings.base_url
     headers = {
         "Authorization": settings.authorization,
@@ -432,8 +423,7 @@ def trailsidcomp(request,pid,trail_type):
             trail_name=trail["trail_name"]
             trail_year=trail["trail_year"]
             trail_season=trail["trail_season"]
-            print(trail_name)
-    
+             
            
     app_ids = settings.trailmaster_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
@@ -512,7 +502,6 @@ def trailsidcomp(request,pid,trail_type):
                 j["participant_name"]=i["full_name"]                       
           
     data=trail_list   
-    print(data)  
     return data   
 
 
@@ -1179,7 +1168,7 @@ def get_all_sub_items1(request,pid,trail_type):
     count=0
     for k in active_trails_data.json()["items"]:
         for i in trails_data:
-            print(i["trail_name"])
+            
             if  i["trail_name"] == k["s9b9447a8e"] :
                 count=count+1
         
