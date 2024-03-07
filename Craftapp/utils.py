@@ -225,11 +225,9 @@ def googlesheetread(request):
         with open(file_path, 'wb') as f:
             print(1)
             f.write(response.content)
-        with open(file_path, 'rb') as f:
-            file_content = f.read()
-            print(file_content)    
+        
         # Read the Excel file into a DataFrame
-    df = pd.read_excel(file_path,header=None)
+    df = pd.read_excel(file_path,header=None,)
 # Filter out rows containing HTML content
     filtered_rows = df[df[0] == float(pid)]
     
