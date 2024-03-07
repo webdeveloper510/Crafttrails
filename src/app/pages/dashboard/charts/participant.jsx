@@ -19,7 +19,7 @@ const ParticipantCount = ({ className , id, loyality }) => {
 
   React.useEffect(() => {
   if(id){
-    participantCountAdmin(id).then((res) => {
+    participantCountAdmin(id,loyality).then((res) => {
       if (res.code === 200) {
         let data = res?.data?.paricipant_count;
         let obj = {

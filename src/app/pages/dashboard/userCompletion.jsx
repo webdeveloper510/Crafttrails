@@ -12,7 +12,7 @@ const PieChart = ({ className, id,loyality }) => {
 
     React.useEffect(() => {
        if(id){
-        getTrailAnalyticsAdmin(id).then(res => {
+        getTrailAnalyticsAdmin(id,loyality).then(res => {
             if (res.code === 200) {
                 let data = res?.data?.breweries_percentage
             const result1  = data?.filter((data)=> {

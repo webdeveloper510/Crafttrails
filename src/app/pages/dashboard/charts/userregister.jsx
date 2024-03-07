@@ -19,7 +19,7 @@ const RegisterUser = ({ className, id , loyality }) => {
 
   React.useEffect(() => {
    if(id){
-    getUserCountAdmin(id).then((res) => {
+    getUserCountAdmin(id, loyality).then((res) => {
       if (res.code === 200) {
         let register = res?.data?.register_user;
         let unregister = res?.data.unregister_user;

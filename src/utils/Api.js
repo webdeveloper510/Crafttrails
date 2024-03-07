@@ -243,6 +243,16 @@ export const getBreweryName = async () => {
   return response
 }
 
+export const getBreweryNameAdmin = async (id) => {
+  const response = await Axios.get(`/craft/breweries/list/${id}`,{
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res?.data
+  })
+  return response
+}
 export const getParticipantAge = async (data) => {
   const response = await Axios.get(`/craft/participant_age/?trail_type=${data}`, {
     headers: {
@@ -461,6 +471,7 @@ export const getBreweryForm = async (id) => {
 };
 
 export const getActiveUserCountAdmin = async (id, data) => {
+  console.log("id--data--", id , data)
   const response = await Axios.get(`/craft/active_user/${id}?trail_type=${data}`, {
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
@@ -480,8 +491,8 @@ export const getHottestDaysAdmin = async (id) => {
   })
   return response
 }
-export const getTrailAnalyticsAdmin = async (id) => {
-  const response = await Axios.get(`/craft/trail_analytics/${id}`, {
+export const getTrailAnalyticsAdmin = async (id, data) => {
+  const response = await Axios.get(`/craft/trail_analytics/${id}?trail_type=${data}`, {
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
@@ -490,8 +501,8 @@ export const getTrailAnalyticsAdmin = async (id) => {
   })
   return response
 }
-export const getUserCountAdmin = async (id) => {
-  const response = await Axios.get(`/craft/usercount/${id}`, {
+export const getUserCountAdmin = async (id, data) => {
+  const response = await Axios.get(`/craft/usercount/${id}?trail_type=${data}`, {
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
@@ -500,8 +511,8 @@ export const getUserCountAdmin = async (id) => {
   })
   return response
 }
-export const getParticipantAgeadmin = async (id) => {
-  const response = await Axios.get(`/craft/participant_age/${id}`, {
+export const getParticipantAgeadmin = async (id,data) => {
+  const response = await Axios.get(`/craft/participant_age/${id}?trail_type=${data}`, {
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
@@ -510,8 +521,8 @@ export const getParticipantAgeadmin = async (id) => {
   })
   return response
 }
-export const getparticipantGenderAdmin = (id) => {
-  const response = Axios.get(`/craft/participant_gender/${id}`,{
+export const getparticipantGenderAdmin = (id,data) => {
+  const response = Axios.get(`/craft/participant_gender/${id}?trail_type=${data}`,{
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
@@ -520,8 +531,8 @@ export const getparticipantGenderAdmin = (id) => {
   })
   return response
 }
-export const getWeeklyDataAdmin = async (email) => {
-  const response = await Axios.get(`/craft/weekly/${email}`, {
+export const getWeeklyDataAdmin = async (email, data) => {
+  const response = await Axios.get(`/craft/weekly/${email}?trail_type=${data}`, {
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }
@@ -551,8 +562,8 @@ export const getNetChangesAdmin = async (email) => {
   })
   return response
 }
-export const participantCountAdmin = async (id) => {
-  const response = await Axios.get(`/craft/participants/count/${id}`, {
+export const participantCountAdmin = async (id, data) => {
+  const response = await Axios.get(`/craft/participants/count/${id}?trail_type=${data}`, {
     headers: {
       "Authorization": `Token ${localStorage.getItem("token")}`
     }

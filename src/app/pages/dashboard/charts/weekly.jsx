@@ -21,7 +21,7 @@ const WeeklyData = ({ className, id ,loyality }) => {
   React.useEffect(() => {
     const email = localStorage.getItem("user-email")
    if(id){
-    getWeeklyDataAdmin(email).then((res) => {
+    getWeeklyDataAdmin(email, loyality).then((res) => {
       if (res.code === 200) {
         let newdata = res?.data
         const resultArray = [];

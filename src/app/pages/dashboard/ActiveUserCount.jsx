@@ -14,9 +14,9 @@ function ActiveUserCountBox({ id, loyality }) {
   useEffect(() => {
     console.log("loyalityyyyyyyyyyyyyyyyyyyy", loyality)
     if (id) {
-      setLoading(true);
+      // setLoading(true);
       getActiveUserCountAdmin(id,loyality).then((res) => {
-        setLoading(false);
+        // setLoading(false);
         if (res.code === 200) {
           setActiveUserCount(res?.data?.active_count);
         }

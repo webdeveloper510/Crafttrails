@@ -19,7 +19,7 @@ const Piechart2 = ({ className, id, loyality }) => {
 
   React.useEffect(() => {
     if(id){
-      getParticipantAgeadmin(id).then((res) => {
+      getParticipantAgeadmin(id, loyality).then((res) => {
         if (res.code === 200) {
   
           let obj = {

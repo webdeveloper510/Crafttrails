@@ -19,7 +19,7 @@ const Usergender = ({ className, id, loyality }) => {
 
   React.useEffect(() => {
   if(id){
-    getparticipantGenderAdmin(id).then((res) => {
+    getparticipantGenderAdmin(id, loyality).then((res) => {
       if (res.code === 200) {
         let data = res?.data?.gender;
         let gender = res?.data
