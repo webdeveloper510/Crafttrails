@@ -247,7 +247,48 @@ def googlesheetread(request):
         trails_data.append(data)
     os.remove(file_path)     
     data=trails_data
-    return data                 
+    return data      
+
+def googlesheetread(request,pid):
+    pid=request.user.brewery
+    trails_data=[]
+    sheet_id = 'https://docs.google.com/spreadsheets/d/10kGAedZW2pNm-jbxalfzZ_rMx-KEZIcdUEKSzezWjdc/edit#gid=0/'
+    # URL to access Google Sheets API
+    export_url = sheet_id.replace('/edit#gid=0', '/export?format=xlsx&gid')
+    # Send a GET request to the export URL
+    response = requests.get(export_url)
+    
+    if response.status_code == 200:
+        # Save the response content (Excel file) to a file
+        file_name = "trails.xlsx"
+        file_path = os.path.join(settings.MEDIA_ROOT, file_name)
+        
+        with open(file_path, 'wb') as f:
+            f.write(response.content)
+        
+    try:    # Read the Excel file into a DataFrame
+        df = pd.read_excel(file_path,header=None)
+        print(df)
+    except Exception as e:
+        print(f"Error reading Excel file: {e}")
+# Filter out rows containing HTML content
+    filtered_rows = df[df[0] == float(pid)]
+    
+    for index, row in filtered_rows.iterrows():
+        trail_id=row[0]
+        trail_name=row[1]
+        trail_year=row[2]
+        trail_season=row[3]
+        trail_type=row[14]
+        data={"trail_id":trail_id,
+              "trail_name":trail_name,
+              "trail_year":trail_year,
+              "trail_season":trail_season,
+              "trail_type":trail_type.replace(" ","_") }
+        trails_data.append(data)
+    os.remove(file_path)     
+    data=trails_data
+    return data                
 
 
 def trailscomp(request,trail_type):
@@ -369,7 +410,7 @@ def trailsidcomp(request,pid,trail_type):
     print(pid,trail_type)
     breweries_completed=[]
     trail_list=[]
-    trail1=googlesheetread(request)
+    trail1=googlesheetread(request,pid)
     print(trail1)
     base_url = settings.base_url
     headers = {
