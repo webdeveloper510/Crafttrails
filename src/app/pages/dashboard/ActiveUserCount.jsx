@@ -6,22 +6,23 @@ import {
   getHottestDaysAdmin,
 } from "../../../utils/Api";
 
-function ActiveUserCountBox({ id }) {
+function ActiveUserCountBox({ id, loyality }) {
   const [activeUserCount, setActiveUserCount] = useState(0);
   const [data, setData] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    console.log("loyalityyyyyyyyyyyyyyyyyyyy", loyality)
     if (id) {
       setLoading(true);
-      getActiveUserCountAdmin(id).then((res) => {
+      getActiveUserCountAdmin(id,loyality).then((res) => {
         setLoading(false);
         if (res.code === 200) {
           setActiveUserCount(res?.data?.active_count);
         }
       });
     } else {
-      getActiveUserCount().then((res) => {
+      getActiveUserCount(loyality).then((res) => {
         if (res.code === 200) {
           setActiveUserCount(res?.data?.active_count);
         }
@@ -29,7 +30,7 @@ function ActiveUserCountBox({ id }) {
     }
 
     getHotestdays();
-  }, []);
+  }, [loyality]);
 
   const getHotestdays = () => {
     if (id) {

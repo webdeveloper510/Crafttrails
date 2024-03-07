@@ -3,7 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Bar, Pie } from "react-chartjs-2";
 import { getUserCount, getUserCountAdmin } from "../../../../utils/Api";
 
-const RegisterUser = ({ className, id }) => {
+const RegisterUser = ({ className, id , loyality }) => {
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const [list, setList] = React.useState(null);
@@ -63,7 +63,7 @@ const RegisterUser = ({ className, id }) => {
       }
     });
    }else{
-    getUserCount().then((res) => {
+    getUserCount(loyality).then((res) => {
       if (res.code === 200) {
         let register = res?.data?.register_user;
         let unregister = res?.data.unregister_user;
@@ -107,7 +107,7 @@ const RegisterUser = ({ className, id }) => {
       }
     });
    }
-  }, []);
+  }, [loyality]);
 
   const options = {
     indexAxis: 'y',

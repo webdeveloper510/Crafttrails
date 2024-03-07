@@ -3,7 +3,7 @@ import { Doughnut, Line } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { participantCount, participantCountAdmin } from "../../../../utils/Api";
 
-const ParticipantCount = ({ className , id }) => {
+const ParticipantCount = ({ className , id, loyality }) => {
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const [list, setList] = React.useState(null);
@@ -61,7 +61,7 @@ const ParticipantCount = ({ className , id }) => {
       }
     });
   }else{
-    participantCount().then((res) => {
+    participantCount(loyality).then((res) => {
       if (res.code === 200) {
         let data = res?.data?.paricipant_count;
         let obj = {

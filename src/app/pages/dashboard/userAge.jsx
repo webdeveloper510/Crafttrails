@@ -3,7 +3,7 @@ import { getParticipantAge, getParticipantAgeadmin } from "../../../utils/Api";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 
-const Piechart2 = ({ className, id }) => {
+const Piechart2 = ({ className, id, loyality }) => {
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const [list, setList] = React.useState(null);
@@ -79,7 +79,7 @@ const Piechart2 = ({ className, id }) => {
         }
       });
     }else{
-      getParticipantAge().then((res) => {
+      getParticipantAge(loyality).then((res) => {
         if (res.code === 200) {
           let obj = {
             labels: [

@@ -3,7 +3,7 @@ import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { getWeeklyData, getWeeklyDataAdmin } from "../../../../utils/Api";
 
-const WeeklyData = ({ className, id }) => {
+const WeeklyData = ({ className, id ,loyality }) => {
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const [list, setList] = React.useState(null);
@@ -96,7 +96,7 @@ const WeeklyData = ({ className, id }) => {
       }
     });
    }else{
-    getWeeklyData().then((res) => {
+    getWeeklyData(loyality).then((res) => {
       if (res.code === 200) {
         let newdata = res?.data
         const resultArray = [];

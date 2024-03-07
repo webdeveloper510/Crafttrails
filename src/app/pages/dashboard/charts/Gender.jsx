@@ -3,7 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut, Pie } from "react-chartjs-2";
 import { getparticipantGender, getparticipantGenderAdmin } from "../../../../utils/Api";
 
-const Usergender = ({ className, id }) => {
+const Usergender = ({ className, id, loyality }) => {
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const [list, setList] = React.useState(null);
@@ -71,7 +71,7 @@ const Usergender = ({ className, id }) => {
       }
     });
   }else{
-    getparticipantGender().then((res) => {
+    getparticipantGender(loyality).then((res) => {
       if (res.code === 200) {
         let data = res?.data?.gender;
         let gender = res?.data

@@ -218,6 +218,12 @@ button.google-login {
     width: 330px !important;
     text-align: center;
 }
+.horizontal_bars{
+    margin-top: 30px;
+    height: 220px !important;
+    width: 350px !important;
+    text-align: center;
+}
 .edit-btn{
     color: rgb(58, 60, 61) !important;
     font-size: 20px !important;
@@ -332,4 +338,12 @@ button.google-login {
     font-size: 16px;
     border-radius: 10px;
     margin: 10px 5px;
+}
+@media screen and (max-width: 320px) {
+.horizontal_bars{
+    margin-top: 30px;
+    height: 220px !important;
+    width: 270px !important;
+    text-align: center;
+}
 }

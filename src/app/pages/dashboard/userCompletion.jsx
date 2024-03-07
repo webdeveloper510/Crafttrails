@@ -4,7 +4,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 import { getTrailAnalytics, getTrailAnalyticsAdmin } from "../../../utils/Api";
 
-const PieChart = ({ className, id }) => {
+const PieChart = ({ className, id,loyality }) => {
 
     ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -71,7 +71,7 @@ const PieChart = ({ className, id }) => {
             }
         })
        }else{
-        getTrailAnalytics().then(res => {
+        getTrailAnalytics(loyality).then(res => {
             if (res.code === 200) {
                 let data = res?.data?.breweries_percentage
                 
@@ -130,7 +130,7 @@ const PieChart = ({ className, id }) => {
             }
         })
        }
-    }, [])
+    }, [loyality])
 
     const options = {
         indexAxis: 'y',
@@ -161,7 +161,7 @@ const PieChart = ({ className, id }) => {
                         <Bar 
                             options={options}
                             data={list}
-                            className="horizontal_bar"
+                            className="horizontal_bars"
                         />
                     </>
                 ) : ""

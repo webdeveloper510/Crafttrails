@@ -20,7 +20,7 @@ const DashboardPage = () => {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
-  const [loyality, setLoyality] = useState("Loyality")
+  const [loyality, setLoyality] = useState("Loyalty")
 
   useEffect(() => {
     const status = localStorage.getItem("status")
@@ -37,13 +37,12 @@ const DashboardPage = () => {
     }).catch((error)=>{
       setLoading(false)
     })
-  }, []);
+  }, [loyality]);
 
   const handlePoints=(name)=>{
     setLoyality(name)
   }
 
-  console.log("name-----------------------", loyality)
   
   return (
     <>
@@ -56,48 +55,42 @@ const DashboardPage = () => {
           <div className="row">
             <h1 className="display-6 mb-5 pb-4 text-center">{name}</h1>
             <div className="text-center mb-5 pb-4">
-              <button className="butns-dash" onClick={()=>handlePoints("Loyality")} >Loyality</button>
+              <button className="butns-dash" onClick={()=>handlePoints("Loyalty")}>Loyalty</button>
               <button className="butns-dash" onClick={()=>handlePoints("Birthday")}>Birthday</button>
-              <button className="butns-dash" onClick={()=>handlePoints("Special Trail")}>Special Trail</button>
+              <button className="butns-dash" onClick={()=>handlePoints("Special_Trail")}>Special Trail</button>
             </div>
           </div>
           <div className="row g-5 g-xl-10 mb-5 mb-xl-10">
-          <div className="col-md-12 col-lg-12 col-xl-12 col-xxl-12 mb-md-5 mb-xl-10">
+          {/* <div className="col-md-12 col-lg-12 col-xl-12 col-xxl-12 mb-md-5 mb-xl-10">
               <Loyality loyality={loyality}/>
-            </div>
+            </div> */}
             <div className="col-md-12 col-lg-12 col-xl-12 col-xxl-12 mb-md-5 mb-xl-10">
-              <ActiveUserCount />
+              <ActiveUserCount  loyality={loyality}/>
             </div>
             <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
-              <PieChart />
+              <PieChart  loyality={loyality}/>
             </div>
             <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
-              <RegisterUser />
+              <RegisterUser  loyality={loyality}/>
             </div>
             <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
-              <Piechart2 />
+              <Piechart2  loyality={loyality}/>
             </div>
             <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
-              <Usergender />
-            </div>
-            
-            <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
-              <WeeklyData />
+              <Usergender  loyality={loyality}/>
             </div>
             <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
-              <WeeklyGrowth />
+              <WeeklyData  loyality={loyality}/>
             </div>
             <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
-              <NetChanges />
+              <WeeklyGrowth  loyality={loyality}/>
             </div>
             <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
-              <ParticipantCount />
+              <NetChanges  loyality={loyality}/>
             </div>
-           
-
-            {/* <div className='col-xxl-6'>
-          <EngageWidget10 className='h-md-100' />
-        </div> */}
+            <div className="col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-md-5 mb-xl-10">
+              <ParticipantCount  loyality={loyality}/>
+            </div>
           </div>
         </>
       )}
@@ -142,7 +135,6 @@ const DashboardPage = () => {
 };
 
 const DashboardWrapper = () => {
-  // const intl = useIntl()
   return (
     <div className="wrapper">
       <DashboardPage />
