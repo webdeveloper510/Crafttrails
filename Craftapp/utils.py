@@ -226,8 +226,10 @@ def googlesheetread(request):
             print(1)
             f.write(response.content)
         
-        # Read the Excel file into a DataFrame
-    df = pd.read_excel(file_path,header=None,)
+    try:    # Read the Excel file into a DataFrame
+        df = pd.read_excel(file_path,header=None)
+    except Exception as e:
+        print(f"Error reading Excel file: {e}")
 # Filter out rows containing HTML content
     filtered_rows = df[df[0] == float(pid)]
     
