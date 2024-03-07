@@ -216,14 +216,13 @@ def googlesheetread(request):
     export_url = sheet_id.replace('/edit#gid=0', '/export?format=xlsx&gid')
     # Send a GET request to the export URL
     response = requests.get(export_url)
-    print(response.content)
+    
     if response.status_code == 200:
         # Save the response content (Excel file) to a file
         file_name = "trails.xlsx"
         file_path = os.path.join(settings.MEDIA_ROOT, file_name)
-        print(file_path)
+        
         with open(file_path, 'wb') as f:
-            print(1)
             f.write(response.content)
         
     try:    # Read the Excel file into a DataFrame
@@ -247,21 +246,12 @@ def googlesheetread(request):
         trails_data.append(data)
     os.remove(file_path)     
     data=trails_data
-    print(data)
     return data                 
-    
-
-
-        
-       
 
 
 def trailscomp(request,trail_type):
     pid=request.user.brewery
     trail1=googlesheetread(request)
-    print("helo",trail1)
-    print(trail_type)
-    
     breweries_completed=[]
     trail_list=[]
     base_url = settings.base_url
@@ -280,13 +270,13 @@ def trailscomp(request,trail_type):
     #         trail_season=i["s74aaea978"]
     #         trail_minitour=i["sd82de27d5"]
     for trail in trail1: 
-        print(trail["trail_id"],trail["trail_type"],trail_type,pid)
+        
         if trail["trail_id"]==float(pid) and trail["trail_type"]==trail_type:
             trail_name=trail["trail_name"]
             trail_year=trail["trail_year"]
             trail_season=trail["trail_season"]
 
-            print(trail_name)
+        
 
           
            
@@ -374,7 +364,7 @@ def trailscomp(request,trail_type):
     return data   
 
 def trailsidcomp(request,pid,trail_type):
-    print(trail_type) 
+   
     breweries_completed=[]
     trail_list=[]
     trail1=googlesheetread(request)
@@ -393,13 +383,12 @@ def trailsidcomp(request,pid,trail_type):
     #         trail_season=i["s74aaea978"]
     #         trail_minitour=i["sd82de27d5"]
     for trail in trail1: 
-        print(trail["trail_id"],trail["trail_type"],trail_type,pid)
+        
         if trail["trail_id"]==float(pid) and trail["trail_type"]==trail_type:
             trail_name=trail["trail_name"]
             trail_year=trail["trail_year"]
             trail_season=trail["trail_season"]
-
-            print(trail_name)      
+    
            
     app_ids = settings.trailmaster_id 
     response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
@@ -1081,7 +1070,7 @@ def gender_counts(request,gender_type):
 
 
 
-def get_all_sub_items(request):
+def get_all_sub_items(request,trail_type):
 
     active_participants=[]
     base_url = settings.base_url
@@ -1096,7 +1085,7 @@ def get_all_sub_items(request):
     # app_ids = settings.trailmaster_id 
     # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
     
-    trails_data=trailscomp(request)   
+    trails_data=trailscomp(request,trail_type)   
     active_trails_data=active_trails(request) 
     count=0
     for k in active_trails_data.json()["items"]:
@@ -1120,7 +1109,7 @@ def get_all_sub_items(request):
 
 
 
-def get_all_sub_items1(request,pid):
+def get_all_sub_items1(request,pid,trail_type):
     active_participants=[]
     base_url = settings.base_url
     headers = {
@@ -1128,7 +1117,7 @@ def get_all_sub_items1(request,pid):
         "Account-Id":  settings.account_id,
         "Content-Type": "application/json"
     }
-    trails_data=trailsidcomp(request,pid)   
+    trails_data=trailsidcomp(request,pid,trail_type)   
     active_trails_data=active_trails(request) 
     count=0
     for k in active_trails_data.json()["items"]:
@@ -1351,15 +1340,14 @@ def list_user(request):
     return data
 
 
-def historic_trails(request,trail_type):
+def historic_trails(request):
     
     pid=request.user.brewery
     unique_master_id=set()
     participant_trail=set()
     trail_dict={}
     trail_list=[]
-    trail1=googlesheetread(request)
-    trail_data=trailscomp(request,trail_type)
+   
     base_url = settings.base_url
     historic_trails=set()
     headers = {
@@ -1367,21 +1355,15 @@ def historic_trails(request,trail_type):
         "Account-Id":  settings.account_id,
         "Content-Type": "application/json"
     }
-    # app_ids = settings.active_trails
-    # response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
-    # for i in response.json()["items"] :
-    #     if i["title"]==pid:
-    #         trail_name=i["s9b9447a8e"]
-    #         trail_year=i["s157fa6cfb"]
-    #         trail_season=i["s74aaea978"]
-    #         trail_minitour=i["sd82de27d5"]
-    for trail in trail1: 
-        print(trail["trail_id"],trail["trail_type"],trail_type,pid)
-        if trail["trail_id"]==float(pid) and trail["trail_type"]==trail_type:
-            trail_name=trail["trail_name"]
-            trail_year=trail["trail_year"]
-            trail_season=trail["trail_season"]
-            print(trail_name)
+    app_ids = settings.active_trails
+    response = requests.post(f"{base_url}/{app_ids}/records/list/", headers=headers, json={"hydrated": True})
+    for i in response.json()["items"] :
+        if i["title"]==pid:
+            trail_name=i["s9b9447a8e"]
+            trail_year=i["s157fa6cfb"]
+            trail_season=i["s74aaea978"]
+            trail_minitour=i["sd82de27d5"]
+ 
 
         
            
@@ -1390,11 +1372,10 @@ def historic_trails(request,trail_type):
     
     for i in response.json()["items"]:
        
-        if trail_name==i["sc270d76da"] and trail_year==float(i["scef57f448"]) and trail_season==i["sd25a89828"]:
+        if trail_name==i["sc270d76da"] and trail_year==i["scef57f448"] and trail_season==i["sd25a89828"]:
                 if i["s0d1c07938"] !="":
                     
                     master_id1=i["s0d1c07938"]
-                    print(master_id1)
                     unique_master_id.add(master_id1)
          
     app_ids = settings.participants_points
@@ -1409,7 +1390,7 @@ def historic_trails(request,trail_type):
                        
                 for k in  range(i["s1255e267e"]["count"]):
                     trail_name=i["s1255e267e"]["items"][k]["name"]
-                    participant_trail.add( trail_name)
+                    participant_trail.add(trail_name)
                         
     trail_data=list(participant_trail)
     
@@ -1464,7 +1445,7 @@ def historic_participant(request,trail):
        
         trails=i["sc270d76da"].strip()
         trail=trail.strip()
-        print(trails,trail)
+      
         if trails == trail:
             passport=i["s99187d139"]
            

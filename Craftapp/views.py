@@ -797,8 +797,9 @@ class WeeklyParticipants(APIView):
             current_date = datetime.datetime.now()
             week_number = current_date.strftime("%U")
             week_year = current_date.strftime("%Y")
+            trail_type=request.query_params.get("trail_type")
            
-            sub_items=get_all_sub_items(request)
+            sub_items=get_all_sub_items(request,trail_type)
                   
             parcount=WeekParticipants.objects.filter(user_id=request.user.id).exists()
           
@@ -846,7 +847,8 @@ class WeeklyParticipantsId(APIView):
             current_date = datetime.datetime.now()
             week_number = current_date.strftime("%U")
             week_year=current_date.strftime("%Y")
-            sub_items=get_all_sub_items1(request,pid)
+            trail_type=request.query_params.get("trail_type")
+            sub_items=get_all_sub_items1(request,pid,trail_type)
             user=User.objects.filter(email=email).values("id")
             id=user[0]["id"]
            
@@ -1321,8 +1323,8 @@ class HistoricTrailsView(APIView):
 
     def get(self,request):
         try:
-            trail_type=request.query_params.get("trail_type")
-            historic_data=historic_trails(request,trail_type)
+           
+            historic_data=historic_trails(request)
             return Response({"code":200,"data":historic_data},status=status.HTTP_200_OK)
         except Exception as e:  
             
